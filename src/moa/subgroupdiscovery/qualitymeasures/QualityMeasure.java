@@ -34,11 +34,17 @@ public interface QualityMeasure extends OptionHandler{
     
    
     /**
-     * It returns the value of the given quality measure.
+     * It calculates the value of the given quality measure.
      * @param t
      * @return 
      */
     public double getValue(ContingencyTable t);
+    
+    /**
+     * Return the last calculate value of the measure
+     * @return 
+     */
+    public double getValue();
     
     /**
      * It checks that the value of the measure is within the domain of the measure
@@ -46,6 +52,9 @@ public interface QualityMeasure extends OptionHandler{
      * @return 
      */
     public boolean validate(double value);
+    
+    @Override
+    public String toString();
     
    
 }

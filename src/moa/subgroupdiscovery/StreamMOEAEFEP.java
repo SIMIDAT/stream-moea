@@ -92,9 +92,11 @@ public class StreamMOEAEFEP extends AbstractClassifier{
     /**
      * It counts the number of examples of each class in the chunk of data
      */
-    protected ArrayList<Integer> EjClass;
+    protected static ArrayList<Integer> EjClass;
     
-    protected Fuzzy[][] baseDatos;
+    protected static Fuzzy[][] baseDatos;
+    
+    public static int nLabel;
     
     protected long index = 0;
 
@@ -111,6 +113,7 @@ public class StreamMOEAEFEP extends AbstractClassifier{
         index = 0;
         dataChunk = new AutoExpandVector<>();
         EjClass = new ArrayList<>();
+        nLabel = nLabels.getValue();
     }
 
     @Override
@@ -251,5 +254,10 @@ public class StreamMOEAEFEP extends AbstractClassifier{
         if (val>tope-0.0001 && val<tope+0.0001)
             return (tope);
         return (val);
+    }
+    
+    
+    public static float Fuzzy(int pos, int val, Double value){
+        return baseDatos[pos][val].Fuzzy(value.floatValue());
     }
 }

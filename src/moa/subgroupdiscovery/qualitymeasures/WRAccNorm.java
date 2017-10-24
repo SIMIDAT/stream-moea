@@ -32,7 +32,10 @@ import moa.tasks.TaskMonitor;
  * @author agvico
  */
 public class WRAccNorm  extends AbstractOptionHandler implements QualityMeasure{
-
+    
+    public String name = "Normalized WRAcc";
+    public double value;
+    
     @Override
     public double getValue(ContingencyTable t) {
         double classPct = (double) (t.getTp() + t.getFn()) / t.getTotalExamples();
@@ -41,11 +44,12 @@ public class WRAccNorm  extends AbstractOptionHandler implements QualityMeasure{
         
         if(maxUnus - minUnus != 0){
             WRAcc unus = new WRAcc();
-            return (unus.getValue(t) - minUnus) / (maxUnus - minUnus);
+            value = (unus.getValue(t) - minUnus) / (maxUnus - minUnus);
         } else {
-            return 0.0;
+            value =  0.0;
         }
         
+        return value;
     }
 
     @Override

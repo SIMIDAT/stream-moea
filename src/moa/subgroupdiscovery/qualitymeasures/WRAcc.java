@@ -36,14 +36,17 @@ import moa.tasks.TaskMonitor;
  * @author agvico
  */
 public class WRAcc extends AbstractOptionHandler implements QualityMeasure{
-
+    
+    public String name = "Weighted Relative Accuracy";
+    public double value;
+    
     @Override
     public double getValue(ContingencyTable t) {
         double cov = (double) (t.getTp() + t.getFp()) / t.getTotalExamples();
         double conf = (double) t.getTp() / (double) (t.getTp() + t.getFp());
         double class_pct = (double)(t.getTp() + t.getFn()) / t.getTotalExamples();
-        
-        return cov * (conf - class_pct);
+        value = cov * (conf - class_pct);
+        return value;
     }
 
     @Override
