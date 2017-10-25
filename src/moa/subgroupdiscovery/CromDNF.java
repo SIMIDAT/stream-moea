@@ -122,7 +122,7 @@ public class CromDNF {
         int ii=0;
         while((!centi)&&(ii<Examples.size())){
             aleatorio = Randomize.Randint(0, Examples.size()-1);
-            if((pop.ej_cubiertos[aleatorio]==false)&&(Examples.get(aleatorio).classValue()==clas))
+            if((!pop.ej_cubiertos.get(aleatorio))&&(Examples.get(aleatorio).classValue()==clas))
                 centi = true;
             ii++;
         }

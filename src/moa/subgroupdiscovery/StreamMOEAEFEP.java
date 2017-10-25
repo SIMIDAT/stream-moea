@@ -94,11 +94,36 @@ public class StreamMOEAEFEP extends AbstractClassifier{
      */
     protected static ArrayList<Integer> EjClass;
     
+    /**
+     * It gets the objects set as objecive measures from the user
+     */
+    protected ArrayList<QualityMeasure> objectives;
+    
+    /**
+     * The diversity function to sort the individuals in the token competition
+     */
+    protected static QualityMeasure diversityMeasure;
+    
+    /**
+     * It stores the fuzzy linguistic labels definitions
+     */
     protected static Fuzzy[][] baseDatos;
     
+    /**
+     * The number of fuzzy labels used
+     */
     public static int nLabel;
     
+    
+    /**
+     * Control variable to trigger batch processing
+     */
     protected long index = 0;
+    
+    /**
+     * Stores the time, i.e., the number of microbatches processed.
+     */
+    protected static long timestamp = 0;
 
     
     @Override
@@ -106,6 +131,7 @@ public class StreamMOEAEFEP extends AbstractClassifier{
         double[] a = new double[1];
         a[0] = 0;
         return a;
+        
     }
 
     @Override
@@ -114,6 +140,11 @@ public class StreamMOEAEFEP extends AbstractClassifier{
         dataChunk = new AutoExpandVector<>();
         EjClass = new ArrayList<>();
         nLabel = nLabels.getValue();
+        objectives = new ArrayList<>();
+        objectives.add((QualityMeasure) getPreparedClassOption(Obj1));
+        objectives.add((QualityMeasure) getPreparedClassOption(Obj2));
+        objectives.add((QualityMeasure) getPreparedClassOption(Obj3));
+        diversityMeasure = (QualityMeasure) getPreparedClassOption(diversity);
     }
 
     @Override
@@ -144,8 +175,9 @@ public class StreamMOEAEFEP extends AbstractClassifier{
             // initialize the genetic algorithm
             
             
-            // Discard the data chunk
+            // Discard the data chunk and increment time
             dataChunk.clear();
+            timestamp++;
         } 
         
         index++;

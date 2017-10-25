@@ -11,6 +11,7 @@ package moa.subgroupdiscovery;
 import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayList;
 import java.util.BitSet;
+import moa.options.ClassOption;
 import moa.subgroupdiscovery.qualitymeasures.Confidence;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 
@@ -57,6 +58,11 @@ public abstract class Individual {
       public ArrayList<QualityMeasure> objs;
       
       /**
+       * It stores the diversity function to be used on the token competition
+       */
+      public QualityMeasure diversityMeasure;
+      
+      /**
        * The confidence of the individual.
        */
       public Confidence conf;
@@ -64,7 +70,9 @@ public abstract class Individual {
       /**
       * The class of the individual
       */
-      public int clas;
+      protected int clas;
+      
+      
 
     public Individual() {
 
@@ -298,10 +306,10 @@ public abstract class Individual {
     /**
      * Evaluates the individual with respect to the examples of this data chunk
      * @param AG
-     * @param Variables
      * @param Examples 
+     * @param objs 
      */
-    public abstract void evalInd (Genetic AG, ArrayList<Instance> Examples);
+    public abstract void evalInd (ArrayList<Instance> Examples, ArrayList<QualityMeasure> objs);
     
     
     /**
@@ -318,6 +326,20 @@ public abstract class Individual {
      * @param nFile 
      */
     public abstract void Print(String nFile);
+
+    /**
+     * @return the clas
+     */
+    public int getClas() {
+        return clas;
+    }
+
+    /**
+     * @param clas the clas to set
+     */
+    public void setClas(int clas) {
+        this.clas = clas;
+    }
 
     
 }

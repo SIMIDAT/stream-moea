@@ -11,8 +11,10 @@ package moa.subgroupdiscovery;
 import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayList;
 import java.util.BitSet;
+import moa.options.ClassOption;
 import moa.subgroupdiscovery.qualitymeasures.Confidence;
 import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
+import moa.subgroupdiscovery.qualitymeasures.NULL;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 import org.core.File;
 
@@ -34,13 +36,15 @@ public class IndDNF extends Individual {
      * @param nobj              Number of objectives
      * @param Variables         Variables structure
      */
-    public IndDNF(int lenght, int neje, int nobj, Instance inst) {
+    public IndDNF(int lenght, int neje, int nobj, Instance inst, int clas) {
 
           tamano = lenght;
           cromosoma = new CromDNF(lenght, inst, StreamMOEAEFEP.nLabel);
           medidas = new ArrayList<>();
           objs = new ArrayList<>();
           conf = new Confidence();
+          diversityMeasure = (QualityMeasure) StreamMOEAEFEP.diversityMeasure.copy();
+          this.clas = clas;
 
           evaluado = false;
           cubre = new BitSet(neje);
@@ -216,48 +220,21 @@ public class IndDNF extends Individual {
      * <p>
      * Evaluate a individual. This function evaluates an individual.
      * </p>
-     * @param AG                Genetic algorithm
+
      * @param Variables         Variables structure
      * @param Examples          Examples structure
      */
-    public void evalInd (Genetic AG, ArrayList<Instance> Examples) {
+    @Override
+    public void evalInd (ArrayList<Instance> Examples, ArrayList<QualityMeasure> objs) {
         
-        /*int ejCompAntFuzzy=0;                // Number of compatible examples with the antecedent of any class - fuzzy version --- unused
-        int ejCompAntCrisp=0;                // Number of compatible examples with the antecedent of any class - crisp version
-        int ejCompAntClassFuzzy=0;           // Number of compatible examples (antecedent and class) - fuzzy version
-        int ejCompAntClassCrisp=0;           // Number of compatible examples (antecedent and class) - crisp version
-        //int ejCompAntClassNewFuzzy=0;        // Number of new covered compatible examples (antec and class) - fuzzy version
-        //int ejCompAntClassNewCrisp=0;        // Number of new covered compatible examples (antec and class) - crisp version
-
-        float gradoCompAntFuzzy=0;           // Total compatibility degree with the antecedent - fuzzy version
-        float gradoCompAntClassFuzzy=0;      // Tot compatibility degree with antecedent and class - fuzzy version
-        float gradoCompAntClassNewEjFuzzy=0; // Tot compatibility degree with antecedent and class of new covered examples - fuzzy version
-
-        float disparoFuzzy;    // Final compatibility degree of the example with the individual - fuzzy version
-        float disparoCrisp;    // Final compatibility degree of the example with the individual - crisp version
-
-        float completitud, fsupport, csupport, confianza, cconfianza;
-        float unusualness, coverage, accuracy, significance;
-
-        float valorConf, valorComp;   // Variables to store the selected measures
-
-        float tp = 0;
-        float fp = 0;
-        */
-        //int ejClase[] = new int[Variables.getNClass()];
         double disparoFuzzy, disparoCrisp;
         ContingencyTable confMatrix = new ContingencyTable(0, 0, 0, 0);
-        int cubreClase[] = new int[StreamMOEAEFEP.EjClass.size()];
-        for (int i=0; i < cubreClase.length; i++) {
-            cubreClase[i]=0;
-        }
-
-        //int por_cubrir;        // Number of examples of the class not covered yet - for fuzzy version
-
+    
         int numVarNoInterv=0;  // Number of variables not taking part in the individual
         
         
-        for(Instance inst : Examples){
+        for(int k = 0; k < Examples.size(); k++){
+            Instance inst = Examples.get(k);
             disparoCrisp = disparoFuzzy = 1;
             numVarNoInterv = 0;
             
@@ -304,20 +281,22 @@ public class IndDNF extends Individual {
             }
             
             // Update counters
-            if(disparoFuzzy > 0){
-                if( ((Double) inst.classValue()).intValue() == this.clas){
-                   confMatrix.setTp(confMatrix.getTp() + 1);
+            if(numVarNoInterv < inst.numInputAttributes()){
+                if(disparoFuzzy > 0){
+                    cubre.set(k); // Cambiar dos líneas más abajo si el token competition se va a hacer por clase.
+                    if( ((Double) inst.classValue()).intValue() == this.getClas()){
+                       confMatrix.setTp(confMatrix.getTp() + 1);
+                    } else {
+                       confMatrix.setFp(confMatrix.getFp() + 1);
+                    }
                 } else {
-                   confMatrix.setFp(confMatrix.getFp() + 1);
-                }
-            } else {
-                if( ((Double) inst.classValue()).intValue() == this.clas){
-                    confMatrix.setFn(confMatrix.getFn() + 1);
-                } else {
-                    confMatrix.setTn(confMatrix.getTn() + 1);
+                    if( ((Double) inst.classValue()).intValue() == this.getClas()){
+                        confMatrix.setFn(confMatrix.getFn() + 1);
+                    } else {
+                        confMatrix.setTn(confMatrix.getTn() + 1);
+                    }
                 }
             }
-            
             /*if(disparoCrisp > 0){
                 Double v = inst.classValue();
                 cubreClase[v.intValue()]++;
@@ -326,119 +305,24 @@ public class IndDNF extends Individual {
         }
         
         // Compute the objective quality measures
-        
-
-
-        // Compute the measures
-
-        for(int j=0; j<AG.getNumObjectives(); j++){
-
-            if(AG.getNObjectives(j).compareTo("AUC")==0){
-                float success = (1+((tp)/(Examples.getExamplesClass(Variables.getNumClassObj())))-((fp)/(Examples.getExamplesClass(Variables.getNumClassObj()))))/2;
-                medidas.setObjectiveValue(j, success);
-            }
-            if(AG.getNObjectives(j).compareTo("COMP")==0){
-                if (Examples.getExamplesClassObj() != 0)
-                    completitud = ((float)ejCompAntClassFuzzy/Examples.getExamplesClassObj());
-                else
-                    completitud = 0;
-                valorComp = completitud;
-                if (numVarNoInterv >= Variables.getNVars())
-                    medidas.setObjectiveValue(j, 0);
-                else medidas.setObjectiveValue(j, valorComp);
-            }
-            if(AG.getNObjectives(j).compareTo("CSUP")==0){
-                csupport = ((float)ejCompAntClassCrisp/Examples.getNEx());
-                valorComp = csupport;
-                if (numVarNoInterv >= Variables.getNVars())
-                    medidas.setObjectiveValue(j, 0);
-                else medidas.setObjectiveValue(j, valorComp);
-            }
-            if(AG.getNObjectives(j).compareTo("FSUP")==0){
-                if (Examples.getNEx() != 0)
-                    fsupport = ((float)gradoCompAntClassFuzzy/Examples.getNEx());
-                else
-                    fsupport = 0;
-                valorComp = fsupport;
-                if (numVarNoInterv >= Variables.getNVars())
-                    medidas.setObjectiveValue(j, 0);
-                else medidas.setObjectiveValue(j, valorComp);
-            }
-            if(AG.getNObjectives(j).compareTo("CCNF")==0){
-                if (ejCompAntCrisp != 0)
-                    cconfianza = (float)ejCompAntClassCrisp/ejCompAntCrisp;
-                else
-                    cconfianza = 0;
-                valorConf = cconfianza;
-                if (numVarNoInterv >= Variables.getNVars())
-                    medidas.setObjectiveValue(j, 0);
-                else medidas.setObjectiveValue(j, valorConf);
-            }
-            if(AG.getNObjectives(j).compareTo("FCNF")==0){
-                if (gradoCompAntFuzzy != 0)
-                    confianza = (float)gradoCompAntClassFuzzy/gradoCompAntFuzzy;
-                else
-                    confianza = 0;
-                valorConf = confianza;
-                if (numVarNoInterv >= Variables.getNVars())
-                    medidas.setObjectiveValue(j, 0);
-                else medidas.setObjectiveValue(j, valorConf);
-            }
-            if(AG.getNObjectives(j).compareTo("UNUS")==0){
-                coverage = ((float)ejCompAntCrisp/Examples.getNEx());
-                if (ejCompAntCrisp==0)
-                    unusualness = 0;
-                else
-                    unusualness =  coverage * ( (float)ejCompAntClassCrisp/ejCompAntCrisp - (float)Examples.getExamplesClassObj()/Examples.getNEx());
-
-                float normUnus = unusualness + (float)Examples.getExamplesClassObj()/Examples.getNEx();
-                if (numVarNoInterv >= Variables.getNVars())
-                    medidas.setObjectiveValue(j, 0);
-                else medidas.setObjectiveValue(j, normUnus);
-            }
-            if(AG.getNObjectives(j).compareTo("SIGN")==0){
-                coverage = ((float)ejCompAntCrisp/Examples.getNEx());
-                float sumaSignClase=0;
-                for (int aux=0; aux<Variables.getNClass(); aux++) {
-                    if (cubreClase[aux]!=0)
-                        sumaSignClase += cubreClase[aux] * Math.log10 ((float)cubreClase[aux]/(ejClase[aux]*coverage));
-                }
-                significance = 2 * sumaSignClase;
-                float maxSignif=0;
-                for (int a=0; a<Variables.getNClass(); a++) {
-                    if (cubreClase[a]!=0 && coverage!=0)
-                        maxSignif += cubreClase[a] * Math.log10 ((float)1/coverage);
-                }
-                maxSignif = 2*maxSignif ;  
-                float normSignif=0;
-                if (maxSignif!=0)
-                   normSignif = significance/maxSignif;
-                if (numVarNoInterv >= Variables.getNVars())
-                    medidas.setObjectiveValue(j, 0);
-                else medidas.setObjectiveValue(j, normSignif);
-            }
-            if(AG.getNObjectives(j).compareTo("ACCU")==0){
-                accuracy = (float)(ejCompAntClassCrisp+1) / (ejCompAntCrisp + Variables.getNClass());
-                if (numVarNoInterv >= Variables.getNVars())
-                    medidas.setObjectiveValue(j, 0);
-                else medidas.setObjectiveValue(j, accuracy);
-            }
-            if(AG.getNObjectives(j).compareTo("COVE")==0){
-                coverage = ((float)ejCompAntCrisp/Examples.getNEx());
-                if (numVarNoInterv >= Variables.getNVars())
-                    medidas.setObjectiveValue(j, 0);
-                else medidas.setObjectiveValue(j, coverage);
-            }
-
+        if(this.objs.isEmpty()){
+            objs.forEach((q) -> {
+                // If it is empty, then the measures are not created, copy the default objects
+                // from the objectives array
+                objs.add(q);
+            });
         }
-
-        if (gradoCompAntFuzzy != 0)
-            confianza = (float)gradoCompAntClassFuzzy/gradoCompAntFuzzy;
-        else
-            confianza = 0;
-
-        valorConf = confianza;
-        medidas.setCnf(valorConf);
+        
+        this.objs.stream().filter((q) -> (!(q instanceof NULL))).forEachOrdered((q) -> {
+            // Calculate if it is not the null measure.
+            q.getValue(confMatrix);
+        });
+        
+        // Compute the confidence
+        this.conf.getValue(confMatrix);
+        
+        // Compute the diversity function
+        this.diversityMeasure.getValue(confMatrix);
 
         evaluado = true;
 
