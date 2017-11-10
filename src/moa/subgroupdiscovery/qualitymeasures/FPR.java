@@ -55,5 +55,10 @@ public class FPR extends AbstractOptionHandler implements QualityMeasure{
     @Override
     public void getDescription(StringBuilder arg0, int arg1) {
     }
+
+    @Override
+    public double getValue() {
+        return value;
+    }
     
 }

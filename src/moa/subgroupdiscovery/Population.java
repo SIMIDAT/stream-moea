@@ -185,7 +185,7 @@ public class Population {
      * @param val Value for the gene
      * @param RulesRep Rules representation
      */
-    public void setCromElem(int num_indiv, int pos, int elem, int val, String RulRep) {
+    public void setCromElem(int num_indiv, int pos, int elem, int val) {
 
         if (val == 0) {
             indivi[num_indiv].setCromGeneElem(pos, elem, false);

@@ -7,6 +7,7 @@
  */
 package moa.subgroupdiscovery;
 
+import com.yahoo.labs.samoa.instances.Instance;
 import org.core.*;
 import java.util.*;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
@@ -36,16 +37,12 @@ public class Genetic {
     private String StrictDominance = "no";
 //    private String Tuning = "no";
 //    private String SmallDisjunct = "no";
-    
-    //private String onePerClass = "yes";
 
+    //private String onePerClass = "yes";
     //private String ReInitCob = "no";    // Re-initialization based on coverage for the diversity in the model
     private float porcCob = 1;          // Biased initialization for individuals in ReInitCob
     private float minCnf = 0;
     private QualityMeasure diversity; // The diversity quality measures to use
-
-
-
 
     /**
      * <p>
@@ -69,8 +66,6 @@ public class Genetic {
     public void addObjectives(QualityMeasure q) {
         objectives.add(q);
     }
-
- 
 
     /**
      * <p>
@@ -238,8 +233,6 @@ public class Genetic {
         diversity = value;
     }
 
-
-   
     /**
      * <p>
      * Gets the percentage of biased initialisation in the re-initialisation
@@ -286,7 +279,6 @@ public class Genetic {
         minCnf = value;
     }
 
-   
     /**
      * <p>
      * Gets if the algorithm considers strict dominance
@@ -318,16 +310,16 @@ public class Genetic {
      */
     public void JoinTemp(int neje) {
         int i, j, k;
-
-        for (i = 0; i < long_poblacion; i++) {
-            union.CopyIndiv(i, neje, num_objetivos, poblac.getIndiv(i));
+        for (i = 0; i < union.size(); i++) {
+            for (j = 0; j < long_poblacion; j++) {
+                union.get(i).CopyIndiv(i, neje, getNumObjectives(), poblac.get(i).getIndiv(i));
+            }
+            j = 0;
+            for (j = long_poblacion; j < (long_poblacion * 2); j++) {
+                union.get(i).CopyIndiv(i, neje, getNumObjectives(), offspring.get(i).getIndiv(j));
+                j++;
+            }
         }
-        j = 0;
-        for (i = long_poblacion; i < (long_poblacion * 2); i++) {
-            union.CopyIndiv(i, neje, num_objetivos, offspring.getIndiv(j));
-            j++;
-        }
-
     }
 
     /**
@@ -338,25 +330,25 @@ public class Genetic {
      *
      * @return Position of the individual selected
      */
-    public int Select() {
+    public int Select(int clas) {
         int winner;
 
-        int opponent1 = Randomize.Randint(0, long_poblacion - 1);
+        int opponent1 = Randomize.Randint(0, poblac.get(clas).getNumIndiv() - 1);
         int opponent2 = opponent1;
-        while ((opponent2 == opponent1) && (poblac.getNumIndiv() > 1)) {
+        while ((opponent2 == opponent1) && (poblac.get(clas).getNumIndiv() > 1)) {
             opponent2 = Randomize.Randint(0, long_poblacion - 1);
         }
 
         winner = opponent1;
 
-        if (poblac.getIndiv(opponent2).getRank() < poblac.getIndiv(opponent1).getRank()) {
+        if (poblac.get(clas).getIndiv(opponent2).getRank() < poblac.get(clas).getIndiv(opponent1).getRank()) {
             winner = opponent2;
-        } else if (poblac.getIndiv(opponent2).getRank() > poblac.getIndiv(opponent1).getRank()) {
+        } else if (poblac.get(clas).getIndiv(opponent2).getRank() > poblac.get(clas).getIndiv(opponent1).getRank()) {
             winner = opponent1;
         } else {
-            if (poblac.getIndiv(opponent2).getCrowdingDistance() > poblac.getIndiv(opponent1).getCrowdingDistance()) {
+            if (poblac.get(clas).getIndiv(opponent2).getCrowdingDistance() > poblac.get(clas).getIndiv(opponent1).getCrowdingDistance()) {
                 winner = opponent2;
-            } else if (poblac.getIndiv(opponent2).getCrowdingDistance() <= poblac.getIndiv(opponent1).getCrowdingDistance()) {
+            } else if (poblac.get(clas).getIndiv(opponent2).getCrowdingDistance() <= poblac.get(clas).getIndiv(opponent1).getCrowdingDistance()) {
                 winner = opponent1;
             }
         }
@@ -369,78 +361,61 @@ public class Genetic {
      * Cross operator for the genetic algorithm
      * </p>
      *
-     * @param Variables Variables structure
+     * @param inst An instance to get variables information
      * @param dad Position of the daddy
      * @param mom Position of the mummy
      * @param contador Position to insert the son
      * @param neje Number of examples
      */
-    public void CrossMultipoint(TableVar Variables, int dad, int mom, int contador, int neje) {
+    public void CrossMultipoint(Instance inst, int clas, int dad, int mom, int contador, int neje) {
 
         int i, xpoint1, xpoint2;
         double cruce;
 
         // Copy the individuals to cross
-        for (i = 0; i < Variables.getNVars(); i++) {
-            if (RulesRep.compareTo("CAN") == 0) {
-                offspring.setCromElem((contador * 2), i, 0, poblac.getCromElem(mom, i, 0, RulesRep), RulesRep);
-                offspring.setCromElem((contador * 2) + 1, i, 0, poblac.getCromElem(dad, i, 0, RulesRep), RulesRep);
-            } else {
-                int number = offspring.getIndivCromDNF(contador * 2).getCromGeneLenght(i);
-                for (int ii = 0; ii <= number; ii++) {
-                    offspring.setCromElem((contador * 2), i, ii, poblac.getCromElem(mom, i, ii, RulesRep), RulesRep);
-                    offspring.setCromElem((contador * 2) + 1, i, ii, poblac.getCromElem(dad, i, ii, RulesRep), RulesRep);
-                }
-            }
-        }
+        offspring.get(clas).CopyIndiv(contador * 2, neje, getNumObjectives(), poblac.get(clas).getIndiv(mom));
+        offspring.get(clas).CopyIndiv(contador * 2 + 1, neje, getNumObjectives(), poblac.get(clas).getIndiv(dad));
 
-        cruce = Randomize.Randdouble(0.0, 1.0);
+        // Perform crossover
+        cruce = Randomize.RanddoubleClosed(0.0, 1.0);
 
         if (cruce <= getProbCross()) {
             // Generation of the two point of cross
-            xpoint1 = Randomize.Randint(0, (Variables.getNVars() - 1));
-            if (xpoint1 != Variables.getNVars() - 1) {
-                xpoint2 = Randomize.Randint((xpoint1 + 1), (Variables.getNVars() - 1));
+            xpoint1 = Randomize.RandintClosed(0, (inst.numInputAttributes() - 1));
+            if (xpoint1 != inst.numInputAttributes() - 1) {
+                xpoint2 = Randomize.Randint((xpoint1 + 1), (inst.numInputAttributes() - 1));
             } else {
-                xpoint2 = Variables.getNVars() - 1;
+                xpoint2 = inst.numInputAttributes() - 1;
             }
 
             // Cross the parts between both points
             for (i = xpoint1; i <= xpoint2; i++) {
-                if (RulesRep.compareTo("CAN") == 0) {
-                    offspring.setCromElem((contador * 2), i, 0, poblac.getCromElem(dad, i, 0, RulesRep), RulesRep);
-                    offspring.setCromElem((contador * 2) + 1, i, 0, poblac.getCromElem(mom, i, 0, RulesRep), RulesRep);
-                } else {
-                    int number = offspring.getIndivCromDNF(contador * 2).getCromGeneLenght(i);
-                    for (int ii = 0; ii <= number; ii++) {
-                        offspring.setCromElem((contador * 2), i, ii, poblac.getCromElem(dad, i, ii, RulesRep), RulesRep);
-                        offspring.setCromElem((contador * 2) + 1, i, ii, poblac.getCromElem(mom, i, ii, RulesRep), RulesRep);
+                int number = offspring.get(clas).getIndivCromDNF(contador * 2).getCromGeneLenght(i);
+                for (int ii = 0; ii <= number; ii++) {
+                    offspring.get(clas).setCromElem((contador * 2), i, ii, poblac.get(clas).getCromElem(dad, i, ii));
+                    offspring.get(clas).setCromElem((contador * 2) + 1, i, ii, poblac.get(clas).getCromElem(mom, i, ii));
+                }
+                int aux1 = 0;
+                int aux2 = 0;
+                for (int ii = 0; ii < number; ii++) {
+                    if (offspring.get(clas).getCromElem((contador * 2), i, ii) == 1) {
+                        aux1++;
                     }
-                    int aux1 = 0;
-                    int aux2 = 0;
-                    for (int ii = 0; ii < number; ii++) {
-                        if (offspring.getCromElem((contador * 2), i, ii, RulesRep) == 1) {
-                            aux1++;
-                        }
-                        if (offspring.getCromElem((contador * 2) + 1, i, ii, RulesRep) == 1) {
-                            aux2++;
-                        }
-                    }
-                    if ((aux1 == number) || (aux1 == 0)) {
-                        offspring.setCromElem((contador * 2), i, number, 0, RulesRep);
-                    } else {
-                        offspring.setCromElem((contador * 2), i, number, 1, RulesRep);
-                    }
-                    if ((aux2 == number) || (aux2 == 0)) {
-                        offspring.setCromElem((contador * 2) + 1, i, number, 0, RulesRep);
-                    } else {
-                        offspring.setCromElem((contador * 2) + 1, i, number, 1, RulesRep);
+                    if (offspring.get(clas).getCromElem((contador * 2) + 1, i, ii) == 1) {
+                        aux2++;
                     }
                 }
+                if ((aux1 == number) || (aux1 == 0)) {
+                    offspring.get(clas).setCromElem((contador * 2), i, number, 0);
+                } else {
+                    offspring.get(clas).setCromElem((contador * 2), i, number, 1);
+                }
+                if ((aux2 == number) || (aux2 == 0)) {
+                    offspring.get(clas).setCromElem((contador * 2) + 1, i, number, 0);
+                } else {
+                    offspring.get(clas).setCromElem((contador * 2) + 1, i, number, 1);
+                }
             }
-        } else {
-            offspring.CopyIndiv(contador * 2, neje, num_objetivos, poblac.getIndiv(dad));
-            offspring.CopyIndiv((contador * 2) + 1, neje, num_objetivos, poblac.getIndiv(mom));
         }
 
     }
@@ -453,12 +428,12 @@ public class Genetic {
      * @param Variables Variables structure
      * @param pos Position of the individual to mutate
      */
-    public void Mutation(TableVar Variables, int pos) {
+    public void Mutation(Instance inst, int clas, int pos) {
 
         double mutar;
         int posiciones, eliminar;
 
-        posiciones = Variables.getNVars();
+        posiciones = inst.numInputAttributes();
 
         if (getProbMutation() > 0) {
             for (int i = 0; i < posiciones; i++) {
@@ -466,77 +441,66 @@ public class Genetic {
                 if (mutar <= getProbMutation()) {
                     eliminar = Randomize.Randint(0, 10);
                     if (eliminar <= 5) {
-                        if (!Variables.getContinuous(i)) {
-                            if (RulesRep.compareTo("CAN") == 0) {
-                                offspring.setCromElem(pos, i, 0, (int) Variables.getMax(i) + 1, RulesRep);
-                            } else {
-                                int number = Variables.getNLabelVar(i);
-                                for (int l = 0; l <= number; l++) {
-                                    offspring.setCromElem(pos, i, l, 0, RulesRep);
-                                }
-                            }
-                        } else if (RulesRep.compareTo("CAN") == 0) {
-                            offspring.setCromElem(pos, i, 0, Variables.getNLabelVar(i), RulesRep);
-                        } else {
-                            int number = Variables.getNLabelVar(i);
+                        if (inst.inputAttribute(i).isNumeric()) {
+                            int number = StreamMOEAEFEP.nLabel;
                             for (int l = 0; l <= number; l++) {
-                                offspring.setCromElem(pos, i, l, 0, RulesRep);
+                                offspring.get(clas).setCromElem(pos, i, l, 0);
+                            }
+                        } else {
+                            int number = inst.attribute(i).numValues();
+                            for (int l = 0; l <= number; l++) {
+                                offspring.get(clas).setCromElem(pos, i, l, 0);
                             }
                         }
                     } else {
-                        if (!Variables.getContinuous(i)) {
-                            if (RulesRep.compareTo("CAN") == 0) {
-                                offspring.setCromElem(pos, i, 0, Randomize.Randint(0, (int) Variables.getMax(i)), RulesRep);
-                            } else {
-                                int number = Variables.getNLabelVar(i);
-                                int cambio = Randomize.Randint(0, number - 1);
-                                if (offspring.getCromElem(pos, i, cambio, RulesRep) == 0) {
-                                    offspring.setCromElem(pos, i, cambio, 1, RulesRep);
-                                    int aux1 = 0;
-                                    for (int ii = 0; ii < number; ii++) {
-                                        if (offspring.getCromElem(pos, i, ii, RulesRep) == 1) {
-                                            aux1++;
-                                        }
-                                    }
-                                    if ((aux1 == number) || (aux1 == 0)) {
-                                        offspring.setCromElem(pos, i, number, 0, RulesRep);
-                                    } else {
-                                        offspring.setCromElem(pos, i, number, 1, RulesRep);
-                                    }
-                                } else {
-                                    for (int k = 0; k <= number; k++) {
-                                        offspring.setCromElem(pos, i, k, 0, RulesRep);
-                                    }
-                                }
-                            }
-                        } else if (RulesRep.compareTo("CAN") == 0) {
-                            offspring.setCromElem(pos, i, 0, Randomize.Randint(0, Variables.getNLabelVar(i) - 1), RulesRep);
-                        } else {
-                            int number = Variables.getNLabelVar(i);
+                        if (!inst.inputAttribute(i).isNumeric()) {
+                            int number = inst.attribute(i).numValues();
                             int cambio = Randomize.Randint(0, number - 1);
-                            if (offspring.getCromElem(pos, i, cambio, RulesRep) == 0) {
-                                offspring.setCromElem(pos, i, cambio, 1, RulesRep);
+                            if (offspring.get(clas).getCromElem(pos, i, cambio) == 0) {
+                                offspring.get(clas).setCromElem(pos, i, cambio, 1);
                                 int aux1 = 0;
                                 for (int ii = 0; ii < number; ii++) {
-                                    if (offspring.getCromElem(pos, i, ii, RulesRep) == 1) {
+                                    if (offspring.get(clas).getCromElem(pos, i, ii) == 1) {
                                         aux1++;
                                     }
                                 }
                                 if ((aux1 == number) || (aux1 == 0)) {
-                                    offspring.setCromElem(pos, i, number, 0, RulesRep);
+                                    offspring.get(clas).setCromElem(pos, i, number, 0);
                                 } else {
-                                    offspring.setCromElem(pos, i, number, 1, RulesRep);
+                                    offspring.get(clas).setCromElem(pos, i, number, 1);
                                 }
                             } else {
                                 for (int k = 0; k <= number; k++) {
-                                    offspring.setCromElem(pos, i, k, 0, RulesRep);
+                                    offspring.get(clas).setCromElem(pos, i, k, 0);
+                                }
+                            }
+
+                        } else {
+                            int number = StreamMOEAEFEP.nLabel;
+                            int cambio = Randomize.Randint(0, number - 1);
+                            if (offspring.get(clas).getCromElem(pos, i, cambio) == 0) {
+                                offspring.get(clas).setCromElem(pos, i, cambio, 1);
+                                int aux1 = 0;
+                                for (int ii = 0; ii < number; ii++) {
+                                    if (offspring.get(clas).getCromElem(pos, i, ii) == 1) {
+                                        aux1++;
+                                    }
+                                }
+                                if ((aux1 == number) || (aux1 == 0)) {
+                                    offspring.get(clas).setCromElem(pos, i, number, 0);
+                                } else {
+                                    offspring.get(clas).setCromElem(pos, i, number, 1);
+                                }
+                            } else {
+                                for (int k = 0; k <= number; k++) {
+                                    offspring.get(clas).setCromElem(pos, i, k, 0);
                                 }
                             }
                         }
                     }
 
                     // Marks the chromosome as not evaluated
-                    offspring.setIndivEvaluated(pos, false);
+                    offspring.get(clas).setIndivEvaluated(pos, false);
                 }
             }
         }
@@ -548,33 +512,27 @@ public class Genetic {
      * Composes the genetic algorithm applying the operators
      * </p>
      *
-     * @param Variables Variables structure
-     * @param Examples Examples structure
+     * @param instances A set of instances
      * @param nFile File to write the process
      * @return Final Pareto population
      */
-    public Population GeneticAlgorithm(TableVar Variables, TableDat Examples, String nFile) {
-
+    public Population GeneticAlgorithm(ArrayList<Instance> instances, String nFile) {
+        Instance inst = instances.get(0);
         String contents;
         float porcVar = (float) 0.25;
         float porcPob = (float) 0.75;
-
-        poblac = new Population(long_poblacion, Variables.getNVars(), num_objetivos, Examples.getNEx(), RulesRep, Variables);
-        poblac.BsdInitPob(Variables, porcVar, porcPob, Examples.getNEx(), nFile);
+        int indivPerClass = long_poblacion / inst.numClasses();
+        int modulus = long_poblacion % inst.numClasses();
+        
+        // Initialises the population
+        poblac = new ArrayList<>(inst.numClasses());
+        for(int i = 0; i < poblac.size(); i++){
+            poblac.set(i, new Population(long_poblacion, inst.numInputAttributes(), getNumObjectives(), instances.size(), inst));
+            poblac.get(i).BsdInitPob(inst, porcVar, porcPob, instances.size(), nFile);
+        }
 
         Trials = 0;
         Gen = 0;
-
-        if (getDiversity().compareTo("Utility") == 0) {
-            long_lambda = long_poblacion;
-            lambda = new double[long_lambda][num_objetivos];
-            lambda[0][0] = 0.0;
-            lambda[0][1] = 1.0;
-            for (int i = 1; i < long_lambda; i++) {
-                lambda[i][0] = lambda[i - 1][0] + (1.0 / (long_lambda - 1));
-                lambda[i][1] = 1.0 - lambda[i][0];
-            }
-        }
 
         //Evaluates the population
         Trials += poblac.evalPop(this, Variables, Examples);
@@ -700,7 +658,7 @@ public class Genetic {
                     if (Trials - poblac.getLastChangeEval() > pctCambio) {
                         // Join the elite population and the pareto front
                         Population join = best.join(ranking.getSubfront(0), Examples, Variables, this);
-                    // best is a new population made by the token competition procedure.
+                        // best is a new population made by the token competition procedure.
                         best = join.tokenCompetition(Examples, Variables, this);
                     }
                 }
@@ -723,7 +681,7 @@ public class Genetic {
         // now, apply the token competition to get the best population.
         Population join = ranking.getSubfront(0).join(best, Examples, Variables, this);
         best = join.tokenCompetition(Examples, Variables, this);
-        
+
         contents = "\nGenetic Algorithm execution finished\n";
         contents += "\tNumber of Generations = " + Gen + "\n";
         contents += "\tNumber of Evaluations = " + Trials + "\n";
@@ -759,27 +717,27 @@ public class Genetic {
 //            }
             // Generates new individuals
             for (int conta = 0; conta < poblac.getNumIndiv(); conta++) {
-                
-                    Individual indi = null;
-                    if (RulesRep.compareTo("CAN") == 0) {
-                        indi = new IndCAN(Variables.getNVars(), Examples.getNEx(), num_objetivos);
-                    } else {
-                        indi = new IndDNF(Variables.getNVars(), Examples.getNEx(), num_objetivos, Variables);
+
+                Individual indi = null;
+                if (RulesRep.compareTo("CAN") == 0) {
+                    indi = new IndCAN(Variables.getNVars(), Examples.getNEx(), num_objetivos);
+                } else {
+                    indi = new IndDNF(Variables.getNVars(), Examples.getNEx(), num_objetivos, Variables);
+                }
+                indi.CobInitInd(poblac, Variables, Examples, porcCob, num_objetivos, nFile);
+                indi.evalInd(this, Variables, Examples);
+                indi.setIndivEvaluated(true);
+                indi.setNEval(Trials);
+                Trials++;
+                // Copy the individual in the population
+                poblac.CopyIndiv(conta, Examples.getNEx(), num_objetivos, indi);
+                for (int j = 0; j < Examples.getNEx(); j++) {
+                    if ((poblac.getIndiv(conta).getIndivCovered(j) == true) && (poblac.ej_cubiertos[j] == false)) {
+                        poblac.ej_cubiertos[j] = true;
+                        poblac.ult_cambio_eval = Trials;
                     }
-                    indi.CobInitInd(poblac, Variables, Examples, porcCob, num_objetivos, nFile);
-                    indi.evalInd(this, Variables, Examples);
-                    indi.setIndivEvaluated(true);
-                    indi.setNEval(Trials);
-                    Trials++;
-                    // Copy the individual in the population
-                    poblac.CopyIndiv(conta, Examples.getNEx(), num_objetivos, indi);
-                    for (int j = 0; j < Examples.getNEx(); j++) {
-                        if ((poblac.getIndiv(conta).getIndivCovered(j) == true) && (poblac.ej_cubiertos[j] == false)) {
-                            poblac.ej_cubiertos[j] = true;
-                            poblac.ult_cambio_eval = Trials;
-                        }
-                    }
-                
+                }
+
             }
         }
         return poblac;
@@ -1231,7 +1189,8 @@ public class Genetic {
                     chrome = pob[clase].getIndivCromCAN(j);
                     for (int k = 0; k < Variables.getNVars(); k++) { // For each var of the rule
 
-                        if (!Variables.getContinuous(k)) {  /* Discrete Variable */
+                        if (!Variables.getContinuous(k)) {
+                            /* Discrete Variable */
 
                             if (chrome.getCromElem(k) <= Variables.getMax(k)) {
                                 // Variable j takes part in the rule

@@ -35,5 +35,10 @@ public class NULL extends AbstractOptionHandler implements QualityMeasure{
     public boolean validate(double value) {
         return true;
     }
+
+    @Override
+    public double getValue() {
+        return value;
+    }
     
 }

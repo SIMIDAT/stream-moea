@@ -39,5 +39,10 @@ public class SuppDiff extends AbstractOptionHandler implements QualityMeasure{
     public boolean validate(double value) {
         return value >= -1.0 && value <= 1.0;
     }
+
+    @Override
+    public double getValue() {
+        return value;
+    }
     
 }
