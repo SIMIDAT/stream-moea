@@ -708,9 +708,9 @@ public class Genetic {
      * @param nFile File to write the process
      * @return The new population for the next generation
      */
-    private Population ReInitCoverage(Population poblac, TableVar Variables, TableDat Examples, String nFile) {
-
-        poblac.examplesCoverPopulation(Examples.getNEx(), Trials);
+    private Population ReInitCoverage(Population poblac, ArrayList<Instance> instances, String nFile) {
+        Instance aux = instances.get(0);
+        poblac.examplesCoverPopulation(instances.size(), Trials);
 
         // Checks the difference between the last and actual evaluations
         double porc_cambio = (n_eval * 5) / 100;
@@ -726,20 +726,26 @@ public class Genetic {
 
                 Individual indi = null;
                 if (getRulesRep().compareTo("CAN") == 0) {
-                    indi = new IndCAN(Variables.getNVars(), Examples.getNEx(), num_objetivos);
+                    //indi = new IndCAN(Variables.getNVars(), Examples.getNEx(), num_objetivos);
                 } else {
-                    indi = new IndDNF(Variables.getNVars(), Examples.getNEx(), num_objetivos, Variables);
+                    indi = new IndDNF(aux.numInputAttributes(), instances.size(), getNumObjectives(), aux, 0);
                 }
-                indi.CobInitInd(poblac, Variables, Examples, porcCob, num_objetivos, nFile);
-                indi.evalInd(this, Variables, Examples);
+                indi.CobInitInd(poblac, instances, porcCob, getNumObjectives(), poblac.getIndiv(0).getClas(), nFile);
+                
+                
+                /**/ // Esto de aquí hay que verlo CON EXTREMO CUIDADO!!
+                indi.evalInd(instances, objectives);
+                
+                
+               
                 indi.setIndivEvaluated(true);
                 indi.setNEval(Trials);
                 Trials++;
                 // Copy the individual in the population
-                poblac.CopyIndiv(conta, Examples.getNEx(), num_objetivos, indi);
-                for (int j = 0; j < Examples.getNEx(); j++) {
-                    if ((poblac.getIndiv(conta).getIndivCovered(j) == true) && (poblac.ej_cubiertos[j] == false)) {
-                        poblac.ej_cubiertos[j] = true;
+                poblac.CopyIndiv(conta, instances.size(), getNumObjectives(), indi);
+                for (int j = 0; j < instances.size(); j++) {
+                    if ((poblac.getIndiv(conta).getIndivCovered(j) == true) && (!poblac.ej_cubiertos.get(j))) {
+                        poblac.ej_cubiertos.set(j);
                         poblac.ult_cambio_eval = Trials;
                     }
                 }
@@ -792,21 +798,21 @@ public class Genetic {
             int izq = 0;
             int der = pop.getNumIndiv() - 1;
             int indices[] = new int[pop.getNumIndiv()];
-            QualityMeasures medidas = new QualityMeasures(nobj);
+            //QualityMeasures medidas = new QualityMeasures(nobj);
             for (int j = 0; j < pop.getNumIndiv(); j++) {
                 indices[j] = j;
-                medidas = pop.getIndiv(j).getMeasures();
-                ordenado[j] = medidas.getObjectiveValue(i);
+                //medidas = pop.getIndiv(j).getMeasures();
+                ordenado[j] = pop.getIndiv(j).objs.get(i).getValue();//medidas.getObjectiveValue(i);
             }
             Utils.OrCrecIndex(ordenado, izq, der, indices);
 
             ini = indices[0];
             fin = indices[pop.getNumIndiv() - 1];
 
-            medidas = pop.getIndiv(ini).getMeasures();
-            objetiveMinn = medidas.getObjectiveValue(i);
-            medidas = pop.getIndiv(fin).getMeasures();
-            objetiveMaxn = medidas.getObjectiveValue(i);
+            //medidas = pop.getIndiv(ini).getMeasures();
+            objetiveMinn = pop.getIndiv(ini).objs.get(i).getValue(); //medidas.getObjectiveValue(i);
+            //medidas = pop.getIndiv(fin).getMeasures();
+            objetiveMaxn = pop.getIndiv(fin).objs.get(i).getValue(); //medidas.getObjectiveValue(i);
 
             //Set de crowding distance            
             pop.getIndiv(ini).setCrowdingDistance(Double.POSITIVE_INFINITY);
@@ -815,10 +821,10 @@ public class Genetic {
             double a, b;
 
             for (int j = 1; j < size - 1; j++) {
-                medidas = pop.getIndiv(indices[j + 1]).getMeasures();
-                a = medidas.getObjectiveValue(i);
-                medidas = pop.getIndiv(indices[j - 1]).getMeasures();
-                b = medidas.getObjectiveValue(i);
+                //medidas = pop.getIndiv(indices[j + 1]).getMeasures();
+                a = pop.getIndiv(indices[j+1]).objs.get(i).getValue(); //medidas.getObjectiveValue(i);
+                //medidas = pop.getIndiv(indices[j - 1]).getMeasures();
+                b = pop.getIndiv(indices[j-1]).objs.get(i).getValue();//medidas.getObjectiveValue(i);
                 distance = a - b;
                 if (distance != 0) {
                     distance = distance / (objetiveMaxn - objetiveMinn);
@@ -837,7 +843,7 @@ public class Genetic {
      * @param population The actual population
      * @param nobj The number of objectives
      */
-    private void CalculateKnee(Population pop, int nobj) {
+    /**private void CalculateKnee(Population pop, int nobj) {
 
         int i, j;
         int izq, der;
@@ -930,7 +936,7 @@ public class Genetic {
             }
         }
 
-    }
+    }*/
 
     /**
      * <p>
@@ -941,7 +947,7 @@ public class Genetic {
      * @param population The actual population
      * @param nobj The number of objectives
      */
-    private void CalculateUtility(Population pop, int nobj) {
+   /* private void CalculateUtility(Population pop, int nobj) {
 
         int size = pop.getNumIndiv();
 
@@ -1039,7 +1045,7 @@ public class Genetic {
                 pop.getIndiv(indices2[posmin]).setCrowdingDistance(crowding + (second - min));
             }
         }
-    }
+    }*/
 
     /**
      * <p>
@@ -1094,7 +1100,7 @@ public class Genetic {
      * @param original A population
      * @return A vector which marks the inviduals repeated
      */
-    public Vector RemoveRepeatedDNF(Population original, TableVar Variables) {
+    public Vector RemoveRepeatedDNF(Population original, Instance inst) {
 
         Vector marcar = new Vector();
         for (int i = 0; i < original.getNumIndiv(); i++) {
