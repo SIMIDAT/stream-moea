@@ -35,6 +35,7 @@ public class Genetic {
     private int Trials;		  // Number of evaluated chromosomes
 
     private String StrictDominance = "no";
+    private String RulesRep = "DNF";
 //    private String Tuning = "no";
 //    private String SmallDisjunct = "no";
 
@@ -523,10 +524,10 @@ public class Genetic {
         float porcPob = (float) 0.75;
         int indivPerClass = long_poblacion / inst.numClasses();
         int modulus = long_poblacion % inst.numClasses();
-        
+
         // Initialises the population
         poblac = new ArrayList<>(inst.numClasses());
-        for(int i = 0; i < poblac.size(); i++){
+        for (int i = 0; i < poblac.size(); i++) {
             poblac.set(i, new Population(long_poblacion, inst.numInputAttributes(), getNumObjectives(), instances.size(), inst));
             poblac.get(i).BsdInitPob(inst, porcVar, porcPob, instances.size(), nFile);
         }
@@ -535,152 +536,147 @@ public class Genetic {
         Gen = 0;
 
         //Evaluates the population
-        Trials += poblac.evalPop(this, Variables, Examples);
+        for (int i = 0; i < poblac.size(); i++) {
+            Trials += poblac.get(i).evalPop(this, instances);
+        }
 
         do { // GA General cycle
 
             Gen++;
+
             // Creates offspring and union
-            offspring = new Population(long_poblacion, Variables.getNVars(), num_objetivos, Examples.getNEx(), RulesRep, Variables);
-            union = new Population(2 * long_poblacion, Variables.getNVars(), num_objetivos, Examples.getNEx(), RulesRep, Variables);
-
-            for (int conta = 0; conta < long_poblacion / 2; conta++) {
-
-                // Select the daddy and mummy
-                int dad = Select();
-                int mum = Select();
-                while ((dad == mum) && (poblac.getNumIndiv() > 1)) {
-                    mum = Select();
-                }
-
-                // Crosses
-                CrossMultipoint(Variables, dad, mum, conta, Examples.getNEx());
-                // Mutates
-                Mutation(Variables, (conta * 2));
-                Mutation(Variables, (conta * 2) + 1);
+            for (int i = 0; i < inst.numClasses(); i++) {
+                offspring.set(i, new Population(long_poblacion, inst.numInputAttributes(), getNumObjectives(), instances.size(), inst));
+                union.set(i, new Population(2 * long_poblacion, inst.numInputAttributes(), getNumObjectives(), instances.size(), inst));
             }
 
-            if (long_poblacion % 2 == 1) {
-                int dad = Select();
-                offspring.CopyIndiv(long_poblacion - 1, Examples.getNEx(), num_objetivos, poblac.getIndiv(dad));
+            for (int clas = 0; clas < inst.numClasses(); clas++) {
+                for (int conta = 0; conta < long_poblacion / 2; conta++) {
+
+                    // Select the daddy and mummy
+                    int dad = Select(clas);
+                    int mum = Select(clas);
+                    while ((dad == mum) && (poblac.get(clas).getNumIndiv() > 1)) {
+                        mum = Select(clas);
+                    }
+
+                    // Crosses
+                    CrossMultipoint(inst, clas, dad, mum, conta, instances.size());
+
+                    // Mutates
+                    Mutation(inst, clas, (conta * 2));
+                    Mutation(inst, clas, (conta * 2) + 1);
+                }
+
+                if (long_poblacion % 2 == 1) {
+                    int dad = Select(clas);
+                    offspring.get(clas).CopyIndiv(long_poblacion - 1, instances.size(), getNumObjectives(), poblac.get(clas).getIndiv(dad));
+                }
             }
 
             // Evaluates the offspring
-            Trials += offspring.evalPop(this, Variables, Examples);
+            for (int clas = 0; clas < inst.numClasses(); clas++) {
+                Trials += offspring.get(clas).evalPop(this, instances);
+            }
 
             // Join population and offspring in union population
-            JoinTemp(Examples.getNEx());
+            JoinTemp(instances.size());
 
-            // Makes the ranking of union
-            Ranking ranking = new Ranking(union, Variables, num_objetivos, Examples.getNEx(), RulesRep, StrictDominance);
+            for (int clas = 0; clas < inst.numClasses(); clas++) {
+                // Makes the ranking of union
+                Ranking ranking = new Ranking(union.get(clas), inst, getNumObjectives(), instances.size(), RulesRep, StrictDominance);
 
-            int remain = poblac.getNumIndiv();
-            int index = 0;
+                int remain = poblac.get(clas).getNumIndiv();
+                int index = 0;
 
-            // Obtains the Pareto front
-            Population front = ranking.getSubfront(index);
+                // Obtains the Pareto front
+                Population front = ranking.getSubfront(index);
 
-            int contador = 0;
+                int contador = 0;
 
-            while ((remain > 0) && (remain >= front.getNumIndiv())) {
+                while ((remain > 0) && (remain >= front.getNumIndiv())) {
 
-                // Calculates the diversity function
-                if ((diversity.compareTo("KNEE") == 0) && (num_objetivos == 2)) {
-                    CalculateKnee(front, num_objetivos);
-                } else if ((diversity.compareTo("UTILITY") == 0) && (num_objetivos == 2)) {
-                    CalculateUtility(front, num_objetivos);
-                } else {
-                    CalculateDistanceCrowding(front, num_objetivos);
-                }
+                    CalculateDistanceCrowding(front, getNumObjectives());
 
-                // Add the individuals of this front
-                for (int k = 0; k < front.getNumIndiv(); k++) {
-                    poblac.CopyIndiv(contador, Examples.getNEx(), num_objetivos, front.getIndiv(k));
-                    contador++;
-                }
-
-                //Decrement remain
-                remain = remain - front.getNumIndiv();
-                //Obtain the next front
-                index++;
-                if (remain > 0) {
-                    if (ranking.getNumberOfSubfronts() == index) {
-                        front = new Population(remain, Variables.getNVars(), num_objetivos, Examples.getNEx(), RulesRep, Variables);
-                        front = ReInitCoverage(front, Variables, Examples, nFile);
-                        remain = 0;
-                    } else {
-                        front = ranking.getSubfront(index);
+                    // Add the individuals of this front
+                    for (int k = 0; k < front.getNumIndiv(); k++) {
+                        poblac.get(clas).CopyIndiv(contador, instances.size(), getNumObjectives(), front.getIndiv(k));
+                        contador++;
                     }
-                } // if
-            } // while
-            // remain is less than front(index).size, insert only the best one
-            if (remain > 0) {  // front contains individuals to insert                        
 
-                // Assign diversity function to individuals
-                if ((diversity.compareTo("KNEE") == 0) && (num_objetivos == 2)) {
-                    CalculateKnee(front, num_objetivos);
-                } else if ((diversity.compareTo("UTILITY") == 0) && (num_objetivos == 2)) {
-                    CalculateUtility(front, num_objetivos);
-                } else {
-                    CalculateDistanceCrowding(front, num_objetivos);
+                    //Decrement remain
+                    remain = remain - front.getNumIndiv();
+                    //Obtain the next front
+                    index++;
+                    if (remain > 0) {
+                        if (ranking.getNumberOfSubfronts() == index) {
+                            front = new Population(remain, inst.numInputAttributes(), getNumObjectives(), instances.size(), inst);
+                            front = ReInitCoverage(front, instances, nFile);
+                            remain = 0;
+                        } else {
+                            front = ranking.getSubfront(index);
+                        }
+                    } // if
+                } // while
+                // remain is less than front(index).size, insert only the best one
+                if (remain > 0) {  // front contains individuals to insert                        
+
+                    // Assign diversity function to individuals
+                    CalculateDistanceCrowding(front, getNumObjectives());
+
+                    // Sort population with the diversity function
+                    double[] ordenado = new double[front.getNumIndiv()];
+                    int izq = 0;
+                    int der = front.getNumIndiv() - 1;
+                    int indices[] = new int[front.getNumIndiv()];
+                    for (int i = 0; i < front.getNumIndiv(); i++) {
+                        indices[i] = i;
+                        ordenado[i] = front.getIndiv(i).getCrowdingDistance();
+                    }
+                    Utils.OrCrecIndex(ordenado, izq, der, indices);
+                    int i = front.getNumIndiv() - 1;
+
+                    for (int k = remain - 1; k >= 0; k--) {
+                        poblac.get(clas).CopyIndiv(contador, instances.size(), getNumObjectives(), front.getIndiv(indices[i]));
+                        i--;
+                        contador++;
+                    } // for
                 }
-
-                // Sort population with the diversity function
-                double[] ordenado = new double[front.getNumIndiv()];
-                int izq = 0;
-                int der = front.getNumIndiv() - 1;
-                int indices[] = new int[front.getNumIndiv()];
-                for (int i = 0; i < front.getNumIndiv(); i++) {
-                    indices[i] = i;
-                    ordenado[i] = front.getIndiv(i).getCrowdingDistance();
-                }
-                Utils.OrCrecIndex(ordenado, izq, der, indices);
-                int i = front.getNumIndiv() - 1;
-
-                for (int k = remain - 1; k >= 0; k--) {
-
-                    poblac.CopyIndiv(contador, Examples.getNEx(), num_objetivos, front.getIndiv(indices[i]));
-                    i--;
-                    contador++;
-
-                } // for
 
                 // Gets the best population
                 if (Gen == 1) {
                     // if it is the first generation, best is the actual one.
-                    best = poblac;
+                    best.set(clas, poblac.get(clas));
                 } else {
                     // If it is not the first generation:
                     // See if the population evolves (i.e. it covers new examples)
-                    poblac.examplesCoverPopulation(Examples.getNEx(), Trials);
+                    poblac.get(clas).examplesCoverPopulation(instances.size(), Trials);
                     double pctCambio = (n_eval * 5) / 100;
                     // If the population does not evolve for a 5 % of the total evaluations
-                    if (Trials - poblac.getLastChangeEval() > pctCambio) {
+                    if (Trials - poblac.get(clas).getLastChangeEval() > pctCambio) {
                         // Join the elite population and the pareto front
-                        Population join = best.join(ranking.getSubfront(0), Examples, Variables, this);
+                        Population join = best.get(clas).join(ranking.getSubfront(0), instances, this);
                         // best is a new population made by the token competition procedure.
-                        best = join.tokenCompetition(Examples, Variables, this);
+                        best.set(clas, join.tokenCompetition(instances, this));
                     }
                 }
 
                 // Re-initialisation based on coverage
-                if (getReInitCob().compareTo("yes") == 0) {
-                    poblac = ReInitCoverage(poblac, Variables, Examples, nFile);
-                }
-
-                remain = 0;
-            } // if        
-
-            if (Gen == 1) {
-                best = poblac;
+                poblac.set(clas, ReInitCoverage(poblac.get(clas), instances, nFile));
+                
             }
+         
 
         } while (Trials <= n_eval);
+        
+        for(int i = 0; i < inst.numClasses(); i++){
+            Ranking ranking = new Ranking(poblac.get(i),inst, getNumObjectives(), instances.size(), RulesRep, StrictDominance);
+            Population join = ranking.getSubfront(0).join(best.get(i), instances, this);
+            // now, apply the token competition to get the best population.
+            best.set(i, join.tokenCompetition(instances, this));
+        }
+    
 
-        Ranking ranking = new Ranking(poblac, Variables, num_objetivos, Examples.getNEx(), RulesRep, StrictDominance);
-        // now, apply the token competition to get the best population.
-        Population join = ranking.getSubfront(0).join(best, Examples, Variables, this);
-        best = join.tokenCompetition(Examples, Variables, this);
 
         contents = "\nGenetic Algorithm execution finished\n";
         contents += "\tNumber of Generations = " + Gen + "\n";
@@ -688,7 +684,17 @@ public class Genetic {
         File.AddtoFile(nFile, contents);
 
         //return ranking.getSubfront(0);
-        return best;
+        // join all the individuals in a single population
+        Population toReturn = new Population(long_poblacion * inst.numClasses(), inst.numInputAttributes(), getNumObjectives(), instances.size(), inst);
+        int conta = 0;
+        for(Population pop: best){
+            for(int i = 0; i < pop.getNumIndiv(); i++){
+                toReturn.CopyIndiv(conta, instances.size(), getNumObjectives(), pop.getIndiv(i));
+                conta++;
+            }
+        }
+        
+        return toReturn;
     }
 
     /**
@@ -719,7 +725,7 @@ public class Genetic {
             for (int conta = 0; conta < poblac.getNumIndiv(); conta++) {
 
                 Individual indi = null;
-                if (RulesRep.compareTo("CAN") == 0) {
+                if (getRulesRep().compareTo("CAN") == 0) {
                     indi = new IndCAN(Variables.getNVars(), Examples.getNEx(), num_objetivos);
                 } else {
                     indi = new IndDNF(Variables.getNVars(), Examples.getNEx(), num_objetivos, Variables);
@@ -1300,6 +1306,20 @@ public class Genetic {
             Files.addToFile(nameFileOutputTra, contents);
         }
 
+    }
+
+    /**
+     * @return the RulesRep
+     */
+    public String getRulesRep() {
+        return RulesRep;
+    }
+
+    /**
+     * @param RulesRep the RulesRep to set
+     */
+    public void setRulesRep(String RulesRep) {
+        this.RulesRep = RulesRep;
     }
 
 }
