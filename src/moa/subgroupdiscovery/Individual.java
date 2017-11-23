@@ -287,7 +287,7 @@ public abstract class Individual {
      */
     public abstract void setCromGeneElem(int pos, int elem, boolean val);
 
-    //public abstract CromCAN getIndivCromCAN();
+    public abstract CromCAN getIndivCromCAN();
     
     /**
      * Gets the chromosome

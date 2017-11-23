@@ -73,6 +73,7 @@ public class Ranking {
           flagDominate = 0;//compareConstraint(pop.getIndiv(p), pop.getIndiv(q));
         //flagDominate = constraint_.compare(solutionSet.get(p),solutionSet.get(q));
         if (flagDominate == 0) {
+            System.out.println("DEBUG: Ranking -> nobj: " + nobj + " - " + p + " - " + q);
             flagDominate = compareDominance(pop.getIndiv(p), p, pop.getIndiv(q), q,nobj, SDomin);
         }
 
@@ -207,6 +208,8 @@ public class Ranking {
       int dominate2 ; // is the complementary of dominate1.
       Individual solution1 = (Individual) a;
       Individual solution2 = (Individual) b;
+      
+      System.out.println("DEBUG: compareDominance -> " + a.objs.size() + "  -  " + b.objs.size());
 
       dominate1 = 0 ;
       dominate2 = 0 ;
@@ -221,7 +224,7 @@ public class Ranking {
       }*/
 
       // Equal number of violated constraint. Apply a dominance Test
-      double value1, value2;
+      double value1, value2; 
 
       //QualityMeasures medidas = new QualityMeasures(nobj);
       for (int i = 0; i < nobj; i++) {

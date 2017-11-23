@@ -205,9 +205,9 @@ public class CromCAN {
                 if (aux.attribute(num_var).isNumeric()) { //Continuous variable
                     // Put in the correspondent interval 
                     float pertenencia=0, new_pert=0;
-                    int interv = Variables.getNLabelVar(num_var);
-                    for (int i=0; i < Variables.getNLabelVar(num_var); i++) {
-                        new_pert = Variables.Fuzzy(num_var,i,(int) Examples.getDat(aleatorio, num_var));
+                    int interv = StreamMOEAEFEP.nLabel;
+                    for (int i=0; i < interv; i++) {
+                        new_pert = StreamMOEAEFEP.Fuzzy(num_var,i, instances.get(aleatorio).valueInputAttribute(num_var));
                         if (new_pert>pertenencia) {
                             interv = i;
                             pertenencia = new_pert;
@@ -216,7 +216,7 @@ public class CromCAN {
                     cromosoma[num_var] = interv;
                 } else { //Discrete variable
                     // Put in the correspondent value //
-                    cromosoma[num_var] = (int) Examples.getDat(aleatorio, num_var);
+                    cromosoma[num_var] = (int) instances.get(aleatorio).valueInputAttribute(num_var);
                 }
                 crom_inic[num_var]=true;
                 var++;
@@ -226,8 +226,8 @@ public class CromCAN {
         // Initialise the rest variables
         for (int i=0; i<num_genes; i++)  {
             if (crom_inic[i]==false) {
-                if(Variables.getContinuous(i)) cromosoma[i] = Variables.getNLabelVar(i);
-                else cromosoma[i] = (int) Variables.getMax(i)+1;
+                if(aux.attribute(i).isNumeric()) cromosoma[i] = StreamMOEAEFEP.nLabel;
+                else cromosoma[i] = (int) aux.attribute(i).numValues();
             }
         }
     }

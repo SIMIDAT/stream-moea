@@ -161,7 +161,7 @@ public class StreamMOEAEFEP extends AbstractClassifier{
         
         if(dataChunk.size() < period.getValue()){
             //Accumulate the data in the array
-            dataChunk.add(inst);
+            dataChunk.add(inst); 
             Double cl = inst.valueOutputAttribute(0);
             EjClass.set(cl.intValue(), EjClass.get(cl.intValue()) + 1);
         } else {
@@ -172,8 +172,18 @@ public class StreamMOEAEFEP extends AbstractClassifier{
                 InitSemantics(dataChunk, nLabels.getValue(), baseDatos);
             }
             
-            // initialize the genetic algorithm
+            // initialize the genetic algorithm and set its parameters
+            Genetic GA = new Genetic();
+            GA.setObjectives(objectives);
+            GA.setLengthPopulation(populationSize.getValue());
+            GA.setNEval(5000); // Hay que cambiar por generaciones y poner la opción aqui
+            GA.setProbCross(((Double) crossPob.getValue()).floatValue());
+            GA.setProbMutation(((Double) mutProb.getValue()).floatValue());
+            GA.setRulesRep("DNF"); // Poner parametro y cambiar
             
+            
+            Population result = GA.GeneticAlgorithm(dataChunk, "");
+            System.out.println("Exito!");
             
             // Discard the data chunk and increment time
             dataChunk.clear();

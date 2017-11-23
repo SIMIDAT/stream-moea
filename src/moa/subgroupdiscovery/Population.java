@@ -11,6 +11,7 @@ import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Vector;
+import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 
 public class Population {
 
@@ -98,15 +99,18 @@ public class Population {
      * @param Examples Examples structure
      * @return Number of evaluations performed
      */
-    public int evalPop(Genetic AG, ArrayList<Instance> Examples) {
+    public int evalPop(Genetic AG, ArrayList<Instance> Examples, ArrayList<QualityMeasure> objectives) {
         
         int trials = 0;
-
-        for (int i = 0; i < AG.getLengthPopulation(); i++) {
+        //System.out.println("Debug: NumIndividuals: " + this.getNumIndiv());
+        for (int i = 0; i < this.num_indiv; i++) {
+            //System.out.println("DEBUG: Individual " + i + " Objs_size: "+ indivi[i].objs.size());
             if (!getIndivEvaluated(i)) {     // Not evaluated
                 
                 // Cambiar en la clase Genetic para que pueda almacenar los objetivos por defecto.
-                indivi[i].evalInd(Examples, objs);
+                indivi[i].evalInd(Examples, objectives);
+                System.out.println("DEBUG: Individual " + i + " evaluated: " + indivi[i].objs.get(0).getValue() + "   " + indivi[i].objs.get(1).getValue());
+                
                 setIndivEvaluated(i, true);   /* Now it is evaluated */
 
                 indivi[i].setNEval(AG.getTrials());
@@ -397,7 +401,7 @@ public class Population {
      */
     public Population join(Population other, ArrayList<Instance> Examples, Genetic GA){
        Instance aux = Examples.get(0);
-       Population result = new Population(num_indiv + other.num_indiv, aux.numInputAttributes(), GA.getNumObjectives(), Examples.size());
+       Population result = new Population( + other.num_indiv, aux.numInputAttributes(), GA.getNumObjectives(), Examples.size(), aux);
        int conta = 0;
        for(int i = 0; i < num_indiv; i++){
            result.CopyIndiv(conta, Examples.size(), GA.getNumObjectives(), indivi[i]);
@@ -422,7 +426,7 @@ public class Population {
                 reglas.add(indivi[i]);
             }
         }
-        Population result = new Population(num_indiv - cuenta, aux.numInputAttributes(), GA.getNumObjectives(), Examples.size());
+        Population result = new Population(num_indiv - cuenta, aux.numInputAttributes(), GA.getNumObjectives(), Examples.size(), aux);
         for(int i = 0; i < reglas.size(); i++){
             result.CopyIndiv(i, Examples.size(), GA.getNumObjectives(), reglas.get(i));
         }

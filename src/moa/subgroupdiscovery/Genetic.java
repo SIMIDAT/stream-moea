@@ -10,6 +10,7 @@ package moa.subgroupdiscovery;
 import com.yahoo.labs.samoa.instances.Instance;
 import org.core.*;
 import java.util.*;
+import moa.subgroupdiscovery.qualitymeasures.NULL;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 
 public class Genetic {
@@ -313,11 +314,10 @@ public class Genetic {
         int i, j, k;
         for (i = 0; i < union.size(); i++) {
             for (j = 0; j < long_poblacion; j++) {
-                union.get(i).CopyIndiv(i, neje, getNumObjectives(), poblac.get(i).getIndiv(i));
+                union.get(i).CopyIndiv(i, neje, getNumObjectives(), poblac.get(i).getIndiv(j));
             }
-            j = 0;
-            for (j = long_poblacion; j < (long_poblacion * 2); j++) {
-                union.get(i).CopyIndiv(i, neje, getNumObjectives(), offspring.get(i).getIndiv(j));
+            for (k = 0; k < long_poblacion; k++) {
+                union.get(i).CopyIndiv(j, neje, getNumObjectives(), offspring.get(i).getIndiv(k));
                 j++;
             }
         }
@@ -417,7 +417,11 @@ public class Genetic {
                     offspring.get(clas).setCromElem((contador * 2) + 1, i, number, 1);
                 }
             }
+            offspring.get(clas).setIndivEvaluated(contador*2, false);
+            offspring.get(clas).setIndivEvaluated(contador*2 + 1, false);
         }
+        
+        
 
     }
 
@@ -524,36 +528,55 @@ public class Genetic {
         float porcPob = (float) 0.75;
         int indivPerClass = long_poblacion / inst.numClasses();
         int modulus = long_poblacion % inst.numClasses();
-
+        
+       
+        
         // Initialises the population
         poblac = new ArrayList<>(inst.numClasses());
-        for (int i = 0; i < poblac.size(); i++) {
-            poblac.set(i, new Population(long_poblacion, inst.numInputAttributes(), getNumObjectives(), instances.size(), inst));
+        offspring = new ArrayList<>(inst.numClasses());
+        union = new ArrayList<>(inst.numClasses());
+        
+        System.out.println("DEBUG: initializing genetic algorithm");
+        System.out.println("DEBUG: NumObjectives: " + getNumObjectives());
+        System.out.println("DEBUG: NumClass: " + inst.numClasses());
+        
+        for (int i = 0; i < inst.numClasses(); i++) {
+            poblac.add(new Population(long_poblacion, inst.numInputAttributes(), getNumObjectives(), instances.size(), inst));
             poblac.get(i).BsdInitPob(inst, porcVar, porcPob, instances.size(), nFile);
         }
-
+        
+        System.out.println("DEBUG: poblacSize: " + poblac.size());
+        System.out.println("DEBUG: Populations created and intialised correctly.");
+        
+        
         Trials = 0;
         Gen = 0;
 
         //Evaluates the population
+        System.out.println("DEBUG: Starting the evaluation of the Populations...");
+        System.out.println("DEBUG: poblacSize: " + poblac.size());
         for (int i = 0; i < poblac.size(); i++) {
-            Trials += poblac.get(i).evalPop(this, instances);
-        }
+            Trials += poblac.get(i).evalPop(this, instances, objectives);
+        } 
 
-        do { // GA General cycle
+        do { // Genetic Algorithm General cycle
 
             Gen++;
-
+            offspring.clear();
+            union.clear();
+            
             // Creates offspring and union
+            System.out.println("DEBUG: Generating offspring and union...");
             for (int i = 0; i < inst.numClasses(); i++) {
-                offspring.set(i, new Population(long_poblacion, inst.numInputAttributes(), getNumObjectives(), instances.size(), inst));
-                union.set(i, new Population(2 * long_poblacion, inst.numInputAttributes(), getNumObjectives(), instances.size(), inst));
+                offspring.add(new Population(long_poblacion, inst.numInputAttributes(), getNumObjectives(), instances.size(), inst));
+                union.add(new Population(2 * long_poblacion, inst.numInputAttributes(), getNumObjectives(), instances.size(), inst));
             }
 
             for (int clas = 0; clas < inst.numClasses(); clas++) {
                 for (int conta = 0; conta < long_poblacion / 2; conta++) {
 
                     // Select the daddy and mummy
+                    System.out.println("DEBUG: Select...");
                     int dad = Select(clas);
                     int mum = Select(clas);
                     while ((dad == mum) && (poblac.get(clas).getNumIndiv() > 1)) {
@@ -561,9 +584,11 @@ public class Genetic {
                     }
 
                     // Crosses
+                    System.out.println("DEBUG: Cross...");
                     CrossMultipoint(inst, clas, dad, mum, conta, instances.size());
 
                     // Mutates
+                    System.out.println("DEBUG: Mutation...");
                     Mutation(inst, clas, (conta * 2));
                     Mutation(inst, clas, (conta * 2) + 1);
                 }
@@ -575,15 +600,25 @@ public class Genetic {
             }
 
             // Evaluates the offspring
+            System.out.println("DEBUG: Evaluation of the offspring...");
             for (int clas = 0; clas < inst.numClasses(); clas++) {
-                Trials += offspring.get(clas).evalPop(this, instances);
+                Trials += offspring.get(clas).evalPop(this, instances, objectives);
             }
 
             // Join population and offspring in union population
+            System.out.println("DEBUG: Join offspring and pop in union...");
             JoinTemp(instances.size());
-
+            
+            /*
+            for(int i = 0; i < union.size(); i++)
+                for (int j = 0; j < union.get(i).getNumIndiv(); j++)
+                     System.out.println("DEBUG: UNION (" + i + "," + j + "): " + union.get(i).getIndiv(i).objs.size());
+            */
+           
+            
             for (int clas = 0; clas < inst.numClasses(); clas++) {
                 // Makes the ranking of union
+                System.out.println("DEBUG: Ranking for class..." + clas);
                 Ranking ranking = new Ranking(union.get(clas), inst, getNumObjectives(), instances.size(), RulesRep, StrictDominance);
 
                 int remain = poblac.get(clas).getNumIndiv();
@@ -593,7 +628,8 @@ public class Genetic {
                 Population front = ranking.getSubfront(index);
 
                 int contador = 0;
-
+                
+                System.out.println("DEBUG: Adding fronts...");
                 while ((remain > 0) && (remain >= front.getNumIndiv())) {
 
                     CalculateDistanceCrowding(front, getNumObjectives());
@@ -619,6 +655,7 @@ public class Genetic {
                     } // if
                 } // while
                 // remain is less than front(index).size, insert only the best one
+                System.out.println("DEBUG: Adding remaining individuals of a front...");
                 if (remain > 0) {  // front contains individuals to insert                        
 
                     // Assign diversity function to individuals
@@ -650,12 +687,15 @@ public class Genetic {
                 } else {
                     // If it is not the first generation:
                     // See if the population evolves (i.e. it covers new examples)
+                    System.out.println("DEBUG: Check reinit...");
                     poblac.get(clas).examplesCoverPopulation(instances.size(), Trials);
                     double pctCambio = (n_eval * 5) / 100;
                     // If the population does not evolve for a 5 % of the total evaluations
                     if (Trials - poblac.get(clas).getLastChangeEval() > pctCambio) {
+                        System.out.println("DEBUG: Elite... JOIN");
                         // Join the elite population and the pareto front
                         Population join = best.get(clas).join(ranking.getSubfront(0), instances, this);
+                        System.out.println("DEBUG: Elite... Token Competition");
                         // best is a new population made by the token competition procedure.
                         best.set(clas, join.tokenCompetition(instances, this));
                     }
@@ -710,6 +750,7 @@ public class Genetic {
      */
     private Population ReInitCoverage(Population poblac, ArrayList<Instance> instances, String nFile) {
         Instance aux = instances.get(0);
+        System.out.println("DEBUG: Check for reinitialization...");
         poblac.examplesCoverPopulation(instances.size(), Trials);
 
         // Checks the difference between the last and actual evaluations
@@ -722,6 +763,7 @@ public class Genetic {
 //                marcas = RemoveRepeatedDNF(poblac, Variables);
 //            }
             // Generates new individuals
+            System.out.println("DEBUG: Reinitialize...");
             for (int conta = 0; conta < poblac.getNumIndiv(); conta++) {
 
                 Individual indi = null;
@@ -1162,7 +1204,7 @@ public class Genetic {
      * degrees per class
      * @param classNames Array with names of the classes.
      */
-    public void CalcPobOutput(String nameFileOutputTra, Population[] pob, TableDat Examples, TableVar Variables, String classificationType, String[] classNames, String contents) { // al genetic
+    /*public void CalcPobOutput(String nameFileOutputTra, Population[] pob, TableDat Examples, TableVar Variables, String classificationType, String[] classNames, String contents) { // al genetic
 
         float pertenencia, pert;
         CromCAN chrome;
@@ -1203,7 +1245,7 @@ public class Genetic {
 
                         if (!Variables.getContinuous(k)) {
                             /* Discrete Variable */
-
+    /*
                             if (chrome.getCromElem(k) <= Variables.getMax(k)) {
                                 // Variable j takes part in the rule
                                 if ((Examples.getDat(i, k)) != chrome.getCromElem(k) && (!Examples.getLost(Variables, i, k))) {
@@ -1312,7 +1354,7 @@ public class Genetic {
             Files.addToFile(nameFileOutputTra, contents);
         }
 
-    }
+    }*/
 
     /**
      * @return the RulesRep
@@ -1326,6 +1368,16 @@ public class Genetic {
      */
     public void setRulesRep(String RulesRep) {
         this.RulesRep = RulesRep;
+    }
+    
+    public void setObjectives(ArrayList<QualityMeasure> objectives){
+        if(this.objectives == null){
+            this.objectives = new ArrayList<>();
+        }
+        for (QualityMeasure obj : objectives){
+            if(! (obj instanceof NULL))
+               this.objectives.add(obj);
+        }
     }
 
 }

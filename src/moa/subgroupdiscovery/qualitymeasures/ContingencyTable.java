@@ -131,4 +131,8 @@ public class ContingencyTable {
         return (double)(fn + tp + tn +fp);
     }
     
+    
+    public String toString(){
+        return "TP: " + tp + "  FP: " + fp + "  TN: " + tn + "  FP: " + fp;
+    }
 }
