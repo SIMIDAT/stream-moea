@@ -109,7 +109,7 @@ public class Population {
                 
                 // Cambiar en la clase Genetic para que pueda almacenar los objetivos por defecto.
                 indivi[i].evalInd(Examples, objectives);
-                System.out.println("DEBUG: Individual " + i + " evaluated: " + indivi[i].objs.get(0).getValue() + "   " + indivi[i].objs.get(1).getValue());
+                //System.out.println("DEBUG: Individual " + i + " evaluated: " + indivi[i].objs.get(0).getValue() + "   " + indivi[i].objs.get(1).getValue());
                 
                 setIndivEvaluated(i, true);   /* Now it is evaluated */
 
@@ -401,7 +401,7 @@ public class Population {
      */
     public Population join(Population other, ArrayList<Instance> Examples, Genetic GA){
        Instance aux = Examples.get(0);
-       Population result = new Population( + other.num_indiv, aux.numInputAttributes(), GA.getNumObjectives(), Examples.size(), aux);
+       Population result = new Population( this.num_indiv + other.num_indiv, aux.numInputAttributes(), GA.getNumObjectives(), Examples.size(), aux);
        int conta = 0;
        for(int i = 0; i < num_indiv; i++){
            result.CopyIndiv(conta, Examples.size(), GA.getNumObjectives(), indivi[i]);

@@ -303,7 +303,7 @@ public class IndDNF extends Individual {
             }*/
             
         }
-        System.out.println("DEBUG: " + confMatrix);
+        //System.out.println("DEBUG: " + confMatrix);
         // Compute the objective quality measures
         if(this.objs.isEmpty()){
             objs.forEach((q) -> {

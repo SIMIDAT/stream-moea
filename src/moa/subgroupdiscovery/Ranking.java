@@ -73,7 +73,7 @@ public class Ranking {
           flagDominate = 0;//compareConstraint(pop.getIndiv(p), pop.getIndiv(q));
         //flagDominate = constraint_.compare(solutionSet.get(p),solutionSet.get(q));
         if (flagDominate == 0) {
-            System.out.println("DEBUG: Ranking -> nobj: " + nobj + " - " + p + " - " + q);
+            //System.out.println("DEBUG: Ranking -> nobj: " + nobj + " - " + p + " - " + q);
             flagDominate = compareDominance(pop.getIndiv(p), p, pop.getIndiv(q), q,nobj, SDomin);
         }
 
@@ -116,7 +116,7 @@ public class Ranking {
     int contador;
     //0,1,2,....,i-1 are front, then i fronts
     for (int j = 0; j < i; j++) {
-      ranking[j] = new Population(front[j].size(), inst.numAttributes(), nobj, neje, inst);
+      ranking[j] = new Population(front[j].size(), inst.numInputAttributes(), nobj, neje, inst);
       it1 = front[j].iterator();
       contador = 0;
       while (it1.hasNext()) {
@@ -209,7 +209,7 @@ public class Ranking {
       Individual solution1 = (Individual) a;
       Individual solution2 = (Individual) b;
       
-      System.out.println("DEBUG: compareDominance -> " + a.objs.size() + "  -  " + b.objs.size());
+      //System.out.println("DEBUG: compareDominance -> " + a.objs.size() + "  -  " + b.objs.size());
 
       dominate1 = 0 ;
       dominate2 = 0 ;
