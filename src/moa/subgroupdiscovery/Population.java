@@ -72,19 +72,19 @@ public class Population {
      * @param neje Number of examples
      * @param nFile File to write the population
      */
-    public void BsdInitPob(Instance inst, float porcVar, float porcPob, int neje, String nFile) {
+    public void BsdInitPob(Instance inst, float porcVar, float porcPob, int neje, String nFile, int clas) {
         String contents;
         float parteSesg = porcPob * num_indiv;
         int i, j;
 
         for (i = 0; i < parteSesg; i++) {
             contents = "Individuo(s) " + i + ": ";
-            indivi[i].BsdInitInd(inst, porcVar, neje, nFile);
+            indivi[i].BsdInitInd(inst, porcVar, neje, nFile, clas);
         }
         for (j = i; j < num_indiv; j++) {
-            indivi[j].RndInitInd(inst, neje, nFile);
+            indivi[j].RndInitInd(inst, neje, nFile, clas);
         }
-
+        
         num_used = num_indiv;
         ej_cubiertos.clear(0, neje);
     }

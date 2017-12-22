@@ -1,0 +1,44 @@
+
+--------------------------------------------
+|  Semantics for the continuous variables  |
+--------------------------------------------
+Fuzzy sets parameters for variable att1:
+	Label 0: -2.28272 -0.90862733 0.4654654
+	Label 1: -0.90862733 0.4654654 1.8395581
+	Label 2: 0.4654654 1.8395581 3.2136507
+Fuzzy sets parameters for variable att2:
+	Label 0: -1.7463784 -0.5991195 0.5481394
+	Label 1: -0.5991195 0.5481394 1.6953983
+	Label 2: 0.5481394 1.6953983 2.8426573
+Fuzzy sets parameters for variable att3:
+	Label 0: -2.5888352 -1.1793611 0.23011301
+	Label 1: -1.1793611 0.23011301 1.6395872
+	Label 2: 0.23011301 1.6395872 3.0490613
+Fuzzy sets parameters for variable att4:
+	Label 0: -2.2606606 -0.91825944 0.4241418
+	Label 1: -0.91825944 0.4241418 1.766543
+	Label 2: 0.4241418 1.766543 3.1089442
+Fuzzy sets parameters for variable att5:
+	Label 0: -1.7299992 -0.5603268 0.60934544
+	Label 1: -0.5603268 0.60934544 1.7790178
+	Label 2: 0.60934544 1.7790178 2.94869
+Fuzzy sets parameters for variable att6:
+	Label 0: -2.1630623 -0.81346595 0.53613037
+	Label 1: -0.81346595 0.53613037 1.8857267
+	Label 2: 0.53613037 1.8857267 3.235323
+Fuzzy sets parameters for variable att7:
+	Label 0: -1.8563068 -0.66485524 0.5265963
+	Label 1: -0.66485524 0.5265963 1.7180479
+	Label 2: 0.5265963 1.7180479 2.9094994
+Fuzzy sets parameters for variable att8:
+	Label 0: -3.0419223 -1.4050113 0.23189966
+	Label 1: -1.4050113 0.23189966 1.8688107
+	Label 2: 0.23189966 1.8688107 3.5057216
+Fuzzy sets parameters for variable att9:
+	Label 0: -2.2410138 -0.8256916 0.5896307
+	Label 1: -0.8256916 0.5896307 2.004953
+	Label 2: 0.5896307 2.004953 3.4202752
+Fuzzy sets parameters for variable att10:
+	Label 0: -2.448525 -1.079883 0.28875917
+	Label 1: -1.079883 0.28875917 1.6574013
+	Label 2: 0.28875917 1.6574013 3.0260434

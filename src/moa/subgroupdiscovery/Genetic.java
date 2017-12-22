@@ -519,9 +519,10 @@ public class Genetic {
      *
      * @param instances A set of instances
      * @param nFile File to write the process
+     * @param previous The population obtained 
      * @return Final Pareto population
      */
-    public Population GeneticAlgorithm(ArrayList<Instance> instances, String nFile) {
+    public Population GeneticAlgorithm(ArrayList<Instance> instances, String nFile, Population previous) {
         Instance inst = instances.get(0);
         String contents;
         float porcVar = (float) 0.25;
@@ -543,7 +544,7 @@ public class Genetic {
         
         for (int i = 0; i < inst.numClasses(); i++) {
             poblac.add(new Population(long_poblacion, inst.numInputAttributes(), getNumObjectives(), instances.size(), inst));
-            poblac.get(i).BsdInitPob(inst, porcVar, porcPob, instances.size(), nFile);
+            poblac.get(i).BsdInitPob(inst, porcVar, porcPob, instances.size(), nFile, i);
         }
         
         //System.out.println("DEBUG: poblacSize: " + poblac.size());
@@ -719,14 +720,19 @@ public class Genetic {
     
 
 
-        contents = "\nGenetic Algorithm execution finished\n";
+       /* contents = "\nGenetic Algorithm execution finished\n";
         contents += "\tNumber of Generations = " + Gen + "\n";
         contents += "\tNumber of Evaluations = " + Trials + "\n";
-        File.AddtoFile(nFile, contents);
+        System.out.println(contents);*/
+        //File.AddtoFile(nFile, contents);
 
         //return ranking.getSubfront(0);
         // join all the individuals in a single population
-        Population toReturn = new Population(long_poblacion * inst.numClasses(), inst.numInputAttributes(), getNumObjectives(), instances.size(), inst);
+        int sum = 0;
+        for(Population pop: best){
+            sum += pop.getNumIndiv();
+        }
+        Population toReturn = new Population(sum, inst.numInputAttributes(), getNumObjectives(), instances.size(), inst);
         int conta = 0;
         for(Population pop: best){
             for(int i = 0; i < pop.getNumIndiv(); i++){

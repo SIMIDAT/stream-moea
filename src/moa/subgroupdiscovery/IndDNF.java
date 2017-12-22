@@ -63,12 +63,13 @@ public class IndDNF extends Individual {
      * @param nFile                 File to write the individual
      */
     @Override
-    public void RndInitInd(Instance inst, int neje, String nFile) {
+    public void RndInitInd(Instance inst, int neje, String nFile, int clas) {
         cromosoma.RndInitCrom();        // Random initialization method
         evaluado = false;               // Individual not evaluated
         cubre.clear(0, neje);
         crowdingDistance = 0.0;
         n_eval = 0;
+        this.clas = clas;
     }
 
     /**
@@ -81,12 +82,12 @@ public class IndDNF extends Individual {
      * @param nFile                 File to write the individual
      */
     @Override
-    public void BsdInitInd(Instance inst, float porcVar, int neje, String nFile) {
+    public void BsdInitInd(Instance inst, float porcVar, int neje, String nFile, int clas) {
 
         cromosoma.BsdInitCrom(inst, porcVar);  // Random initialization method
         evaluado = false;                           // Individual not evaluated
         cubre.set(0,neje);
-          
+        this.clas = clas;
         crowdingDistance = 0.0;
         n_eval = 0;
     }
@@ -107,7 +108,7 @@ public class IndDNF extends Individual {
         
         cromosoma.CobInitCrom(pop, Examples, porcCob, nobj, clas);
         evaluado = false;
-
+        this.clas = clas;
         cubre.clear(0, Examples.size());
 
         crowdingDistance = 0.0;
@@ -213,6 +214,8 @@ public class IndDNF extends Individual {
         this.conf = (Confidence) a.conf.copy();
         
         this.setNEval(a.getNEval());
+        
+        this.clas = a.clas;
 
     }
 

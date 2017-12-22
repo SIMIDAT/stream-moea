@@ -85,8 +85,9 @@ public abstract class Individual {
      * @param inst
      * @param neje
      * @param nFile 
+     * @param clas 
      */
-    public abstract void RndInitInd(Instance inst, int neje, String nFile);
+    public abstract void RndInitInd(Instance inst, int neje, String nFile, int clas);
 
     
     /**
@@ -97,8 +98,9 @@ public abstract class Individual {
      * @param porcVar
      * @param neje
      * @param nFile 
+     * @param clas 
      */
-    public abstract void BsdInitInd(Instance inst, float porcVar, int neje, String nFile);
+    public abstract void BsdInitInd(Instance inst, float porcVar, int neje, String nFile, int clas);
 
     /**
      * Initialisation based on coverture, the individual is initialized with the idea

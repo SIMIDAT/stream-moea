@@ -18,6 +18,7 @@ import moa.evaluation.LearningCurve;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 import moa.subgroupdiscovery.qualitymeasures.WRAccNorm;
 import moa.options.ClassOption;
+import org.core.File;
 
 /**
  *
@@ -90,6 +91,11 @@ public class StreamMOEAEFEP extends AbstractClassifier{
     protected AutoExpandVector<Instance> dataChunk;
     
     /**
+     * The vector that forms the test data 
+     */
+    protected AutoExpandVector<Instance> testChunk;
+    
+    /**
      * It counts the number of examples of each class in the chunk of data
      */
     protected static ArrayList<Integer> EjClass;
@@ -124,6 +130,11 @@ public class StreamMOEAEFEP extends AbstractClassifier{
      * Stores the time, i.e., the number of microbatches processed.
      */
     protected static long timestamp = 0;
+    
+    /**
+     * The previous population obtained in T-1
+     */
+    protected Population previousPopulation = null;
 
     
     @Override
@@ -145,6 +156,7 @@ public class StreamMOEAEFEP extends AbstractClassifier{
         objectives.add((QualityMeasure) getPreparedClassOption(Obj2));
         objectives.add((QualityMeasure) getPreparedClassOption(Obj3));
         diversityMeasure = (QualityMeasure) getPreparedClassOption(diversity);
+        System.out.println("Executing the Stream-MOEA algorithm...");
     }
 
     @Override
@@ -173,6 +185,7 @@ public class StreamMOEAEFEP extends AbstractClassifier{
             }
             
             // initialize the genetic algorithm and set its parameters
+            System.out.println("Processing Time " + timestamp + "...");
             Genetic GA = new Genetic();
             GA.setObjectives(objectives);
             GA.setLengthPopulation(populationSize.getValue());
@@ -181,11 +194,18 @@ public class StreamMOEAEFEP extends AbstractClassifier{
             GA.setProbMutation(((Double) mutProb.getValue()).floatValue());
             GA.setRulesRep("DNF"); // Poner parametro y cambiar
             
+            // Initialise the genetic algorithm with the population in t-1
+            previousPopulation = GA.GeneticAlgorithm(dataChunk, "", previousPopulation);
             
-            Population result = GA.GeneticAlgorithm(dataChunk, "");
-            System.out.println("Exito!");
+            System.out.println("Rules generated: " + previousPopulation.getNumIndiv());
+            System.out.println("Testing rules...");
             
-            // Discard the data chunk and increment time
+            if(testChunk != null){
+                // TEST THE RULES AGAINST testChunk data
+            }
+
+            testChunk.clear();
+            testChunk.addAll(dataChunk);
             dataChunk.clear();
             timestamp++;
         } 
@@ -278,7 +298,8 @@ public class StreamMOEAEFEP extends AbstractClassifier{
                }
            } 
         }
-        System.out.println(contents);
+        //System.out.println(contents);
+        File.writeFile("FuzzySemantics.txt", contents);
     }
     
     

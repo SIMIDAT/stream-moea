@@ -68,12 +68,13 @@ public class IndCAN extends Individual {
      * @param nFile                 File to write the individual
      */
     @Override
-    public void RndInitInd(Instance inst, int neje, String nFile) {
+    public void RndInitInd(Instance inst, int neje, String nFile, int clas) {
         cromosoma.RndInitCrom(inst, StreamMOEAEFEP.nLabel);  // Random initialization method
         evaluado = false;                  // Individual not evaluated
         cubre.clear(0,neje);
         crowdingDistance = 0.0;
         n_eval = 0;
+        this.clas = clas;
     }
 
 
@@ -87,7 +88,7 @@ public class IndCAN extends Individual {
      * @param nFile                 File to write the individual
      */
     @Override
-    public void BsdInitInd(Instance inst, float porcVar, int neje, String nFile) {
+    public void BsdInitInd(Instance inst, float porcVar, int neje, String nFile, int clas) {
 
         cromosoma.BsdInitCrom(inst, porcVar, StreamMOEAEFEP.nLabel);  // Random initialization method
         evaluado = false;                           // Individual not evaluated
@@ -162,6 +163,8 @@ public class IndCAN extends Individual {
         cubre.clear(0,Examples.size());
         crowdingDistance = 0.0;
         n_eval = 0;
+        
+        this.clas = clas;
     }
 
 
@@ -275,6 +278,8 @@ public class IndCAN extends Individual {
         this.objs = (ArrayList<QualityMeasure>) a.objs.clone();
         this.medidas = (ArrayList<QualityMeasure>) a.medidas.clone();
         this.conf = (Confidence) a.conf.copy();
+        
+        this.clas = a.clas;
         
         this.setNEval(a.getNEval());
     }
