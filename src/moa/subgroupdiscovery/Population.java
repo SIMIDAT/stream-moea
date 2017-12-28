@@ -108,7 +108,7 @@ public class Population {
             if (!getIndivEvaluated(i)) {     // Not evaluated
                 
                 // Cambiar en la clase Genetic para que pueda almacenar los objetivos por defecto.
-                indivi[i].evalInd(Examples, objectives);
+                indivi[i].evalInd(Examples, objectives, true);
                 //System.out.println("DEBUG: Individual " + i + " evaluated: " + indivi[i].objs.get(0).getValue() + "   " + indivi[i].objs.get(1).getValue());
                 
                 setIndivEvaluated(i, true);   /* Now it is evaluated */

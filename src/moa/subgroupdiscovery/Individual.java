@@ -311,7 +311,7 @@ public abstract class Individual {
      * @param Examples 
      * @param objs 
      */
-    public abstract void evalInd (ArrayList<Instance> Examples, ArrayList<QualityMeasure> objs);
+    public abstract void evalInd (ArrayList<Instance> Examples, ArrayList<QualityMeasure> objs, boolean isTrain);
     
     
     /**

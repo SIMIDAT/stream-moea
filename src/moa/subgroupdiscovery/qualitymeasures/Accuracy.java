@@ -60,5 +60,10 @@ public class Accuracy extends AbstractOptionHandler implements QualityMeasure{
     public double getValue() {
         return value;
     }
+
+    @Override
+    public String getName() {
+        return name;
+    }
     
 }

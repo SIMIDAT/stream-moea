@@ -783,7 +783,7 @@ public class Genetic {
                 
                 
                 /**/ // Esto de aquí hay que verlo CON EXTREMO CUIDADO!!
-                indi.evalInd(instances, objectives);
+                indi.evalInd(instances, objectives, true);
                 
                 
                

@@ -44,5 +44,12 @@ public class SuppDiff extends AbstractOptionHandler implements QualityMeasure{
     public double getValue() {
         return value;
     }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+    
+    
     
 }

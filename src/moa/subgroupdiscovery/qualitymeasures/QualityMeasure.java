@@ -56,5 +56,11 @@ public interface QualityMeasure extends OptionHandler{
     @Override
     public String toString();
     
+    /**
+     * Returns the name of the quality measure
+     * @return 
+     */
+    public String getName();
+    
    
 }

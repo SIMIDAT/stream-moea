@@ -294,7 +294,7 @@ public class IndCAN extends Individual {
      * @param Examples          Examples structure
      */
     @Override
-    public void evalInd (ArrayList<Instance> Examples, ArrayList<QualityMeasure> objs) {
+    public void evalInd (ArrayList<Instance> Examples, ArrayList<QualityMeasure> objs, boolean isTrain) {
           
         double disparoFuzzy, disparoCrisp;
         ContingencyTable confMatrix = new ContingencyTable(0, 0, 0, 0);

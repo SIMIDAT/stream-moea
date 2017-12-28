@@ -178,6 +178,32 @@ public class StreamMOEAEFEP extends AbstractClassifier{
             EjClass.set(cl.intValue(), EjClass.get(cl.intValue()) + 1);
         } else {
             
+            // Following the interleaved test-then-train schema:
+            // ---------------------------------------------
+            //  TEST THE NEW DATA
+            // ---------------------------------------------
+            
+            if(previousPopulation != null && baseDatos != null){
+                // test the data if there is a population and the fuzzy semantics are initialised
+                for(int i = 0; i < previousPopulation.getNumIndiv(); i++){
+                    // Evaluates the individuals agains the test data and show its measures
+                    previousPopulation.getIndiv(i).evalInd(dataChunk, objectives, false);
+                    
+                    // Show the test measures for this timestamp (We need how to save this results to further processing)
+                    System.out.println("Rule " + i + ": ");
+                    for(QualityMeasure q : previousPopulation.getIndiv(i).medidas){
+                        System.out.println("\t" + q.getName() + ": " + q.getValue());
+                    }
+                }
+            }
+            
+            
+            // Now, perform the training 
+            // ---------------------------------------------
+            // TRAIN THE MODEL WITH THE DATA
+            // ---------------------------------------------
+            
+            /// Initialize the genetic algorithm
             if(index == period.getValue()){
                 // initialize the fuzzy sets definitions (only once)
                 baseDatos = new Fuzzy[inst.numInputAttributes()][nLabels.getValue()];
@@ -198,14 +224,10 @@ public class StreamMOEAEFEP extends AbstractClassifier{
             previousPopulation = GA.GeneticAlgorithm(dataChunk, "", previousPopulation);
             
             System.out.println("Rules generated: " + previousPopulation.getNumIndiv());
-            System.out.println("Testing rules...");
-            
-            if(testChunk != null){
-                // TEST THE RULES AGAINST testChunk data
-            }
+          
 
-            testChunk.clear();
-            testChunk.addAll(dataChunk);
+            //testChunk.clear();
+            //testChunk.addAll(dataChunk);
             dataChunk.clear();
             timestamp++;
         } 
