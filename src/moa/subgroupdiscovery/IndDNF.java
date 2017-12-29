@@ -19,6 +19,7 @@ import moa.subgroupdiscovery.qualitymeasures.NULL;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 import org.core.File;
 import moa.subgroupdiscovery.qualitymeasures.ClassLoader;
+import org.core.Randomize;
 
 public class IndDNF extends Individual {
 
@@ -27,7 +28,6 @@ public class IndDNF extends Individual {
      * Defines the DNF individual of the population
      * </p>
      */
-
     public CromDNF cromosoma;   // Individual contents
 
     /**
@@ -341,14 +341,14 @@ public class IndDNF extends Individual {
         } else {
             try {
                 ArrayList<QualityMeasure> measures = ClassLoader.getClasses();
-                measures.forEach( q -> {
+                measures.forEach(q -> {
                     q.getValue(confMatrix);
                     this.medidas.add(q);
                 });
             } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
                 Logger.getLogger(IndDNF.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
 
         evaluado = true;
@@ -407,6 +407,74 @@ public class IndDNF extends Individual {
     @Override
     public CromCAN getIndivCromCAN() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     * Performs a two-point crossover between the elements of two indivualds. It
+     * returns two individuals of the same population
+     *
+     * @param dad
+     * @param mom
+     * @param inst
+     * @return
+     */
+    public static Individual[] crossTwoPoints(Individual dad, Individual mom, Instance inst) {
+        IndDNF dad1 = (IndDNF) dad;
+        IndDNF mom1 = (IndDNF) mom;
+
+        Individual[] offspring = {
+            new IndDNF(dad1.cromosoma.getCromLenght(), dad1.cubre.size(), dad1.objs.size(), inst, 0),
+            new IndDNF(mom1.cromosoma.getCromLenght(), mom1.cubre.size(), mom1.objs.size(), inst, 0)
+        };
+
+        offspring[0].copyIndiv(dad, dad1.objs.size(), dad1.cubre.size());
+        offspring[1].copyIndiv(mom, mom1.objs.size(), mom1.cubre.size());
+
+        // Generation of the two point of cross
+        int xpoint1 = Randomize.Randint(0, (dad1.cromosoma.getCromLenght() - 1));
+        int xpoint2;
+        if (xpoint1 != dad1.cromosoma.getCromLenght() - 1) {
+            xpoint2 = Randomize.Randint((xpoint1 + 1), (dad1.cromosoma.getCromLenght() - 1));
+        } else {
+            xpoint2 = dad1.cromosoma.getCromLenght() - 1;
+        }
+
+        // Cross the parts between both points
+        for (int i = xpoint1; i <= xpoint2; i++) {
+            int number = offspring[0].getIndivCromDNF().getCromGeneLenght(i);
+
+            for (int ii = 0; ii <= number; ii++) {
+                offspring[0].setCromGeneElem(i, ii, mom.getCromGeneElem(i, ii));
+                offspring[1].setCromGeneElem(i, ii, dad.getCromGeneElem(i, ii));
+            }
+
+            /*  This part is not necessary due to the whole variable is changed, and no modification about the partition state of the variable are possible.
+                int aux1 = 0;
+                int aux2 = 0;
+                for (int ii = 0; ii < number; ii++) {
+                    if (offspring.get(clas).getCromElem((contador * 2), i, ii) == 1) {
+                        aux1++;
+                    }
+                    if (offspring.get(clas).getCromElem((contador * 2) + 1, i, ii) == 1) {
+                        aux2++;
+                    }
+                }
+                if ((aux1 == number) || (aux1 == 0)) {
+                    offspring.get(clas).setCromElem((contador * 2), i, number, 0);
+                } else {
+                    offspring.get(clas).setCromElem((contador * 2), i, number, 1);
+                }
+                if ((aux2 == number) || (aux2 == 0)) {
+                    offspring.get(clas).setCromElem((contador * 2) + 1, i, number, 0);
+                } else {
+                    offspring.get(clas).setCromElem((contador * 2) + 1, i, number, 1);
+                }*/
+        }
+        
+        offspring[0].setIndivEvaluated(false);
+        offspring[1].setIndivEvaluated(false);
+        
+        return offspring;
     }
 
 }

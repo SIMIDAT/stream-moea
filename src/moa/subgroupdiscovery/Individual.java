@@ -323,6 +323,7 @@ public abstract class Individual {
      */
     public abstract int NumInterv (double valor, int num_var, Instance inst);
     
+    
     /**
      * Print the individual
      * @param nFile 

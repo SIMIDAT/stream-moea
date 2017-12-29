@@ -381,44 +381,15 @@ public class Genetic {
         cruce = Randomize.RanddoubleClosed(0.0, 1.0);
 
         if (cruce <= getProbCross()) {
-            // Generation of the two point of cross
-            xpoint1 = Randomize.RandintClosed(0, (inst.numInputAttributes() - 1));
-            if (xpoint1 != inst.numInputAttributes() - 1) {
-                xpoint2 = Randomize.Randint((xpoint1 + 1), (inst.numInputAttributes() - 1));
-            } else {
-                xpoint2 = inst.numInputAttributes() - 1;
-            }
-
-            // Cross the parts between both points
-            for (i = xpoint1; i <= xpoint2; i++) {
-                int number = offspring.get(clas).getIndivCromDNF(contador * 2).getCromGeneLenght(i);
-                for (int ii = 0; ii <= number; ii++) {
-                    offspring.get(clas).setCromElem((contador * 2), i, ii, poblac.get(clas).getCromElem(dad, i, ii));
-                    offspring.get(clas).setCromElem((contador * 2) + 1, i, ii, poblac.get(clas).getCromElem(mom, i, ii));
-                }
-                int aux1 = 0;
-                int aux2 = 0;
-                for (int ii = 0; ii < number; ii++) {
-                    if (offspring.get(clas).getCromElem((contador * 2), i, ii) == 1) {
-                        aux1++;
-                    }
-                    if (offspring.get(clas).getCromElem((contador * 2) + 1, i, ii) == 1) {
-                        aux2++;
-                    }
-                }
-                if ((aux1 == number) || (aux1 == 0)) {
-                    offspring.get(clas).setCromElem((contador * 2), i, number, 0);
-                } else {
-                    offspring.get(clas).setCromElem((contador * 2), i, number, 1);
-                }
-                if ((aux2 == number) || (aux2 == 0)) {
-                    offspring.get(clas).setCromElem((contador * 2) + 1, i, number, 0);
-                } else {
-                    offspring.get(clas).setCromElem((contador * 2) + 1, i, number, 1);
-                }
-            }
-            offspring.get(clas).setIndivEvaluated(contador*2, false);
-            offspring.get(clas).setIndivEvaluated(contador*2 + 1, false);
+            Individual[] newOff;
+           if(RulesRep.equalsIgnoreCase("CAN")){
+               newOff = IndCAN.crossTwoPoints(poblac.get(clas).getIndiv(dad), poblac.get(clas).getIndiv(mom));
+           } else {
+               newOff = IndDNF.crossTwoPoints(poblac.get(clas).getIndiv(dad), poblac.get(clas).getIndiv(mom), inst);
+           }
+           
+           offspring.get(clas).CopyIndiv(contador * 2 , neje, getNumObjectives(), newOff[0]);
+           offspring.get(clas).CopyIndiv(contador * 2 + 1, neje, getNumObjectives(), newOff[1]);
         }
         
         
@@ -775,7 +746,7 @@ public class Genetic {
 
                 Individual indi = null;
                 if (getRulesRep().compareTo("CAN") == 0) {
-                    //indi = new IndCAN(Variables.getNVars(), Examples.getNEx(), num_objetivos);
+                    indi = new IndCAN(aux.numInputAttributes(), instances.size(), objectives.size());
                 } else {
                     indi = new IndDNF(aux.numInputAttributes(), instances.size(), getNumObjectives(), aux, 0);
                 }

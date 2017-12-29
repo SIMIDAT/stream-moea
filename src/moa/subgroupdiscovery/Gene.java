@@ -9,6 +9,7 @@
 package moa.subgroupdiscovery;
 
 import org.core.*;
+import java.util.LinkedList;
 
 public class Gene {
     /**
@@ -33,7 +34,9 @@ public class Gene {
         num_elem = lenght;
         gen = new boolean [lenght+1];
     }
-
+        
+    
+    
     /**
      * <p>
      * Random initialization of an existing gene
@@ -42,7 +45,7 @@ public class Gene {
     public void RndInitGene() {
         double aux;
         int interv=0;
-
+        java.util.BitSet a; 
         for (int i=0; i<num_elem; i++) {  // Gene num_elem
             aux = Randomize.Randdouble(0.0,1.0);
             // Rand returns a random doble from 0 to 1, including 0 but excluding 1
