@@ -325,6 +325,22 @@ public abstract class Individual {
     
     
     /**
+     * It applies the mutation operator over all genes of an individual, according to the mutation probability
+     * 
+     * @return A copy of the mutated individual.
+     */
+    public abstract void mutate(Instance inst, float mutProb);
+    
+    
+    /**
+     * It performs the mutation operator over a gene of the individual, with a 100% of probability of application
+     * 
+     * @return A copy of the mutated individual.
+     */
+    public abstract void mutate(Instance inst, int pos);
+    
+    
+    /**
      * Print the individual
      * @param nFile 
      */

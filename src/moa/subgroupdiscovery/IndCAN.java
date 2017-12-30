@@ -24,7 +24,6 @@ public class IndCAN extends Individual {
      * Defines the individual of the population
      * </p>
      */
-
     public CromCAN cromosoma;   // Individual contents
 
     /**
@@ -460,11 +459,11 @@ public class IndCAN extends Individual {
             new IndCAN(dad1.cromosoma.getCromLength(), dad1.cubre.size(), dad1.objs.size()),
             new IndCAN(mom1.cromosoma.getCromLength(), mom1.cubre.size(), mom1.objs.size())
         };
-        
+
         // Copy parents to the offspring (they will be modified later)
         offspring[0].copyIndiv(dad, dad1.objs.size(), dad1.cubre.size());
         offspring[1].copyIndiv(mom, mom1.objs.size(), mom1.cubre.size());
-        
+
         // Select the two point to cross
         int xpoint1 = Randomize.Randint(0, dad1.cromosoma.getCromLength() - 1);
         int xpoint2;
@@ -480,11 +479,62 @@ public class IndCAN extends Individual {
             offspring[1].setCromElem(i, dad.getCromElem(i));
             offspring[0].setCromElem(i, mom.getCromElem(i));
         }
-        
+
         offspring[0].setIndivEvaluated(false);
         offspring[1].setIndivEvaluated(false);
-        
+
         return offspring;
+    }
+
+    @Override
+    public void mutate(Instance inst, float mutProb) {
+        for (int pos = 0; pos < inst.numInputAttributes(); pos++) {
+            if (Randomize.Randdouble(0.0, 1.0) <= mutProb) {
+                // MUTATES THE GENE
+                if (Randomize.Randint(0, 10) <= 5) {
+                    // REMOVE THE SELECTED VARIABLE 
+                    if (inst.attribute(pos).isNumeric()) {
+                        cromosoma.setCromElem(pos, StreamMOEAEFEP.nLabel);
+                    } else {
+                        cromosoma.setCromElem(pos, inst.attribute(pos).numValues());
+                    }
+                } else {
+                    // SETS A RANDOM VALUE ON THE VARIABLE
+                    if (inst.attribute(pos).isNumeric()) {
+                        cromosoma.setCromElem(pos, StreamMOEAEFEP.nLabel);
+                    } else {
+                        cromosoma.setCromElem(pos, inst.attribute(pos).numValues());
+                    }
+                }
+            }
+        }
+
+        // Set indiv as non-evaluated
+        evaluado = false;
+    }
+
+    @Override
+    public void mutate(Instance inst, int pos) {
+
+        if (Randomize.Randint(0, 10) <= 5) {
+            // REMOVE THE SELECTED VARIABLE 
+            if (inst.attribute(pos).isNumeric()) {
+                cromosoma.setCromElem(pos, StreamMOEAEFEP.nLabel);
+            } else {
+                cromosoma.setCromElem(pos, inst.attribute(pos).numValues());
+            }
+        } else {
+            // SETS A RANDOM VALUE ON THE VARIABLE
+            if (inst.attribute(pos).isNumeric()) {
+                cromosoma.setCromElem(pos, StreamMOEAEFEP.nLabel);
+            } else {
+                cromosoma.setCromElem(pos, inst.attribute(pos).numValues());
+            }
+        }
+
+        // Set indiv as non-evaluated
+        evaluado = false;
+
     }
 
 }

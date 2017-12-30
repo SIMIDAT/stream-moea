@@ -243,5 +243,10 @@ public class CromDNF {
         else
            File.AddtoFile(nFile, contents);
     }
+    
+    public boolean isNonParticipant(int pos){
+        return cromosoma[pos].isNonParticipant();
+    }
+          
 
 }

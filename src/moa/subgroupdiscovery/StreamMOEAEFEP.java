@@ -218,7 +218,7 @@ public class StreamMOEAEFEP extends AbstractClassifier{
             GA.setNEval(5000); // Hay que cambiar por generaciones y poner la opción aqui
             GA.setProbCross(((Double) crossPob.getValue()).floatValue());
             GA.setProbMutation(((Double) mutProb.getValue()).floatValue());
-            GA.setRulesRep("CAN"); // Poner parametro y cambiar
+            GA.setRulesRep("DNF"); // Poner parametro y cambiar
             
             // Initialise the genetic algorithm with the population in t-1
             previousPopulation = GA.GeneticAlgorithm(dataChunk, "", previousPopulation);

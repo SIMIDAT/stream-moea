@@ -363,36 +363,26 @@ public class Genetic {
      * </p>
      *
      * @param inst An instance to get variables information
-     * @param dad Position of the daddy
-     * @param mom Position of the mummy
-     * @param contador Position to insert the son
+     * @param clas
      * @param neje Number of examples
      */
-    public void CrossMultipoint(Instance inst, int clas, int dad, int mom, int contador, int neje) {
+    public void CrossMultipoint(Instance inst, int clas, int neje) {
 
-        int i, xpoint1, xpoint2;
-        double cruce;
+        // Calculate the expected number of crosses according to the crossover probability
+        int expectedCrosses = ((Double) Math.ceil(long_poblacion * getProbCross() / 2.0)).intValue();
 
-        // Copy the individuals to cross
-        offspring.get(clas).CopyIndiv(contador * 2, neje, getNumObjectives(), poblac.get(clas).getIndiv(mom));
-        offspring.get(clas).CopyIndiv(contador * 2 + 1, neje, getNumObjectives(), poblac.get(clas).getIndiv(dad));
-
-        // Perform crossover
-        cruce = Randomize.RanddoubleClosed(0.0, 1.0);
-
-        if (cruce <= getProbCross()) {
+        // Perfomr the crossover on the "expectedCrosses" * 2 first individuals
+        for (int conta = 0; conta < expectedCrosses; conta++) {
             Individual[] newOff;
-           if(RulesRep.equalsIgnoreCase("CAN")){
-               newOff = IndCAN.crossTwoPoints(poblac.get(clas).getIndiv(dad), poblac.get(clas).getIndiv(mom));
-           } else {
-               newOff = IndDNF.crossTwoPoints(poblac.get(clas).getIndiv(dad), poblac.get(clas).getIndiv(mom), inst);
-           }
-           
-           offspring.get(clas).CopyIndiv(contador * 2 , neje, getNumObjectives(), newOff[0]);
-           offspring.get(clas).CopyIndiv(contador * 2 + 1, neje, getNumObjectives(), newOff[1]);
+            if (RulesRep.equalsIgnoreCase("CAN")) {
+                newOff = IndCAN.crossTwoPoints(offspring.get(clas).getIndiv(conta * 2), offspring.get(clas).getIndiv(conta * 2 + 1));
+            } else {
+                newOff = IndDNF.crossTwoPoints(offspring.get(clas).getIndiv(conta * 2), offspring.get(clas).getIndiv(conta * 2 + 1), inst);
+            }
+
+            offspring.get(clas).CopyIndiv(conta * 2, neje, getNumObjectives(), newOff[0]);
+            offspring.get(clas).CopyIndiv(conta * 2 + 1, neje, getNumObjectives(), newOff[1]);
         }
-        
-        
 
     }
 
@@ -401,86 +391,25 @@ public class Genetic {
      * Mutates an individual
      * </p>
      *
-     * @param Variables Variables structure
+     * @param inst
+     * @param clas
      * @param pos Position of the individual to mutate
      */
-    public void Mutation(Instance inst, int clas, int pos) {
-
-        double mutar;
-        int posiciones, eliminar;
-
-        posiciones = inst.numInputAttributes();
-
-        if (getProbMutation() > 0) {
-            for (int i = 0; i < posiciones; i++) {
-                mutar = Randomize.Randdouble(0.00, 1.00);
-                if (mutar <= getProbMutation()) {
-                    eliminar = Randomize.Randint(0, 10);
-                    if (eliminar <= 5) {
-                        if (inst.inputAttribute(i).isNumeric()) {
-                            int number = StreamMOEAEFEP.nLabel;
-                            for (int l = 0; l <= number; l++) {
-                                offspring.get(clas).setCromElem(pos, i, l, 0);
-                            }
-                        } else {
-                            int number = inst.attribute(i).numValues();
-                            for (int l = 0; l <= number; l++) {
-                                offspring.get(clas).setCromElem(pos, i, l, 0);
-                            }
-                        }
-                    } else {
-                        if (!inst.inputAttribute(i).isNumeric()) {
-                            int number = inst.attribute(i).numValues();
-                            int cambio = Randomize.Randint(0, number - 1);
-                            if (offspring.get(clas).getCromElem(pos, i, cambio) == 0) {
-                                offspring.get(clas).setCromElem(pos, i, cambio, 1);
-                                int aux1 = 0;
-                                for (int ii = 0; ii < number; ii++) {
-                                    if (offspring.get(clas).getCromElem(pos, i, ii) == 1) {
-                                        aux1++;
-                                    }
-                                }
-                                if ((aux1 == number) || (aux1 == 0)) {
-                                    offspring.get(clas).setCromElem(pos, i, number, 0);
-                                } else {
-                                    offspring.get(clas).setCromElem(pos, i, number, 1);
-                                }
-                            } else {
-                                for (int k = 0; k <= number; k++) {
-                                    offspring.get(clas).setCromElem(pos, i, k, 0);
-                                }
-                            }
-
-                        } else {
-                            int number = StreamMOEAEFEP.nLabel;
-                            int cambio = Randomize.Randint(0, number - 1);
-                            if (offspring.get(clas).getCromElem(pos, i, cambio) == 0) {
-                                offspring.get(clas).setCromElem(pos, i, cambio, 1);
-                                int aux1 = 0;
-                                for (int ii = 0; ii < number; ii++) {
-                                    if (offspring.get(clas).getCromElem(pos, i, ii) == 1) {
-                                        aux1++;
-                                    }
-                                }
-                                if ((aux1 == number) || (aux1 == 0)) {
-                                    offspring.get(clas).setCromElem(pos, i, number, 0);
-                                } else {
-                                    offspring.get(clas).setCromElem(pos, i, number, 1);
-                                }
-                            } else {
-                                for (int k = 0; k <= number; k++) {
-                                    offspring.get(clas).setCromElem(pos, i, k, 0);
-                                }
-                            }
-                        }
-                    }
-
-                    // Marks the chromosome as not evaluated
-                    offspring.get(clas).setIndivEvaluated(pos, false);
-                }
-            }
+    public void Mutation(Instance inst, int clas) {
+        
+        // Apply the number of expected mutations according to the mutation probability applied to each gene.
+        int expectedMutations = ((Double) Math.ceil(long_poblacion * inst.numInputAttributes() * getProbMutation())).intValue();
+        
+        // Apply the mutation operator the number of times to a random gene of the population
+        for(int i = 0; i < expectedMutations; i++){
+            // Select a random individual and a random gene of that individual
+            int indiv = Randomize.Randint(0, long_poblacion);
+            int gene = Randomize.Randint(0, inst.numInputAttributes());
+            
+            // mutate the gene (in the offspring population)
+            offspring.get(clas).getIndiv(indiv).mutate(inst, gene);
         }
-
+        
     }
 
     /**
@@ -490,7 +419,7 @@ public class Genetic {
      *
      * @param instances A set of instances
      * @param nFile File to write the process
-     * @param previous The population obtained 
+     * @param previous The population obtained
      * @return Final Pareto population
      */
     public Population GeneticAlgorithm(ArrayList<Instance> instances, String nFile, Population previous) {
@@ -500,95 +429,68 @@ public class Genetic {
         float porcPob = (float) 0.75;
         int indivPerClass = long_poblacion / inst.numClasses();
         int modulus = long_poblacion % inst.numClasses();
-        
-       
-        
+
         // Initialises the population
         poblac = new ArrayList<>(inst.numClasses());
         offspring = new ArrayList<>(inst.numClasses());
         union = new ArrayList<>(inst.numClasses());
         best = new ArrayList<>(inst.numClasses());
-        
-        //System.out.println("DEBUG: initializing genetic algorithm");
-        //System.out.println("DEBUG: NumObjectives: " + getNumObjectives());
-        //System.out.println("DEBUG: NumClass: " + inst.numClasses());
-        
+
+
         for (int i = 0; i < inst.numClasses(); i++) {
             poblac.add(new Population(long_poblacion, inst.numInputAttributes(), getNumObjectives(), instances.size(), inst));
             poblac.get(i).BsdInitPob(inst, porcVar, porcPob, instances.size(), nFile, i);
         }
-        
-        //System.out.println("DEBUG: poblacSize: " + poblac.size());
-        //System.out.println("DEBUG: Populations created and intialised correctly.");
-        
-        
+
         Trials = 0;
         Gen = 0;
 
         //Evaluates the population
-        //System.out.println("DEBUG: Starting the evaluation of the Populations...");
-        //System.out.println("DEBUG: poblacSize: " + poblac.size());
         for (int i = 0; i < poblac.size(); i++) {
             Trials += poblac.get(i).evalPop(this, instances, objectives);
-        } 
+        }
 
         do { // Genetic Algorithm General cycle
 
             Gen++;
             offspring.clear();
             union.clear();
-            
+
             // Creates offspring and union
-            //System.out.println("DEBUG: Generating offspring and union...");
             for (int i = 0; i < inst.numClasses(); i++) {
                 offspring.add(new Population(long_poblacion, inst.numInputAttributes(), getNumObjectives(), instances.size(), inst));
                 union.add(new Population(2 * long_poblacion, inst.numInputAttributes(), getNumObjectives(), instances.size(), inst));
             }
 
             for (int clas = 0; clas < inst.numClasses(); clas++) {
-                for (int conta = 0; conta < long_poblacion / 2; conta++) {
 
-                    // Select the daddy and mummy
-                    //System.out.println("DEBUG: Select...");
-                    int dad = Select(clas);
-                    int mum = Select(clas);
-                    while ((dad == mum) && (poblac.get(clas).getNumIndiv() > 1)) {
-                        mum = Select(clas);
-                    }
-
-                    // Crosses
-                    //System.out.println("DEBUG: Cross...");
-                    CrossMultipoint(inst, clas, dad, mum, conta, instances.size());
-
-                    // Mutates
-                    //System.out.println("DEBUG: Mutation...");
-                    Mutation(inst, clas, (conta * 2));
-                    Mutation(inst, clas, (conta * 2) + 1);
+                // SELECTION
+                for (int conta = 0; conta < long_poblacion; conta++) {
+                    // Do the selection of individuals and copy all of them to the offspring
+                    int selectedInd = Select(clas);
+                    offspring.get(clas).CopyIndiv(conta, instances.size(), getNumObjectives(), poblac.get(clas).getIndiv(selectedInd));
                 }
 
-                if (long_poblacion % 2 == 1) {
-                    int dad = Select(clas);
-                    offspring.get(clas).CopyIndiv(long_poblacion - 1, instances.size(), getNumObjectives(), poblac.get(clas).getIndiv(dad));
-                }
+                // Crosses the individuals in the offspring
+                CrossMultipoint(inst, clas, instances.size());
+
+                // Mutation of the offspring individuals 
+                Mutation(inst, clas);
             }
 
-            // Evaluates the offspring
-            //System.out.println("DEBUG: Evaluation of the offspring...");
+            // Evaluates the offspring after the application of the genetic operators
             for (int clas = 0; clas < inst.numClasses(); clas++) {
                 Trials += offspring.get(clas).evalPop(this, instances, objectives);
             }
 
             // Join population and offspring in union population
-            //System.out.println("DEBUG: Join offspring and pop in union...");
             JoinTemp(instances.size());
-            
+
             /*
             for(int i = 0; i < union.size(); i++)
                 for (int j = 0; j < union.get(i).getNumIndiv(); j++)
                      System.out.println("DEBUG: UNION (" + i + "," + j + "): " + union.get(i).getIndiv(i).objs.size());
-            */
-           
-            
+             */
             for (int clas = 0; clas < inst.numClasses(); clas++) {
                 // Makes the ranking of union
                 //System.out.println("DEBUG: Ranking for class..." + clas);
@@ -601,7 +503,7 @@ public class Genetic {
                 Population front = ranking.getSubfront(index);
 
                 int contador = 0;
-                
+
                 //System.out.println("DEBUG: Adding fronts...");
                 while ((remain > 0) && (remain >= front.getNumIndiv())) {
 
@@ -676,42 +578,38 @@ public class Genetic {
 
                 // Re-initialisation based on coverage
                 poblac.set(clas, ReInitCoverage(poblac.get(clas), instances, nFile));
-                
+
             }
-         
 
         } while (Trials <= n_eval);
-        
-        for(int i = 0; i < inst.numClasses(); i++){
-            Ranking ranking = new Ranking(poblac.get(i),inst, getNumObjectives(), instances.size(), RulesRep, StrictDominance);
+
+        for (int i = 0; i < inst.numClasses(); i++) {
+            Ranking ranking = new Ranking(poblac.get(i), inst, getNumObjectives(), instances.size(), RulesRep, StrictDominance);
             Population join = ranking.getSubfront(0).join(best.get(i), instances, this);
             // now, apply the token competition to get the best population.
             best.set(i, join.tokenCompetition(instances, this));
         }
-    
 
-
-       /* contents = "\nGenetic Algorithm execution finished\n";
+        /* contents = "\nGenetic Algorithm execution finished\n";
         contents += "\tNumber of Generations = " + Gen + "\n";
         contents += "\tNumber of Evaluations = " + Trials + "\n";
         System.out.println(contents);*/
         //File.AddtoFile(nFile, contents);
-
         //return ranking.getSubfront(0);
         // join all the individuals in a single population
         int sum = 0;
-        for(Population pop: best){
+        for (Population pop : best) {
             sum += pop.getNumIndiv();
         }
         Population toReturn = new Population(sum, inst.numInputAttributes(), getNumObjectives(), instances.size(), inst);
         int conta = 0;
-        for(Population pop: best){
-            for(int i = 0; i < pop.getNumIndiv(); i++){
+        for (Population pop : best) {
+            for (int i = 0; i < pop.getNumIndiv(); i++) {
                 toReturn.CopyIndiv(conta, instances.size(), getNumObjectives(), pop.getIndiv(i));
                 conta++;
             }
         }
-        
+
         return toReturn;
     }
 
@@ -751,13 +649,10 @@ public class Genetic {
                     indi = new IndDNF(aux.numInputAttributes(), instances.size(), getNumObjectives(), aux, 0);
                 }
                 indi.CobInitInd(poblac, instances, porcCob, getNumObjectives(), poblac.getIndiv(0).getClas(), nFile);
-                
-                
+
                 /**/ // Esto de aquí hay que verlo CON EXTREMO CUIDADO!!
                 indi.evalInd(instances, objectives, true);
-                
-                
-               
+
                 indi.setIndivEvaluated(true);
                 indi.setNEval(Trials);
                 Trials++;
@@ -842,9 +737,9 @@ public class Genetic {
 
             for (int j = 1; j < size - 1; j++) {
                 //medidas = pop.getIndiv(indices[j + 1]).getMeasures();
-                a = pop.getIndiv(indices[j+1]).objs.get(i).getValue(); //medidas.getObjectiveValue(i);
+                a = pop.getIndiv(indices[j + 1]).objs.get(i).getValue(); //medidas.getObjectiveValue(i);
                 //medidas = pop.getIndiv(indices[j - 1]).getMeasures();
-                b = pop.getIndiv(indices[j-1]).objs.get(i).getValue();//medidas.getObjectiveValue(i);
+                b = pop.getIndiv(indices[j - 1]).objs.get(i).getValue();//medidas.getObjectiveValue(i);
                 distance = a - b;
                 if (distance != 0) {
                     distance = distance / (objetiveMaxn - objetiveMinn);
@@ -863,101 +758,89 @@ public class Genetic {
      * @param population The actual population
      * @param nobj The number of objectives
      */
-    /**private void CalculateKnee(Population pop, int nobj) {
-
-        int i, j;
-        int izq, der;
-        double a, b, c;
-        double pi2 = 1.5707963267948966;
-
-        int size = pop.getNumIndiv();
-
-        if (size == 0) {
-            return;
-        }
-
-        if (size == 1) {
-            pop.getIndiv(0).setCrowdingDistance(Double.POSITIVE_INFINITY);
-            return;
-        } // if
-
-        if (size == 2) {
-            pop.getIndiv(0).setCrowdingDistance(Double.POSITIVE_INFINITY);
-            pop.getIndiv(1).setCrowdingDistance(Double.POSITIVE_INFINITY);
-            return;
-        } // if
-
-        for (i = 0; i < size; i++) {
-            pop.getIndiv(i).setCrowdingDistance(0.0);
-        }
-
-        double[] ordenado = new double[size];
-        double[] ordenado2 = new double[size];
-        int indices[] = new int[size];
-        int indices2[] = new int[size];
-
-        i = 0;
-
-        izq = 0;
-        der = size - 1;
-        QualityMeasures medidas = new QualityMeasures(nobj);
-        for (j = 0; j < size; j++) {
-            indices[j] = j;
-            medidas = pop.getIndiv(j).getMeasures();
-            ordenado[j] = medidas.getObjectiveValue(0);
-        }
-        i = 1;
-        izq = 0;
-        der = size - 1;
-        for (j = 0; j < size; j++) {
-            indices2[j] = j;
-            medidas = pop.getIndiv(j).getMeasures();
-            ordenado2[j] = medidas.getObjectiveValue(1);
-        }
-        Utils.OrCrecIndex(ordenado, izq, der, indices);
-        Utils.OrCrecIndex(ordenado2, izq, der, indices2);
-
-        for (j = 0; j < pop.getNumIndiv(); j++) {
-            for (izq = j - 1;
-                    izq >= 0
-                    && pop.getIndiv(indices2[izq]).getMeasures().getObjectiveValue(1) == pop.getIndiv(indices2[j]).getMeasures().getObjectiveValue(1)
-                    && pop.getIndiv(indices2[izq]).getMeasures().getObjectiveValue(0) == pop.getIndiv(indices2[j]).getMeasures().getObjectiveValue(0); izq--);
-            for (der = j;
-                    der < size
-                    && pop.getIndiv(indices2[der]).getMeasures().getObjectiveValue(1) == pop.getIndiv(indices2[j]).getMeasures().getObjectiveValue(1)
-                    && pop.getIndiv(indices2[der]).getMeasures().getObjectiveValue(0) == pop.getIndiv(indices2[j]).getMeasures().getObjectiveValue(0); der++);
-
-            pop.getIndiv(indices2[j]).setCrowdingDistance(pi2);
-
-            if (izq < 0) {
-                double valor = pop.getIndiv(indices2[j]).getCrowdingDistance();
-                pop.getIndiv(indices2[j]).setCrowdingDistance(valor + pi2);
-            } else {
-                b = (pop.getIndiv(indices2[izq]).getMeasures().getObjectiveValue(0) - pop.getIndiv(indices2[j]).getMeasures().getObjectiveValue(0))
-                        / (pop.getIndiv(indices[pop.getNumIndiv() - 1]).getMeasures().getObjectiveValue(0) - pop.getIndiv(indices[0]).getMeasures().getObjectiveValue(0));
-                c = (pop.getIndiv(indices2[j]).getMeasures().getObjectiveValue(1) - pop.getIndiv(indices2[izq]).getMeasures().getObjectiveValue(1))
-                        / (pop.getIndiv(indices2[pop.getNumIndiv() - 1]).getMeasures().getObjectiveValue(1) - pop.getIndiv(indices2[0]).getMeasures().getObjectiveValue(0) * 1.0);
-                a = Math.sqrt(b * b + c * c);
-                double valor = pop.getIndiv(indices2[j]).getCrowdingDistance();
-                pop.getIndiv(indices2[j]).setCrowdingDistance(valor + Math.asin(b / a));
-            }
-
-            if (der >= pop.getNumIndiv()) {
-                double valor = pop.getIndiv(indices2[j]).getCrowdingDistance();
-                pop.getIndiv(indices2[j]).setCrowdingDistance(valor + pi2);
-            } else {
-                b = (pop.getIndiv(indices2[j]).getMeasures().getObjectiveValue(0) - pop.getIndiv(indices2[der]).getMeasures().getObjectiveValue(0))
-                        / (pop.getIndiv(indices[pop.getNumIndiv() - 1]).getMeasures().getObjectiveValue(0) - pop.getIndiv(indices[0]).getMeasures().getObjectiveValue(0));
-                c = (pop.getIndiv(indices2[der]).getMeasures().getObjectiveValue(0) - pop.getIndiv(indices2[j]).getMeasures().getObjectiveValue(1))
-                        / (pop.getIndiv(indices2[pop.getNumIndiv() - 1]).getMeasures().getObjectiveValue(1) - pop.getIndiv(indices2[0]).getMeasures().getObjectiveValue(1) * 1.0);
-                a = Math.sqrt(b * b + c * c);
-                double valor = pop.getIndiv(indices2[j]).getCrowdingDistance();
-                pop.getIndiv(indices2[j]).setCrowdingDistance(valor + Math.asin(c / a));
-            }
-        }
-
-    }*/
-
+    /**
+     * private void CalculateKnee(Population pop, int nobj) {
+     *
+     * int i, j; int izq, der; double a, b, c; double pi2 = 1.5707963267948966;
+     *
+     * int size = pop.getNumIndiv();
+     *
+     * if (size == 0) { return; }
+     *
+     * if (size == 1) {
+     * pop.getIndiv(0).setCrowdingDistance(Double.POSITIVE_INFINITY); return; }
+     * // if
+     *
+     * if (size == 2) {
+     * pop.getIndiv(0).setCrowdingDistance(Double.POSITIVE_INFINITY);
+     * pop.getIndiv(1).setCrowdingDistance(Double.POSITIVE_INFINITY); return; }
+     * // if
+     *
+     * for (i = 0; i < size; i++) { pop.getIndiv(i).setCrowdingDistance(0.0); }
+     *
+     * double[] ordenado = new double[size]; double[] ordenado2 = new
+     * double[size]; int indices[] = new int[size]; int indices2[] = new
+     * int[size];
+     *
+     * i = 0;
+     *
+     * izq = 0; der = size - 1; QualityMeasures medidas = new
+     * QualityMeasures(nobj); for (j = 0; j < size; j++) { indices[j] = j;
+     * medidas = pop.getIndiv(j).getMeasures(); ordenado[j] =
+     * medidas.getObjectiveValue(0); } i = 1; izq = 0; der = size - 1; for (j =
+     * 0; j < size; j++) { indices2[j] = j; medidas =
+     * pop.getIndiv(j).getMeasures(); ordenado2[j] =
+     * medidas.getObjectiveValue(1); } Utils.OrCrecIndex(ordenado, izq, der,
+     * indices); Utils.OrCrecIndex(ordenado2, izq, der, indices2);
+     *
+     * for (j = 0; j < pop.getNumIndiv(); j++) {
+     * for (izq = j - 1;
+     * izq >= 0 &&
+     * pop.getIndiv(indices2[izq]).getMeasures().getObjectiveValue(1) ==
+     * pop.getIndiv(indices2[j]).getMeasures().getObjectiveValue(1) &&
+     * pop.getIndiv(indices2[izq]).getMeasures().getObjectiveValue(0) ==
+     * pop.getIndiv(indices2[j]).getMeasures().getObjectiveValue(0); izq--); for
+     * (der = j; der < size &&
+     * pop.getIndiv(indices2[der]).getMeasures().getObjectiveValue(1) ==
+     * pop.getIndiv(indices2[j]).getMeasures().getObjectiveValue(1) &&
+     * pop.getIndiv(indices2[der]).getMeasures().getObjectiveValue(0) ==
+     * pop.getIndiv(indices2[j]).getMeasures().getObjectiveValue(0); der++);
+     *
+     * pop.getIndiv(indices2[j]).setCrowdingDistance(pi2);
+     *
+     * if (izq < 0) {
+     * double valor = pop.getIndiv(indices2[j]).getCrowdingDistance();
+     * pop.getIndiv(indices2[j]).setCrowdingDistance(valor + pi2);
+     * } else {
+     * b = (pop.getIndiv(indices2[izq]).getMeasures().getObjectiveValue(0) - pop.getIndiv(indices2[j]).getMeasures().getObjectiveValue(0))
+     * / (pop.getIndiv(indices[pop.getNumIndiv() - 1]).getMeasures().getObjectiveValue(0) - pop.getIndiv(indices[0]).getMeasures().getObjectiveValue(0));
+     * c = (pop.getIndiv(indices2[j]).getMeasures().getObjectiveValue(1) - pop.getIndiv(indices2[izq]).getMeasures().getObjectiveValue(1))
+     * / (pop.getIndiv(indices2[pop.getNumIndiv() - 1]).getMeasures().getObjectiveValue(1) - pop.getIndiv(indices2[0]).getMeasures().getObjectiveValue(0) * 1.0);
+     * a = Math.sqrt(b * b + c * c);
+     * double valor = pop.getIndiv(indices2[j]).getCrowdingDistance();
+     * pop.getIndiv(indices2[j]).setCrowdingDistance(valor + Math.asin(b / a));
+     * }
+     *
+     * if (der >= pop.getNumIndiv()) { double valor =
+     * pop.getIndiv(indices2[j]).getCrowdingDistance();
+     * pop.getIndiv(indices2[j]).setCrowdingDistance(valor + pi2); } else { b =
+     * (pop.getIndiv(indices2[j]).getMeasures().getObjectiveValue(0) -
+     * pop.getIndiv(indices2[der]).getMeasures().getObjectiveValue(0)) /
+     * (pop.getIndiv(indices[pop.getNumIndiv() -
+     * 1]).getMeasures().getObjectiveValue(0) -
+     * pop.getIndiv(indices[0]).getMeasures().getObjectiveValue(0)); c =
+     * (pop.getIndiv(indices2[der]).getMeasures().getObjectiveValue(0) -
+     * pop.getIndiv(indices2[j]).getMeasures().getObjectiveValue(1)) /
+     * (pop.getIndiv(indices2[pop.getNumIndiv() -
+     * 1]).getMeasures().getObjectiveValue(1) -
+     * pop.getIndiv(indices2[0]).getMeasures().getObjectiveValue(1) * 1.0); a =
+     * Math.sqrt(b * b + c * c); double valor =
+     * pop.getIndiv(indices2[j]).getCrowdingDistance();
+     * pop.getIndiv(indices2[j]).setCrowdingDistance(valor + Math.asin(c / a));
+     * } }
+     *
+     * }
+     */
     /**
      * <p>
      * Calculates the utility value. This function is only valid for two
@@ -967,7 +850,7 @@ public class Genetic {
      * @param population The actual population
      * @param nobj The number of objectives
      */
-   /* private void CalculateUtility(Population pop, int nobj) {
+    /* private void CalculateUtility(Population pop, int nobj) {
 
         int size = pop.getNumIndiv();
 
@@ -1066,7 +949,6 @@ public class Genetic {
             }
         }
     }*/
-
     /**
      * <p>
      * Eliminates the repeated individuals for canonical representation
@@ -1223,7 +1105,7 @@ public class Genetic {
 
                         if (!Variables.getContinuous(k)) {
                             /* Discrete Variable */
-    /*
+ /*
                             if (chrome.getCromElem(k) <= Variables.getMax(k)) {
                                 // Variable j takes part in the rule
                                 if ((Examples.getDat(i, k)) != chrome.getCromElem(k) && (!Examples.getLost(Variables, i, k))) {
@@ -1333,7 +1215,6 @@ public class Genetic {
         }
 
     }*/
-
     /**
      * @return the RulesRep
      */
@@ -1347,14 +1228,15 @@ public class Genetic {
     public void setRulesRep(String RulesRep) {
         this.RulesRep = RulesRep;
     }
-    
-    public void setObjectives(ArrayList<QualityMeasure> objectives){
-        if(this.objectives == null){
+
+    public void setObjectives(ArrayList<QualityMeasure> objectives) {
+        if (this.objectives == null) {
             this.objectives = new ArrayList<>();
         }
-        for (QualityMeasure obj : objectives){
-            if(! (obj instanceof NULL))
-               this.objectives.add(obj);
+        for (QualityMeasure obj : objectives) {
+            if (!(obj instanceof NULL)) {
+                this.objectives.add(obj);
+            }
         }
     }
 

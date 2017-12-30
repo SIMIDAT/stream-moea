@@ -470,11 +470,98 @@ public class IndDNF extends Individual {
                     offspring.get(clas).setCromElem((contador * 2) + 1, i, number, 1);
                 }*/
         }
-        
+
         offspring[0].setIndivEvaluated(false);
         offspring[1].setIndivEvaluated(false);
-        
+
         return offspring;
+    }
+
+    @Override
+    public void mutate(Instance inst, float mutProb) {
+        for (int pos = 0; pos < inst.numInputAttributes(); pos++) {
+            if (Randomize.Randint(0, 10) <= 5) {
+                // REMOVE THE SELECTED VARIABLE 
+                int number;
+                if (inst.attribute(pos).isNumeric()) {
+                    number = StreamMOEAEFEP.nLabel;
+                } else {
+                    number = inst.attribute(pos).numValues();
+                }
+                if (cromosoma.getCromGeneElem(pos, number)) { // Only erase if it participates in the rule
+                    for (int l = 0; l <= inst.attribute(pos).numValues(); l++) {
+                        cromosoma.setCromGeneElem(pos, l, false);
+                    }
+                }
+            } else {
+                // SETS A RANDOM VALUE ON THE VARIABLE
+                int number;
+                if (inst.attribute(pos).isNumeric()) {
+                    number = StreamMOEAEFEP.nLabel;
+                } else {
+                    number = inst.attribute(pos).numValues();
+                }
+
+                int cambio = Randomize.Randint(0, number - 1);
+
+                // It changes only one gene of this variable
+                cromosoma.setCromGeneElem(pos, cambio, !cromosoma.getCromGeneElem(pos, cambio));
+
+                // Check the non-participation condition.
+                if (cromosoma.isNonParticipant(pos)) {
+                    cromosoma.setCromGeneElem(pos, number, false);
+                } else {
+                    cromosoma.setCromGeneElem(pos, number, true);
+                }
+
+            }
+        }
+        // Set indiv as non-evaluated
+        evaluado = false;
+    }
+
+    @Override
+    public void mutate(Instance inst, int pos) {
+
+        if (Randomize.Randint(0, 10) <= 5) {
+            // REMOVE THE SELECTED VARIABLE 
+            int number;
+            if (inst.attribute(pos).isNumeric()) {
+                number = StreamMOEAEFEP.nLabel;
+            } else {
+                number = inst.attribute(pos).numValues();
+            }
+            if (cromosoma.getCromGeneElem(pos, number)) { // Only erase if it participates in the rule
+                for (int l = 0; l <= inst.attribute(pos).numValues(); l++) {
+                    cromosoma.setCromGeneElem(pos, l, false);
+                }
+            }
+        } else {
+            // SETS A RANDOM VALUE ON THE VARIABLE
+            int number;
+            if (inst.attribute(pos).isNumeric()) {
+                number = StreamMOEAEFEP.nLabel;
+            } else {
+                number = inst.attribute(pos).numValues();
+            }
+
+            int cambio = Randomize.Randint(0, number - 1);
+
+            // It changes only one gene of this variable
+            cromosoma.setCromGeneElem(pos, cambio, !cromosoma.getCromGeneElem(pos, cambio));
+
+            // Check the non-participation condition.
+            if (cromosoma.isNonParticipant(pos)) {
+                cromosoma.setCromGeneElem(pos, number, false);
+            } else {
+                cromosoma.setCromGeneElem(pos, number, true);
+            }
+
+        }
+
+        // Set indiv as non-evaluated
+        evaluado = false;
+
     }
 
 }
