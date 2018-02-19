@@ -23,6 +23,8 @@
  */
 package moa.subgroupdiscovery.qualitymeasures;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import moa.core.ObjectRepository;
 import moa.options.AbstractOptionHandler;
 import moa.tasks.TaskMonitor;
@@ -65,6 +67,22 @@ public class GMean extends AbstractOptionHandler implements QualityMeasure{
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public QualityMeasure clone() {
+       try {
+            super.clone();
+            GMean a = new GMean();
+            a.name = this.name;
+            a.value = this.value;
+            
+            return a;
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(AUC.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Error ocurred when cloning the quality measure: " + name);
+        }
+        return null;
     }
     
 }

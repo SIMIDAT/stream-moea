@@ -42,19 +42,23 @@ public class IndDNF extends Individual {
      */
     public IndDNF(int lenght, int neje, int nobj, Instance inst, int clas) {
 
-        tamano = lenght;
-        cromosoma = new CromDNF(lenght, inst, StreamMOEAEFEP.nLabel);
-        medidas = new ArrayList<>();
-        objs = new ArrayList<>();
-        conf = new Confidence();
-        diversityMeasure = (QualityMeasure) StreamMOEAEFEP.diversityMeasure.copy();
-        this.clas = clas;
-
-        evaluado = false;
-        cubre = new BitSet(neje);
-
-        crowdingDistance = 0.0;
-        n_eval = 0;
+        try {
+            tamano = lenght;
+            cromosoma = new CromDNF(lenght, inst, StreamMOEAEFEP.nLabel);
+            medidas = new ArrayList<>();
+            objs = new ArrayList<>();
+            conf = new Confidence();
+            diversityMeasure = (QualityMeasure) StreamMOEAEFEP.diversityMeasure.getClass().newInstance();
+            this.clas = clas;
+            
+            evaluado = false;
+            cubre = new BitSet(neje);
+            
+            crowdingDistance = 0.0;
+            n_eval = 0;
+        } catch (InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(IndDNF.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -221,8 +225,15 @@ public class IndDNF extends Individual {
         this.setCrowdingDistance(a.getCrowdingDistance());
         this.setRank(a.getRank());
 
-        this.objs = (ArrayList<QualityMeasure>) a.objs.clone();
-        this.medidas = (ArrayList<QualityMeasure>) a.medidas.clone();
+        this.objs = new ArrayList<>();
+        for(QualityMeasure q : a.objs){
+            this.objs.add(q.clone());
+        }
+        
+        this.medidas = new ArrayList<>();
+        for(QualityMeasure q : a.medidas){
+            this.medidas.add(q.clone());
+        }
         this.conf = (Confidence) a.conf.copy();
 
         this.setNEval(a.getNEval());
@@ -304,6 +315,7 @@ public class IndDNF extends Individual {
                         confMatrix.setFp(confMatrix.getFp() + 1);
                     }
                 } else {
+                    cubre.clear(k);
                     if (((Double) inst.classValue()).intValue() == this.getClas()) {
                         confMatrix.setFn(confMatrix.getFn() + 1);
                     } else {
@@ -311,48 +323,13 @@ public class IndDNF extends Individual {
                     }
                 }
             }
-            /*if(disparoCrisp > 0){
-                Double v = inst.classValue();
-                cubreClase[v.intValue()]++;
-            }*/
-
-        }
-        //System.out.println("DEBUG: " + confMatrix);
-        if (isTrain) {
-            // Compute the objective quality measures
-            if (this.objs.isEmpty()) {
-                objs.forEach((q) -> {
-                    // If it is empty, then the measures are not created, copy the default objects
-                    // from the objectives array
-                    this.objs.add(q);
-                });
-            }
-
-            this.objs.stream().filter((q) -> (!(q instanceof NULL))).forEachOrdered((q) -> {
-                // Calculate if it is not the null measure.
-                q.getValue(confMatrix);
-            });
-
-            // Compute the confidence
-            this.conf.getValue(confMatrix);
-
-            // Compute the diversity function
-            this.diversityMeasure.getValue(confMatrix);
-        } else {
-            try {
-                ArrayList<QualityMeasure> measures = ClassLoader.getClasses();
-                measures.forEach(q -> {
-                    q.getValue(confMatrix);
-                    this.medidas.add(q);
-                });
-            } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
-                Logger.getLogger(IndDNF.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
         }
 
+        // calculate the quality measures
+        this.calculateMeasures(confMatrix, objs, isTrain);
+
+        // Set individual as evaluated
         evaluado = true;
-
     }
 
     /**
@@ -447,28 +424,6 @@ public class IndDNF extends Individual {
                 offspring[0].setCromGeneElem(i, ii, mom.getCromGeneElem(i, ii));
                 offspring[1].setCromGeneElem(i, ii, dad.getCromGeneElem(i, ii));
             }
-
-            /*  This part is not necessary due to the whole variable is changed, and no modification about the partition state of the variable are possible.
-                int aux1 = 0;
-                int aux2 = 0;
-                for (int ii = 0; ii < number; ii++) {
-                    if (offspring.get(clas).getCromElem((contador * 2), i, ii) == 1) {
-                        aux1++;
-                    }
-                    if (offspring.get(clas).getCromElem((contador * 2) + 1, i, ii) == 1) {
-                        aux2++;
-                    }
-                }
-                if ((aux1 == number) || (aux1 == 0)) {
-                    offspring.get(clas).setCromElem((contador * 2), i, number, 0);
-                } else {
-                    offspring.get(clas).setCromElem((contador * 2), i, number, 1);
-                }
-                if ((aux2 == number) || (aux2 == 0)) {
-                    offspring.get(clas).setCromElem((contador * 2) + 1, i, number, 0);
-                } else {
-                    offspring.get(clas).setCromElem((contador * 2) + 1, i, number, 1);
-                }*/
         }
 
         offspring[0].setIndivEvaluated(false);
@@ -480,40 +435,15 @@ public class IndDNF extends Individual {
     @Override
     public void mutate(Instance inst, float mutProb) {
         for (int pos = 0; pos < inst.numInputAttributes(); pos++) {
-            if (Randomize.Randint(0, 10) <= 5) {
-                // REMOVE THE SELECTED VARIABLE 
-                int number;
-                if (inst.attribute(pos).isNumeric()) {
-                    number = StreamMOEAEFEP.nLabel;
+            if ( ((Double) Randomize.RandClosed()).floatValue() < mutProb) {
+                if (Randomize.Randint(0, 10) <= 5) {
+                    // REMOVE THE SELECTED VARIABLE 
+                    cromosoma.eraseVariable(pos);
                 } else {
-                    number = inst.attribute(pos).numValues();
-                }
-                if (cromosoma.getCromGeneElem(pos, number)) { // Only erase if it participates in the rule
-                    for (int l = 0; l <= inst.attribute(pos).numValues(); l++) {
-                        cromosoma.setCromGeneElem(pos, l, false);
-                    }
-                }
-            } else {
-                // SETS A RANDOM VALUE ON THE VARIABLE
-                int number;
-                if (inst.attribute(pos).isNumeric()) {
-                    number = StreamMOEAEFEP.nLabel;
-                } else {
-                    number = inst.attribute(pos).numValues();
-                }
+                    // SETS A RANDOM VALUE ON THE VARIABLE
+                    cromosoma.randomChange(pos);
 
-                int cambio = Randomize.Randint(0, number - 1);
-
-                // It changes only one gene of this variable
-                cromosoma.setCromGeneElem(pos, cambio, !cromosoma.getCromGeneElem(pos, cambio));
-
-                // Check the non-participation condition.
-                if (cromosoma.isNonParticipant(pos)) {
-                    cromosoma.setCromGeneElem(pos, number, false);
-                } else {
-                    cromosoma.setCromGeneElem(pos, number, true);
                 }
-
             }
         }
         // Set indiv as non-evaluated
@@ -525,38 +455,10 @@ public class IndDNF extends Individual {
 
         if (Randomize.Randint(0, 10) <= 5) {
             // REMOVE THE SELECTED VARIABLE 
-            int number;
-            if (inst.attribute(pos).isNumeric()) {
-                number = StreamMOEAEFEP.nLabel;
-            } else {
-                number = inst.attribute(pos).numValues();
-            }
-            if (cromosoma.getCromGeneElem(pos, number)) { // Only erase if it participates in the rule
-                for (int l = 0; l <= inst.attribute(pos).numValues(); l++) {
-                    cromosoma.setCromGeneElem(pos, l, false);
-                }
-            }
+            cromosoma.eraseVariable(pos);
         } else {
             // SETS A RANDOM VALUE ON THE VARIABLE
-            int number;
-            if (inst.attribute(pos).isNumeric()) {
-                number = StreamMOEAEFEP.nLabel;
-            } else {
-                number = inst.attribute(pos).numValues();
-            }
-
-            int cambio = Randomize.Randint(0, number - 1);
-
-            // It changes only one gene of this variable
-            cromosoma.setCromGeneElem(pos, cambio, !cromosoma.getCromGeneElem(pos, cambio));
-
-            // Check the non-participation condition.
-            if (cromosoma.isNonParticipant(pos)) {
-                cromosoma.setCromGeneElem(pos, number, false);
-            } else {
-                cromosoma.setCromGeneElem(pos, number, true);
-            }
-
+            cromosoma.randomChange(pos);
         }
 
         // Set indiv as non-evaluated

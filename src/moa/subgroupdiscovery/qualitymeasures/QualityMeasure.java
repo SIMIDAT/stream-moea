@@ -30,18 +30,17 @@ import moa.options.OptionHandler;
  * Abstract class that represents an statistical quality measure
  * @author Angel Miguel Garcia Vico <agvico at ujaen.es>
  */
-public interface QualityMeasure extends OptionHandler{
-    
+public interface QualityMeasure extends OptionHandler,Cloneable{
    
     /**
-     * It calculates the value of the given quality measure.
+     * It calculates the value of the given quality measure by means of the given contingency table
      * @param t
      * @return 
      */
     public double getValue(ContingencyTable t);
     
     /**
-     * Return the last calculate value of the measure
+     * Return the last calculated value of the measure
      * @return 
      */
     public double getValue();
@@ -61,6 +60,12 @@ public interface QualityMeasure extends OptionHandler{
      * @return 
      */
     public String getName();
+
+    /**
+     * Returns a copy of this object
+     * @return 
+     */
+    public QualityMeasure clone();
     
    
 }

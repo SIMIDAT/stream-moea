@@ -5,6 +5,8 @@
  */
 package moa.subgroupdiscovery.qualitymeasures;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import moa.core.ObjectRepository;
 import moa.options.AbstractOptionHandler;
 import moa.tasks.TaskMonitor;
@@ -48,6 +50,22 @@ public class SuppDiff extends AbstractOptionHandler implements QualityMeasure{
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public QualityMeasure clone() {
+       try {
+            super.clone();
+            SuppDiff a = new SuppDiff();
+            a.name = this.name;
+            a.value = this.value;
+            
+            return a;
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(AUC.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Error ocurred when cloning the quality measure: " + name);
+        }
+        return null;
     }
     
     

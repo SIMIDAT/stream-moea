@@ -311,13 +311,19 @@ public class Genetic {
      * @param neje Number of examples
      */
     public void JoinTemp(int neje) {
+        
+        // In order to be faster, we dont need to copy offspring only the references are necessary
+        // In poblac it is necessary to copy due to poblac is overwritten later when it is created the 
+        // population of the next generation
         int i, j, k;
         for (i = 0; i < union.size(); i++) {
             for (j = 0; j < long_poblacion; j++) {
+                //union.get(i).setIndivi(j, poblac.get(i).getIndiv(j));
                 union.get(i).CopyIndiv(j, neje, getNumObjectives(), poblac.get(i).getIndiv(j));
             }
             for (k = 0; k < long_poblacion; k++) {
-                union.get(i).CopyIndiv(j, neje, getNumObjectives(), offspring.get(i).getIndiv(k));
+                union.get(i).setIndivi(j, offspring.get(i).getIndiv(k));
+                //union.get(i).CopyIndiv(j, neje, getNumObjectives(), offspring.get(i).getIndiv(k));
                 j++;
             }
         }
@@ -427,8 +433,7 @@ public class Genetic {
         String contents;
         float porcVar = (float) 0.25;
         float porcPob = (float) 0.75;
-        int indivPerClass = long_poblacion / inst.numClasses();
-        int modulus = long_poblacion % inst.numClasses();
+
 
         // Initialises the population
         poblac = new ArrayList<>(inst.numClasses());
@@ -480,20 +485,16 @@ public class Genetic {
 
             // Evaluates the offspring after the application of the genetic operators
             for (int clas = 0; clas < inst.numClasses(); clas++) {
+                // FIXME: Hay que ver que es lo que pasa porque en la clase 1 no se calculan objetivos
                 Trials += offspring.get(clas).evalPop(this, instances, objectives);
             }
 
             // Join population and offspring in union population
             JoinTemp(instances.size());
 
-            /*
-            for(int i = 0; i < union.size(); i++)
-                for (int j = 0; j < union.get(i).getNumIndiv(); j++)
-                     System.out.println("DEBUG: UNION (" + i + "," + j + "): " + union.get(i).getIndiv(i).objs.size());
-             */
+            
             for (int clas = 0; clas < inst.numClasses(); clas++) {
                 // Makes the ranking of union
-                //System.out.println("DEBUG: Ranking for class..." + clas);
                 Ranking ranking = new Ranking(union.get(clas), inst, getNumObjectives(), instances.size(), RulesRep, StrictDominance);
 
                 int remain = poblac.get(clas).getNumIndiv();
@@ -517,6 +518,7 @@ public class Genetic {
 
                     //Decrement remain
                     remain = remain - front.getNumIndiv();
+                    
                     //Obtain the next front
                     index++;
                     if (remain > 0) {
@@ -559,6 +561,9 @@ public class Genetic {
                 if (Gen == 1) {
                     // if it is the first generation, best is the actual one.
                     best.add(poblac.get(clas));
+                    for(int i = 0; i < poblac.get(clas).getNumIndiv(); i++)
+                        best.get(clas).CopyIndiv(i, instances.size(), objectives.size(), poblac.get(clas).getIndiv(i));
+                    
                 } else {
                     // If it is not the first generation:
                     // See if the population evolves (i.e. it covers new examples)
@@ -567,12 +572,14 @@ public class Genetic {
                     double pctCambio = (n_eval * 5) / 100;
                     // If the population does not evolve for a 5 % of the total evaluations
                     if (Trials - poblac.get(clas).getLastChangeEval() > pctCambio) {
-                        //System.out.println("DEBUG: Elite... JOIN");
                         // Join the elite population and the pareto front
                         Population join = best.get(clas).join(ranking.getSubfront(0), instances, this);
-                        //System.out.println("DEBUG: Elite... Token Competition");
                         // best is a new population made by the token competition procedure.
-                        best.set(clas, join.tokenCompetition(instances, this));
+                        Population aux = join.tokenCompetition(instances, this);
+                        for(int i = 0; i < aux.getNumIndiv(); i++){
+                            best.get(clas).CopyIndiv(i, instances.size(), objectives.size(), aux.getIndiv(i));
+                        }
+                        //best.set(clas, join.tokenCompetition(instances, this));
                     }
                 }
 
@@ -650,7 +657,7 @@ public class Genetic {
                 }
                 indi.CobInitInd(poblac, instances, porcCob, getNumObjectives(), poblac.getIndiv(0).getClas(), nFile);
 
-                /**/ // Esto de aquí hay que verlo CON EXTREMO CUIDADO!!
+                /**/ // XXX Esto de aquí hay que verlo CON EXTREMO CUIDADO!!
                 indi.evalInd(instances, objectives, true);
 
                 indi.setIndivEvaluated(true);

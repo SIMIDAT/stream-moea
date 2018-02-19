@@ -11,9 +11,14 @@ package moa.subgroupdiscovery;
 import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import moa.options.ClassOption;
 import moa.subgroupdiscovery.qualitymeasures.Confidence;
+import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
+import moa.subgroupdiscovery.qualitymeasures.NULL;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
+import weka.classifiers.evaluation.ConfusionMatrix;
 
 public abstract class Individual {
         
@@ -360,5 +365,49 @@ public abstract class Individual {
         this.clas = clas;
     }
 
-    
+    public void calculateMeasures(ContingencyTable confMatrix, ArrayList<QualityMeasure> objs, boolean isTrain){
+        if (isTrain) {
+            // Compute the objective quality measures
+            if (this.objs.isEmpty()) {
+                objs.forEach((q) -> {
+                    try {
+                        // If it is empty, then the measures are not created, copy the default objects
+                        // from the objectives array
+                        this.objs.add(q.getClass().newInstance());
+                    } catch (InstantiationException | IllegalAccessException ex) {
+                        Logger.getLogger(IndDNF.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+            }
+
+            this.objs.stream().filter((q) -> (!(q instanceof NULL))).forEachOrdered((q) -> {
+                // Calculate if it is not the null measure.
+                q.getValue(confMatrix);
+            });
+
+            // Compute the confidence
+            this.conf.getValue(confMatrix);
+
+            // Compute the diversity function
+            this.diversityMeasure.getValue(confMatrix);
+        } else {
+            
+            // Test the individual.
+            try {
+                // Get all the quality measures available in the package qualitymeasures
+                ArrayList<QualityMeasure> measures = moa.subgroupdiscovery.qualitymeasures.ClassLoader.getClasses();
+                
+                // Calculates the value of each measure
+                measures.forEach(q -> {
+                    q.getValue(confMatrix);
+                    this.medidas.add(q);
+                });
+                
+            } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
+                Logger.getLogger(IndDNF.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+    }
 }

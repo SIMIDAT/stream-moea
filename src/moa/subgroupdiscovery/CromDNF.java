@@ -247,6 +247,35 @@ public class CromDNF {
     public boolean isNonParticipant(int pos){
         return cromosoma[pos].isNonParticipant();
     }
+    
+    
+    /**
+     * It sets the variable as non-participant if it participates in the rule
+     * @param pos 
+     */
+    public void eraseVariable(int pos){
+        if(!cromosoma[pos].isNonParticipant()) 
+            cromosoma[pos].NoTakeInitGene();
+    }
+    
+    
+    /**
+     * It randomly flips a value of the variable specified at {@code pos}
+     * @param pos 
+     */
+    public void randomChange(int pos){
+        int cambio = Randomize.Randint(0, cromosoma[pos].getGeneLenght() - 1);
+
+        // Flip the value of the gene
+        cromosoma[pos].setGeneElem(cambio, ! cromosoma[pos].getGeneElem(cambio));
+
+        // Check the non-participation condition of the variable
+        if (cromosoma[pos].isNonParticipant()) {
+            cromosoma[pos].setGeneElem(cromosoma[pos].getGeneLenght(), false);
+        } else {
+            cromosoma[pos].setGeneElem(cromosoma[pos].getGeneLenght(), true);
+        }
+    }
           
 
 }

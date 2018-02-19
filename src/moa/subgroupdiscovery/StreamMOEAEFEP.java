@@ -47,7 +47,7 @@ public class StreamMOEAEFEP extends AbstractClassifier{
      * Set the population size of the genetic algorithm
      */
     public IntOption populationSize = new IntOption("popSize", 'p', 
-            "The number of individuals in the population of the genetic algorithm", 31);
+            "The number of individuals in the population of the genetic algorithm", 3);
    
     /**
      * Set the crossover probability of the genetic algorithm

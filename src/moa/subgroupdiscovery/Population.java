@@ -102,15 +102,12 @@ public class Population {
     public int evalPop(Genetic AG, ArrayList<Instance> Examples, ArrayList<QualityMeasure> objectives) {
         
         int trials = 0;
-        //System.out.println("Debug: NumIndividuals: " + this.getNumIndiv());
         for (int i = 0; i < this.num_indiv; i++) {
-            //System.out.println("DEBUG: Individual " + i + " Objs_size: "+ indivi[i].objs.size());
             if (!getIndivEvaluated(i)) {     // Not evaluated
                 
                 // Cambiar en la clase Genetic para que pueda almacenar los objetivos por defecto.
                 indivi[i].evalInd(Examples, objectives, true);
-                //System.out.println("DEBUG: Individual " + i + " evaluated: " + indivi[i].objs.get(0).getValue() + "   " + indivi[i].objs.get(1).getValue());
-                
+
                 setIndivEvaluated(i, true);   /* Now it is evaluated */
 
                 indivi[i].setNEval(AG.getTrials());
@@ -309,6 +306,10 @@ public class Population {
      * @return A new population with the token competition applied
      */
     public Population tokenCompetition(ArrayList<Instance> Examples, Genetic GA) {
+        
+        // FIXME: Here, check if all the population is evaluated, if not, throw an exception
+        
+        // If all is ok, continue.
         Instance aux = Examples.get(0);
         // Sort population by the diversity function
         Population actual = sortByDiversity(Examples, GA);
@@ -432,5 +433,9 @@ public class Population {
         }
         
         return result;
+    }
+    
+    public void setIndivi(int pos, Individual ind){
+        indivi[pos] = ind;
     }
 }

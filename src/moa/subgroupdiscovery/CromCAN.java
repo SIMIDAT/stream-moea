@@ -45,14 +45,12 @@ public class CromCAN {
      * @param Variables		Contents the type of the variable, and the number of labels.
      */
     public void RndInitCrom(Instance inst, int nlabels) {
-
         for (int i=0; i<num_genes; i++)  {
             if(inst.attribute(i).isNumeric())
                 cromosoma[i] = Randomize.RandintClosed(0, nlabels);
             else 
                 cromosoma[i] = Randomize.RandintClosed(0, inst.attribute(i).numValues());
         }
-        
     }
 
 
@@ -73,7 +71,7 @@ public class CromCAN {
            crom_inic[i] = false;
 
         // Firtly, we obtain the numbero of variable which are in the chromosome
-        int numInterv = Randomize.Randint (1, Math.round(porcVar*inst.numInputAttributes()));
+        int numInterv = Randomize.Randint(1, Math.round(porcVar*inst.numInputAttributes()));
 
         int var=0;
         while (var<numInterv) {

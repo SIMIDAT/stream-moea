@@ -265,4 +265,12 @@ public class Ranking {
         return 1;    // solution2 dominate
         }
 
+  
+  /**
+   * It prints the objectives values of the individuals that belong to the Pareto front
+   */
+  public void printParetoFrontValues(){
+    // TODO: Function that prints the objective values of the Pareto front.
+  }
+  
 } // Ranking
