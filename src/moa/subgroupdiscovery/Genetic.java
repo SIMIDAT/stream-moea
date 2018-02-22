@@ -322,8 +322,8 @@ public class Genetic {
                 union.get(i).CopyIndiv(j, neje, getNumObjectives(), poblac.get(i).getIndiv(j));
             }
             for (k = 0; k < long_poblacion; k++) {
-                union.get(i).setIndivi(j, offspring.get(i).getIndiv(k));
-                //union.get(i).CopyIndiv(j, neje, getNumObjectives(), offspring.get(i).getIndiv(k));
+                //union.get(i).setIndivi(j, offspring.get(i).getIndiv(k));
+                union.get(i).CopyIndiv(j, neje, getNumObjectives(), offspring.get(i).getIndiv(k));
                 j++;
             }
         }
@@ -340,10 +340,13 @@ public class Genetic {
     public int Select(int clas) {
         int winner;
 
-        int opponent1 = Randomize.Randint(0, poblac.get(clas).getNumIndiv() - 1);
+        int opponent1 = Randomize.Randint(0, poblac.get(clas).getNumIndiv());
+        while(poblac.get(clas).getIndiv(opponent1).isEmpty()){
+            opponent1 = Randomize.Randint(0, poblac.get(clas).getNumIndiv());
+        }
         int opponent2 = opponent1;
-        while ((opponent2 == opponent1) && (poblac.get(clas).getNumIndiv() > 1)) {
-            opponent2 = Randomize.Randint(0, long_poblacion - 1);
+        while ((opponent2 == opponent1) && (poblac.get(clas).getNumIndiv() > 1) && poblac.get(clas).getIndiv(opponent2).isEmpty()) {
+            opponent2 = Randomize.Randint(0, long_poblacion );
         }
 
         winner = opponent1;
@@ -458,6 +461,7 @@ public class Genetic {
         do { // Genetic Algorithm General cycle
 
             Gen++;
+            System.out.println(Gen);
             offspring.clear();
             union.clear();
 
@@ -485,7 +489,6 @@ public class Genetic {
 
             // Evaluates the offspring after the application of the genetic operators
             for (int clas = 0; clas < inst.numClasses(); clas++) {
-                // FIXME: Hay que ver que es lo que pasa porque en la clase 1 no se calculan objetivos
                 Trials += offspring.get(clas).evalPop(this, instances, objectives);
             }
 
@@ -560,7 +563,7 @@ public class Genetic {
                 // Gets the best population
                 if (Gen == 1) {
                     // if it is the first generation, best is the actual one.
-                    best.add(poblac.get(clas));
+                    best.add(new Population(long_poblacion, inst.numInputAttributes(), getNumObjectives(), instances.size(), inst));
                     for(int i = 0; i < poblac.get(clas).getNumIndiv(); i++)
                         best.get(clas).CopyIndiv(i, instances.size(), objectives.size(), poblac.get(clas).getIndiv(i));
                     
@@ -576,6 +579,8 @@ public class Genetic {
                         Population join = best.get(clas).join(ranking.getSubfront(0), instances, this);
                         // best is a new population made by the token competition procedure.
                         Population aux = join.tokenCompetition(instances, this);
+                        
+                        best.set(clas, new Population(long_poblacion, inst.numInputAttributes(), getNumObjectives(), instances.size(), inst));
                         for(int i = 0; i < aux.getNumIndiv(); i++){
                             best.get(clas).CopyIndiv(i, instances.size(), objectives.size(), aux.getIndiv(i));
                         }

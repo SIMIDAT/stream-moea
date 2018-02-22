@@ -20,7 +20,7 @@ public class CromDNF {
       */
 
       private int num_genes;      // Number of genes
-      private Gene cromosoma [];   // Individual content - integer representation
+      protected Gene cromosoma [];   // Individual content - integer representation
 
     /**
      * <p>

@@ -50,10 +50,10 @@ public class IndDNF extends Individual {
             conf = new Confidence();
             diversityMeasure = (QualityMeasure) StreamMOEAEFEP.diversityMeasure.getClass().newInstance();
             this.clas = clas;
-            
+
             evaluado = false;
             cubre = new BitSet(neje);
-            
+
             crowdingDistance = 0.0;
             n_eval = 0;
         } catch (InstantiationException | IllegalAccessException ex) {
@@ -226,15 +226,17 @@ public class IndDNF extends Individual {
         this.setRank(a.getRank());
 
         this.objs = new ArrayList<>();
-        for(QualityMeasure q : a.objs){
-            this.objs.add(q.clone());
+        for (QualityMeasure q : a.objs) {
+            QualityMeasure aux = q.clone();
+            this.objs.add(aux);
         }
-        
+
         this.medidas = new ArrayList<>();
-        for(QualityMeasure q : a.medidas){
-            this.medidas.add(q.clone());
+        for (QualityMeasure q : a.medidas) {
+            QualityMeasure aux = q.clone();
+            this.medidas.add(aux);
         }
-        this.conf = (Confidence) a.conf.copy();
+        this.conf = (Confidence) a.conf.clone();
 
         this.setNEval(a.getNEval());
 
@@ -435,7 +437,7 @@ public class IndDNF extends Individual {
     @Override
     public void mutate(Instance inst, float mutProb) {
         for (int pos = 0; pos < inst.numInputAttributes(); pos++) {
-            if ( ((Double) Randomize.RandClosed()).floatValue() < mutProb) {
+            if (((Double) Randomize.RandClosed()).floatValue() < mutProb) {
                 if (Randomize.Randint(0, 10) <= 5) {
                     // REMOVE THE SELECTED VARIABLE 
                     cromosoma.eraseVariable(pos);
@@ -464,6 +466,16 @@ public class IndDNF extends Individual {
         // Set indiv as non-evaluated
         evaluado = false;
 
+    }
+    
+    
+    @Override
+    public boolean isEmpty(){
+        for(Gene g : cromosoma.cromosoma){
+            if(!g.isNonParticipant())
+                return false;
+        }
+        return true;
     }
 
 }

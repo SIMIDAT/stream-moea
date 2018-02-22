@@ -286,15 +286,19 @@ public class IndCAN extends Individual {
 
         this.objs = new ArrayList<>();
         for (QualityMeasure q : a.objs) {
-            this.objs.add(q.clone());
+            QualityMeasure aux = q.clone();
+
+            this.objs.add(aux);
         }
 
         this.medidas = new ArrayList<>();
         for (QualityMeasure q : a.medidas) {
-            this.medidas.add(q.clone());
+            QualityMeasure aux = q.clone();
+
+            this.medidas.add(aux);
         }
-        
-        this.conf = (Confidence) a.conf.copy();
+
+        this.conf = (Confidence) a.conf.clone();
 
         this.clas = a.clas;
 
@@ -532,4 +536,10 @@ public class IndCAN extends Individual {
 
     }
 
+    
+    @Override
+    public boolean isEmpty(){
+        return false;
+    }
+    
 }

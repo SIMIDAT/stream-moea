@@ -23,40 +23,43 @@
  */
 package moa.subgroupdiscovery.qualitymeasures;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import moa.core.ObjectRepository;
-import moa.options.AbstractOptionHandler;
 import moa.tasks.TaskMonitor;
 
 /**
- * Confidence Quality Measure. It measures the precision of a pattern with respect
- * to the examples it covers.
+ * Confidence Quality Measure. It measures the precision of a pattern with
+ * respect to the examples it covers.
  * <p>
- * Ref.:
- * U. M. Fayyad, G. Piatetsky-Shapiro, and P. Smyth. From data mining to knowledge discovery: an overview. In Advances in knowledge discovery and data mining, pages 1–34. AAAI/MIT Press, 1996.
+ * Ref.: U. M. Fayyad, G. Piatetsky-Shapiro, and P. Smyth. From data mining to
+ * knowledge discovery: an overview. In Advances in knowledge discovery and data
+ * mining, pages 1–34. AAAI/MIT Press, 1996.
  * </p>
+ *
  * @author Angel Miguel Garcia Vico <agvico at ujaen.es>
  */
-public class Confidence extends AbstractOptionHandler implements QualityMeasure{
-    
-    public String name = "Confidence";
-    public double value;
+public class Confidence extends QualityMeasure {
 
-    @Override
-    public double getValue(ContingencyTable t) {
-       name = "Confidence";
-       value = (double) t.getTp() / (double) (t.getTp() + t.getFp());
-       return value;
+    public Confidence() {
+        super.name = "Confidence";
+        super.short_name = "CONF";
+        super.value = 0.0;
     }
 
     @Override
-    public boolean validate(double value) {
-        return value <= 1.0 && value >= 0.0;
+    public double calculateValue(ContingencyTable t) {
+        table = t;
+        if (t.getTp() + t.getFp() == 0) {
+            value = 0.0;
+        } else {
+            value = (double) t.getTp() / (double) (t.getTp() + t.getFp());
+        }
+        return value;
     }
 
     @Override
-    protected void prepareForUseImpl(TaskMonitor arg0, ObjectRepository arg1) {
+    public void validate() throws InvalidRangeInMeasureException{
+        if(!(value <= 1.0 && value >= 0.0) || Double.isNaN(value) )
+            throw new InvalidRangeInMeasureException(this);
     }
 
     @Override
@@ -64,29 +67,15 @@ public class Confidence extends AbstractOptionHandler implements QualityMeasure{
     }
 
     @Override
-    public double getValue() {
-        return value;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
     public QualityMeasure clone() {
-       try {
-            super.clone();
-            Confidence a = new Confidence();
-            a.name = this.name;
-            a.value = this.value;
-            
-            return a;
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(AUC.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println("Error ocurred when cloning the quality measure: " + name);
-        }
-        return null;
+        Confidence a = new Confidence();
+        a.value = this.value;
+
+        return a;
     }
-    
+
+    @Override
+    protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
+    }
+
 }

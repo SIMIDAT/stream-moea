@@ -307,7 +307,11 @@ public class Population {
      */
     public Population tokenCompetition(ArrayList<Instance> Examples, Genetic GA) {
         
-        // FIXME: Here, check if all the population is evaluated, if not, throw an exception
+        for(Individual i : indivi){
+            if(! i.getIndivEvaluated()){
+                throw new IllegalStateException("Token Competition: Not all individuals are marked as evaluated");
+            }
+        }
         
         // If all is ok, continue.
         Instance aux = Examples.get(0);
@@ -332,6 +336,9 @@ public class Population {
 //                }
 //            }
             // Check if there are new covered examples
+            // The operation is:
+            // (tokens (xor) cubiertoRegla) & ( not tokens)
+            // The result in aux2 is the new tokens covered by the rule
             BitSet aux1 = (BitSet)tokens.clone();
             BitSet aux2 = (BitSet)tokens.clone();
             aux1.xor(cubiertoRegla);
@@ -382,7 +389,7 @@ public class Population {
         int indices[] = new int[getNumIndiv()];
         for (int i = 0; i < getNumIndiv(); i++) {
             indices[i] = i;
-            ordenado[i] = getIndiv(i).diversityMeasure.getValue();
+            ordenado[i] = this.indivi[i].diversityMeasure.getValue();
         }
         Utils.OrCrecIndex(ordenado, izq, der, indices);
 

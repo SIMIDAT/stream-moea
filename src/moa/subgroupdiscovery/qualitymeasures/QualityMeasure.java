@@ -23,49 +23,91 @@
  */
 package moa.subgroupdiscovery.qualitymeasures;
 
-import moa.options.OptionHandler;
-
+import java.text.DecimalFormat;
+import moa.options.AbstractOptionHandler;
 
 /**
  * Abstract class that represents an statistical quality measure
+ *
  * @author Angel Miguel Garcia Vico <agvico at ujaen.es>
  */
-public interface QualityMeasure extends OptionHandler,Cloneable{
-   
+public abstract class QualityMeasure extends AbstractOptionHandler implements Cloneable {
+
     /**
-     * It calculates the value of the given quality measure by means of the given contingency table
-     * @param t
-     * @return 
+     * The value of the quality measure
      */
-    public double getValue(ContingencyTable t);
+    protected double value;
+
+    /**
+     * The name of the quality measure
+     */
+    protected String name;
+
+    /**
+     * The acronim of the quality measure
+     */
+    protected String short_name;
     
+    /**
+     * The contingencyTable from the values are calculated
+     */
+    protected ContingencyTable table;
+
+    /**
+     * It calculates the value of the given quality measure by means of the
+     * given contingency table
+     *
+     * @param t
+     * @return
+     */
+    public abstract double calculateValue(ContingencyTable t);
+
     /**
      * Return the last calculated value of the measure
-     * @return 
+     *
+     * @return
      */
-    public double getValue();
-    
+    public double getValue() {
+        return value;
+    }
+
     /**
-     * It checks that the value of the measure is within the domain of the measure
+     * It checks that the value of the measure is within the domain of the
+     * measure
+     *
      * @param value
-     * @return 
+     * @return
      */
-    public boolean validate(double value);
-    
-    @Override
-    public String toString();
-    
-    /**
-     * Returns the name of the quality measure
-     * @return 
-     */
-    public String getName();
+    public abstract void validate() throws InvalidRangeInMeasureException;
 
     /**
      * Returns a copy of this object
-     * @return 
+     *
+     * @return
      */
-    public QualityMeasure clone();
+    @Override
+    public abstract QualityMeasure clone();
+
+    @Override
+    public String toString() {
+        DecimalFormat sixDecimals = new DecimalFormat("0.000000");
+        return short_name + " = " + sixDecimals.format(value);
+    }
+
+    /**
+     * Returns the full name of the quality measure
+     *
+     * @return
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    public String getShortName() {
+        return short_name;
+    }
+
     
-   
+    
+    
 }
