@@ -24,6 +24,8 @@
 package moa.subgroupdiscovery.qualitymeasures;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import moa.options.AbstractOptionHandler;
 
 /**
@@ -90,7 +92,9 @@ public abstract class QualityMeasure extends AbstractOptionHandler implements Cl
 
     @Override
     public String toString() {
-        DecimalFormat sixDecimals = new DecimalFormat("0.000000");
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setDecimalSeparator('.');
+        DecimalFormat sixDecimals = new DecimalFormat("0.000000", symbols);
         return short_name + " = " + sixDecimals.format(value);
     }
 
