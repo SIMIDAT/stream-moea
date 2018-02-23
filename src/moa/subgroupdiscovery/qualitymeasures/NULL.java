@@ -6,20 +6,18 @@
 package moa.subgroupdiscovery.qualitymeasures;
 
 import moa.core.ObjectRepository;
-import moa.options.AbstractOptionHandler;
 import moa.tasks.TaskMonitor;
 
 /**
  *
  * @author agvico
  */
-public class NULL extends AbstractOptionHandler implements QualityMeasure{
+public class NULL extends QualityMeasure {
 
-    public double value;
-    public String name = "NULL";
-    
-    @Override
-    protected void prepareForUseImpl(TaskMonitor arg0, ObjectRepository arg1) {
+    public NULL() {
+        super.name = "NULL";
+        super.short_name = "NULL";
+        super.value = Double.NaN;
     }
 
     @Override
@@ -27,23 +25,28 @@ public class NULL extends AbstractOptionHandler implements QualityMeasure{
     }
 
     @Override
-    public double getValue(ContingencyTable t) {
-        return Double.NEGATIVE_INFINITY;
+    public double calculateValue(ContingencyTable t) {
+        return Double.NaN;
     }
 
     @Override
-    public boolean validate(double value) {
-        return true;
+    public void validate() throws InvalidRangeInMeasureException {
+        throw new InvalidRangeInMeasureException(this);
     }
 
     @Override
-    public double getValue() {
-        return value;
+    public QualityMeasure clone() {
+
+        NULL a = new NULL();
+        a.name = this.name;
+        a.value = this.value;
+
+        return a;
+
     }
 
     @Override
-    public String getName() {
-        return name;
+    protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
     }
-    
+
 }

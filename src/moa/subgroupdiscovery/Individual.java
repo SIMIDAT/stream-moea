@@ -5,113 +5,118 @@
  * @since JDK1.5
  * </p>
  */
-
 package moa.subgroupdiscovery;
 
 import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import moa.options.ClassOption;
 import moa.subgroupdiscovery.qualitymeasures.Confidence;
+import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
+import moa.subgroupdiscovery.qualitymeasures.InvalidRangeInMeasureException;
+import moa.subgroupdiscovery.qualitymeasures.NULL;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
+import weka.classifiers.evaluation.ConfusionMatrix;
 
 public abstract class Individual {
-        
-      /**
-       * Sets the size of the individual
-       */
-      public int tamano;
 
-      /**
-       * Sets whether the individual is evaluated or not
-       */
-      public boolean evaluado;
-      
-      /**
-       * Sets the individuals covered in this chunk of data
-       */
-      public BitSet cubre; 
-      
-      /**
-       * The ranking of the individual
-       */
-      public int rank;
-      
-      /**
-      * The crowding distance of the individual
-      */
-      public double crowdingDistance;
-
-      /**
-       * The evaluation of the population obtained 
-       */
-      public int n_eval;             
-      
-      /**
-       * The quality measures of the individuals
-       */
-      public ArrayList<QualityMeasure> medidas;
-      
-      /**
-       * It store the objective measures of the individual.
-       */
-      public ArrayList<QualityMeasure> objs;
-      
-      /**
-       * It stores the diversity function to be used on the token competition
-       */
-      public QualityMeasure diversityMeasure;
-      
-      /**
-       * The confidence of the individual.
-       */
-      public Confidence conf;
-      
-      /**
-      * The class of the individual
-      */
-      protected int clas;
-      
-      
-
-    public Individual() {
-
-    }
-    
     /**
-     * Random initialisation of an individual. 
-     * It fills the individual array completely at random.
-     * 
+     * Sets the size of the individual
+     */
+    public int tamano;
+
+    /**
+     * Sets whether the individual is evaluated or not
+     */
+    public boolean evaluado;
+
+    /**
+     * Sets the individuals covered in this chunk of data
+     */
+    public BitSet cubre;
+
+    /**
+     * The ranking of the individual
+     */
+    public int rank;
+
+    /**
+     * The crowding distance of the individual
+     */
+    public double crowdingDistance;
+
+    /**
+     * The evaluation of the population obtained
+     */
+    public int n_eval;
+
+    /**
+     * The quality measures of the individuals
+     */
+    public ArrayList<QualityMeasure> medidas;
+
+    /**
+     * It store the objective measures of the individual.
+     */
+    public ArrayList<QualityMeasure> objs;
+
+    /**
+     * It stores the diversity function to be used on the token competition
+     */
+    public QualityMeasure diversityMeasure;
+
+    /**
+     * The confidence of the individual.
+     */
+    public Confidence conf;
+
+    /**
+     * The class of the individual
+     */
+    protected int clas;
+    
+    public Individual() {
+        
+    }
+
+    /**
+     * Random initialisation of an individual. It fills the individual array
+     * completely at random.
+     *
      * @param inst
      * @param neje
-     * @param nFile 
-     * @param clas 
+     * @param nFile
+     * @param clas
      */
     public abstract void RndInitInd(Instance inst, int neje, String nFile, int clas);
 
-    
     /**
-     * It performs a biased initialisation of an individual.
-     * The idea is the fill at most the percentage of variables specifiedat random
-     * in order to improve generality
+     * It performs a biased initialisation of an individual. The idea is the
+     * fill at most the percentage of variables specifiedat random in order to
+     * improve generality
+     *
      * @param inst
      * @param porcVar
      * @param neje
-     * @param nFile 
-     * @param clas 
+     * @param nFile
+     * @param clas
      */
     public abstract void BsdInitInd(Instance inst, float porcVar, int neje, String nFile, int clas);
 
     /**
-     * Initialisation based on coverture, the individual is initialized with the idea
-     * of covering an example of the dataset not covered up to the moment with a 
-     * percentage of variables initialised in order to improve generality.
+     * Initialisation based on coverture, the individual is initialized with the
+     * idea of covering an example of the dataset not covered up to the moment
+     * with a percentage of variables initialised in order to improve
+     * generality.
+     *
      * @param pop
      * @param Variables
      * @param Examples
      * @param porcCob
      * @param nobj
-     * @param nFile 
+     * @param nFile
      */
     public abstract void CobInitInd(Population pop, ArrayList<Instance> Examples, float porcCob, int nobj, int clas, String nFile);
 
@@ -119,20 +124,22 @@ public abstract class Individual {
      * <p>
      * Returns the position i of the array cubre
      * </p>
-     * @param pos               Position of example
-     * @return                  Value of the example
+     *
+     * @param pos Position of example
+     * @return Value of the example
      */
-    public boolean getIndivCovered (int pos) {
+    public boolean getIndivCovered(int pos) {
         return cubre.get(pos);
     }
-    
+
     /**
      * <p>
      * Returns if the individual has been evaluated
      * </p>
-     * @return                  Value of the example
+     *
+     * @return Value of the example
      */
-    public boolean getIndivEvaluated () {
+    public boolean getIndivEvaluated() {
         return evaluado;
     }
 
@@ -140,9 +147,10 @@ public abstract class Individual {
      * <p>
      * Sets that the individual has been evaluated
      * </p>
-     * @param val               Value of the state of the individual
+     *
+     * @param val Value of the state of the individual
      */
-    public void setIndivEvaluated (boolean val) {
+    public void setIndivEvaluated(boolean val) {
         evaluado = val;
     }
 
@@ -150,19 +158,21 @@ public abstract class Individual {
      * <p>
      * Returns the crowdingDistance of the individual
      * </p>
-     * @return                  Crowding distance of the individual
+     *
+     * @return Crowding distance of the individual
      */
-    public double getCrowdingDistance () {
+    public double getCrowdingDistance() {
         return crowdingDistance;
     }
-    
+
     /**
      * <p>
      * Sets the crowdingDistance of the individual
      * </p>
-     * @param cd                Crowding distance for the individual
+     *
+     * @param cd Crowding distance for the individual
      */
-    public void setCrowdingDistance (double cd) {
+    public void setCrowdingDistance(double cd) {
         crowdingDistance = cd;
     }
 
@@ -170,39 +180,43 @@ public abstract class Individual {
      * <p>
      * Returns the rank of the individual
      * </p>
-     * @return              Ranking of the individual
+     *
+     * @return Ranking of the individual
      */
-    public int getRank (){
+    public int getRank() {
         return rank;
     }
-    
+
     /**
      * <p>
      * Sets the rank of the individual
      * </p>
-     * @param arank         Ranking of the individual
+     *
+     * @param arank Ranking of the individual
      */
-    public void setRank (int arank){
+    public void setRank(int arank) {
         rank = arank;
     }
-    
+
     /**
      * <p>
      * Returns the number of evaluation when the individual was created
      * </p>
-     * @return                  Number of evalution when the individual was created
+     *
+     * @return Number of evalution when the individual was created
      */
-    public int getNEval (){
+    public int getNEval() {
         return n_eval;
     }
-    
+
     /**
      * <p>
      * Sets the number of evaluation when the individual was created
      * </p>
-     * @param eval              Number of evaluation when the individual was created
+     *
+     * @param eval Number of evaluation when the individual was created
      */
-    public void setNEval (int eval){
+    public void setNEval(int eval) {
         n_eval = eval;
     }
 
@@ -210,9 +224,10 @@ public abstract class Individual {
      * <p>
      * Return the quality measure of the individual
      * </p>
-     * @return                  Quality measures of the individual
+     *
+     * @return Quality measures of the individual
      */
-    public ArrayList<QualityMeasure> getMeasures(){
+    public ArrayList<QualityMeasure> getMeasures() {
         return medidas;
     }
 
@@ -220,10 +235,11 @@ public abstract class Individual {
      * <p>
      * Gets the value of the quality measure in the position pos
      * </p>
-     * @param pos               Position of the quality measure
-     * @return                  Value of the quality measure
+     *
+     * @param pos Position of the quality measure
+     * @return Value of the quality measure
      */
-    public double getMeasureValue(int pos){
+    public double getMeasureValue(int pos) {
         return medidas.get(pos).getValue();
     }
 
@@ -231,120 +247,134 @@ public abstract class Individual {
      * <p>
      * Sets the value of the quality measure in the position pos
      * </p>
-     * @param pos               Position of the quality measure
-     * @param value             Value of the quality measure
+     *
+     * @param pos Position of the quality measure
+     * @param value Value of the quality measure
      */
 //    public void setMeasureValue(int pos, double value){
 //        medidas.setObjectiveValue(pos, value);
 //    }
-
     /**
      * <p>
      * Sets the value of confidence of the individual
      * </p>
-     * @param value             Value of confidence of the individual
+     *
+     * @param value Value of confidence of the individual
      */
 //    public void setCnfValue(double value){
 //        medidas.setCnf(value);
 //    }
-
     /**
      * <p>
      * Gets the value of confidence of the individual
      * </p>
-     * @return                  Value of confidence of the individual
+     *
+     * @return Value of confidence of the individual
      */
-    public double getCnfValue(){
-        return conf.value;
+    public double getCnfValue() {
+        return conf.getValue();
     }
-    
+
     /**
      * Gets the chromosome element at the specified position
+     *
      * @param pos
-     * @return 
+     * @return
      */
     public abstract int getCromElem(int pos);
-    
+
     /**
      * Sets the value of the chromosome at the specified position
+     *
      * @param pos
-     * @param val 
+     * @param val
      */
-    public abstract void setCromElem (int pos, int val);
-    
-    
+    public abstract void setCromElem(int pos, int val);
+
     /**
-     * Gets the gene {@code elem} at the specified position. Use in DNF 
+     * Gets the gene {@code elem} at the specified position. Use in DNF
+     *
      * @param pos
      * @param elem
-     * @return 
+     * @return
      */
     public abstract boolean getCromGeneElem(int pos, int elem);
-    
+
     /**
-     * Sets the value of an element of the gene at the specified position for a DNF variable
+     * Sets the value of an element of the gene at the specified position for a
+     * DNF variable
+     *
      * @param pos
      * @param elem
-     * @param val 
+     * @param val
      */
     public abstract void setCromGeneElem(int pos, int elem, boolean val);
-
-    public abstract CromCAN getIndivCromCAN();
     
+    public abstract CromCAN getIndivCromCAN();
+
     /**
      * Gets the chromosome
-     * @return 
+     *
+     * @return
      */
     public abstract CromDNF getIndivCromDNF();
-    
+
     /**
-     * Copy an individual 
+     * Copy an individual
+     *
      * @param indi
      * @param nobj
-     * @param neje 
+     * @param neje
      */
-    public abstract void copyIndiv (Individual indi, int nobj, int neje);
-    
+    public abstract void copyIndiv(Individual indi, int nobj, int neje);
+
     /**
      * Evaluates the individual with respect to the examples of this data chunk
+     *
      * @param AG
-     * @param Examples 
-     * @param objs 
+     * @param Examples
+     * @param objs
      */
-    public abstract void evalInd (ArrayList<Instance> Examples, ArrayList<QualityMeasure> objs, boolean isTrain);
-    
-    
+    public abstract void evalInd(ArrayList<Instance> Examples, ArrayList<QualityMeasure> objs, boolean isTrain);
+
     /**
      * Gets the linguistic label that this value belongs to
+     *
      * @param valor
      * @param num_var
      * @param Variables
-     * @return 
+     * @return
      */
-    public abstract int NumInterv (double valor, int num_var, Instance inst);
-    
-    
+    public abstract int NumInterv(double valor, int num_var, Instance inst);
+
     /**
-     * It applies the mutation operator over all genes of an individual, according to the mutation probability
-     * 
+     * It applies the mutation operator over all genes of an individual,
+     * according to the mutation probability
+     *
      * @return A copy of the mutated individual.
      */
     public abstract void mutate(Instance inst, float mutProb);
-    
-    
+
     /**
-     * It performs the mutation operator over a gene of the individual, with a 100% of probability of application
-     * 
+     * It performs the mutation operator over a gene of the individual, with a
+     * 100% of probability of application
+     *
      * @return A copy of the mutated individual.
      */
     public abstract void mutate(Instance inst, int pos);
-    
-    
+
     /**
      * Print the individual
-     * @param nFile 
+     *
+     * @param nFile
      */
     public abstract void Print(String nFile);
+    
+    /**
+     * Checks whether it is an empty rule, i.e., no variables participate in the rule
+     * @return 
+     */
+    public abstract boolean isEmpty();
 
     /**
      * @return the clas
@@ -360,5 +390,75 @@ public abstract class Individual {
         this.clas = clas;
     }
 
-    
+    /**
+     * It calculates the quality measures given a contingency table
+     *
+     * @param confMatrix
+     * @param objs
+     * @param isTrain
+     */
+    public void calculateMeasures(ContingencyTable confMatrix, ArrayList<QualityMeasure> objs, boolean isTrain) {
+        if (isTrain) {
+            // Compute the objective quality measures
+            if (this.objs.isEmpty()) {
+                objs.forEach((q) -> {
+                    // If it is empty, then the measures are not created, copy the default objects
+                    // from the objectives array
+                    this.objs.add(q.clone());
+                });
+            }
+            
+            this.objs.stream().filter((QualityMeasure q) -> (!(q instanceof NULL))).forEachOrdered((QualityMeasure q) -> {
+                // Calculate if it is not the null measure.
+                q.calculateValue(confMatrix);
+                try {
+                    // Check for errors in the measures, exit if they are detected
+                    q.validate();
+                } catch (InvalidRangeInMeasureException ex) {
+                    // If this exception occurred, then exit the program
+                    ex.showAndExit(this);
+                }
+            });
+
+            // Compute the confidence
+            this.conf.calculateValue(confMatrix);
+
+            // Compute the diversity function
+            this.diversityMeasure.calculateValue(confMatrix);
+
+            // check confidence and diversity functions
+            try {
+                this.conf.validate();
+                this.diversityMeasure.validate();
+            } catch (InvalidRangeInMeasureException ex) {
+                System.err.println("In training:");
+                ex.showAndExit(this);
+            }
+        } else {
+
+            // Test the individual.
+            try {
+                // Get all the quality measures available in the package qualitymeasures
+                ArrayList<QualityMeasure> measures = moa.subgroupdiscovery.qualitymeasures.ClassLoader.getClasses();
+
+                // Calculates the value of each measure
+                measures.forEach(q -> {
+                    try {
+                        q.calculateValue(confMatrix);
+                        q.validate();
+                        this.medidas.add(q);
+                    } catch (InvalidRangeInMeasureException ex) {
+                        System.err.println("In test: ");
+                        ex.showAndExit(this);
+                    }
+                });
+                
+            } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
+                Logger.getLogger(IndDNF.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("Classes not found in package quality measures");
+            }
+            
+        }
+        
+    }
 }

@@ -23,44 +23,95 @@
  */
 package moa.subgroupdiscovery.qualitymeasures;
 
-import moa.options.OptionHandler;
-
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+import moa.options.AbstractOptionHandler;
 
 /**
  * Abstract class that represents an statistical quality measure
+ *
  * @author Angel Miguel Garcia Vico <agvico at ujaen.es>
  */
-public interface QualityMeasure extends OptionHandler{
-    
-   
+public abstract class QualityMeasure extends AbstractOptionHandler implements Cloneable {
+
     /**
-     * It calculates the value of the given quality measure.
+     * The value of the quality measure
+     */
+    protected double value;
+
+    /**
+     * The name of the quality measure
+     */
+    protected String name;
+
+    /**
+     * The acronim of the quality measure
+     */
+    protected String short_name;
+    
+    /**
+     * The contingencyTable from the values are calculated
+     */
+    protected ContingencyTable table;
+
+    /**
+     * It calculates the value of the given quality measure by means of the
+     * given contingency table
+     *
      * @param t
-     * @return 
+     * @return
      */
-    public double getValue(ContingencyTable t);
-    
+    public abstract double calculateValue(ContingencyTable t);
+
     /**
-     * Return the last calculate value of the measure
-     * @return 
+     * Return the last calculated value of the measure
+     *
+     * @return
      */
-    public double getValue();
-    
+    public double getValue() {
+        return value;
+    }
+
     /**
-     * It checks that the value of the measure is within the domain of the measure
+     * It checks that the value of the measure is within the domain of the
+     * measure
+     *
      * @param value
-     * @return 
+     * @return
      */
-    public boolean validate(double value);
-    
-    @Override
-    public String toString();
-    
+    public abstract void validate() throws InvalidRangeInMeasureException;
+
     /**
-     * Returns the name of the quality measure
-     * @return 
+     * Returns a copy of this object
+     *
+     * @return
      */
-    public String getName();
+    @Override
+    public abstract QualityMeasure clone();
+
+    @Override
+    public String toString() {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setDecimalSeparator('.');
+        DecimalFormat sixDecimals = new DecimalFormat("0.000000", symbols);
+        return short_name + " = " + sixDecimals.format(value);
+    }
+
+    /**
+     * Returns the full name of the quality measure
+     *
+     * @return
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    public String getShortName() {
+        return short_name;
+    }
+
     
-   
+    
+    
 }

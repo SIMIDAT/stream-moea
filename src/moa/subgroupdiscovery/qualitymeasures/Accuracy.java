@@ -24,32 +24,33 @@
 package moa.subgroupdiscovery.qualitymeasures;
 
 import moa.core.ObjectRepository;
-import moa.options.AbstractOptionHandler;
 import moa.tasks.TaskMonitor;
 
 /**
  * Accuracy. It measures the precision of the model
+ *
  * @author angel
  */
-public class Accuracy extends AbstractOptionHandler implements QualityMeasure{
-    
-    public String name = "Accuracy";
-    public double value;
-    
+public class Accuracy extends QualityMeasure {
+
+    public Accuracy() {
+        super.name = "Accuracy";
+        super.short_name = "Acc";
+        super.value = 0.0;
+    }
+
     @Override
-    public double getValue(ContingencyTable t) {
-        name = "Accuracy";
-        value = (double) (t.getTp() + t.getTn()) / t.getTotalExamples();
+    public double calculateValue(ContingencyTable t) {
+        table = t;
+        value = (double) (t.getTp() + t.getTn()) / (double) t.getTotalExamples();
         return value;
     }
 
     @Override
-    public boolean validate(double value) {
-        return value <= 1.0 && value >= 0.0;
-    }
-
-    @Override
-    protected void prepareForUseImpl(TaskMonitor arg0, ObjectRepository arg1) {
+    public void validate() throws InvalidRangeInMeasureException {
+        if (!(value <= 1.0 && value >= 0.0) || Double.isNaN(value)) {
+            throw new InvalidRangeInMeasureException(this);
+        }
     }
 
     @Override
@@ -57,13 +58,15 @@ public class Accuracy extends AbstractOptionHandler implements QualityMeasure{
     }
 
     @Override
-    public double getValue() {
-        return value;
+    public QualityMeasure clone() {
+        Accuracy a = new Accuracy();
+        a.name = this.name;
+
+        return a;
     }
 
     @Override
-    public String getName() {
-        return name;
+    protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
     }
-    
+
 }

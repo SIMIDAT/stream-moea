@@ -135,4 +135,14 @@ public class ContingencyTable {
     public String toString(){
         return "TP: " + tp + "  FP: " + fp + "  TN: " + tn + "  FP: " + fp;
     }
+    
+    /**
+     * It checks if the contingency table is correctly created.
+     * @throws InvalidContingencyTableException 
+     */
+    public void validate() throws InvalidContingencyTableException{
+        if(tp < 0 || fp < 0 || tn < 0 || fn < 0){
+            throw new InvalidContingencyTableException(this);
+        }
+    }
 }

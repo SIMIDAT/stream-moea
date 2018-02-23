@@ -23,48 +23,69 @@
  */
 package moa.subgroupdiscovery.qualitymeasures;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import moa.core.ObjectRepository;
-import moa.options.AbstractOptionHandler;
 import moa.tasks.TaskMonitor;
 
 /**
  *
  * @author angel
  */
-public class AUC extends AbstractOptionHandler implements QualityMeasure{
+public class AUC extends QualityMeasure {
 
-    public double value;
-    public String name = "Area Under the Curve (AUC)";
-    
+    /**
+     * Default constructor
+     */
+    public AUC() {
+        super.name = "Area Under the Curve";
+        super.short_name = "AUC";
+        super.value = 0.0;
+    }
+
     @Override
-    public double getValue(ContingencyTable t) {
-        TPR tpr = new TPR();
-        FPR fpr = new FPR();
-        value = (1.0 + tpr.getValue(t) - fpr.getValue(t)) / 2.0;
+    public double calculateValue(ContingencyTable t) {
+        table = t;
+        try {
+            TPR tpr = new TPR();
+            tpr.calculateValue(t);
+            tpr.validate();
+
+            FPR fpr = new FPR();
+            fpr.calculateValue(t);
+            fpr.validate();
+
+            value = (1.0 + tpr.value - fpr.value) / 2.0;
+            
+        } catch (InvalidRangeInMeasureException ex) {
+            ex.showAndExit(this);
+        }
+        
         return value;
+
     }
 
     @Override
-    public boolean validate(double value) {
-        return value >= 0.0 && value <= 1.0;
+    public void validate() throws InvalidRangeInMeasureException {
+        if (!(value >= 0.0 && value <= 1.0) || Double.isNaN(value)) {
+            throw new InvalidRangeInMeasureException(this);
+        }
     }
 
     @Override
-    protected void prepareForUseImpl(TaskMonitor arg0, ObjectRepository arg1) {
+    public QualityMeasure clone() {
+        AUC a = new AUC();
+        a.value = this.value;
+
+        return a;
     }
 
     @Override
-    public void getDescription(StringBuilder arg0, int arg1) {
+    public void getDescription(StringBuilder sb, int i) {
     }
 
     @Override
-    public double getValue() {
-        return value;
+    protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
-    
 }

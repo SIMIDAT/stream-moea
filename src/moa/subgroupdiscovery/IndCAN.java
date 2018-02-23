@@ -10,6 +10,8 @@ package moa.subgroupdiscovery;
 import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import moa.subgroupdiscovery.qualitymeasures.Confidence;
 import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
 import moa.subgroupdiscovery.qualitymeasures.NULL;
@@ -45,17 +47,21 @@ public class IndCAN extends Individual {
      */
     public IndCAN(int lenght, int neje, int nobj) {
 
-        tamano = lenght;
-        cromosoma = new CromCAN(lenght);
-        medidas = new ArrayList<>();
-        objs = new ArrayList<>();
-        conf = new Confidence();
-        diversityMeasure = (QualityMeasure) StreamMOEAEFEP.diversityMeasure.copy();
-        evaluado = false;
-        cubre = new BitSet(neje);
+        try {
+            tamano = lenght;
+            cromosoma = new CromCAN(lenght);
+            medidas = new ArrayList<>();
+            objs = new ArrayList<>();
+            conf = new Confidence();
+            diversityMeasure = (QualityMeasure) StreamMOEAEFEP.diversityMeasure.getClass().newInstance();
+            evaluado = false;
+            cubre = new BitSet(neje);
 
-        crowdingDistance = 0.0;
-        n_eval = 0;
+            crowdingDistance = 0.0;
+            n_eval = 0;
+        } catch (InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(IndCAN.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -278,9 +284,21 @@ public class IndCAN extends Individual {
         this.setCrowdingDistance(a.getCrowdingDistance());
         this.setRank(a.getRank());
 
-        this.objs = (ArrayList<QualityMeasure>) a.objs.clone();
-        this.medidas = (ArrayList<QualityMeasure>) a.medidas.clone();
-        this.conf = (Confidence) a.conf.copy();
+        this.objs = new ArrayList<>();
+        for (QualityMeasure q : a.objs) {
+            QualityMeasure aux = q.clone();
+
+            this.objs.add(aux);
+        }
+
+        this.medidas = new ArrayList<>();
+        for (QualityMeasure q : a.medidas) {
+            QualityMeasure aux = q.clone();
+
+            this.medidas.add(aux);
+        }
+
+        this.conf = (Confidence) a.conf.clone();
 
         this.clas = a.clas;
 
@@ -355,6 +373,7 @@ public class IndCAN extends Individual {
                         confMatrix.setFp(confMatrix.getFp() + 1);
                     }
                 } else {
+                    cubre.clear(i);
                     if (((Double) inst.classValue()).intValue() == this.getClas()) {
                         confMatrix.setFn(confMatrix.getFn() + 1);
                     } else {
@@ -362,33 +381,13 @@ public class IndCAN extends Individual {
                     }
                 }
             }
-            /*if(disparoCrisp > 0){
-                Double v = inst.classValue();
-                cubreClase[v.intValue()]++;
-            }*/
 
         }
 
-        // Compute the objective quality measures
-        if (this.objs.isEmpty()) {
-            objs.forEach((q) -> {
-                // If it is empty, then the measures are not created, copy the default objects
-                // from the objectives array
-                this.objs.add(q);
-            });
-        }
+        // calculate the quality measures
+        this.calculateMeasures(confMatrix, objs, isTrain);
 
-        this.objs.stream().filter((q) -> (!(q instanceof NULL))).forEachOrdered((q) -> {
-            // Calculate if it is not the null measure.
-            q.getValue(confMatrix);
-        });
-
-        // Compute the confidence
-        this.conf.getValue(confMatrix);
-
-        // Compute the diversity function
-        this.diversityMeasure.getValue(confMatrix);
-
+        // Set individual as evaluated
         evaluado = true;
 
     }
@@ -537,4 +536,10 @@ public class IndCAN extends Individual {
 
     }
 
+    
+    @Override
+    public boolean isEmpty(){
+        return false;
+    }
+    
 }

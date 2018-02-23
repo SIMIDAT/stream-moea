@@ -25,6 +25,7 @@ package moa.subgroupdiscovery.qualitymeasures;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 /**
@@ -34,6 +35,10 @@ import java.util.ArrayList;
  */
 public class ClassLoader {
     
+    /**
+     * The package name. (Change if necessary)
+     */
+    private static String pkg = "moa.subgroupdiscovery.qualitymeasures.";
     
     /**
      * Returns the classes that represents the quality measures that are available on the framework.
@@ -51,9 +56,11 @@ public class ClassLoader {
 
         File root = new File("src/moa/subgroupdiscovery/qualitymeasures");
         ArrayList<QualityMeasure> measures = new ArrayList<QualityMeasure>();
-        for (File i : root.listFiles()) {
-            if(! i.getName().contains("ClassLoader") && ! i.getName().contains("NULL") && ! i.getName().contains("ContingencyTable") && ! i.getName().contains("QualityMeasure")){
-                String fullyName = "moa.subgroupdiscovery.qualitymeasures." + i.getName().replaceAll(".java", "");
+        File[] listFiles = root.listFiles();
+        Arrays.sort(listFiles);
+        for (File i : listFiles) {
+            if(! i.getName().contains("Exception") && ! i.getName().contains("ClassLoader") && ! i.getName().contains("NULL") && ! i.getName().contains("ContingencyTable") && ! i.getName().contains("QualityMeasure")){
+                String fullyName = pkg + i.getName().replaceAll(".java", "");
                 Class a = Class.forName(fullyName);
                 Object instance = a.newInstance();
                 measures.add((QualityMeasure) instance);

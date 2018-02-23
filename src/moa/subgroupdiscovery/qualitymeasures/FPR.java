@@ -24,32 +24,36 @@
 package moa.subgroupdiscovery.qualitymeasures;
 
 import moa.core.ObjectRepository;
-import moa.options.AbstractOptionHandler;
 import moa.tasks.TaskMonitor;
 
 /**
  *
  * @author angel
  */
-public class FPR extends AbstractOptionHandler implements QualityMeasure{
-    
-    public String name = "False Positive Rate";
-    public double value;
-    
+public class FPR extends QualityMeasure {
+
+    public FPR() {
+        super.name = "False Positive Rate";
+        super.short_name = "FPR";
+        super.value = 1.0;
+    }
+
     @Override
-    public double getValue(ContingencyTable t) {
-        name = "False Positive Rate / Specificity";
-        value = (double) t.getFp() / (double) (t.getFp() + t.getTn());
+    public double calculateValue(ContingencyTable t) {
+        table = t;
+        if (t.getFp() + t.getTn() == 0) {
+            value = 1.0;
+        } else {
+            value = (double) t.getFp() / (double) (t.getFp() + t.getTn());
+        }
         return value;
     }
 
     @Override
-    public boolean validate(double value) {
-        return value >= 0.0 && value <= 1.0;
-    }
-
-    @Override
-    protected void prepareForUseImpl(TaskMonitor arg0, ObjectRepository arg1) {
+    public void validate() throws InvalidRangeInMeasureException {
+        if (!(value >= 0.0 && value <= 1.0) || Double.isNaN(value)) {
+            throw new InvalidRangeInMeasureException(this);
+        }
     }
 
     @Override
@@ -57,13 +61,15 @@ public class FPR extends AbstractOptionHandler implements QualityMeasure{
     }
 
     @Override
-    public double getValue() {
-        return value;
+    public QualityMeasure clone() {
+        FPR a = new FPR();
+        a.value = this.value;
+
+        return a;
     }
 
     @Override
-    public String getName() {
-        return name;
+    protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
     }
-    
+
 }

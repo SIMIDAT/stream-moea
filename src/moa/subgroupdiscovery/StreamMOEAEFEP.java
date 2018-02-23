@@ -47,7 +47,7 @@ public class StreamMOEAEFEP extends AbstractClassifier{
      * Set the population size of the genetic algorithm
      */
     public IntOption populationSize = new IntOption("popSize", 'p', 
-            "The number of individuals in the population of the genetic algorithm", 31);
+            "The number of individuals in the population of the genetic algorithm", 3);
    
     /**
      * Set the crossover probability of the genetic algorithm
@@ -136,6 +136,10 @@ public class StreamMOEAEFEP extends AbstractClassifier{
      */
     protected Population previousPopulation = null;
 
+    /**
+     * Only for DEBUG purposes.
+     */
+    public static boolean DEBUG = false;
     
     @Override
     public double[] getVotesForInstance(Instance inst) {
@@ -190,9 +194,11 @@ public class StreamMOEAEFEP extends AbstractClassifier{
                     previousPopulation.getIndiv(i).evalInd(dataChunk, objectives, false);
                     
                     // Show the test measures for this timestamp (We need how to save this results to further processing)
+                    // TODO: We need to 1º Save the individual results of the test and the rules for training on a file for further processing
+                    // 2º: We need to save the mean results for each timestamp on other file, in order to get the results for the paper easily.
                     System.out.println("Rule " + i + ": ");
                     for(QualityMeasure q : previousPopulation.getIndiv(i).medidas){
-                        System.out.println("\t" + q.getName() + ": " + q.getValue());
+                        System.out.println("\t" + q);
                     }
                 }
             }

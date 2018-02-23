@@ -23,34 +23,49 @@
  */
 package moa.subgroupdiscovery.qualitymeasures;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import moa.core.ObjectRepository;
-import moa.options.AbstractOptionHandler;
 import moa.tasks.TaskMonitor;
 
 /**
  *
  * @author angel
  */
-public class GMean extends AbstractOptionHandler implements QualityMeasure{
-    
-    public String name = "G-mean";
-    public double value;
+public class GMean extends QualityMeasure {
+
+    public GMean() {
+        super.name = "Geometric Mean";
+        super.short_name = "G-Mean";
+        super.value = 0.0;
+    }
+
+    @Override
+    public double calculateValue(ContingencyTable t) {
+        table = t;
+        try {
+            TPR tpr = new TPR();
+            tpr.calculateValue(t);
+            tpr.validate();
+
+            TNR tnr = new TNR();
+            tnr.calculateValue(t);
+            tnr.validate();
             
-    @Override
-    public double getValue(ContingencyTable t) {
-        TPR tpr = new TPR();
-        TNR tnr = new TNR();
-        value = Math.sqrt(tpr.getValue(t) * tnr.getValue(t));
+            value = Math.sqrt(tpr.value * tnr.value);
+
+        } catch (InvalidRangeInMeasureException ex) {
+           ex.showAndExit(this);
+        }
         return value;
+
     }
 
     @Override
-    public boolean validate(double value) {
-        return value >= 0.0 && value <= 1.0;
-    }
-
-    @Override
-    protected void prepareForUseImpl(TaskMonitor arg0, ObjectRepository arg1) {
+    public void validate() throws InvalidRangeInMeasureException {
+        if (!(value >= 0.0 && value <= 1.0) || Double.isNaN(value)) {
+            throw new InvalidRangeInMeasureException(this);
+        }
     }
 
     @Override
@@ -58,13 +73,16 @@ public class GMean extends AbstractOptionHandler implements QualityMeasure{
     }
 
     @Override
-    public double getValue() {
-        return value;
+    public QualityMeasure clone() {
+        GMean a = new GMean();
+        a.name = this.name;
+        a.value = this.value;
+
+        return a;
     }
 
     @Override
-    public String getName() {
-        return name;
+    protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
     }
-    
+
 }
