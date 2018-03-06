@@ -102,15 +102,12 @@ public class Population {
     public int evalPop(Genetic AG, ArrayList<Instance> Examples, ArrayList<QualityMeasure> objectives) {
         
         int trials = 0;
-        //System.out.println("Debug: NumIndividuals: " + this.getNumIndiv());
         for (int i = 0; i < this.num_indiv; i++) {
-            //System.out.println("DEBUG: Individual " + i + " Objs_size: "+ indivi[i].objs.size());
             if (!getIndivEvaluated(i)) {     // Not evaluated
                 
                 // Cambiar en la clase Genetic para que pueda almacenar los objetivos por defecto.
                 indivi[i].evalInd(Examples, objectives, true);
-                //System.out.println("DEBUG: Individual " + i + " evaluated: " + indivi[i].objs.get(0).getValue() + "   " + indivi[i].objs.get(1).getValue());
-                
+
                 setIndivEvaluated(i, true);   /* Now it is evaluated */
 
                 indivi[i].setNEval(AG.getTrials());
@@ -309,6 +306,14 @@ public class Population {
      * @return A new population with the token competition applied
      */
     public Population tokenCompetition(ArrayList<Instance> Examples, Genetic GA) {
+        
+        for(Individual i : indivi){
+            if(! i.getIndivEvaluated()){
+                throw new IllegalStateException("Token Competition: Not all individuals are marked as evaluated");
+            }
+        }
+        
+        // If all is ok, continue.
         Instance aux = Examples.get(0);
         // Sort population by the diversity function
         Population actual = sortByDiversity(Examples, GA);
@@ -331,6 +336,9 @@ public class Population {
 //                }
 //            }
             // Check if there are new covered examples
+            // The operation is:
+            // (tokens (xor) cubiertoRegla) & ( not tokens)
+            // The result in aux2 is the new tokens covered by the rule
             BitSet aux1 = (BitSet)tokens.clone();
             BitSet aux2 = (BitSet)tokens.clone();
             aux1.xor(cubiertoRegla);
@@ -381,7 +389,7 @@ public class Population {
         int indices[] = new int[getNumIndiv()];
         for (int i = 0; i < getNumIndiv(); i++) {
             indices[i] = i;
-            ordenado[i] = getIndiv(i).diversityMeasure.getValue();
+            ordenado[i] = this.indivi[i].diversityMeasure.getValue();
         }
         Utils.OrCrecIndex(ordenado, izq, der, indices);
 
@@ -432,5 +440,9 @@ public class Population {
         }
         
         return result;
+    }
+    
+    public void setIndivi(int pos, Individual ind){
+        indivi[pos] = ind;
     }
 }

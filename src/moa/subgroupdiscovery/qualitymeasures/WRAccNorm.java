@@ -23,42 +23,56 @@
  */
 package moa.subgroupdiscovery.qualitymeasures;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import moa.core.ObjectRepository;
-import moa.options.AbstractOptionHandler;
 import moa.tasks.TaskMonitor;
+
 
 /**
  *
  * @author agvico
  */
-public class WRAccNorm  extends AbstractOptionHandler implements QualityMeasure{
-    
-    public String name = "Normalized WRAcc";
-    public double value;
+public class WRAccNorm extends QualityMeasure {
+
+    public WRAccNorm(){
+        super.value = 0.0;
+        super.name = "Weighter Relative Accuracy (Normalised)";
+        super.short_name = "WRAcc_Norm";
+    }
     
     @Override
-    public double getValue(ContingencyTable t) {
-        double classPct = (double) (t.getTp() + t.getFn()) / t.getTotalExamples();
-        double minUnus = (1.0 - classPct) * (0.0 - classPct);
-        double maxUnus = classPct * (1.0 - classPct);
-        
-        if(maxUnus - minUnus != 0){
-            WRAcc unus = new WRAcc();
-            value = (unus.getValue(t) - minUnus) / (maxUnus - minUnus);
-        } else {
-            value =  0.0;
+    public double calculateValue(ContingencyTable t) {
+        table = t;
+        double classPct = 0.0 ;
+        if (t.getTotalExamples() != 0) {
+            classPct = (double) (t.getTp() + t.getFn()) / (double) t.getTotalExamples();
         }
         
+        double minUnus = (1.0 - classPct) * (0.0 - classPct);
+        double maxUnus = classPct * (1.0 - classPct);
+
+        if (maxUnus - minUnus != 0) {
+            try {
+                WRAcc unus = new WRAcc();
+                unus.calculateValue(t);
+                unus.validate();
+                value = (unus.value - minUnus) / (maxUnus - minUnus);
+            } catch (InvalidRangeInMeasureException ex) {
+                ex.showAndExit(this);
+            }
+        } else {
+            value = 0.0;
+        }
+
         return value;
     }
 
     @Override
-    public boolean validate(double value) {
-        return value >= 0.0 && value <= 1.0;
-    }
-
-    @Override
-    protected void prepareForUseImpl(TaskMonitor arg0, ObjectRepository arg1) {
+    public void validate() throws InvalidRangeInMeasureException {
+        if (!(value >= 0.0 && value <= 1.0) || Double.isNaN(value)) {
+            throw new InvalidRangeInMeasureException(this);
+        }
     }
 
     @Override
@@ -66,13 +80,16 @@ public class WRAccNorm  extends AbstractOptionHandler implements QualityMeasure{
     }
 
     @Override
-    public double getValue() {
-        return value;
+    public QualityMeasure clone() {
+        WRAccNorm a = new WRAccNorm();
+        a.name = this.name;
+        a.value = this.value;
+
+        return a;
     }
 
     @Override
-    public String getName() {
-       return name;
+    protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
     }
-    
+
 }

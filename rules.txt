@@ -1,0 +1,142 @@
+*************************************************
+Timestamp 1:
+Rule 0:
+	Variable att7 = Label 0 (-1.8563068 -0.66485524 0.5265963)	Label 1 (-0.66485524 0.5265963 1.7180479)	
+	Variable att10 = Label 0 (-2.448525 -1.079883 0.28875917)	Label 2 (0.28875917 1.6574013 3.0260434)	
+	Consecuent: class1
+
+Rule 1:
+	Variable att1 = Label 0 (-2.28272 -0.90862733 0.4654654)	
+	Variable att3 = Label 2 (0.23011301 1.6395872 3.0490613)	
+	Consecuent: class1
+
+Rule 2:
+	Variable att1 = Label 1 (-0.90862733 0.4654654 1.8395581)	
+	Variable att5 = Label 1 (-0.5603268 0.60934544 1.7790178)	
+	Variable att6 = Label 1 (-0.81346595 0.53613037 1.8857267)	
+	Variable att7 = Label 1 (-0.66485524 0.5265963 1.7180479)	
+	Variable att9 = Label 0 (-2.2410138 -0.8256916 0.5896307)	Label 1 (-0.8256916 0.5896307 2.004953)	
+	Variable att10 = Label 0 (-2.448525 -1.079883 0.28875917)	
+	Consecuent: class2
+
+Rule 3:
+	Variable att1 = Label 1 (-0.90862733 0.4654654 1.8395581)	Label 2 (0.4654654 1.8395581 3.2136507)	
+	Variable att2 = Label 0 (-1.7463784 -0.5991195 0.5481394)	
+	Consecuent: class2
+
+Rule 4:
+	Variable att1 = Label 1 (-0.90862733 0.4654654 1.8395581)	
+	Variable att5 = Label 0 (-1.7299992 -0.5603268 0.60934544)	
+	Variable att6 = Label 0 (-2.1630623 -0.81346595 0.53613037)	Label 1 (-0.81346595 0.53613037 1.8857267)	
+	Variable att7 = Label 1 (-0.66485524 0.5265963 1.7180479)	
+	Variable att8 = Label 1 (-1.4050113 0.23189966 1.8688107)	
+	Variable att9 = Label 1 (-0.8256916 0.5896307 2.004953)	
+	Variable att10 = Label 1 (-1.079883 0.28875917 1.6574013)	
+	Consecuent: class2
+
+Rule 5:
+	Variable att4 = Label 1 (-0.91825944 0.4241418 1.766543)	
+	Variable att5 = Label 1 (-0.5603268 0.60934544 1.7790178)	
+	Variable att6 = Label 0 (-2.1630623 -0.81346595 0.53613037)	
+	Variable att7 = Label 1 (-0.66485524 0.5265963 1.7180479)	
+	Consecuent: class2
+
+*************************************************
+*************************************************
+Timestamp 2:
+Rule 0:
+	Variable att6 = Label 0 (-2.1630623 -0.81346595 0.53613037)	
+	Consecuent: class1
+
+Rule 1:
+	Variable att1 = Label 0 (-2.28272 -0.90862733 0.4654654)	
+	Variable att6 = Label 0 (-2.1630623 -0.81346595 0.53613037)	Label 1 (-0.81346595 0.53613037 1.8857267)	
+	Variable att7 = Label 0 (-1.8563068 -0.66485524 0.5265963)	
+	Variable att9 = Label 1 (-0.8256916 0.5896307 2.004953)	
+	Consecuent: class1
+
+Rule 2:
+	Variable att2 = Label 0 (-1.7463784 -0.5991195 0.5481394)	
+	Consecuent: class1
+
+Rule 3:
+	Variable att3 = Label 1 (-1.1793611 0.23011301 1.6395872)	
+	Variable att4 = Label 1 (-0.91825944 0.4241418 1.766543)	
+	Variable att6 = Label 2 (0.53613037 1.8857267 3.235323)	
+	Variable att7 = Label 0 (-1.8563068 -0.66485524 0.5265963)	
+	Consecuent: class1
+
+Rule 4:
+	Variable att2 = Label 1 (-0.5991195 0.5481394 1.6953983)	
+	Variable att3 = Label 0 (-2.5888352 -1.1793611 0.23011301)	
+	Variable att5 = Label 1 (-0.5603268 0.60934544 1.7790178)	
+	Variable att7 = Label 1 (-0.66485524 0.5265963 1.7180479)	
+	Consecuent: class2
+
+Rule 5:
+	Variable att1 = Label 1 (-0.90862733 0.4654654 1.8395581)	
+	Variable att4 = Label 1 (-0.91825944 0.4241418 1.766543)	
+	Variable att5 = Label 1 (-0.5603268 0.60934544 1.7790178)	
+	Variable att6 = Label 0 (-2.1630623 -0.81346595 0.53613037)	
+	Variable att9 = Label 1 (-0.8256916 0.5896307 2.004953)	
+	Consecuent: class2
+
+Rule 6:
+	Variable att5 = Label 0 (-1.7299992 -0.5603268 0.60934544)	
+	Variable att8 = Label 1 (-1.4050113 0.23189966 1.8688107)	Label 2 (0.23189966 1.8688107 3.5057216)	
+	Consecuent: class2
+
+Rule 7:
+	Variable att3 = Label 1 (-1.1793611 0.23011301 1.6395872)	Label 2 (0.23011301 1.6395872 3.0490613)	
+	Variable att5 = Label 1 (-0.5603268 0.60934544 1.7790178)	
+	Variable att9 = Label 2 (0.5896307 2.004953 3.4202752)	
+	Consecuent: class2
+
+Rule 8:
+	Variable att3 = Label 1 (-1.1793611 0.23011301 1.6395872)	
+	Variable att5 = Label 1 (-0.5603268 0.60934544 1.7790178)	
+	Variable att7 = Label 1 (-0.66485524 0.5265963 1.7180479)	
+	Variable att9 = Label 1 (-0.8256916 0.5896307 2.004953)	
+	Consecuent: class2
+
+*************************************************
+*************************************************
+Timestamp 3:
+Rule 0:
+	Variable att2 = Label 0 (-1.7463784 -0.5991195 0.5481394)	
+	Variable att7 = Label 0 (-1.8563068 -0.66485524 0.5265963)	
+	Variable att8 = Label 0 (-3.0419223 -1.4050113 0.23189966)	Label 1 (-1.4050113 0.23189966 1.8688107)	
+	Consecuent: class1
+
+Rule 1:
+	Variable att1 = Label 0 (-2.28272 -0.90862733 0.4654654)	
+	Variable att3 = Label 1 (-1.1793611 0.23011301 1.6395872)	
+	Variable att7 = Label 0 (-1.8563068 -0.66485524 0.5265963)	
+	Variable att8 = Label 0 (-3.0419223 -1.4050113 0.23189966)	Label 1 (-1.4050113 0.23189966 1.8688107)	
+	Consecuent: class1
+
+Rule 2:
+	Variable att3 = Label 1 (-1.1793611 0.23011301 1.6395872)	
+	Variable att9 = Label 1 (-0.8256916 0.5896307 2.004953)	Label 2 (0.5896307 2.004953 3.4202752)	
+	Consecuent: class1
+
+Rule 3:
+	Variable att1 = Label 0 (-2.28272 -0.90862733 0.4654654)	Label 1 (-0.90862733 0.4654654 1.8395581)	
+	Variable att2 = Label 1 (-0.5991195 0.5481394 1.6953983)	
+	Variable att4 = Label 0 (-2.2606606 -0.91825944 0.4241418)	
+	Variable att6 = Label 0 (-2.1630623 -0.81346595 0.53613037)	
+	Variable att7 = Label 1 (-0.66485524 0.5265963 1.7180479)	
+	Consecuent: class2
+
+Rule 4:
+	Variable att2 = Label 1 (-0.5991195 0.5481394 1.6953983)	
+	Variable att6 = Label 0 (-2.1630623 -0.81346595 0.53613037)	
+	Variable att7 = Label 1 (-0.66485524 0.5265963 1.7180479)	
+	Variable att10 = Label 0 (-2.448525 -1.079883 0.28875917)	Label 1 (-1.079883 0.28875917 1.6574013)	
+	Consecuent: class2
+
+Rule 5:
+	Variable att6 = Label 0 (-2.1630623 -0.81346595 0.53613037)	Label 1 (-0.81346595 0.53613037 1.8857267)	
+	Consecuent: class2
+
+*************************************************

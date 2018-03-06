@@ -74,6 +74,7 @@ public class Ranking {
         //flagDominate = constraint_.compare(solutionSet.get(p),solutionSet.get(q));
         if (flagDominate == 0) {
             //System.out.println("DEBUG: Ranking -> nobj: " + nobj + " - " + p + " - " + q);
+            //System.out.println(pop.getIndiv(p).objs.get(0).getValue());
             flagDominate = compareDominance(pop.getIndiv(p), p, pop.getIndiv(q), q,nobj, SDomin);
         }
 
@@ -265,4 +266,12 @@ public class Ranking {
         return 1;    // solution2 dominate
         }
 
+  
+  /**
+   * It prints the objectives values of the individuals that belong to the Pareto front
+   */
+  public void printParetoFrontValues(){
+    // TODO: Function that prints the objective values of the Pareto front.
+  }
+  
 } // Ranking

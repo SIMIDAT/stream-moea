@@ -24,32 +24,27 @@
 package moa.subgroupdiscovery.qualitymeasures;
 
 import moa.core.ObjectRepository;
-import moa.options.AbstractOptionHandler;
 import moa.tasks.TaskMonitor;
+
+
 
 /**
  *
  * @author angel
  */
-public class TNR extends AbstractOptionHandler implements QualityMeasure{
+public class TNR extends QualityMeasure {
 
-    public String name = "True Negative Rate";
-    public double value;
-    
-    @Override
-    public double getValue(ContingencyTable t) {
-        name = "True Negative Rate";
-        value = (double) t.getTn() / (double) (t.getTn() + t.getFp());
-        return value;
+    public TNR() {
+        super.name = "True Negative Rate";
+        super.value = 0.0;
+        super.short_name = "TNR";
     }
 
     @Override
-    public boolean validate(double value) {
-        return value >= 0.0 && value <= 1.0;
-    }
-
-    @Override
-    protected void prepareForUseImpl(TaskMonitor arg0, ObjectRepository arg1) {
+    public void validate() throws InvalidRangeInMeasureException {
+        if (!(value >= 0.0 && value <= 1.0) || Double.isNaN(value)){
+            throw new InvalidRangeInMeasureException(this);
+        }
     }
 
     @Override
@@ -57,13 +52,26 @@ public class TNR extends AbstractOptionHandler implements QualityMeasure{
     }
 
     @Override
-    public double getValue() {
+    public QualityMeasure clone() {
+        TNR a = new TNR();
+        a.name = this.name;
+        a.value = this.value;
+        return a;
+    }
+
+    @Override
+    public double calculateValue(ContingencyTable t) {
+        table = t;
+        if(t.getTn() + t.getFp() == 0){
+            value = 0.0;
+        } else {
+            value = (double) t.getTn() / (double) (t.getFp() + t.getTn());
+        }
         return value;
     }
 
     @Override
-    public String getName() {
-        return name;
+    protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
     }
-    
+
 }
