@@ -467,15 +467,61 @@ public class IndDNF extends Individual {
         evaluado = false;
 
     }
-    
-    
+
     @Override
-    public boolean isEmpty(){
-        for(Gene g : cromosoma.cromosoma){
-            if(!g.isNonParticipant())
+    public boolean isEmpty() {
+        for (Gene g : cromosoma.cromosoma) {
+            if (!g.isNonParticipant()) {
                 return false;
+            }
         }
         return true;
+    }
+
+    @Override
+    public String toString(Instance inst) {
+        CromDNF regla = this.cromosoma;
+        String content = "";
+        for (int i = 0; i < inst.numInputAttributes(); i++) {
+            if (!regla.isNonParticipant(i)) {
+                if (inst.attribute(i).isNominal()) {
+                    // discrete variable
+                    content = "\tVariable " + inst.attribute(i).name() + " = ";
+                    for (int j = 0; j < inst.attribute(i).numValues(); j++) {
+                        if (regla.getCromGeneElem(i, j)) {
+                            content += inst.attribute(i).value(j) + "  ";
+                        }
+                    }
+                    content += "\n";
+                } else {
+                    // continuous variable
+                    content += "\tVariable " + inst.attribute(i).name() + " = ";
+                    for (int j = 0; j < StreamMOEAEFEP.nLabel; j++) {
+                        if (regla.getCromGeneElem(i, j)) {
+                            content += "Label " + j;
+                            content += " (" + StreamMOEAEFEP.baseDatos[i][j].getX0();
+                            content += " " + StreamMOEAEFEP.baseDatos[i][j].getX1();
+                            content += " " + StreamMOEAEFEP.baseDatos[i][j].getX3() + ")\t";
+                        }
+                    }
+                    content += "\n";
+                }
+            }
+        }
+
+        content += "\tConsecuent: " + inst.outputAttribute(0).value(clas) + "\n\n";
+        return content;
+    }
+
+    @Override
+    public int getNumVars() {
+        int vars = 0;
+        for (int i = 0; i < this.cromosoma.getCromLenght(); i++) {
+            if(! this.cromosoma.isNonParticipant(i)){
+                vars++;
+            }
+        }
+        return vars;
     }
 
 }

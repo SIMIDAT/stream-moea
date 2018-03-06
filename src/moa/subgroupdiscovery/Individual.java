@@ -348,6 +348,13 @@ public abstract class Individual {
     public abstract int NumInterv(double valor, int num_var, Instance inst);
 
     /**
+     * It gets the string representation of the rules in a human-readable way
+     * @param inst
+     * @return 
+     */
+    public abstract String toString(Instance inst);
+    
+    /**
      * It applies the mutation operator over all genes of an individual,
      * according to the mutation probability
      *
@@ -363,6 +370,12 @@ public abstract class Individual {
      */
     public abstract void mutate(Instance inst, int pos);
 
+    
+    /**
+     * Gets the number of variables that participate in the rule
+     * @return 
+     */
+    public abstract int getNumVars();
     /**
      * Print the individual
      *

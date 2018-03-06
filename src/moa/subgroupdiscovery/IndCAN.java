@@ -541,5 +541,50 @@ public class IndCAN extends Individual {
     public boolean isEmpty(){
         return false;
     }
+
+    @Override
+    public String toString(Instance inst) {
+        CromCAN regla = this.cromosoma;
+        
+        String content = "";
+        for(int i = 0; i < inst.numInputAttributes(); i++){
+            if(inst.attribute(i).isNominal()){
+                // Discrete variable
+                if(regla.getCromElem(i) < inst.attribute(i).numValues()){
+                    content += "\tVariable " + inst.attribute(i).name() + " = ";
+                    content += inst.attribute(i).value(regla.getCromElem(i)) + "\n";
+                }
+            } else {
+                // Continuous variable
+                if(regla.getCromElem(i) < StreamMOEAEFEP.nLabel){
+                   content += "Label " + regla.getCromElem(i);
+                        content += " (" + StreamMOEAEFEP.baseDatos[i][regla.getCromElem(i)].getX0();
+                        content += " " + StreamMOEAEFEP.baseDatos[i][regla.getCromElem(i)].getX1();
+                        content += " " + StreamMOEAEFEP.baseDatos[i][regla.getCromElem(i)].getX3() + ")\n";
+                }
+            }
+        }
+        content += "\tConsecuent: " + inst.outputAttribute(0).value(clas);
+        return content;
+    }
+    
+    
+    @Override
+    public int getNumVars(){
+        int vars = 0;
+        for(int i = 0; i < cromosoma.getCromLength(); i++){
+            if(StreamMOEAEFEP.instancia.attribute(i).isNominal()){
+                if(cromosoma.getCromElem(i) < StreamMOEAEFEP.instancia.inputAttribute(i).numValues()){
+                    vars++;
+                }
+            } else {
+                if(cromosoma.getCromElem(i) < StreamMOEAEFEP.nLabel){
+                    vars++;
+                }
+            }
+            
+        }
+        return vars;
+    }
     
 }
