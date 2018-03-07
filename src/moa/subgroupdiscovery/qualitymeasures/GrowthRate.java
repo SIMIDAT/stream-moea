@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import moa.core.ObjectRepository;
 import moa.tasks.TaskMonitor;
+import org.core.exceptions.InvalidRangeInMeasureException;
 
 /**
  *

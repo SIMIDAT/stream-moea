@@ -7,6 +7,7 @@ package moa.subgroupdiscovery.qualitymeasures;
 
 import moa.core.ObjectRepository;
 import moa.tasks.TaskMonitor;
+import org.core.exceptions.InvalidRangeInMeasureException;
 
 /**
  *
