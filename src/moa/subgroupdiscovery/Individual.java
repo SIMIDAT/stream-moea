@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import moa.options.ClassOption;
 import moa.subgroupdiscovery.qualitymeasures.Confidence;
 import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
-import moa.subgroupdiscovery.qualitymeasures.InvalidRangeInMeasureException;
+import org.core.exceptions.InvalidRangeInMeasureException;
 import moa.subgroupdiscovery.qualitymeasures.NULL;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 import weka.classifiers.evaluation.ConfusionMatrix;
@@ -452,7 +452,7 @@ public abstract class Individual {
             // Test the individual.
             try {
                 // Get all the quality measures available in the package qualitymeasures
-                ArrayList<QualityMeasure> measures = moa.subgroupdiscovery.qualitymeasures.ClassLoader.getClasses();
+                ArrayList<QualityMeasure> measures = org.core.ClassLoader.getClasses();
 
                 // Calculates the value of each measure
                 measures.forEach(q -> {

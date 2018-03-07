@@ -23,6 +23,7 @@
  */
 package moa.subgroupdiscovery.qualitymeasures;
 
+import org.core.exceptions.InvalidRangeInMeasureException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import moa.core.ObjectRepository;

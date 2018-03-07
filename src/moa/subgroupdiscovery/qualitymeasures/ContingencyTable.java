@@ -23,6 +23,8 @@
  */
 package moa.subgroupdiscovery.qualitymeasures;
 
+import org.core.exceptions.InvalidContingencyTableException;
+
 /**
  * Class to represent a contingency table.
  * 

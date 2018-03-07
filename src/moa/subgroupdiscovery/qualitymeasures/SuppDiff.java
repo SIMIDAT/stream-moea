@@ -5,8 +5,7 @@
  */
 package moa.subgroupdiscovery.qualitymeasures;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.core.exceptions.InvalidRangeInMeasureException;
 import moa.core.ObjectRepository;
 import moa.tasks.TaskMonitor;
 

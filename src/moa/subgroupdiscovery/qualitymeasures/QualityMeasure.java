@@ -23,6 +23,7 @@
  */
 package moa.subgroupdiscovery.qualitymeasures;
 
+import org.core.exceptions.InvalidRangeInMeasureException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
@@ -34,6 +35,20 @@ import moa.options.AbstractOptionHandler;
  * @author Angel Miguel Garcia Vico <agvico at ujaen.es>
  */
 public abstract class QualityMeasure extends AbstractOptionHandler implements Cloneable {
+
+    /**
+     * @return the short_name
+     */
+    public String getShort_name() {
+        return short_name;
+    }
+
+    /**
+     * @return the table
+     */
+    public ContingencyTable getTable() {
+        return table;
+    }
 
     /**
      * The value of the quality measure

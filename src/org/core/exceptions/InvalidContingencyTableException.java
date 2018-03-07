@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package moa.subgroupdiscovery.qualitymeasures;
+package org.core.exceptions;
+
+import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
 
 /**
  *

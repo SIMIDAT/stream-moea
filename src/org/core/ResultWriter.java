@@ -57,8 +57,17 @@ public class ResultWriter {
      */
     private DecimalFormat sixDecimals;
 
+    /**
+     * The symbols to use in the formatter
+     */
     private DecimalFormatSymbols symbols;
 
+    
+    
+    
+    
+    
+    
     /**
      * Default constructor, it sets the path where the files are stored.
      *
@@ -81,6 +90,13 @@ public class ResultWriter {
         sixDecimals = new DecimalFormat("0.000000", symbols);
     }
 
+    
+    
+    
+    
+    
+    
+    
     /**
      * Default contructor which uses the Population Structure.
      *

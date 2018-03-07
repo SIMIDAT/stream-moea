@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package moa.subgroupdiscovery.qualitymeasures;
+package org.core.exceptions;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import moa.subgroupdiscovery.Individual;
+import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
+import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 
 /**
  *
@@ -16,7 +17,7 @@ import moa.subgroupdiscovery.Individual;
 public class InvalidRangeInMeasureException extends Exception {
 
     public InvalidRangeInMeasureException(QualityMeasure q) {
-        super("Invalid Range in measure \"" + q.short_name + "\": " + q.value + " -> Contingency Table: " + q.table.toString());
+        super("Invalid Range in measure \"" + q.getShort_name() + "\": " + q.getValue() + " -> Contingency Table: " + q.getTable().toString());
     }
 
     /**

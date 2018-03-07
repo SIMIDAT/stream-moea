@@ -12,8 +12,8 @@ import moa.core.InstanceExample;
 import moa.core.TimingUtils;
 import moa.streams.generators.RandomRBFGenerator;
 import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
-import moa.subgroupdiscovery.qualitymeasures.InvalidContingencyTableException;
-import moa.subgroupdiscovery.qualitymeasures.InvalidRangeInMeasureException;
+import org.core.exceptions.InvalidContingencyTableException;
+import org.core.exceptions.InvalidRangeInMeasureException;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 
 public class ExperimentTest {

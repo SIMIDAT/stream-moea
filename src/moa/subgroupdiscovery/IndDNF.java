@@ -18,7 +18,7 @@ import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
 import moa.subgroupdiscovery.qualitymeasures.NULL;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 import org.core.File;
-import moa.subgroupdiscovery.qualitymeasures.ClassLoader;
+import org.core.ClassLoader;
 import org.core.Randomize;
 
 public class IndDNF extends Individual {
