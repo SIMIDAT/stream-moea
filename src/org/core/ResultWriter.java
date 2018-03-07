@@ -18,7 +18,9 @@ import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 /**
  * Class to store the results and rules of a given population of individuals
  *
- * @author agvico
+ * @author Ángel Miguel García Vico (agvico@ujaen.es)
+ * @since JDK 8
+ * @version 1.0
  */
 public class ResultWriter {
 
