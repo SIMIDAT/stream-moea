@@ -10,7 +10,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Locale;
-import moa.subgroupdiscovery.Individual;
+import moa.subgroupdiscovery.genetic.Individual;
 import moa.subgroupdiscovery.Population;
 import moa.subgroupdiscovery.StreamMOEAEFEP;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
@@ -159,19 +159,19 @@ public class ResultWriter {
 
         // Write the header (the consequent first, and next, the objective quality measures, finaly, the diversity measure)
         content += "Rule\tConsequent";
-        for (QualityMeasure q : population.get(0).objs) {
+        for (QualityMeasure q : population.get(0).getObjs()) {
             content += "\t" + q.getShortName();
         }
-        content += "\t" + population.get(0).diversityMeasure.getShortName() + "(Diversity)";
+        content += "\t" + population.get(0).getDiversityMeasure().getShortName() + "(Diversity)";
         content += "\n";
 
         // Now, for each individual, writes the training measures
         for (int i = 0; i < population.size(); i++) {
             content += i + "\t" + inst.outputAttribute(0).value(population.get(i).getClas()) + "\t";
-            for (QualityMeasure q : population.get(i).objs) {
+            for (QualityMeasure q : population.get(i).getObjs()) {
                 content += sixDecimals.format(q.getValue()) + "\t";
             }
-            content += sixDecimals.format(population.get(i).diversityMeasure.getValue()) + "\n";
+            content += sixDecimals.format(population.get(i).getDiversityMeasure().getValue()) + "\n";
         }
         content += "*************************************************\n";
         Files.addToFile(pathTra, content);
@@ -191,7 +191,7 @@ public class ResultWriter {
         // this array stores the sum of the quality measures for the average
         ArrayList<Double> averages = new ArrayList<>();
         double numVars = 0.0;
-        for (QualityMeasure q : population.get(0).medidas) {
+        for (QualityMeasure q : population.get(0).getMedidas()) {
             averages.add(0.0);
         }
 
@@ -199,8 +199,8 @@ public class ResultWriter {
         String content = "Timestamp\tRule\tClass\tNumRules\tNumVars";
 
         // now, append each test quality measure
-        for (int j = 0; j < population.get(0).medidas.size(); j++) {
-            content += "\t" + population.get(0).medidas.get(j).getShortName();
+        for (int j = 0; j < population.get(0).getMedidas().size(); j++) {
+            content += "\t" + population.get(0).getMedidas().get(j).getShortName();
         }
         content += "\n";
 
@@ -213,9 +213,9 @@ public class ResultWriter {
                     + sixDecimals.format(population.get(i).getNumVars()) + "\t";
             numVars += population.get(i).getNumVars();
 
-            for (int j = 0; j < population.get(i).medidas.size(); j++) {
-                content += sixDecimals.format(population.get(i).medidas.get(j).getValue()) + "\t";
-                averages.set(j, averages.get(j) + population.get(i).medidas.get(j).getValue());
+            for (int j = 0; j < population.get(i).getMedidas().size(); j++) {
+                content += sixDecimals.format(population.get(i).getMedidas().get(j).getValue()) + "\t";
+                averages.set(j, averages.get(j) + population.get(i).getMedidas().get(j).getValue());
             }
             content += "\n";
         }
@@ -244,7 +244,7 @@ public class ResultWriter {
         // this array stores the sum of the quality measures for the average
         ArrayList<Double> averages = new ArrayList<>();
         double numVars = 0.0;
-        for (QualityMeasure q : population.get(0).medidas) {
+        for (QualityMeasure q : population.get(0).getMedidas()) {
             averages.add(0.0);
         }
 
@@ -252,16 +252,16 @@ public class ResultWriter {
         String content = "Timestamp\tRule\tClass\tNumRules\tNumVars";
 
         // now, append each test quality measure
-        for (int j = 0; j < population.get(0).medidas.size(); j++) {
-            content += "\t" + population.get(0).medidas.get(j).getShortName();
+        for (int j = 0; j < population.get(0).getMedidas().size(); j++) {
+            content += "\t" + population.get(0).getMedidas().get(j).getShortName();
         }
         content += "\n";
 
         // Now, average the results of the test measures
         for (int i = 0; i < population.size(); i++) {
             numVars += population.get(i).getNumVars();
-            for (int j = 0; j < population.get(i).medidas.size(); j++) {
-                averages.set(j, averages.get(j) + population.get(i).medidas.get(j).getValue());
+            for (int j = 0; j < population.get(i).getMedidas().size(); j++) {
+                averages.set(j, averages.get(j) + population.get(i).getMedidas().get(j).getValue());
             }
         }
 

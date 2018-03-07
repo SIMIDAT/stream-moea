@@ -7,6 +7,7 @@
  */
 package moa.subgroupdiscovery;
 
+import moa.subgroupdiscovery.genetic.Individual;
 import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -74,11 +75,11 @@ public class IndDNF extends Individual {
     @Override
     public void RndInitInd(Instance inst, int neje, String nFile, int clas) {
         cromosoma.RndInitCrom();        // Random initialization method
-        evaluado = false;               // Individual not evaluated
-        cubre.clear(0, neje);
-        crowdingDistance = 0.0;
-        n_eval = 0;
-        this.clas = clas;
+        setEvaluado(false);               // Individual not evaluated
+        getCubre().clear(0, neje);
+        setCrowdingDistance(0.0);
+        setN_eval(0);
+        this.setClas(clas);
     }
 
     /**
@@ -95,11 +96,11 @@ public class IndDNF extends Individual {
     public void BsdInitInd(Instance inst, float porcVar, int neje, String nFile, int clas) {
 
         cromosoma.BsdInitCrom(inst, porcVar);  // Random initialization method
-        evaluado = false;                           // Individual not evaluated
-        cubre.set(0, neje);
-        this.clas = clas;
-        crowdingDistance = 0.0;
-        n_eval = 0;
+        setEvaluado(false);                           // Individual not evaluated
+        getCubre().set(0, neje);
+        this.setClas(clas);
+        setCrowdingDistance(0.0);
+        setN_eval(0);
     }
 
     /**
@@ -118,12 +119,12 @@ public class IndDNF extends Individual {
     public void CobInitInd(Population pop, ArrayList<Instance> Examples, float porcCob, int nobj, int clas, String nFile) {
 
         cromosoma.CobInitCrom(pop, Examples, porcCob, nobj, clas);
-        evaluado = false;
-        this.clas = clas;
-        cubre.clear(0, Examples.size());
+        setEvaluado(false);
+        this.setClas(clas);
+        getCubre().clear(0, Examples.size());
 
-        crowdingDistance = 0.0;
-        n_eval = 0;
+        setCrowdingDistance(0.0);
+        setN_eval(0);
     }
 
     /**
@@ -214,33 +215,33 @@ public class IndDNF extends Individual {
     @Override
     public void copyIndiv(Individual a, int neje, int nobj) {
         int number;
-        for (int i = 0; i < this.tamano; i++) {
+        for (int i = 0; i < this.getTamano(); i++) {
             number = a.getIndivCromDNF().getCromGeneLenght(i);
             for (int j = 0; j <= number; j++) {
                 this.setCromGeneElem(i, j, a.getCromGeneElem(i, j));
             }
         }
         this.setIndivEvaluated(a.getIndivEvaluated());
-        this.cubre = (BitSet) a.cubre.clone();
+        this.setCubre((BitSet) a.getCubre().clone());
         this.setCrowdingDistance(a.getCrowdingDistance());
         this.setRank(a.getRank());
 
-        this.objs = new ArrayList<>();
-        for (QualityMeasure q : a.objs) {
+        this.setObjs(new ArrayList<>());
+        for (QualityMeasure q : a.getObjs()) {
             QualityMeasure aux = q.clone();
-            this.objs.add(aux);
+            this.getObjs().add(aux);
         }
 
-        this.medidas = new ArrayList<>();
-        for (QualityMeasure q : a.medidas) {
+        this.setMedidas(new ArrayList<>());
+        for (QualityMeasure q : a.getMedidas()) {
             QualityMeasure aux = q.clone();
-            this.medidas.add(aux);
+            this.getMedidas().add(aux);
         }
-        this.conf = (Confidence) a.conf.clone();
+        this.setConf((Confidence) a.getConf().clone());
 
         this.setNEval(a.getNEval());
 
-        this.clas = a.clas;
+        this.setClas(a.getClas());
 
     }
 
@@ -310,14 +311,14 @@ public class IndDNF extends Individual {
             // Update counters
             if (numVarNoInterv < inst.numInputAttributes()) {
                 if (disparoFuzzy > 0) {
-                    cubre.set(k); // Cambiar dos líneas más abajo si el token competition se va a hacer por clase.
+                    getCubre().set(k); // Cambiar dos líneas más abajo si el token competition se va a hacer por clase.
                     if (((Double) inst.classValue()).intValue() == this.getClas()) {
                         confMatrix.setTp(confMatrix.getTp() + 1);
                     } else {
                         confMatrix.setFp(confMatrix.getFp() + 1);
                     }
                 } else {
-                    cubre.clear(k);
+                    getCubre().clear(k);
                     if (((Double) inst.classValue()).intValue() == this.getClas()) {
                         confMatrix.setFn(confMatrix.getFn() + 1);
                     } else {
@@ -331,7 +332,7 @@ public class IndDNF extends Individual {
         this.calculateMeasures(confMatrix, objs, isTrain);
 
         // Set individual as evaluated
-        evaluado = true;
+        setEvaluado(true);
     }
 
     /**
@@ -374,8 +375,8 @@ public class IndDNF extends Individual {
         cromosoma.Print(nFile);
 
         contents = "DistanceCrowding " + this.getCrowdingDistance() + "\n";
-        contents += "Evaluated - " + evaluado + "\n";
-        contents += "Evaluacion Generado " + n_eval + "\n\n";
+        contents += "Evaluated - " + isEvaluado() + "\n";
+        contents += "Evaluacion Generado " + getN_eval() + "\n\n";
         if (nFile == "") {
             System.out.print(contents);
         } else {
@@ -402,12 +403,12 @@ public class IndDNF extends Individual {
         IndDNF mom1 = (IndDNF) mom;
 
         Individual[] offspring = {
-            new IndDNF(dad1.cromosoma.getCromLenght(), dad1.cubre.size(), dad1.objs.size(), inst, 0),
-            new IndDNF(mom1.cromosoma.getCromLenght(), mom1.cubre.size(), mom1.objs.size(), inst, 0)
+            new IndDNF(dad1.cromosoma.getCromLenght(), dad1.getCubre().size(), dad1.getObjs().size(), inst, 0),
+            new IndDNF(mom1.cromosoma.getCromLenght(), mom1.getCubre().size(), mom1.getObjs().size(), inst, 0)
         };
 
-        offspring[0].copyIndiv(dad, dad1.objs.size(), dad1.cubre.size());
-        offspring[1].copyIndiv(mom, mom1.objs.size(), mom1.cubre.size());
+        offspring[0].copyIndiv(dad, dad1.getObjs().size(), dad1.getCubre().size());
+        offspring[1].copyIndiv(mom, mom1.getObjs().size(), mom1.getCubre().size());
 
         // Generation of the two point of cross
         int xpoint1 = Randomize.Randint(0, (dad1.cromosoma.getCromLenght() - 1));
@@ -449,7 +450,7 @@ public class IndDNF extends Individual {
             }
         }
         // Set indiv as non-evaluated
-        evaluado = false;
+        setEvaluado(false);
     }
 
     @Override
@@ -464,7 +465,7 @@ public class IndDNF extends Individual {
         }
 
         // Set indiv as non-evaluated
-        evaluado = false;
+        setEvaluado(false);
 
     }
 
@@ -509,7 +510,7 @@ public class IndDNF extends Individual {
             }
         }
 
-        content += "\tConsecuent: " + inst.outputAttribute(0).value(clas) + "\n\n";
+        content += "\tConsecuent: " + inst.outputAttribute(0).value(getClas()) + "\n\n";
         return content;
     }
 

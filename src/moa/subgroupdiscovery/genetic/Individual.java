@@ -5,7 +5,7 @@
  * @since JDK1.5
  * </p>
  */
-package moa.subgroupdiscovery;
+package moa.subgroupdiscovery.genetic;
 
 import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayList;
@@ -13,6 +13,10 @@ import java.util.BitSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import moa.options.ClassOption;
+import moa.subgroupdiscovery.CromCAN;
+import moa.subgroupdiscovery.CromDNF;
+import moa.subgroupdiscovery.IndDNF;
+import moa.subgroupdiscovery.Population;
 import moa.subgroupdiscovery.qualitymeasures.Confidence;
 import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
 import org.core.exceptions.InvalidRangeInMeasureException;
@@ -21,56 +25,173 @@ import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 import weka.classifiers.evaluation.ConfusionMatrix;
 
 public abstract class Individual {
+    
+    /**
+     * The chromosome of the individual.
+     */
+    //protected Chromosome chromosome;
+
+    /**
+     * @return the tamano
+     */
+    public int getTamano() {
+        return tamano;
+    }
+
+    /**
+     * @param tamano the tamano to set
+     */
+    public void setTamano(int tamano) {
+        this.tamano = tamano;
+    }
+
+    /**
+     * @return the evaluado
+     */
+    public boolean isEvaluado() {
+        return evaluado;
+    }
+
+    /**
+     * @param evaluado the evaluado to set
+     */
+    public void setEvaluado(boolean evaluado) {
+        this.evaluado = evaluado;
+    }
+
+    /**
+     * @return the cubre
+     */
+    public BitSet getCubre() {
+        return cubre;
+    }
+
+    /**
+     * @param cubre the cubre to set
+     */
+    public void setCubre(BitSet cubre) {
+        this.cubre = cubre;
+    }
+
+    /**
+     * @return the n_eval
+     */
+    public int getN_eval() {
+        return n_eval;
+    }
+
+    /**
+     * @param n_eval the n_eval to set
+     */
+    public void setN_eval(int n_eval) {
+        this.n_eval = n_eval;
+    }
+
+    /**
+     * @return the medidas
+     */
+    public ArrayList<QualityMeasure> getMedidas() {
+        return medidas;
+    }
+
+    /**
+     * @param medidas the medidas to set
+     */
+    public void setMedidas(ArrayList<QualityMeasure> medidas) {
+        this.medidas = medidas;
+    }
+
+    /**
+     * @return the objs
+     */
+    public ArrayList<QualityMeasure> getObjs() {
+        return objs;
+    }
+
+    /**
+     * @param objs the objs to set
+     */
+    public void setObjs(ArrayList<QualityMeasure> objs) {
+        this.objs = objs;
+    }
+
+    /**
+     * @return the diversityMeasure
+     */
+    public QualityMeasure getDiversityMeasure() {
+        return diversityMeasure;
+    }
+
+    /**
+     * @param diversityMeasure the diversityMeasure to set
+     */
+    public void setDiversityMeasure(QualityMeasure diversityMeasure) {
+        this.diversityMeasure = diversityMeasure;
+    }
+
+    /**
+     * @return the conf
+     */
+    public Confidence getConf() {
+        return conf;
+    }
+
+    /**
+     * @param conf the conf to set
+     */
+    public void setConf(Confidence conf) {
+        this.conf = conf;
+    }
 
     /**
      * Sets the size of the individual
      */
-    public int tamano;
+    protected int tamano;
 
     /**
      * Sets whether the individual is evaluated or not
      */
-    public boolean evaluado;
+    protected boolean evaluado;
 
     /**
      * Sets the individuals covered in this chunk of data
      */
-    public BitSet cubre;
+    protected BitSet cubre;
 
     /**
      * The ranking of the individual
      */
-    public int rank;
+    protected int rank;
 
     /**
      * The crowding distance of the individual
      */
-    public double crowdingDistance;
+    protected double crowdingDistance;
 
     /**
      * The evaluation of the population obtained
      */
-    public int n_eval;
+    protected int n_eval;
 
     /**
      * The quality measures of the individuals
      */
-    public ArrayList<QualityMeasure> medidas;
+    protected ArrayList<QualityMeasure> medidas;
 
     /**
      * It store the objective measures of the individual.
      */
-    public ArrayList<QualityMeasure> objs;
+    protected ArrayList<QualityMeasure> objs;
 
     /**
      * It stores the diversity function to be used on the token competition
      */
-    public QualityMeasure diversityMeasure;
+    protected QualityMeasure diversityMeasure;
 
     /**
      * The confidence of the individual.
      */
-    public Confidence conf;
+    protected Confidence conf;
 
     /**
      * The class of the individual
@@ -129,7 +250,7 @@ public abstract class Individual {
      * @return Value of the example
      */
     public boolean getIndivCovered(int pos) {
-        return cubre.get(pos);
+        return getCubre().get(pos);
     }
 
     /**
@@ -140,7 +261,7 @@ public abstract class Individual {
      * @return Value of the example
      */
     public boolean getIndivEvaluated() {
-        return evaluado;
+        return isEvaluado();
     }
 
     /**
@@ -151,7 +272,7 @@ public abstract class Individual {
      * @param val Value of the state of the individual
      */
     public void setIndivEvaluated(boolean val) {
-        evaluado = val;
+        setEvaluado(val);
     }
 
     /**
@@ -206,7 +327,7 @@ public abstract class Individual {
      * @return Number of evalution when the individual was created
      */
     public int getNEval() {
-        return n_eval;
+        return getN_eval();
     }
 
     /**
@@ -217,7 +338,7 @@ public abstract class Individual {
      * @param eval Number of evaluation when the individual was created
      */
     public void setNEval(int eval) {
-        n_eval = eval;
+        setN_eval(eval);
     }
 
     /**
@@ -228,7 +349,7 @@ public abstract class Individual {
      * @return Quality measures of the individual
      */
     public ArrayList<QualityMeasure> getMeasures() {
-        return medidas;
+        return getMedidas();
     }
 
     /**
@@ -240,7 +361,7 @@ public abstract class Individual {
      * @return Value of the quality measure
      */
     public double getMeasureValue(int pos) {
-        return medidas.get(pos).getValue();
+        return getMedidas().get(pos).getValue();
     }
 
     /**
@@ -272,7 +393,7 @@ public abstract class Individual {
      * @return Value of confidence of the individual
      */
     public double getCnfValue() {
-        return conf.getValue();
+        return getConf().getValue();
     }
 
     /**
@@ -413,15 +534,15 @@ public abstract class Individual {
     public void calculateMeasures(ContingencyTable confMatrix, ArrayList<QualityMeasure> objs, boolean isTrain) {
         if (isTrain) {
             // Compute the objective quality measures
-            if (this.objs.isEmpty()) {
+            if (this.getObjs().isEmpty()) {
                 objs.forEach((q) -> {
                     // If it is empty, then the measures are not created, copy the default objects
                     // from the objectives array
-                    this.objs.add(q.clone());
+                    this.getObjs().add(q.clone());
                 });
             }
             
-            this.objs.stream().filter((QualityMeasure q) -> (!(q instanceof NULL))).forEachOrdered((QualityMeasure q) -> {
+            this.getObjs().stream().filter((QualityMeasure q) -> (!(q instanceof NULL))).forEachOrdered((QualityMeasure q) -> {
                 // Calculate if it is not the null measure.
                 q.calculateValue(confMatrix);
                 try {
@@ -434,15 +555,15 @@ public abstract class Individual {
             });
 
             // Compute the confidence
-            this.conf.calculateValue(confMatrix);
+            this.getConf().calculateValue(confMatrix);
 
             // Compute the diversity function
-            this.diversityMeasure.calculateValue(confMatrix);
+            this.getDiversityMeasure().calculateValue(confMatrix);
 
             // check confidence and diversity functions
             try {
-                this.conf.validate();
-                this.diversityMeasure.validate();
+                this.getConf().validate();
+                this.getDiversityMeasure().validate();
             } catch (InvalidRangeInMeasureException ex) {
                 System.err.println("In training:");
                 ex.showAndExit(this);
@@ -459,7 +580,7 @@ public abstract class Individual {
                     try {
                         q.calculateValue(confMatrix);
                         q.validate();
-                        this.medidas.add(q);
+                        this.getMedidas().add(q);
                     } catch (InvalidRangeInMeasureException ex) {
                         System.err.println("In test: ");
                         ex.showAndExit(this);
@@ -474,4 +595,18 @@ public abstract class Individual {
         }
         
     }
+
+    /**
+     * @return the chromosome
+     */
+    /*public Chromosome getChromosome() {
+        return chromosome;
+    }*/
+
+    /**
+     * @param chromosome the chromosome to set
+     */
+   /* public void setChromosome(Chromosome chromosome) {
+        this.chromosome = chromosome;
+    }*/
 }

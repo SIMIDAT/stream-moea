@@ -20,7 +20,6 @@ public class Gene {
      * that the value is not present, true indicates that the value is present
      * </p>
      */
-
     private int num_elem;       // Number of elem in the gene
     private boolean gen[];      // Gene content - boolean representation
 
@@ -38,6 +37,29 @@ public class Gene {
         gen = new boolean[lenght + 1];
         numTRUE = 0;
         numFALSE = lenght;
+    }
+
+    /**
+     * <p>
+     * Sets the value of the indicated gene of the chromosome
+     * </p>
+     *
+     * @param pos Position of the gene
+     * @param value Value of the gene
+     */
+    public void setGeneElem(int pos, boolean value) {
+        if (gen[pos] != value) {
+            if (pos < num_elem) {
+                if (value) {
+                    numTRUE++;
+                    numFALSE--;
+                } else {
+                    numFALSE++;
+                    numTRUE--;
+                }
+            }
+            gen[pos] = value;
+        }
     }
 
     /**
@@ -93,30 +115,6 @@ public class Gene {
      */
     public boolean getGeneElem(int pos) {
         return gen[pos];
-    }
-
-    /**
-     * <p>
-     * Sets the value of the indicated gene of the chromosome
-     * </p>
-     *
-     * @param pos Position of the gene
-     * @param value Value of the gene
-     */
-    public void setGeneElem(int pos, boolean value) {
-        if (gen[pos] != value) {
-            if (pos < num_elem) {
-                if (value) {
-                    numTRUE++;
-                    numFALSE--;
-                } else {
-                    numFALSE++;
-                    numTRUE--;
-                }
-            }
-            gen[pos] = value;
-        }
-
     }
 
     /**

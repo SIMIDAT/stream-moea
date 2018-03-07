@@ -7,6 +7,8 @@
  */
 package moa.subgroupdiscovery;
 
+import moa.subgroupdiscovery.genetic.Individual;
+import moa.subgroupdiscovery.genetic.Genetic;
 import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -259,7 +261,7 @@ public class Population {
        
         for (Individual ind : indivi){
             if(ind.getRank() == 0){
-                 ej_cubiertos.or(ind.cubre);
+                 ej_cubiertos.or(ind.getCubre());
             }
         }
         
@@ -327,7 +329,7 @@ public class Population {
         // Apply token competition procedure
         do {
             // Habría que ver si se hace el token competition por clase 
-            BitSet cubiertoRegla = actual.indivi[conta].cubre;
+            BitSet cubiertoRegla = actual.indivi[conta].getCubre();
 //            boolean cubreNuevo = false;
 //            for (int i = 0; i < cubiertoRegla.length; i++) {
 //                if (!tokens[i] && cubiertoRegla[i]) {
@@ -389,7 +391,7 @@ public class Population {
         int indices[] = new int[getNumIndiv()];
         for (int i = 0; i < getNumIndiv(); i++) {
             indices[i] = i;
-            ordenado[i] = this.indivi[i].diversityMeasure.getValue();
+            ordenado[i] = this.indivi[i].getDiversityMeasure().getValue();
         }
         Utils.OrCrecIndex(ordenado, izq, der, indices);
 

@@ -5,6 +5,8 @@
  */
 package moa.subgroupdiscovery;
 
+import org.core.Fuzzy;
+import moa.subgroupdiscovery.genetic.Genetic;
 import com.github.javacliparser.IntOption;
 import com.github.javacliparser.FloatOption;
 import com.yahoo.labs.samoa.instances.Instance;

@@ -5,11 +5,19 @@
  * @since JDK1.5
  * </p>
  */
-package moa.subgroupdiscovery;
+package moa.subgroupdiscovery.genetic;
 
 import com.yahoo.labs.samoa.instances.Instance;
 import org.core.*;
 import java.util.*;
+import moa.subgroupdiscovery.CromCAN;
+import moa.subgroupdiscovery.CromDNF;
+import moa.subgroupdiscovery.IndCAN;
+import moa.subgroupdiscovery.IndDNF;
+import moa.subgroupdiscovery.Population;
+import moa.subgroupdiscovery.Ranking;
+import moa.subgroupdiscovery.StreamMOEAEFEP;
+import moa.subgroupdiscovery.Utils;
 import moa.subgroupdiscovery.qualitymeasures.NULL;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 
@@ -748,7 +756,7 @@ public class Genetic {
             for (int j = 0; j < pop.getNumIndiv(); j++) {
                 indices[j] = j;
                 //medidas = pop.getIndiv(j).getMeasures();
-                ordenado[j] = pop.getIndiv(j).objs.get(i).getValue();//medidas.getObjectiveValue(i);
+                ordenado[j] = pop.getIndiv(j).getObjs().get(i).getValue();//medidas.getObjectiveValue(i);
             }
             Utils.OrCrecIndex(ordenado, izq, der, indices);
 
@@ -756,9 +764,9 @@ public class Genetic {
             fin = indices[pop.getNumIndiv() - 1];
 
             //medidas = pop.getIndiv(ini).getMeasures();
-            objetiveMinn = pop.getIndiv(ini).objs.get(i).getValue(); //medidas.getObjectiveValue(i);
+            objetiveMinn = pop.getIndiv(ini).getObjs().get(i).getValue(); //medidas.getObjectiveValue(i);
             //medidas = pop.getIndiv(fin).getMeasures();
-            objetiveMaxn = pop.getIndiv(fin).objs.get(i).getValue(); //medidas.getObjectiveValue(i);
+            objetiveMaxn = pop.getIndiv(fin).getObjs().get(i).getValue(); //medidas.getObjectiveValue(i);
 
             //Set de crowding distance            
             pop.getIndiv(ini).setCrowdingDistance(Double.POSITIVE_INFINITY);
@@ -768,9 +776,9 @@ public class Genetic {
 
             for (int j = 1; j < size - 1; j++) {
                 //medidas = pop.getIndiv(indices[j + 1]).getMeasures();
-                a = pop.getIndiv(indices[j + 1]).objs.get(i).getValue(); //medidas.getObjectiveValue(i);
+                a = pop.getIndiv(indices[j + 1]).getObjs().get(i).getValue(); //medidas.getObjectiveValue(i);
                 //medidas = pop.getIndiv(indices[j - 1]).getMeasures();
-                b = pop.getIndiv(indices[j - 1]).objs.get(i).getValue();//medidas.getObjectiveValue(i);
+                b = pop.getIndiv(indices[j - 1]).getObjs().get(i).getValue();//medidas.getObjectiveValue(i);
                 distance = a - b;
                 if (distance != 0) {
                     distance = distance / (objetiveMaxn - objetiveMinn);

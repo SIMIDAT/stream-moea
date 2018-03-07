@@ -8,24 +8,14 @@
 
 package moa.subgroupdiscovery;
 
+import moa.subgroupdiscovery.genetic.Chromosome;
 import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayList;
 import org.core.*;
 
-public class CromCAN {
-    /**
-     * <p>
-     * Defines the structure and manage the contents of a rule
-     * This implementation uses only integer values to store the gens.
-     * So, variables values must be discretized (if they are continuous)
-     * or translated into integers (if they are enumerated)
-     * </p>
-     */
+public class CromCAN extends Chromosome {
 
-      private int num_genes;      // Number of genes
-      private int cromosoma [];   // Individual content - integer representation
-
-      
+      private int[] cromosoma; /** // QUITAR LUEGO
     /**
      * <p>
      * Creates new instance of chromosome, no initialization

@@ -9,6 +9,7 @@
 
 package moa.subgroupdiscovery;
 
+import moa.subgroupdiscovery.genetic.Individual;
 import com.yahoo.labs.samoa.instances.Instance;
 import java.util.*;
 
@@ -230,9 +231,9 @@ public class Ranking {
       //QualityMeasures medidas = new QualityMeasures(nobj);
       for (int i = 0; i < nobj; i++) {
           //medidas = solution1.getMeasures();
-          value1 = a.objs.get(i).getValue();//medidas.getObjectiveValue(i));
+          value1 = a.getObjs().get(i).getValue();//medidas.getObjectiveValue(i));
           //medidas = solution2.getMeasures();
-          value2 = b.objs.get(i).getValue();//medidas.getObjectiveValue(i);
+          value2 = b.getObjs().get(i).getValue();//medidas.getObjectiveValue(i);
           if(SDomin.compareTo("YES")==0){
               if (value1 < value2) {
                 flag = 1;
