@@ -5,13 +5,15 @@
  */
 package moa.subgroupdiscovery.genetic;
 
-import moa.subgroupdiscovery.Gene;
+import moa.subgroupdiscovery.genetic.individual.GeneDNF;
+
+
 
 /**
  *
  * @author agvico
  */
-public abstract class Chromosome {
+public class Chromosome<T> {
     
     /**
      * <p>
@@ -22,7 +24,7 @@ public abstract class Chromosome {
      * </p>
      */
     protected int num_genes; // Number of genes
-    protected Gene[] chromosome; // Individual content - integer representation
+    protected GeneDNF<T>[] chromosome; // Individual content - integer representation
 
     public Chromosome() {
     }

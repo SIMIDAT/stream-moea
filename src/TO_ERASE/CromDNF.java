@@ -8,6 +8,7 @@
 
 package moa.subgroupdiscovery;
 
+import moa.subgroupdiscovery.genetic.individual.GeneDNF;
 import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayList;
 import org.core.*;
@@ -20,7 +21,7 @@ public class CromDNF {
       */
 
       private int num_genes;      // Number of genes
-      protected Gene cromosoma [];   // Individual content - integer representation
+      protected GeneDNF cromosoma [];   // Individual content - integer representation
 
     /**
      * <p>
@@ -32,12 +33,12 @@ public class CromDNF {
      */
     public CromDNF(int lenght, Instance inst, int nLabels) {
       num_genes = lenght;
-      cromosoma = new Gene[lenght];
+      cromosoma = new GeneDNF[lenght];
       for(int i=0; i<num_genes; i++){
         if(inst.attribute(i).isNumeric())
-            cromosoma[i] = new Gene(nLabels);
+            cromosoma[i] = new GeneDNF(nLabels);
         else
-            cromosoma[i] = new Gene(inst.attribute(i).numValues());
+            cromosoma[i] = new GeneDNF(inst.attribute(i).numValues());
       }
     }
 

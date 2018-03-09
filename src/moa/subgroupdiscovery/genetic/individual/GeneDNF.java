@@ -5,12 +5,12 @@
  * @since JDK1.5
  * </p>
  */
-package moa.subgroupdiscovery;
+package moa.subgroupdiscovery.genetic.individual;
 
 import org.core.*;
 import java.util.LinkedList;
 
-public class Gene {
+public class GeneDNF {
 
     /**
      * <p>
@@ -32,7 +32,7 @@ public class Gene {
      *
      * @param lenght Number of posibles values for the variable
      */
-    public Gene(int lenght) {
+    public GeneDNF(int lenght) {
         num_elem = lenght;
         gen = new boolean[lenght + 1];
         numTRUE = 0;

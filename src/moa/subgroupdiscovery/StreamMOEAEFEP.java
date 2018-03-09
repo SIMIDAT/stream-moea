@@ -18,6 +18,9 @@ import moa.evaluation.LearningCurve;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 import moa.subgroupdiscovery.qualitymeasures.WRAccNorm;
 import moa.options.ClassOption;
+import moa.subgroupdiscovery.genetic.Individual;
+import moa.subgroupdiscovery.genetic.operators.InitialisationOperator;
+import moa.subgroupdiscovery.genetic.operators.RandomInitialisationDNF;
 import org.core.File;
 import org.core.ResultWriter;
 
@@ -100,7 +103,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
     /**
      * It gets the objects set as objecive measures from the user
      */
-    protected ArrayList<QualityMeasure> objectives;
+    protected static ArrayList<QualityMeasure> objectives;
 
     /**
      * The diversity function to sort the individuals in the token competition
@@ -110,7 +113,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
     /**
      * It stores the fuzzy linguistic labels definitions
      */
-    protected static Fuzzy[][] baseDatos;
+    public static Fuzzy[][] baseDatos;
 
     /**
      * The number of fuzzy labels used
@@ -166,6 +169,11 @@ public class StreamMOEAEFEP extends AbstractClassifier {
         System.out.println("Executing the Stream-MOEA algorithm...");
     }
 
+    public static ArrayList<QualityMeasure> getObjectivesArray(){
+        return objectives;
+    }
+    
+    
     @Override
     public void trainOnInstanceImpl(Instance inst) {
         instancia = inst;
@@ -215,7 +223,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
                 baseDatos = new Fuzzy[inst.numInputAttributes()][nLabels.getValue()];
                 InitSemantics(dataChunk, nLabels.getValue(), baseDatos);
             }
-
+            
             // initialize the genetic algorithm and set its parameters
             System.out.println("Processing Time " + getTimestamp() + "...");
             Genetic GA = new Genetic();
@@ -355,5 +363,12 @@ public class StreamMOEAEFEP extends AbstractClassifier {
      */
     public static long getTimestamp() {
         return timestamp;
+    }
+
+    /**
+     * @return the diversityMeasure
+     */
+    public static QualityMeasure getDiversityMeasure() {
+        return diversityMeasure;
     }
 }

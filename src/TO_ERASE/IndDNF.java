@@ -7,68 +7,66 @@
  */
 package moa.subgroupdiscovery;
 
+import moa.subgroupdiscovery.genetic.individual.GeneDNF;
 import moa.subgroupdiscovery.genetic.Individual;
 import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import moa.options.ClassOption;
 import moa.subgroupdiscovery.qualitymeasures.Confidence;
 import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
 import moa.subgroupdiscovery.qualitymeasures.NULL;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 import org.core.File;
+import org.core.ClassLoader;
 import org.core.Randomize;
 
-public class IndCAN extends Individual {
+public class IndDNF extends Individual {
 
     /**
      * <p>
-     * Defines the individual of the population
+     * Defines the DNF individual of the population
      * </p>
      */
-    public CromCAN cromosoma;   // Individual contents
+    public CromDNF cromosoma;   // Individual contents
 
     /**
      * <p>
-     * Creates new instance of Canonical individual
-     * </p>
-     */
-    public IndCAN() {
-    }
-
-    /**
-     * </p>
-     * Creates new instance of Canonical individual
+     * Creates new instance of Individual
      * </p>
      *
      * @param lenght Lenght of the individual
      * @param neje Number of examples
      * @param nobj Number of objectives
+     * @param Variables Variables structure
      */
-    public IndCAN(int lenght, int neje, int nobj) {
+    public IndDNF(int lenght, int neje, int nobj, Instance inst, int clas) {
 
         try {
             tamano = lenght;
-            cromosoma = new CromCAN(lenght);
+            cromosoma = new CromDNF(lenght, inst, StreamMOEAEFEP.nLabel);
             medidas = new ArrayList<>();
             objs = new ArrayList<>();
             conf = new Confidence();
-            diversityMeasure = (QualityMeasure) StreamMOEAEFEP.diversityMeasure.getClass().newInstance();
+            diversityMeasure = (QualityMeasure) StreamMOEAEFEP.getDiversityMeasure().getClass().newInstance();
+            this.clas = clas;
+
             evaluado = false;
             cubre = new BitSet(neje);
 
             crowdingDistance = 0.0;
             n_eval = 0;
         } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(IndCAN.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(IndDNF.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
     /**
      * <p>
-     * Creates random instance of Canonical individual
+     * Creates rangom instance of DNF individual
      * </p>
      *
      * @param Variables Variables structure
@@ -77,8 +75,8 @@ public class IndCAN extends Individual {
      */
     @Override
     public void RndInitInd(Instance inst, int neje, String nFile, int clas) {
-        cromosoma.RndInitCrom(inst, StreamMOEAEFEP.nLabel);  // Random initialization method
-        setEvaluado(false);                  // Individual not evaluated
+        cromosoma.RndInitCrom();        // Random initialization method
+        setEvaluado(false);               // Individual not evaluated
         getCubre().clear(0, neje);
         setCrowdingDistance(0.0);
         setN_eval(0);
@@ -87,7 +85,7 @@ public class IndCAN extends Individual {
 
     /**
      * <p>
-     * Creates biased instance of Canonical individual for small disjunct
+     * Creates biased instance of DNF individual
      * </p>
      *
      * @param Variables Variables structure
@@ -98,60 +96,17 @@ public class IndCAN extends Individual {
     @Override
     public void BsdInitInd(Instance inst, float porcVar, int neje, String nFile, int clas) {
 
-        cromosoma.BsdInitCrom(inst, porcVar, StreamMOEAEFEP.nLabel);  // Random initialization method
+        cromosoma.BsdInitCrom(inst, porcVar);  // Random initialization method
         setEvaluado(false);                           // Individual not evaluated
-        getCubre().clear(0, neje);
+        getCubre().set(0, neje);
+        this.setClas(clas);
         setCrowdingDistance(0.0);
         setN_eval(0);
     }
 
     /**
      * <p>
-     * Creates random instance of Canonical individual for small disjunct
-     * </p>
-     *
-     * @param Variables Variables structure
-     * @param neje Number of exaples
-     * @param subgroup Subgroup obtained
-     */
-    /* public void RndInitIndSmall(TableVar Variables, int neje, Individual subgroup) {
-        cromosoma.RndInitCromSmall(Variables, subgroup);  // Random initialization method
-        evaluado = false;                  // Individual not evaluated
-        for (int i=0; i<neje; i++){
-            cubre[i] = false;
-        }
-
-        overallConstraintViolation = 0.0;
-        numberOfViolatedConstraints = 0;
-        crowdingDistance = 0.0;
-        n_eval = 0;
-    }*/
-    /**
-     * <p>
-     * Creates biased instance of Canonical individual
-     * </p>
-     *
-     * @param Variables Variables structure
-     * @param porcVar Percentage of variables to form the individual
-     * @param neje Number of exaples
-     * @param subgroup Subgroup obtained
-     */
-    /*public void BsdInitIndSmall(TableVar Variables, float porcVar, int neje, Individual subgroup) {
-
-        cromosoma.BsdInitCromSmall(Variables, porcVar, subgroup);  // Random initialization method
-        evaluado = false;                           // Individual not evaluated
-        for (int i=0; i<neje; i++){
-            cubre[i] = false;
-        }
-
-        overallConstraintViolation = 0.0;
-        numberOfViolatedConstraints = 0;
-        crowdingDistance = 0.0;
-        n_eval = 0;
-    }*/
-    /**
-     * <p>
-     * Creates instance of Canonical individual based on coverage
+     * Creates nstance of DNF individual based on coverage
      * </p>
      *
      * @param pop Actual population
@@ -163,14 +118,14 @@ public class IndCAN extends Individual {
      */
     @Override
     public void CobInitInd(Population pop, ArrayList<Instance> Examples, float porcCob, int nobj, int clas, String nFile) {
-        cromosoma.CobInitCrom(pop, Examples, porcCob, nobj, clas);
 
+        cromosoma.CobInitCrom(pop, Examples, porcCob, nobj, clas);
         setEvaluado(false);
+        this.setClas(clas);
         getCubre().clear(0, Examples.size());
+
         setCrowdingDistance(0.0);
         setN_eval(0);
-
-        this.setClas(clas);
     }
 
     /**
@@ -180,8 +135,22 @@ public class IndCAN extends Individual {
      *
      * @return Chromosome
      */
-    public CromCAN getIndivCrom() {
+    public CromDNF getIndivCrom() {
         return cromosoma;
+    }
+
+    /**
+     * <p>
+     * Returns the indicated gene of the Chromosome
+     * </p>
+     *
+     * @param pos Position of the variable
+     * @param elem Position of the gene
+     * @return Value of the gene
+     */
+    @Override
+    public boolean getCromGeneElem(int pos, int elem) {
+        return cromosoma.getCromGeneElem(pos, elem);
     }
 
     /**
@@ -194,34 +163,7 @@ public class IndCAN extends Individual {
      */
     @Override
     public int getCromElem(int pos) {
-        return cromosoma.getCromElem(pos);
-    }
-
-    /**
-     * <p>
-     * Returns the value of the indicated gene for the variable
-     * </p>
-     *
-     * @param pos Position of the variable
-     * @param elem Position of the gene
-     * @return Value of the gene
-     */
-    @Override
-    public boolean getCromGeneElem(int pos, int elem) {
-        return false;
-    }
-
-    /**
-     * <p>
-     * Sets the value of the indicated gene of the Chromosome
-     * </p>
-     *
-     * @param pos Position of the variable
-     * @param val Value of the variable
-     */
-    @Override
-    public void setCromElem(int pos, int val) {
-        cromosoma.setCromElem(pos, val);
+        return 0;
     }
 
     /**
@@ -235,18 +177,19 @@ public class IndCAN extends Individual {
      */
     @Override
     public void setCromGeneElem(int pos, int elem, boolean val) {
+        cromosoma.setCromGeneElem(pos, elem, val);
     }
 
     /**
      * <p>
-     * Returns the indicated Chromosome
+     * Sets the value of the indicated gene of the Chromosome
      * </p>
      *
-     * @return The canonical Chromosome
+     * @param pos Position of the variable
+     * @param val Value of the variable
      */
     @Override
-    public CromCAN getIndivCromCAN() {
-        return cromosoma;
+    public void setCromElem(int pos, int val) {
     }
 
     /**
@@ -258,7 +201,7 @@ public class IndCAN extends Individual {
      */
     @Override
     public CromDNF getIndivCromDNF() {
-        return null;
+        return cromosoma;
     }
 
     /**
@@ -272,14 +215,13 @@ public class IndCAN extends Individual {
      */
     @Override
     public void copyIndiv(Individual a, int neje, int nobj) {
+        int number;
         for (int i = 0; i < this.getTamano(); i++) {
-            this.setCromElem(i, a.getCromElem(i));
+            number = a.getIndivCromDNF().getCromGeneLenght(i);
+            for (int j = 0; j <= number; j++) {
+                this.setCromGeneElem(i, j, a.getCromGeneElem(i, j));
+            }
         }
-
-        this.setIndivEvaluated(a.getIndivEvaluated());
-        this.getCubre().clear(0, neje);
-        this.getCubre().or(a.getCubre());
-
         this.setIndivEvaluated(a.getIndivEvaluated());
         this.setCubre((BitSet) a.getCubre().clone());
         this.setCrowdingDistance(a.getCrowdingDistance());
@@ -288,22 +230,20 @@ public class IndCAN extends Individual {
         this.setObjs(new ArrayList<>());
         for (QualityMeasure q : a.getObjs()) {
             QualityMeasure aux = q.clone();
-
             this.getObjs().add(aux);
         }
 
         this.setMedidas(new ArrayList<>());
         for (QualityMeasure q : a.getMedidas()) {
             QualityMeasure aux = q.clone();
-
             this.getMedidas().add(aux);
         }
-
         this.setConf((Confidence) a.getConf().clone());
+
+        this.setNEval(a.getNEval());
 
         this.setClas(a.getClas());
 
-        this.setNEval(a.getNEval());
     }
 
     /**
@@ -311,70 +251,75 @@ public class IndCAN extends Individual {
      * Evaluate a individual. This function evaluates an individual.
      * </p>
      *
-     * @param AG Genetic algorithm
      * @param Variables Variables structure
      * @param Examples Examples structure
      */
     @Override
     public void evalInd(ArrayList<Instance> Examples, ArrayList<QualityMeasure> objs, boolean isTrain) {
 
-        double disparoFuzzy, disparoCrisp;
+        float disparoFuzzy, disparoCrisp;
         ContingencyTable confMatrix = new ContingencyTable(0, 0, 0, 0);
 
         int numVarNoInterv = 0;  // Number of variables not taking part in the individual
 
-        for (int i = 0; i < Examples.size(); i++) { // For each example of the dataset
-            // Initialization
-            Instance inst = Examples.get(i);
-            disparoFuzzy = 1;
-            disparoCrisp = 1;
+        for (int k = 0; k < Examples.size(); k++) {
+            Instance inst = Examples.get(k);
+            disparoCrisp = disparoFuzzy = 1;
             numVarNoInterv = 0;
 
-            // Compute all chromosome values
-            for (int j = 0; j < inst.numInputAttributes(); j++) {
-                if (!inst.attribute(j).isNumeric()) {  // Discrete Variable
-                    if (cromosoma.getCromElem(j) <= inst.attribute(j).numValues()) {
-                        // Variable j takes part in the rule
-                        if ((((Double) inst.valueInputAttribute(j)).intValue() != cromosoma.getCromElem(j)) && (!inst.isMissing(j))) {
-                            // If chromosome value <> example value, and example value is not a lost value
-                            disparoFuzzy = 0;
-                            disparoCrisp = 0;
+            for (int i = 0; i < inst.numInputAttributes(); i++) {
+                if (inst.attribute(i).isNominal()) {
+                    // Discrete variable
+                    if (cromosoma.getCromGeneElem(i, inst.attribute(i).numValues())) {
+                        // Variable i participate in the rule
+                        Double value = inst.valueInputAttribute(i);
+                        if (!cromosoma.getCromGeneElem(i, value.intValue()) && !inst.isMissing(i)) {
+                            // The rules does cover the examples
+                            disparoCrisp = disparoFuzzy = 0;
                         }
                     } else {
-                        numVarNoInterv++;  // Variable does not take part
+                        numVarNoInterv++; // The variable does not participate in the rule
                     }
-                } else {	// Continuous variable
-                    if (cromosoma.getCromElem(j) < StreamMOEAEFEP.nLabel) {
-                        // Variable takes part in the rule
-                        // Fuzzy computation
-                        if (!inst.isMissing(j)) {
-                            // If the value is not a lost value
-                            float pertenencia = StreamMOEAEFEP.Fuzzy(j, cromosoma.getCromElem(j), inst.valueInputAttribute(j));
+                } else {
+                    // Continuous variable
+                    if (cromosoma.getCromGeneElem(i, StreamMOEAEFEP.nLabel)) {
+                        // Variable participate in the rule
+                        if (!inst.isMissing(i)) {
+                            // Fuzzy computation
+                            float pertenencia = 0;
+                            float pert;
+                            for (int j = 0; j < StreamMOEAEFEP.nLabel; j++) {
+                                if (cromosoma.getCromGeneElem(i, j)) {
+                                    pert = StreamMOEAEFEP.Fuzzy(i, j, inst.valueInputAttribute(i));
+                                } else {
+                                    pert = 0;
+                                }
+                                pertenencia = Math.max(pertenencia, pert);
+                            }
                             disparoFuzzy = Math.min(disparoFuzzy, pertenencia);
-                        }
-                        // Crisp computation
-                        if (!inst.isMissing(j)) {
-                            if (NumInterv(inst.valueInputAttribute(j), j, inst) != cromosoma.getCromElem(j)) {
+
+                            // Crisp conputation
+                            if (!cromosoma.getCromGeneElem(i, NumInterv(inst.valueInputAttribute(i), i, inst))) {
                                 disparoCrisp = 0;
                             }
                         }
                     } else {
-                        numVarNoInterv++;  // Variable does not take part
+                        numVarNoInterv++;
                     }
                 }
-            } // End FOR all chromosome values
+            }
 
             // Update counters
             if (numVarNoInterv < inst.numInputAttributes()) {
                 if (disparoFuzzy > 0) {
-                    getCubre().set(i); // Cambiar dos líneas más abajo si el token competition se va a hacer por clase.
+                    getCubre().set(k); // Cambiar dos líneas más abajo si el token competition se va a hacer por clase.
                     if (((Double) inst.classValue()).intValue() == this.getClas()) {
                         confMatrix.setTp(confMatrix.getTp() + 1);
                     } else {
                         confMatrix.setFp(confMatrix.getFp() + 1);
                     }
                 } else {
-                    getCubre().clear(i);
+                    getCubre().clear(k);
                     if (((Double) inst.classValue()).intValue() == this.getClas()) {
                         confMatrix.setFn(confMatrix.getFn() + 1);
                     } else {
@@ -382,7 +327,6 @@ public class IndCAN extends Individual {
                     }
                 }
             }
-
         }
 
         // calculate the quality measures
@@ -390,7 +334,6 @@ public class IndCAN extends Individual {
 
         // Set individual as evaluated
         setEvaluado(true);
-
     }
 
     /**
@@ -400,18 +343,18 @@ public class IndCAN extends Individual {
      * of the value to the fuzzy sets defined for the variable
      * </p>
      *
-     * @param value Value to calculate
+     * @param valor Value to calculate
      * @param num_var Number of the variable
      * @param Variables Variables structure
      * @return Number of the interval
      */
     @Override
-    public int NumInterv(double value, int num_var, Instance inst) {
+    public int NumInterv(double valor, int num_var, Instance inst) {
         float pertenencia = 0, new_pert = 0;
         int interv = -1;
 
         for (int i = 0; i < StreamMOEAEFEP.nLabel; i++) {
-            new_pert = StreamMOEAEFEP.Fuzzy(num_var, i, value);
+            new_pert = StreamMOEAEFEP.Fuzzy(num_var, i, valor);
             if (new_pert > pertenencia) {
                 interv = i;
                 pertenencia = new_pert;
@@ -428,7 +371,6 @@ public class IndCAN extends Individual {
      *
      * @param nFile File to write the individual
      */
-    @Override
     public void Print(String nFile) {
         String contents;
         cromosoma.Print(nFile);
@@ -436,11 +378,16 @@ public class IndCAN extends Individual {
         contents = "DistanceCrowding " + this.getCrowdingDistance() + "\n";
         contents += "Evaluated - " + isEvaluado() + "\n";
         contents += "Evaluacion Generado " + getN_eval() + "\n\n";
-        if ("".equals(nFile)) {
+        if (nFile == "") {
             System.out.print(contents);
         } else {
             File.AddtoFile(nFile, contents);
         }
+    }
+
+    @Override
+    public CromCAN getIndivCromCAN() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -449,35 +396,38 @@ public class IndCAN extends Individual {
      *
      * @param dad
      * @param mom
+     * @param inst
      * @return
      */
-    public static Individual[] crossTwoPoints(Individual dad, Individual mom) {
-        IndCAN dad1 = (IndCAN) dad;
-        IndCAN mom1 = (IndCAN) mom;
+    public static Individual[] crossTwoPoints(Individual dad, Individual mom, Instance inst) {
+        IndDNF dad1 = (IndDNF) dad;
+        IndDNF mom1 = (IndDNF) mom;
 
         Individual[] offspring = {
-            new IndCAN(dad1.cromosoma.getCromLength(), dad1.getCubre().size(), dad1.getObjs().size()),
-            new IndCAN(mom1.cromosoma.getCromLength(), mom1.getCubre().size(), mom1.getObjs().size())
+            new IndDNF(dad1.cromosoma.getCromLenght(), dad1.getCubre().size(), dad1.getObjs().size(), inst, 0),
+            new IndDNF(mom1.cromosoma.getCromLenght(), mom1.getCubre().size(), mom1.getObjs().size(), inst, 0)
         };
 
-        // Copy parents to the offspring (they will be modified later)
         offspring[0].copyIndiv(dad, dad1.getObjs().size(), dad1.getCubre().size());
         offspring[1].copyIndiv(mom, mom1.getObjs().size(), mom1.getCubre().size());
 
-        // Select the two point to cross
-        int xpoint1 = Randomize.Randint(0, dad1.cromosoma.getCromLength() - 1);
+        // Generation of the two point of cross
+        int xpoint1 = Randomize.Randint(0, (dad1.cromosoma.getCromLenght() - 1));
         int xpoint2;
-
-        if (xpoint1 != dad1.cromosoma.getCromLength() - 1) {
-            xpoint2 = Randomize.Randint(xpoint1 + 1, dad1.cromosoma.getCromLength() - 1);
+        if (xpoint1 != dad1.cromosoma.getCromLenght() - 1) {
+            xpoint2 = Randomize.Randint((xpoint1 + 1), (dad1.cromosoma.getCromLenght() - 1));
         } else {
-            xpoint2 = dad1.cromosoma.getCromLength() - 1;
+            xpoint2 = dad1.cromosoma.getCromLenght() - 1;
         }
 
-        // Perform the cross
+        // Cross the parts between both points
         for (int i = xpoint1; i <= xpoint2; i++) {
-            offspring[1].setCromElem(i, dad.getCromElem(i));
-            offspring[0].setCromElem(i, mom.getCromElem(i));
+            int number = offspring[0].getIndivCromDNF().getCromGeneLenght(i);
+
+            for (int ii = 0; ii <= number; ii++) {
+                offspring[0].setCromGeneElem(i, ii, mom.getCromGeneElem(i, ii));
+                offspring[1].setCromGeneElem(i, ii, dad.getCromGeneElem(i, ii));
+            }
         }
 
         offspring[0].setIndivEvaluated(false);
@@ -489,26 +439,17 @@ public class IndCAN extends Individual {
     @Override
     public void mutate(Instance inst, float mutProb) {
         for (int pos = 0; pos < inst.numInputAttributes(); pos++) {
-            if (Randomize.Randdouble(0.0, 1.0) <= mutProb) {
-                // MUTATES THE GENE
+            if (((Double) Randomize.RandClosed()).floatValue() < mutProb) {
                 if (Randomize.Randint(0, 10) <= 5) {
                     // REMOVE THE SELECTED VARIABLE 
-                    if (inst.attribute(pos).isNumeric()) {
-                        cromosoma.setCromElem(pos, StreamMOEAEFEP.nLabel);
-                    } else {
-                        cromosoma.setCromElem(pos, inst.attribute(pos).numValues());
-                    }
+                    cromosoma.eraseVariable(pos);
                 } else {
                     // SETS A RANDOM VALUE ON THE VARIABLE
-                    if (inst.attribute(pos).isNumeric()) {
-                        cromosoma.setCromElem(pos, StreamMOEAEFEP.nLabel);
-                    } else {
-                        cromosoma.setCromElem(pos, inst.attribute(pos).numValues());
-                    }
+                    cromosoma.randomChange(pos);
+
                 }
             }
         }
-
         // Set indiv as non-evaluated
         setEvaluado(false);
     }
@@ -518,18 +459,10 @@ public class IndCAN extends Individual {
 
         if (Randomize.Randint(0, 10) <= 5) {
             // REMOVE THE SELECTED VARIABLE 
-            if (inst.attribute(pos).isNumeric()) {
-                cromosoma.setCromElem(pos, StreamMOEAEFEP.nLabel);
-            } else {
-                cromosoma.setCromElem(pos, inst.attribute(pos).numValues());
-            }
+            cromosoma.eraseVariable(pos);
         } else {
             // SETS A RANDOM VALUE ON THE VARIABLE
-            if (inst.attribute(pos).isNumeric()) {
-                cromosoma.setCromElem(pos, StreamMOEAEFEP.nLabel);
-            } else {
-                cromosoma.setCromElem(pos, inst.attribute(pos).numValues());
-            }
+            cromosoma.randomChange(pos);
         }
 
         // Set indiv as non-evaluated
@@ -537,55 +470,60 @@ public class IndCAN extends Individual {
 
     }
 
-    
     @Override
-    public boolean isEmpty(){
-        return false;
+    public boolean isEmpty() {
+        for (GeneDNF g : cromosoma.cromosoma) {
+            if (!g.isNonParticipant()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public String toString(Instance inst) {
-        CromCAN regla = this.cromosoma;
-        
+        CromDNF regla = this.cromosoma;
         String content = "";
-        for(int i = 0; i < inst.numInputAttributes(); i++){
-            if(inst.attribute(i).isNominal()){
-                // Discrete variable
-                if(regla.getCromElem(i) < inst.attribute(i).numValues()){
+        for (int i = 0; i < inst.numInputAttributes(); i++) {
+            if (!regla.isNonParticipant(i)) {
+                if (inst.attribute(i).isNominal()) {
+                    // discrete variable
+                    content = "\tVariable " + inst.attribute(i).name() + " = ";
+                    for (int j = 0; j < inst.attribute(i).numValues(); j++) {
+                        if (regla.getCromGeneElem(i, j)) {
+                            content += inst.attribute(i).value(j) + "  ";
+                        }
+                    }
+                    content += "\n";
+                } else {
+                    // continuous variable
                     content += "\tVariable " + inst.attribute(i).name() + " = ";
-                    content += inst.attribute(i).value(regla.getCromElem(i)) + "\n";
-                }
-            } else {
-                // Continuous variable
-                if(regla.getCromElem(i) < StreamMOEAEFEP.nLabel){
-                   content += "Label " + regla.getCromElem(i);
-                        content += " (" + StreamMOEAEFEP.baseDatos[i][regla.getCromElem(i)].getX0();
-                        content += " " + StreamMOEAEFEP.baseDatos[i][regla.getCromElem(i)].getX1();
-                        content += " " + StreamMOEAEFEP.baseDatos[i][regla.getCromElem(i)].getX3() + ")\n";
+                    for (int j = 0; j < StreamMOEAEFEP.nLabel; j++) {
+                        if (regla.getCromGeneElem(i, j)) {
+                            content += "Label " + j;
+                            content += " (" + StreamMOEAEFEP.baseDatos[i][j].getX0();
+                            content += " " + StreamMOEAEFEP.baseDatos[i][j].getX1();
+                            content += " " + StreamMOEAEFEP.baseDatos[i][j].getX3() + ")\t";
+                        }
+                    }
+                    content += "\n";
                 }
             }
         }
-        content += "\tConsecuent: " + inst.outputAttribute(0).value(getClas());
+
+        content += "\tConsecuent: " + inst.outputAttribute(0).value(getClas()) + "\n\n";
         return content;
     }
-    
-    
+
     @Override
-    public int getNumVars(){
+    public int getNumVars() {
         int vars = 0;
-        for(int i = 0; i < cromosoma.getCromLength(); i++){
-            if(StreamMOEAEFEP.instancia.attribute(i).isNominal()){
-                if(cromosoma.getCromElem(i) < StreamMOEAEFEP.instancia.inputAttribute(i).numValues()){
-                    vars++;
-                }
-            } else {
-                if(cromosoma.getCromElem(i) < StreamMOEAEFEP.nLabel){
-                    vars++;
-                }
+        for (int i = 0; i < this.cromosoma.getCromLenght(); i++) {
+            if(! this.cromosoma.isNonParticipant(i)){
+                vars++;
             }
-            
         }
         return vars;
     }
-    
+
 }

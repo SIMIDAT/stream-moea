@@ -8,6 +8,7 @@
 package moa.subgroupdiscovery.genetic;
 
 import com.yahoo.labs.samoa.instances.Instance;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.logging.Level;
@@ -24,14 +25,341 @@ import moa.subgroupdiscovery.qualitymeasures.NULL;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 import weka.classifiers.evaluation.ConfusionMatrix;
 
-public abstract class Individual {
+
+/**
+ * Class that represents an individual of the population.
+ * 
+ * It implements the clase comparable. Although it is for multi-objective purpose.
+ * The main idea of the comparison is for other kind of sorting such us the one performed in the token competition procedure.
+ * 
+ * @author agvico
+ * @param <T> The elements of the chromosome that conforms the individual
+ */
+public abstract class Individual<T> implements Serializable, Comparable<Individual<T>>{
     
     /**
      * The chromosome of the individual.
      */
-    //protected Chromosome chromosome;
+    protected ArrayList<T> chromosome;
 
     /**
+     * Sets the size of the individual
+     */
+    protected int tamano;
+
+    /**
+     * Sets whether the individual is evaluated or not
+     */
+    protected boolean evaluado;
+
+    /**
+     * Sets the individuals covered in this chunk of data
+     */
+    protected BitSet cubre;
+
+    /**
+     * The ranking of the individual
+     */
+    protected int rank;
+
+    /**
+     * The crowding distance of the individual
+     */
+    protected double crowdingDistance;
+
+    /**
+     * The evaluation of the population obtained
+     */
+    protected int n_eval;
+
+    /**
+     * The quality measures of the individuals
+     */
+    protected ArrayList<QualityMeasure> medidas;
+
+    /**
+     * It store the objective measures of the individual.
+     */
+    protected ArrayList<QualityMeasure> objs;
+
+    /**
+     * It stores the diversity function to be used on the token competition
+     */
+    protected QualityMeasure diversityMeasure;
+
+    /**
+     * The confidence of the individual.
+     */
+    protected Confidence conf;
+
+    /**
+     * The class of the individual
+     */
+    protected int clas;
+    
+    public Individual() {
+        
+    }
+
+    /**
+     * Random initialisation of an individual. It fills the individual array
+     * completely at random.
+     *
+     * @param inst
+     * @param neje
+     * @param nFile
+     * @param clas
+     */
+    //public abstract void RndInitInd(Instance inst, int neje, String nFile, int clas);
+
+    /**
+     * It performs a biased initialisation of an individual. The idea is the
+     * fill at most the percentage of variables specifiedat random in order to
+     * improve generality
+     *
+     * @param inst
+     * @param porcVar
+     * @param neje
+     * @param nFile
+     * @param clas
+     */
+    //public abstract void BsdInitInd(Instance inst, float porcVar, int neje, String nFile, int clas);
+
+    /**
+     * Initialisation based on coverture, the individual is initialized with the
+     * idea of covering an example of the dataset not covered up to the moment
+     * with a percentage of variables initialised in order to improve
+     * generality.
+     *
+     * @param pop
+     * @param Variables
+     * @param Examples
+     * @param porcCob
+     * @param nobj
+     * @param nFile
+     */
+    //public abstract void CobInitInd(Population pop, ArrayList<Instance> Examples, float porcCob, int nobj, int clas, String nFile);
+
+    
+    /**
+     * Gets the chromosome element at the specified position
+     *
+     * @param pos
+     * @return
+     */
+    public abstract T getCromElem(int pos);
+
+    /**
+     * Sets the value of the chromosome at the specified position
+     *
+     * @param pos
+     * @param val
+     */
+    public abstract void setCromElem(int pos, T val);
+
+    /**
+     * Gets the gene {@code elem} at the specified position. Use in DNF
+     *
+     * @param pos
+     * @param elem
+     * @return
+     */
+    public abstract boolean getCromGeneElem(int pos, int elem);
+
+    /**
+     * Sets the value of an element of the gene at the specified position for a
+     * DNF variable
+     *
+     * @param pos
+     * @param elem
+     * @param val
+     */
+    public abstract void setCromGeneElem(int pos, int elem, boolean val);
+    
+    //public abstract CromCAN getIndivCromCAN();
+
+    /**
+     * Gets the chromosome
+     *
+     * @return
+     */
+    //public abstract CromDNF getIndivCromDNF();
+
+    /**
+     * Copy an individual
+     *
+     * @param indi
+     * @param nobj
+     * @param neje
+     */
+    public abstract void copyIndiv(Individual indi, int nobj, int neje);
+
+    /**
+     * Evaluates the individual with respect to the examples of this data chunk
+     *
+     * @param AG
+     * @param Examples
+     * @param objs
+     */
+    //public abstract void evalInd(ArrayList<Instance> Examples, ArrayList<QualityMeasure> objs, boolean isTrain);
+
+    /**
+     * Gets the linguistic label that this value belongs to
+     *
+     * @param valor
+     * @param num_var
+     * @param Variables
+     * @return
+     */
+    public abstract int NumInterv(double valor, int num_var, Instance inst);
+
+    /**
+     * It gets the string representation of the rules in a human-readable way
+     * @param inst
+     * @return 
+     */
+    public abstract String toString(Instance inst);
+    
+    /**
+     * It applies the mutation operator over all genes of an individual,
+     * according to the mutation probability
+     *
+     * @return A copy of the mutated individual.
+     */
+    //public abstract void mutate(Instance inst, float mutProb);
+
+    /**
+     * It performs the mutation operator over a gene of the individual, with a
+     * 100% of probability of application
+     *
+     * @return A copy of the mutated individual.
+     */
+    //public abstract void mutate(Instance inst, int pos);
+
+    
+    /**
+     * Gets the number of variables that participate in the rule
+     * @return 
+     */
+    public abstract int getNumVars();
+    /**
+     * Print the individual
+     *
+     * @param nFile
+     */
+    //public abstract void Print(String nFile);
+    
+    /**
+     * Checks whether it is an empty rule, i.e., no variables participate in the rule
+     * @return 
+     */
+    public abstract boolean isEmpty();
+
+    /**
+     * @return the clas
+     */
+    public int getClas() {
+        return clas;
+    }
+
+    /**
+     * @param clas the clas to set
+     */
+    public void setClas(int clas) {
+        this.clas = clas;
+    }
+
+    /**
+     * It calculates the quality measures given a contingency table
+     *
+     * @param confMatrix
+     * @param objs
+     * @param isTrain
+     */
+    public void calculateMeasures(ContingencyTable confMatrix, ArrayList<QualityMeasure> objs, boolean isTrain) {
+        if (isTrain) {
+            // Compute the objective quality measures
+            if (this.getObjs().isEmpty()) {
+                objs.forEach((q) -> {
+                    // If it is empty, then the measures are not created, copy the default objects
+                    // from the objectives array
+                    this.getObjs().add(q.clone());
+                });
+            }
+            
+            this.getObjs().stream().filter((QualityMeasure q) -> (!(q instanceof NULL))).forEachOrdered((QualityMeasure q) -> {
+                // Calculate if it is not the null measure.
+                q.calculateValue(confMatrix);
+                try {
+                    // Check for errors in the measures, exit if they are detected
+                    q.validate();
+                } catch (InvalidRangeInMeasureException ex) {
+                    // If this exception occurred, then exit the program
+                    ex.showAndExit(this);
+                }
+            });
+
+            // Compute the confidence
+            this.getConf().calculateValue(confMatrix);
+
+            // Compute the diversity function
+            this.getDiversityMeasure().calculateValue(confMatrix);
+
+            // check confidence and diversity functions
+            try {
+                this.getConf().validate();
+                this.getDiversityMeasure().validate();
+            } catch (InvalidRangeInMeasureException ex) {
+                System.err.println("In training:");
+                ex.showAndExit(this);
+            }
+        } else {
+
+            // Test the individual.
+            try {
+                // Get all the quality measures available in the package qualitymeasures
+                ArrayList<QualityMeasure> measures = org.core.ClassLoader.getClasses();
+
+                // Calculates the value of each measure
+                measures.forEach(q -> {
+                    try {
+                        q.calculateValue(confMatrix);
+                        q.validate();
+                        this.getMedidas().add(q);
+                    } catch (InvalidRangeInMeasureException ex) {
+                        System.err.println("In test: ");
+                        ex.showAndExit(this);
+                    }
+                });
+                
+            } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
+                Logger.getLogger(IndDNF.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("Classes not found in package quality measures");
+            }
+            
+        }
+        
+    }
+
+    /**
+     * @return the chromosome
+     */
+    public ArrayList<T> getChromosome() {
+        return chromosome;
+    }
+
+    /**
+     * @param chromosome the chromosome to set
+     */
+    public void setChromosome(ArrayList<T> chromosome) {
+        this.chromosome = chromosome;
+    }
+    
+    
+    
+    
+    
+        /**
      * @return the tamano
      */
     public int getTamano() {
@@ -142,105 +470,8 @@ public abstract class Individual {
     public void setConf(Confidence conf) {
         this.conf = conf;
     }
-
-    /**
-     * Sets the size of the individual
-     */
-    protected int tamano;
-
-    /**
-     * Sets whether the individual is evaluated or not
-     */
-    protected boolean evaluado;
-
-    /**
-     * Sets the individuals covered in this chunk of data
-     */
-    protected BitSet cubre;
-
-    /**
-     * The ranking of the individual
-     */
-    protected int rank;
-
-    /**
-     * The crowding distance of the individual
-     */
-    protected double crowdingDistance;
-
-    /**
-     * The evaluation of the population obtained
-     */
-    protected int n_eval;
-
-    /**
-     * The quality measures of the individuals
-     */
-    protected ArrayList<QualityMeasure> medidas;
-
-    /**
-     * It store the objective measures of the individual.
-     */
-    protected ArrayList<QualityMeasure> objs;
-
-    /**
-     * It stores the diversity function to be used on the token competition
-     */
-    protected QualityMeasure diversityMeasure;
-
-    /**
-     * The confidence of the individual.
-     */
-    protected Confidence conf;
-
-    /**
-     * The class of the individual
-     */
-    protected int clas;
     
-    public Individual() {
-        
-    }
-
-    /**
-     * Random initialisation of an individual. It fills the individual array
-     * completely at random.
-     *
-     * @param inst
-     * @param neje
-     * @param nFile
-     * @param clas
-     */
-    public abstract void RndInitInd(Instance inst, int neje, String nFile, int clas);
-
-    /**
-     * It performs a biased initialisation of an individual. The idea is the
-     * fill at most the percentage of variables specifiedat random in order to
-     * improve generality
-     *
-     * @param inst
-     * @param porcVar
-     * @param neje
-     * @param nFile
-     * @param clas
-     */
-    public abstract void BsdInitInd(Instance inst, float porcVar, int neje, String nFile, int clas);
-
-    /**
-     * Initialisation based on coverture, the individual is initialized with the
-     * idea of covering an example of the dataset not covered up to the moment
-     * with a percentage of variables initialised in order to improve
-     * generality.
-     *
-     * @param pop
-     * @param Variables
-     * @param Examples
-     * @param porcCob
-     * @param nobj
-     * @param nFile
-     */
-    public abstract void CobInitInd(Population pop, ArrayList<Instance> Examples, float porcCob, int nobj, int clas, String nFile);
-
+    
     /**
      * <p>
      * Returns the position i of the array cubre
@@ -396,217 +627,10 @@ public abstract class Individual {
         return getConf().getValue();
     }
 
-    /**
-     * Gets the chromosome element at the specified position
-     *
-     * @param pos
-     * @return
-     */
-    public abstract int getCromElem(int pos);
-
-    /**
-     * Sets the value of the chromosome at the specified position
-     *
-     * @param pos
-     * @param val
-     */
-    public abstract void setCromElem(int pos, int val);
-
-    /**
-     * Gets the gene {@code elem} at the specified position. Use in DNF
-     *
-     * @param pos
-     * @param elem
-     * @return
-     */
-    public abstract boolean getCromGeneElem(int pos, int elem);
-
-    /**
-     * Sets the value of an element of the gene at the specified position for a
-     * DNF variable
-     *
-     * @param pos
-     * @param elem
-     * @param val
-     */
-    public abstract void setCromGeneElem(int pos, int elem, boolean val);
-    
-    public abstract CromCAN getIndivCromCAN();
-
-    /**
-     * Gets the chromosome
-     *
-     * @return
-     */
-    public abstract CromDNF getIndivCromDNF();
-
-    /**
-     * Copy an individual
-     *
-     * @param indi
-     * @param nobj
-     * @param neje
-     */
-    public abstract void copyIndiv(Individual indi, int nobj, int neje);
-
-    /**
-     * Evaluates the individual with respect to the examples of this data chunk
-     *
-     * @param AG
-     * @param Examples
-     * @param objs
-     */
-    public abstract void evalInd(ArrayList<Instance> Examples, ArrayList<QualityMeasure> objs, boolean isTrain);
-
-    /**
-     * Gets the linguistic label that this value belongs to
-     *
-     * @param valor
-     * @param num_var
-     * @param Variables
-     * @return
-     */
-    public abstract int NumInterv(double valor, int num_var, Instance inst);
-
-    /**
-     * It gets the string representation of the rules in a human-readable way
-     * @param inst
-     * @return 
-     */
-    public abstract String toString(Instance inst);
-    
-    /**
-     * It applies the mutation operator over all genes of an individual,
-     * according to the mutation probability
-     *
-     * @return A copy of the mutated individual.
-     */
-    public abstract void mutate(Instance inst, float mutProb);
-
-    /**
-     * It performs the mutation operator over a gene of the individual, with a
-     * 100% of probability of application
-     *
-     * @return A copy of the mutated individual.
-     */
-    public abstract void mutate(Instance inst, int pos);
-
-    
-    /**
-     * Gets the number of variables that participate in the rule
-     * @return 
-     */
-    public abstract int getNumVars();
-    /**
-     * Print the individual
-     *
-     * @param nFile
-     */
-    public abstract void Print(String nFile);
-    
-    /**
-     * Checks whether it is an empty rule, i.e., no variables participate in the rule
-     * @return 
-     */
-    public abstract boolean isEmpty();
-
-    /**
-     * @return the clas
-     */
-    public int getClas() {
-        return clas;
+    @Override
+    public int compareTo(Individual<T> o) {
+        return this.diversityMeasure.compareTo(o.diversityMeasure);
     }
 
-    /**
-     * @param clas the clas to set
-     */
-    public void setClas(int clas) {
-        this.clas = clas;
-    }
 
-    /**
-     * It calculates the quality measures given a contingency table
-     *
-     * @param confMatrix
-     * @param objs
-     * @param isTrain
-     */
-    public void calculateMeasures(ContingencyTable confMatrix, ArrayList<QualityMeasure> objs, boolean isTrain) {
-        if (isTrain) {
-            // Compute the objective quality measures
-            if (this.getObjs().isEmpty()) {
-                objs.forEach((q) -> {
-                    // If it is empty, then the measures are not created, copy the default objects
-                    // from the objectives array
-                    this.getObjs().add(q.clone());
-                });
-            }
-            
-            this.getObjs().stream().filter((QualityMeasure q) -> (!(q instanceof NULL))).forEachOrdered((QualityMeasure q) -> {
-                // Calculate if it is not the null measure.
-                q.calculateValue(confMatrix);
-                try {
-                    // Check for errors in the measures, exit if they are detected
-                    q.validate();
-                } catch (InvalidRangeInMeasureException ex) {
-                    // If this exception occurred, then exit the program
-                    ex.showAndExit(this);
-                }
-            });
-
-            // Compute the confidence
-            this.getConf().calculateValue(confMatrix);
-
-            // Compute the diversity function
-            this.getDiversityMeasure().calculateValue(confMatrix);
-
-            // check confidence and diversity functions
-            try {
-                this.getConf().validate();
-                this.getDiversityMeasure().validate();
-            } catch (InvalidRangeInMeasureException ex) {
-                System.err.println("In training:");
-                ex.showAndExit(this);
-            }
-        } else {
-
-            // Test the individual.
-            try {
-                // Get all the quality measures available in the package qualitymeasures
-                ArrayList<QualityMeasure> measures = org.core.ClassLoader.getClasses();
-
-                // Calculates the value of each measure
-                measures.forEach(q -> {
-                    try {
-                        q.calculateValue(confMatrix);
-                        q.validate();
-                        this.getMedidas().add(q);
-                    } catch (InvalidRangeInMeasureException ex) {
-                        System.err.println("In test: ");
-                        ex.showAndExit(this);
-                    }
-                });
-                
-            } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
-                Logger.getLogger(IndDNF.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("Classes not found in package quality measures");
-            }
-            
-        }
-        
-    }
-
-    /**
-     * @return the chromosome
-     */
-    /*public Chromosome getChromosome() {
-        return chromosome;
-    }*/
-
-    /**
-     * @param chromosome the chromosome to set
-     */
-   /* public void setChromosome(Chromosome chromosome) {
-        this.chromosome = chromosome;
-    }*/
 }
