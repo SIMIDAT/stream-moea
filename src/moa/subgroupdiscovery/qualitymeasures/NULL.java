@@ -50,4 +50,9 @@ public class NULL extends QualityMeasure {
     protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
     }
 
+    @Override
+    public int compareTo(QualityMeasure o) {
+        return 0;
+    }
+
 }

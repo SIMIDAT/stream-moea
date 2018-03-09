@@ -7,6 +7,7 @@ package moa.subgroupdiscovery.qualitymeasures;
 
 import moa.core.ObjectRepository;
 import moa.tasks.TaskMonitor;
+import org.core.exceptions.InvalidMeasureComparisonException;
 import org.core.exceptions.InvalidRangeInMeasureException;
 
 /**
@@ -16,12 +17,12 @@ import org.core.exceptions.InvalidRangeInMeasureException;
  */
 public class Coverage extends QualityMeasure {
 
-    public Coverage(){
+    public Coverage() {
         this.name = "Coverage";
         this.short_name = "Cov";
         this.value = 0.0;
     }
-    
+
     @Override
     public double calculateValue(ContingencyTable t) {
 
@@ -56,6 +57,26 @@ public class Coverage extends QualityMeasure {
 
     @Override
     public void getDescription(StringBuilder sb, int i) {
+    }
+
+    @Override
+    public int compareTo(QualityMeasure o) {
+        try {
+            if (!(o instanceof Coverage)) {
+                throw new InvalidMeasureComparisonException(this, o);
+            }
+
+            if (this.value < o.value) {
+                return -1;
+            } else if (this.value > o.value) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (InvalidMeasureComparisonException ex) {
+            ex.showAndExit(this);
+        }
+        return 0;
     }
 
 }

@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import moa.core.ObjectRepository;
 import moa.tasks.TaskMonitor;
+import org.core.exceptions.InvalidMeasureComparisonException;
 import org.core.exceptions.InvalidRangeInMeasureException;
 
 /**
@@ -71,6 +72,26 @@ public class GrowthRate extends QualityMeasure {
 
     @Override
     public void getDescription(StringBuilder sb, int i) {
+    }
+
+    @Override
+    public int compareTo(QualityMeasure o) {
+        try {
+            if (!(o instanceof GrowthRate)) {
+                throw new InvalidMeasureComparisonException(this, o);
+            }
+
+            if (this.value < o.value) {
+                return -1;
+            } else if (this.value > o.value) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (InvalidMeasureComparisonException ex) {
+            ex.showAndExit(this);
+        }
+        return 0;
     }
 
 }

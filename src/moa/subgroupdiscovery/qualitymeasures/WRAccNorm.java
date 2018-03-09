@@ -28,7 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import moa.core.ObjectRepository;
 import moa.tasks.TaskMonitor;
-
+import org.core.exceptions.InvalidMeasureComparisonException;
 
 /**
  *
@@ -36,20 +36,20 @@ import moa.tasks.TaskMonitor;
  */
 public class WRAccNorm extends QualityMeasure {
 
-    public WRAccNorm(){
+    public WRAccNorm() {
         super.value = 0.0;
         super.name = "Weighter Relative Accuracy (Normalised)";
         super.short_name = "WRAcc_Norm";
     }
-    
+
     @Override
     public double calculateValue(ContingencyTable t) {
         table = t;
-        double classPct = 0.0 ;
+        double classPct = 0.0;
         if (t.getTotalExamples() != 0) {
             classPct = (double) (t.getTp() + t.getFn()) / (double) t.getTotalExamples();
         }
-        
+
         double minUnus = (1.0 - classPct) * (0.0 - classPct);
         double maxUnus = classPct * (1.0 - classPct);
 
@@ -91,6 +91,26 @@ public class WRAccNorm extends QualityMeasure {
 
     @Override
     protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
+    }
+
+    @Override
+    public int compareTo(QualityMeasure o) {
+        try {
+            if (!(o instanceof WRAccNorm)) {
+                throw new InvalidMeasureComparisonException(this, o);
+            }
+
+            if (this.value < o.value) {
+                return -1;
+            } else if (this.value > o.value) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (InvalidMeasureComparisonException ex) {
+            ex.showAndExit(this);
+        }
+        return 0;
     }
 
 }

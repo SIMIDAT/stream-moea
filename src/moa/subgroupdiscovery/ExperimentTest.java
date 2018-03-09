@@ -3,6 +3,7 @@ package moa.subgroupdiscovery;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -11,10 +12,12 @@ import moa.classifiers.Classifier;
 import moa.core.InstanceExample;
 import moa.core.TimingUtils;
 import moa.streams.generators.RandomRBFGenerator;
+import moa.subgroupdiscovery.qualitymeasures.AUC;
 import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
 import org.core.exceptions.InvalidContingencyTableException;
 import org.core.exceptions.InvalidRangeInMeasureException;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
+import moa.subgroupdiscovery.qualitymeasures.*;
 
 public class ExperimentTest {
     

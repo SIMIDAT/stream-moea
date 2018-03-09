@@ -26,6 +26,7 @@ package moa.subgroupdiscovery.qualitymeasures;
 import org.core.exceptions.InvalidRangeInMeasureException;
 import moa.core.ObjectRepository;
 import moa.tasks.TaskMonitor;
+import org.core.exceptions.InvalidMeasureComparisonException;
 
 /**
  *
@@ -71,6 +72,28 @@ public class FPR extends QualityMeasure {
 
     @Override
     protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
+    }
+
+    @Override
+    public int compareTo(QualityMeasure o) {
+        
+        // THIS MEASURES MUST BE MINIMISED !!!!
+        try {
+            if (!(o instanceof FPR)) {
+                throw new InvalidMeasureComparisonException(this, o);
+            }
+
+            if (this.value < o.value) {
+                return 1;
+            } else if (this.value > o.value) {
+                return -1;
+            } else {
+                return 0;
+            }
+        } catch (InvalidMeasureComparisonException ex) {
+            ex.showAndExit(this);
+        }
+        return 0;
     }
 
 }

@@ -23,6 +23,7 @@
  */
 package moa.subgroupdiscovery.qualitymeasures;
 
+import java.io.Serializable;
 import org.core.exceptions.InvalidRangeInMeasureException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -34,7 +35,7 @@ import moa.options.AbstractOptionHandler;
  *
  * @author Angel Miguel Garcia Vico <agvico at ujaen.es>
  */
-public abstract class QualityMeasure extends AbstractOptionHandler implements Cloneable {
+public abstract class QualityMeasure extends AbstractOptionHandler implements Cloneable, Serializable, Comparable<QualityMeasure> {
 
     /**
      * @return the short_name
@@ -125,6 +126,9 @@ public abstract class QualityMeasure extends AbstractOptionHandler implements Cl
     public String getShortName() {
         return short_name;
     }
+
+    @Override
+    public abstract int compareTo(QualityMeasure o);
 
     
     
