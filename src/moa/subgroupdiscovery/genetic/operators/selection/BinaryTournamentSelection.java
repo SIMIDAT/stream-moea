@@ -8,6 +8,7 @@ package moa.subgroupdiscovery.genetic.operators.selection;
 import java.util.ArrayList;
 import moa.subgroupdiscovery.genetic.Individual;
 import moa.subgroupdiscovery.genetic.operators.SelectionOperator;
+import org.core.Randomize;
 
 /**
  *
@@ -21,13 +22,19 @@ public class BinaryTournamentSelection extends SelectionOperator<Individual> {
 
     @Override
     public Individual doSelection(ArrayList<Individual> elements) {
-        if (elements.size() != numParticipants) {
-            throw new UnsupportedOperationException("Binary Tournament Selection: The size of the tournaments is different than 2.");
+        if (elements.size() < numParticipants) {
+            throw new UnsupportedOperationException("Binary Tournament Selection: The size of the tournaments is less than 2.");
         }
 
+        int ind1 = Randomize.Randint(0, elements.size());
+        int ind2;
+        do {
+            ind2 = Randomize.Randint(0, elements.size());
+        } while(ind2 == ind1);
+        
         // Selection by crowding distance 
-        Individual e1 = elements.get(0);
-        Individual e2 = elements.get(1);
+        Individual e1 = elements.get(ind1);
+        Individual e2 = elements.get(ind2);
         
         int winner = 0;
         if (e2.getRank() < e1.getRank()) {

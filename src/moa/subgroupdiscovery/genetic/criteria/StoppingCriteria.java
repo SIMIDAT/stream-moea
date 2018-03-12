@@ -5,6 +5,8 @@
  */
 package moa.subgroupdiscovery.genetic.criteria;
 
+import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
+
 /**
  *
  * @author agvico
@@ -12,5 +14,5 @@ package moa.subgroupdiscovery.genetic.criteria;
 public abstract class StoppingCriteria {
     
     
-    public abstract boolean checkStopCondition();
+    public abstract boolean checkStopCondition(GeneticAlgorithm GA);
 }
