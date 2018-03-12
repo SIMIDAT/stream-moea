@@ -192,4 +192,55 @@ public class IndDNF extends Individual<GeneDNF> {
         return true;
     }
 
+    @Override
+    public Individual<GeneDNF> clone() {
+        IndDNF copia = new IndDNF(this.tamano, this.getCubre().size(), StreamMOEAEFEP.instancia, this.clas);
+        
+        copia.conf = (Confidence) this.conf.clone();
+        copia.crowdingDistance = this.crowdingDistance;
+        copia.cubre = (BitSet) this.getCubre().clone();
+        copia.diversityMeasure = this.getDiversityMeasure().clone();
+        copia.evaluado = this.evaluado;
+        copia.medidas = new ArrayList<>();
+
+        for (QualityMeasure q : this.medidas) {
+            copia.medidas.add(q.clone());
+        }
+        copia.n_eval = this.n_eval;
+
+        copia.objs = new ArrayList<>();
+        for (QualityMeasure q : this.objs) {
+            copia.objs.add(q.clone());
+        }
+
+        copia.rank = this.rank;
+        copia.tamano = this.tamano;
+
+        // Copy the elements of the chromosome
+        for (int i = 0; i < chromosome.size(); i++) {
+            for(int j = 0; j < chromosome.get(i).getGeneLenght(); i++){
+                 copia.setCromGeneElem(i, j, this.getCromGeneElem(i, j));
+            }
+        }
+
+        return copia;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 2;
+          for (int i = 0; i < chromosome.size(); i++) {
+            for(int j = 0; j < chromosome.get(i).getGeneLenght(); i++){
+                 int v;
+                 if(this.getCromGeneElem(i, j)){
+                     v = 1;
+                 } else {
+                     v = 0;
+                 }
+                 hash += i * j * v;
+            }
+        }
+          return hash;
+    }
+
 }

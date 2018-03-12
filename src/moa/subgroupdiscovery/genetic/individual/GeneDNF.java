@@ -57,6 +57,13 @@ public class GeneDNF {
                     numFALSE++;
                     numTRUE--;
                 }
+                
+                if(numTRUE == num_elem || numFALSE == num_elem){
+                    gen[num_elem] = false;
+                } else {
+                    gen[num_elem] = true;
+                }
+                
             }
             gen[pos] = value;
         }

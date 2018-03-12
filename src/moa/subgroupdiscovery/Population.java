@@ -7,6 +7,7 @@
  */
 package moa.subgroupdiscovery;
 
+import org.core.Utils;
 import moa.subgroupdiscovery.genetic.Individual;
 import moa.subgroupdiscovery.genetic.Genetic;
 import com.yahoo.labs.samoa.instances.Instance;

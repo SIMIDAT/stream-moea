@@ -35,7 +35,7 @@ import weka.classifiers.evaluation.ConfusionMatrix;
  * @author agvico
  * @param <T> The elements of the chromosome that conforms the individual
  */
-public abstract class Individual<T> implements Serializable, Comparable<Individual<T>>{
+public abstract class Individual<T> implements Serializable, Cloneable, Comparable<Individual<T>>{
     
     /**
      * The chromosome of the individual.
@@ -269,77 +269,7 @@ public abstract class Individual<T> implements Serializable, Comparable<Individu
         this.clas = clas;
     }
 
-    /**
-     * It calculates the quality measures given a contingency table
-     *
-     * @param confMatrix
-     * @param objs
-     * @param isTrain
-     */
-    public void calculateMeasures(ContingencyTable confMatrix, ArrayList<QualityMeasure> objs, boolean isTrain) {
-        if (isTrain) {
-            // Compute the objective quality measures
-            if (this.getObjs().isEmpty()) {
-                objs.forEach((q) -> {
-                    // If it is empty, then the measures are not created, copy the default objects
-                    // from the objectives array
-                    this.getObjs().add(q.clone());
-                });
-            }
-            
-            this.getObjs().stream().filter((QualityMeasure q) -> (!(q instanceof NULL))).forEachOrdered((QualityMeasure q) -> {
-                // Calculate if it is not the null measure.
-                q.calculateValue(confMatrix);
-                try {
-                    // Check for errors in the measures, exit if they are detected
-                    q.validate();
-                } catch (InvalidRangeInMeasureException ex) {
-                    // If this exception occurred, then exit the program
-                    ex.showAndExit(this);
-                }
-            });
-
-            // Compute the confidence
-            this.getConf().calculateValue(confMatrix);
-
-            // Compute the diversity function
-            this.getDiversityMeasure().calculateValue(confMatrix);
-
-            // check confidence and diversity functions
-            try {
-                this.getConf().validate();
-                this.getDiversityMeasure().validate();
-            } catch (InvalidRangeInMeasureException ex) {
-                System.err.println("In training:");
-                ex.showAndExit(this);
-            }
-        } else {
-
-            // Test the individual.
-            try {
-                // Get all the quality measures available in the package qualitymeasures
-                ArrayList<QualityMeasure> measures = org.core.ClassLoader.getClasses();
-
-                // Calculates the value of each measure
-                measures.forEach(q -> {
-                    try {
-                        q.calculateValue(confMatrix);
-                        q.validate();
-                        this.getMedidas().add(q);
-                    } catch (InvalidRangeInMeasureException ex) {
-                        System.err.println("In test: ");
-                        ex.showAndExit(this);
-                    }
-                });
-                
-            } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
-                Logger.getLogger(IndDNF.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("Classes not found in package quality measures");
-            }
-            
-        }
-        
-    }
+    
 
     /**
      * @return the chromosome
@@ -632,5 +562,11 @@ public abstract class Individual<T> implements Serializable, Comparable<Individu
         return this.diversityMeasure.compareTo(o.diversityMeasure);
     }
 
+    @Override
+    public abstract Individual<T> clone();
+    
+    
+    @Override
+    public abstract int hashCode();
 
 }

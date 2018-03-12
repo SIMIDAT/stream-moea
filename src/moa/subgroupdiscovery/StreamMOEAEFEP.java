@@ -20,7 +20,7 @@ import moa.subgroupdiscovery.qualitymeasures.WRAccNorm;
 import moa.options.ClassOption;
 import moa.subgroupdiscovery.genetic.Individual;
 import moa.subgroupdiscovery.genetic.operators.InitialisationOperator;
-import moa.subgroupdiscovery.genetic.operators.RandomInitialisationDNF;
+import moa.subgroupdiscovery.genetic.operators.initialisation.RandomInitialisationDNF;
 import org.core.File;
 import org.core.ResultWriter;
 

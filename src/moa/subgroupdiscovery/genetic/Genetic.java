@@ -17,7 +17,7 @@ import moa.subgroupdiscovery.IndDNF;
 import moa.subgroupdiscovery.Population;
 import moa.subgroupdiscovery.Ranking;
 import moa.subgroupdiscovery.StreamMOEAEFEP;
-import moa.subgroupdiscovery.Utils;
+import org.core.Utils;
 import moa.subgroupdiscovery.qualitymeasures.NULL;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 

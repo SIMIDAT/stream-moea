@@ -10,6 +10,7 @@ import com.yahoo.labs.samoa.instances.Instance;
 import java.io.InvalidClassException;
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import moa.subgroupdiscovery.CromCAN;
@@ -190,6 +191,74 @@ public class IndCAN extends Individual<Integer> {
     @Override
     public void setCromGeneElem(int pos, int elem, boolean val) {
         throw new UnsupportedOperationException("IndCAN does not contains additional elements on its genes."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Individual<Integer> clone() {
+        IndCAN copia = new IndCAN(this.tamano, this.cubre.size(), this.clas);
+
+        copia.conf = (Confidence) this.conf.clone();
+        copia.crowdingDistance = this.crowdingDistance;
+        copia.cubre = (BitSet) this.getCubre().clone();
+        copia.diversityMeasure = this.getDiversityMeasure().clone();
+        copia.evaluado = this.evaluado;
+        copia.medidas = new ArrayList<>();
+
+        for (QualityMeasure q : this.medidas) {
+            copia.medidas.add(q.clone());
+        }
+        copia.n_eval = this.n_eval;
+
+        copia.objs = new ArrayList<>();
+        for (QualityMeasure q : this.objs) {
+            copia.objs.add(q.clone());
+        }
+
+        copia.rank = this.rank;
+        copia.tamano = this.tamano;
+
+        // Copy the elements of the chromosome
+        for (int i = 0; i < chromosome.size(); i++) {
+            copia.chromosome.set(i, this.chromosome.get(i));
+        }
+
+        return copia;
+    }
+
+    @Override
+    public int hashCode() {
+        // TODO: ESTUDIAR MEJOR ESTE HASH
+        int hash = 2;
+        for (int i = 0; i < tamano; i++) {
+            hash += i * chromosome.get(i);
+        }
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        
+        final IndCAN other = (IndCAN) obj;
+        for (int i = 0; i < tamano; i++) {
+            if (!Objects.equals(this.chromosome.get(i), other.chromosome.get(i))) {
+                return false;
+            }
+        }
+
+        if (this.clas != other.clas) {
+            return false;
+        }
+        
+        return true;
     }
 
 }
