@@ -33,6 +33,8 @@ public class BiasedMutationDNF extends MutationOperator<IndDNF> {
             }
         }
         
+        mutated.setEvaluado(false);
+        
         return mutated;
     }
 

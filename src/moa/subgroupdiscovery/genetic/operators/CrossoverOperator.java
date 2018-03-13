@@ -29,4 +29,18 @@ public abstract class CrossoverOperator<T extends Individual> {
      * @return 
      */
     public abstract ArrayList<T> doCrossover(ArrayList<T> parents);
+
+    /**
+     * @return the numParents
+     */
+    public int getNumParents() {
+        return numParents;
+    }
+
+    /**
+     * @return the numChildren
+     */
+    public int getNumChildren() {
+        return numChildren;
+    }
 }

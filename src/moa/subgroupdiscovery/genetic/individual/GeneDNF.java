@@ -164,5 +164,32 @@ public class GeneDNF {
         contents += "\n";
         File.AddtoFile(nFile, contents);
     }
+    
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final GeneDNF other = (GeneDNF) obj;
+        
+        if(gen.length != other.gen.length){
+            return false;
+        }
+        
+        for(int i = 0; i < gen.length; i++){
+            if(this.gen[i] != other.gen[i]){
+                return false;
+            }
+        }
+        
+        return true;
+    }
 
 }

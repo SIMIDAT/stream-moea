@@ -26,6 +26,7 @@ public class IndDNF extends Individual<GeneDNF> {
     public IndDNF(int lenght, int neje, Instance inst, int clas) {
         ArrayList<QualityMeasure> objectivesArray = StreamMOEAEFEP.getObjectivesArray();
         try {
+            super.tamano = lenght;
             super.chromosome = new ArrayList<>();
             for (int i = 0; i < lenght; i++) {
                 if (inst.attribute(i).isNominal()) {
@@ -218,7 +219,7 @@ public class IndDNF extends Individual<GeneDNF> {
 
         // Copy the elements of the chromosome
         for (int i = 0; i < chromosome.size(); i++) {
-            for(int j = 0; j < chromosome.get(i).getGeneLenght(); i++){
+            for(int j = 0; j < chromosome.get(i).getGeneLenght(); j++){
                  copia.setCromGeneElem(i, j, this.getCromGeneElem(i, j));
             }
         }
@@ -230,7 +231,7 @@ public class IndDNF extends Individual<GeneDNF> {
     public int hashCode() {
         int hash = 2;
           for (int i = 0; i < chromosome.size(); i++) {
-            for(int j = 0; j < chromosome.get(i).getGeneLenght(); i++){
+            for(int j = 0; j < chromosome.get(i).getGeneLenght(); j++){
                  int v;
                  if(this.getCromGeneElem(i, j)){
                      v = 1;
@@ -241,6 +242,32 @@ public class IndDNF extends Individual<GeneDNF> {
             }
         }
           return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final IndDNF other = (IndDNF) obj;
+        
+        if(this.getTamano() != other.getTamano()){
+            return false;
+        }
+        
+        for(int i = 0; i < chromosome.size(); i++){
+            if(! this.chromosome.get(i).equals(other.chromosome.get(i))){
+                return false;
+            }
+        }
+        
+        return true;
     }
 
 }

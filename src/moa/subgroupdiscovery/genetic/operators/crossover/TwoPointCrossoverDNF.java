@@ -6,7 +6,6 @@
 package moa.subgroupdiscovery.genetic.operators.crossover;
 
 import java.util.ArrayList;
-import moa.subgroupdiscovery.IndCAN;
 import moa.subgroupdiscovery.genetic.individual.*;
 import moa.subgroupdiscovery.genetic.operators.CrossoverOperator;
 import org.core.Randomize;
@@ -24,7 +23,7 @@ public class TwoPointCrossoverDNF extends CrossoverOperator<IndDNF> {
 
     @Override
     public ArrayList<IndDNF> doCrossover(ArrayList<IndDNF> parents) {
-        if (parents.size() != numParents) {
+        if (parents.size() != getNumParents()) {
             throw new UnsupportedOperationException("Two point crossover: The number of parents is different than two.");
         }
 
@@ -49,6 +48,11 @@ public class TwoPointCrossoverDNF extends CrossoverOperator<IndDNF> {
            }
         }
 
+        // Set individuals as non-evaluated
+        for(int i = 0; i < children.size(); i++){
+            children.get(i).setEvaluado(false);
+        }
+        
         return children;
     }
 

@@ -11,19 +11,8 @@ import com.yahoo.labs.samoa.instances.Instance;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import moa.options.ClassOption;
-import moa.subgroupdiscovery.CromCAN;
-import moa.subgroupdiscovery.CromDNF;
-import moa.subgroupdiscovery.IndDNF;
-import moa.subgroupdiscovery.Population;
 import moa.subgroupdiscovery.qualitymeasures.Confidence;
-import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
-import org.core.exceptions.InvalidRangeInMeasureException;
-import moa.subgroupdiscovery.qualitymeasures.NULL;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
-import weka.classifiers.evaluation.ConfusionMatrix;
 
 
 /**

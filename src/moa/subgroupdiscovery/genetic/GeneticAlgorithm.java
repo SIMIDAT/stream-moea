@@ -7,8 +7,6 @@ package moa.subgroupdiscovery.genetic;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Random;
-import moa.subgroupdiscovery.Population;
 import moa.subgroupdiscovery.StreamMOEAEFEP;
 import moa.subgroupdiscovery.genetic.criteria.ReinitialisationCriteria;
 import moa.subgroupdiscovery.genetic.criteria.StoppingCriteria;
@@ -28,30 +26,29 @@ import org.core.Randomize;
 public class GeneticAlgorithm<T extends Individual> implements Serializable, Runnable {
 
     private ArrayList<ArrayList<Individual<T>>> poblac;     // Main Population
-    private ArrayList<ArrayList<Individual<T>>> best;       // Best population
+    protected ArrayList<ArrayList<Individual<T>>> elite;       // Elite population
     private ArrayList<ArrayList<Individual<T>>> offspring;  // Offspring population
     private ArrayList<ArrayList<Individual<T>>> union;      // Main+Offspring populations
-    private ArrayList<ArrayList<Individual<T>>> result;      // Result population which will be returned to the user.
+    private ArrayList<Individual<T>> result;      // Result population which will be returned to the user.
 
-    private int long_poblacion;   // Number of individuals of the population
+    protected int long_poblacion;   // Number of individuals of the population
     private int n_eval;           // Number of evaluations per ejecution
-    private float prob_crossover;     // Cross probability
-    private float prob_mutation;  // Mutation probability
-    private int Gen;		  // Number of generations performed by the GA
-    private int Trials;		  // Number of evaluated chromosomes
+    protected float prob_crossover;     // Cross probability
+    protected float prob_mutation;  // Mutation probability
+    private long Gen;		  // Number of generations performed by the GA
+    private long Trials;		  // Number of evaluated chromosomes
 
     private boolean StrictDominance; // Use strict dominance in the dominance comparison
-    
+    protected boolean elitism;        // Use the elite population or not
+
     private float porcCob = 1;          // Biased initialization for individuals in ReInitCob
     private float minCnf = 0;
     private QualityMeasure diversity; // The diversity quality measures to use
-    private Individual<T> baseElement;
-    
-    
+    protected Individual<T> baseElement;
+
     /**
      * ELEMENTS OF THE GENETIC ALGORITHM
      */
-    
     private Evaluator evaluator;
     private DominanceComparator ranking;
     private CrossoverOperator crossover;
@@ -64,58 +61,134 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
 
     @Override
     public void run() {
-        
+
         // initialisation 
         poblac = new ArrayList<>();
         offspring = new ArrayList<>();
         union = new ArrayList<>();
-        best = new ArrayList<>();
-        
+        setElite(new ArrayList<>());
+
         // initialise poblac, one array for each class
-        for(int i = 0; i < StreamMOEAEFEP.instancia.numClasses(); i++){
+        for (int i = 0; i < StreamMOEAEFEP.instancia.numClasses(); i++) {
             ArrayList<Individual<T>> aux = new ArrayList<>();
-            for(int j = 0; j < long_poblacion; j++){
+            for (int j = 0; j < getLong_poblacion(); j++) {
                 Individual a = initialisation.doInitialisation(baseElement);
                 a.setClas(i);
                 aux.add(a.clone());
             }
             poblac.add(aux);
+
+            offspring.add(new ArrayList<>());
+            union.add(new ArrayList<>());
         }
-        
-        
-        Trials = poblac.stream().mapToInt(p -> p.size()).sum();  // The trials are the number of individuals (no individuals are evaluated yet)
-        Gen = 1;
-        
+
+        //Trials = poblac.stream().mapToLong(p -> (long) p.size()).sum();  // The trials are the number of individuals (no individuals are evaluated yet)
+        Gen = 0;
+
         // First evaluation of the whole population;
-        poblac.forEach(pop ->{
+        poblac.forEach(pop -> {
             pop.forEach(ind -> {
-               evaluator.doEvaluation(ind, true);
+                evaluator.doEvaluation(ind, true);
+                Trials++;
+                ind.setNEval((int) Trials);
             });
         });
 
         // Genetic Algorithm evolutionary cycle
         do {
+            Gen++;
             // For each class
-            for(int i = 0; i < StreamMOEAEFEP.instancia.numClasses(); i++){
-                
+            // APLICATION OF THE GENETIC OPERATORS
+            for (int i = 0; i < StreamMOEAEFEP.instancia.numClasses(); i++) {
                 offspring.get(i).clear();
+                union.get(i).clear();
+
                 // Selection
                 ArrayList<Individual> selected = new ArrayList<>();
-                for(int j = 0; j < long_poblacion; j++){
+                for (int j = 0; j < getLong_poblacion(); j++) {
                     selected.add(selection.doSelection(poblac.get(i)));
                 }
-                
+
                 // Crossover
-                for(int j = 0; j < selected.size(); j += 2){
-                    ArrayList<Individual> cross = new ArrayList<>();
-                    cross.add(selected.get(j));
-                    cross.add(selected.get(j + 1));
-                    if(Randomize.RanddoubleClosed(0.0, 1.0) <= prob_crossover){
+                // The crossover must be changed. It should use the whole population and return an offspring.
+                // Now, the implementation of the GA depends on the type of crossover used.
+                for (int j = 0; j < selected.size(); j += crossover.getNumParents()) {
+                    // Add the required number of parents to an auxiliar array in order to perform the crossover
+                    ArrayList<Individual<T>> cross = new ArrayList<>();
+                    for (int k = 0; k < crossover.getNumParents(); k++) {
+                        cross.add(selected.get((j + k) % selected.size())); // The last matches with the first if necessary
+                    }
+
+                    // Do the crossover if necessary
+                    if (Randomize.RanddoubleClosed(0.0, 1.0) <= getProb_crossover()) {
                         offspring.get(i).addAll(crossover.doCrossover(cross));
+                    } else {
+                        offspring.get(i).addAll(cross);
+                    }
+                }
+
+                // Mutation 
+                for (int j = 0; j < offspring.get(i).size(); j++) {
+                    if (Randomize.RanddoubleClosed(0.0, 1.0) <= getProb_mutation()) {
+                        Individual mutated = mutation.doMutation(offspring.get(i).get(j));
+                        offspring.get(i).set(j, mutated.clone());
+                    }
+                }
+
+                // Evaluates the offspring
+                for (Individual ind : offspring.get(i)) {
+                    if (!ind.isEvaluado()) {
+                        evaluator.doEvaluation(ind, true);
+                        Trials++;
+                        ind.setNEval((int) Trials);
+                    }
+                }
+
+                // NOW, ADDITIONAL STUFF, SUCH AS DOMINANCE RANKING, ETC.
+                // Dominance ranking performance
+                if (ranking != null) {
+                    union.get(i).addAll(poblac.get(i));
+                    union.get(i).addAll(offspring.get(i));
+
+                    // Do the dominance ranking and get population for next generation
+                    ranking.doDominanceRanking(union.get(i));
+                    poblac.get(i).clear();
+                    poblac.get(i).addAll(ranking.returnNextPopulation(getLong_poblacion()));
+                }
+
+                // Elitism
+                if (elitism) {
+                    // Do something (store the best elements)
+                }
+
+                // Re-initialisation criteria
+                if (reinitCriteria != null) {
+                    if (reinitCriteria.checkReinitialisationCondition()) {
+                        // Re-initialisation. Erase all elements in poblac
+                        poblac.get(i).clear();
+                        for (int j = 0; j < getLong_poblacion(); j++) {
+                            poblac.get(i).add(reinitialisation.doInitialisation(baseElement));
+                        }
                     }
                 }
             }
+
         } while (!stopCriteria.checkStopCondition(this));
+
+        result = new ArrayList<>();
+        // At the end, return the final population, or the elite
+        if (elitism) {
+            for (int i = 0; i < elite.size(); i++) {
+                result.addAll(elite.get(i));
+            }
+        } else {
+            for (int i = 0; i < poblac.size(); i++) {
+                result.addAll(poblac.get(i));
+            }
+        }
+        
+        //System.out.println("Generations: " + Gen + "   Evaluations: " + Trials);
+
     }
 
     /**
@@ -128,14 +201,14 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
     /**
      * @return the Gen
      */
-    public int getGen() {
+    public long getGen() {
         return Gen;
     }
 
     /**
      * @return the Trials
      */
-    public int getTrials() {
+    public long getTrials() {
         return Trials;
     }
 
@@ -296,14 +369,85 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
     /**
      * @return the result
      */
-    public ArrayList<ArrayList<Individual<T>>> getResult() {
+    public ArrayList<Individual<T>> getResult() {
         return result;
     }
-    
-    
-    
 
-    
-    
-    
+    /**
+     * @return the elite
+     */
+    public ArrayList<ArrayList<Individual<T>>> getElite() {
+        return elite;
+    }
+
+    /**
+     * @param elite the elite to set
+     */
+    public void setElite(ArrayList<ArrayList<Individual<T>>> elite) {
+        this.elite = elite;
+    }
+
+    /**
+     * @return the elitism
+     */
+    public boolean isElitism() {
+        return elitism;
+    }
+
+    /**
+     * @param elitism the elitism to set
+     */
+    public void setElitism(boolean elitism) {
+        this.elitism = elitism;
+    }
+
+    /**
+     * @return the long_poblacion
+     */
+    public int getLong_poblacion() {
+        return long_poblacion;
+    }
+
+    /**
+     * @param long_poblacion the long_poblacion to set
+     */
+    public void setLong_poblacion(int long_poblacion) {
+        this.long_poblacion = long_poblacion;
+    }
+
+    /**
+     * @return the prob_crossover
+     */
+    public float getProb_crossover() {
+        return prob_crossover;
+    }
+
+    /**
+     * @param prob_crossover the prob_crossover to set
+     */
+    public void setProb_crossover(float prob_crossover) {
+        this.prob_crossover = prob_crossover;
+    }
+
+    /**
+     * @return the prob_mutation
+     */
+    public float getProb_mutation() {
+        return prob_mutation;
+    }
+
+    /**
+     * @param prob_mutation the prob_mutation to set
+     */
+    public void setProb_mutation(float prob_mutation) {
+        this.prob_mutation = prob_mutation;
+    }
+
+    /**
+     * @param baseElement the baseElement to set
+     */
+    public void setBaseElement(Individual<T> baseElement) {
+        this.baseElement = baseElement;
+    }
+
 }

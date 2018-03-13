@@ -13,7 +13,6 @@ import java.util.BitSet;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import moa.subgroupdiscovery.CromCAN;
 import moa.subgroupdiscovery.StreamMOEAEFEP;
 import moa.subgroupdiscovery.qualitymeasures.Confidence;
 import moa.subgroupdiscovery.qualitymeasures.NULL;
@@ -29,6 +28,7 @@ public class IndCAN extends Individual<Integer> {
         ArrayList<QualityMeasure> objectivesArray = StreamMOEAEFEP.getObjectivesArray();
 
         try {
+            this.clas = clas;
             tamano = length;
             chromosome = new ArrayList<>();
             for (int i = 0; i < length; i++) {
@@ -50,7 +50,7 @@ public class IndCAN extends Individual<Integer> {
             crowdingDistance = 0.0;
             n_eval = 0;
         } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(moa.subgroupdiscovery.IndCAN.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(IndCAN.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -138,6 +138,7 @@ public class IndCAN extends Individual<Integer> {
             } else {
                 // Continuous variable
                 if (this.getCromElem(i) < StreamMOEAEFEP.nLabel) {
+                    content += "\tVariable " + inst.attribute(i).name() + " = ";
                     content += "Label " + this.getCromElem(i);
                     content += " (" + StreamMOEAEFEP.baseDatos[i][this.getCromElem(i)].getX0();
                     content += " " + StreamMOEAEFEP.baseDatos[i][this.getCromElem(i)].getX1();

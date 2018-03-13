@@ -31,7 +31,7 @@ public class EvaluatorDNF extends Evaluator<IndDNF> {
         if (!sample.isEmpty()) {
             for (int i = 0; i < data.size(); i++) {
                 disparoFuzzy = 1;
-                
+
                 // For each variable of the rule
                 for (int j = 0; j < sample.getTamano() && disparoFuzzy > 0; j++) {
                     if (!sample.getCromElem(j).isNonParticipant()) {
@@ -48,7 +48,7 @@ public class EvaluatorDNF extends Evaluator<IndDNF> {
                             if (!data.get(i).isMissing(j)) {
                                 float pertenencia = 0;
                                 float pert;
-                                for (int k = 0; k < StreamMOEAEFEP.nLabel; j++) {
+                                for (int k = 0; k < StreamMOEAEFEP.nLabel; k++) {
                                     if (sample.getCromGeneElem(j, k)) {
                                         pert = StreamMOEAEFEP.Fuzzy(j, k, data.get(i).valueInputAttribute(j));
                                     } else {
@@ -79,15 +79,14 @@ public class EvaluatorDNF extends Evaluator<IndDNF> {
                 }
 
             }
-            
-            
-            // Once finished the evaluation against the data, calculate the quality measures
-            super.calculateMeasures(sample, confMatrix, isTrain);
-            
-            // Now, set individual as evaluated.
-            sample.setEvaluado(true);
+
         }
-        
+        // Once finished the evaluation against the data, calculate the quality measures
+        super.calculateMeasures(sample, confMatrix, isTrain);
+
+        // Now, set individual as evaluated.
+        sample.setEvaluado(true);
+
     }
 
 }

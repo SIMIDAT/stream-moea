@@ -11,7 +11,6 @@ import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Locale;
 import moa.subgroupdiscovery.genetic.Individual;
-import moa.subgroupdiscovery.Population;
 import moa.subgroupdiscovery.StreamMOEAEFEP;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 
@@ -93,39 +92,7 @@ public class ResultWriter {
     }
 
     
-    
-    
-    
-    
-    
-    
-    /**
-     * Default contructor which uses the Population Structure.
-     *
-     * @param tra
-     * @param tst
-     * @param tstSummary
-     * @param rules
-     * @param population
-     */
-    public ResultWriter(String tra, String tst, String tstSummary, String rules, Population population, Instance inst) {
-        this.pathRules = rules;
-        this.pathTra = tra;
-        this.pathTst = tst;
-        this.pathTstSummary = tstSummary;
-        this.population = new ArrayList<>();
-        this.inst = inst;
-
-        for (int i = 0; i < population.getNumIndiv(); i++) {
-            this.population.add(population.getIndiv(i));
-        }
-        symbols = new DecimalFormatSymbols(Locale.GERMANY);
-        symbols.setDecimalSeparator('.');
-        symbols.setNaN("NaN");
-        symbols.setInfinity("INFINITY");
-        sixDecimals = new DecimalFormat("0.000000", symbols);
-    }
-
+   
     
     
     
@@ -138,7 +105,7 @@ public class ResultWriter {
         content += "Timestamp " + StreamMOEAEFEP.getTimestamp() + ":\n";
         for (int i = 0; i < population.size(); i++) {
             content += "Rule " + i + ":\n";
-            content += population.get(i).toString(inst);
+            content += population.get(i).toString(inst) + "\n";
         }
         content += "*************************************************\n";
         Files.addToFile(pathRules, content);
@@ -159,7 +126,7 @@ public class ResultWriter {
 
         // Write the header (the consequent first, and next, the objective quality measures, finaly, the diversity measure)
         content += "Rule\tConsequent";
-        for (QualityMeasure q : population.get(0).getObjs()) {
+        for (QualityMeasure q : (ArrayList<QualityMeasure>) population.get(0).getObjs()) {
             content += "\t" + q.getShortName();
         }
         content += "\t" + population.get(0).getDiversityMeasure().getShortName() + "(Diversity)";
@@ -168,7 +135,7 @@ public class ResultWriter {
         // Now, for each individual, writes the training measures
         for (int i = 0; i < population.size(); i++) {
             content += i + "\t" + inst.outputAttribute(0).value(population.get(i).getClas()) + "\t";
-            for (QualityMeasure q : population.get(i).getObjs()) {
+            for (QualityMeasure q : (ArrayList<QualityMeasure>) population.get(i).getObjs()) {
                 content += sixDecimals.format(q.getValue()) + "\t";
             }
             content += sixDecimals.format(population.get(i).getDiversityMeasure().getValue()) + "\n";
@@ -191,7 +158,7 @@ public class ResultWriter {
         // this array stores the sum of the quality measures for the average
         ArrayList<Double> averages = new ArrayList<>();
         double numVars = 0.0;
-        for (QualityMeasure q : population.get(0).getMedidas()) {
+        for (QualityMeasure q : (ArrayList<QualityMeasure>) population.get(0).getMedidas()) {
             averages.add(0.0);
         }
 
@@ -200,7 +167,8 @@ public class ResultWriter {
 
         // now, append each test quality measure
         for (int j = 0; j < population.get(0).getMedidas().size(); j++) {
-            content += "\t" + population.get(0).getMedidas().get(j).getShortName();
+            QualityMeasure q = (QualityMeasure) population.get(0).getMedidas().get(j);
+            content += "\t" + q.getShortName();
         }
         content += "\n";
 
@@ -214,8 +182,9 @@ public class ResultWriter {
             numVars += population.get(i).getNumVars();
 
             for (int j = 0; j < population.get(i).getMedidas().size(); j++) {
-                content += sixDecimals.format(population.get(i).getMedidas().get(j).getValue()) + "\t";
-                averages.set(j, averages.get(j) + population.get(i).getMedidas().get(j).getValue());
+                QualityMeasure q = (QualityMeasure) population.get(i).getMedidas().get(j);
+                content += sixDecimals.format(q.getValue()) + "\t";
+                averages.set(j, averages.get(j) + q.getValue());
             }
             content += "\n";
         }
@@ -244,7 +213,7 @@ public class ResultWriter {
         // this array stores the sum of the quality measures for the average
         ArrayList<Double> averages = new ArrayList<>();
         double numVars = 0.0;
-        for (QualityMeasure q : population.get(0).getMedidas()) {
+        for (QualityMeasure q : (ArrayList<QualityMeasure>) population.get(0).getMedidas()) {
             averages.add(0.0);
         }
 
@@ -253,7 +222,8 @@ public class ResultWriter {
 
         // now, append each test quality measure
         for (int j = 0; j < population.get(0).getMedidas().size(); j++) {
-            content += "\t" + population.get(0).getMedidas().get(j).getShortName();
+            QualityMeasure q = (QualityMeasure) population.get(0).getMedidas().get(j);
+            content += "\t" + q.getShortName();
         }
         content += "\n";
 
@@ -261,7 +231,8 @@ public class ResultWriter {
         for (int i = 0; i < population.size(); i++) {
             numVars += population.get(i).getNumVars();
             for (int j = 0; j < population.get(i).getMedidas().size(); j++) {
-                averages.set(j, averages.get(j) + population.get(i).getMedidas().get(j).getValue());
+                QualityMeasure q = (QualityMeasure) population.get(i).getMedidas().get(j);
+                averages.set(j, averages.get(j) + q.getValue());
             }
         }
 

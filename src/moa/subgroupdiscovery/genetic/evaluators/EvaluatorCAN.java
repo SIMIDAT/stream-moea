@@ -33,14 +33,16 @@ public class EvaluatorCAN extends Evaluator<IndCAN> {
                     if (data.get(i).attribute(j).isNominal()) {
                         // Nominal Variable
                         Double val = data.get(i).valueInputAttribute(j);
-                        boolean missing = data.get(i).isMissing(j);
-                        if (val.intValue() != sample.getCromElem(j) && !missing) {
-                            // Variable does not cover the example
-                            disparoFuzzy = 0;
+                        if (sample.getCromElem(j) < StreamMOEAEFEP.instancia.attribute(j).numValues()) {
+                            boolean missing = data.get(i).isMissing(j);
+                            if (val.intValue() != sample.getCromElem(j) && !missing) {
+                                // Variable does not cover the example
+                                disparoFuzzy = 0;
+                            }
                         }
                     } else {
                         // Numeric variable, do fuzzy computation
-                        if (!data.get(i).isMissing(j)) {
+                        if (!data.get(i).isMissing(j) && sample.getCromElem(j) < StreamMOEAEFEP.nLabel) {
                             float pertenencia = StreamMOEAEFEP.Fuzzy(j, sample.getCromElem(j), data.get(i).valueInputAttribute(j));
                             disparoFuzzy = Math.min(pertenencia, disparoFuzzy);
                         }
@@ -63,12 +65,10 @@ public class EvaluatorCAN extends Evaluator<IndCAN> {
                     }
                 }
             }
-            
-            // Calculate the measures and set as evaluated
-            super.calculateMeasures(sample, confMatrix, isTrain);
-            sample.setEvaluado(true);
         }
-
+        // Calculate the measures and set as evaluated
+        super.calculateMeasures(sample, confMatrix, isTrain);
+        sample.setEvaluado(true);
 
     }
 

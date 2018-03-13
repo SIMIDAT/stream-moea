@@ -35,6 +35,14 @@ public abstract class DominanceComparator<T extends Individual> {
     
     
     /**
+     * It returns a population from the fronts which could be used as the population of the
+     * next generation.
+     * 
+     * @return 
+     */
+    public abstract ArrayList<T> returnNextPopulation(int tamPopulation);
+    
+    /**
      * It returns the Pareto front, i.e., the first front 
      * @return 
      */

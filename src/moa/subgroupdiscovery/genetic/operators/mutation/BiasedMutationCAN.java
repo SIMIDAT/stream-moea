@@ -39,6 +39,7 @@ public class BiasedMutationCAN extends MutationOperator<IndCAN> {
             }
         }
         
+        mutated.setEvaluado(false);
         
         return mutated;
     }

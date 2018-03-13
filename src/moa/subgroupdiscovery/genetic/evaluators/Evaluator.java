@@ -9,7 +9,6 @@ import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import moa.subgroupdiscovery.IndDNF;
 import moa.subgroupdiscovery.genetic.Individual;
 import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
 import moa.subgroupdiscovery.qualitymeasures.NULL;
@@ -21,25 +20,21 @@ import org.core.exceptions.InvalidRangeInMeasureException;
  * @author agvico
  */
 public abstract class Evaluator<T extends Individual> {
-    
+
     /**
      * The data used
      */
     protected ArrayList<Instance> data;
-    
-    
-    
+
     /**
-     * It performs the evaluation of the sample.
-     * It modifies the sample, so it must be necessary that {@code T} contains elements to save
-     * the evaluation results.
-     * 
-     * @param sample 
+     * It performs the evaluation of the sample. It modifies the sample, so it
+     * must be necessary that {@code T} contains elements to save the evaluation
+     * results.
+     *
+     * @param sample
      */
     public abstract void doEvaluation(T sample, boolean isTrain);
-    
-    
-    
+
     /**
      * It calculates the quality measures given a contingency table
      *
@@ -58,18 +53,20 @@ public abstract class Evaluator<T extends Individual> {
                     sample.getObjs().add(q.clone());
                 });
             }
-            
-            sample.getObjs().stream().filter((QualityMeasure q) -> (!(q instanceof NULL))).forEachOrdered((QualityMeasure q) -> {
-                // Calculate if it is not the null measure.
-                q.calculateValue(confMatrix);
-                try {
-                    // Check for errors in the measures, exit if they are detected
-                    q.validate();
-                } catch (InvalidRangeInMeasureException ex) {
-                    // If this exception occurred, then exit the program
-                    ex.showAndExit(this);
+
+            for (QualityMeasure q : (ArrayList<QualityMeasure>) sample.getObjs()) {
+                if (!(q instanceof NULL)) {
+                    // Calculate if it is not the null measure.
+                    q.calculateValue(confMatrix);
+                    try {
+                        // Check for errors in the measures, exit if they are detected
+                        q.validate();
+                    } catch (InvalidRangeInMeasureException ex) {
+                        // If this exception occurred, then exit the program
+                        ex.showAndExit(this);
+                    }
                 }
-            });
+            }
 
             // Compute the confidence
             sample.getConf().calculateValue(confMatrix);
@@ -103,14 +100,14 @@ public abstract class Evaluator<T extends Individual> {
                         ex.showAndExit(this);
                     }
                 });
-                
+
             } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
-                Logger.getLogger(IndDNF.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Evaluator.class.getName()).log(Level.SEVERE, null, ex);
                 System.err.println("Classes not found in package quality measures");
             }
-            
+
         }
-        
+
     }
-    
+
 }
