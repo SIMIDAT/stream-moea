@@ -7,6 +7,7 @@ package moa.subgroupdiscovery.genetic;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import moa.subgroupdiscovery.StreamMOEAEFEP;
 import moa.subgroupdiscovery.genetic.criteria.ReinitialisationCriteria;
 import moa.subgroupdiscovery.genetic.criteria.StoppingCriteria;
@@ -25,14 +26,13 @@ import org.core.Randomize;
  */
 public class GeneticAlgorithm<T extends Individual> implements Serializable, Runnable {
 
-    private ArrayList<ArrayList<Individual<T>>> poblac;     // Main Population
-    protected ArrayList<ArrayList<Individual<T>>> elite;       // Elite population
-    private ArrayList<ArrayList<Individual<T>>> offspring;  // Offspring population
-    private ArrayList<ArrayList<Individual<T>>> union;      // Main+Offspring populations
-    private ArrayList<Individual<T>> result;      // Result population which will be returned to the user.
+    private ArrayList<ArrayList<T>> poblac;     // Main Population
+    private ArrayList<ArrayList<T>> elite;       // Elite population
+    private ArrayList<ArrayList<T>> offspring;  // Offspring population
+    private ArrayList<ArrayList<T>> union;      // Main+Offspring populations
+    private ArrayList<T> result;      // Result population which will be returned to the user.
 
     protected int long_poblacion;   // Number of individuals of the population
-    private int n_eval;           // Number of evaluations per ejecution
     protected float prob_crossover;     // Cross probability
     protected float prob_mutation;  // Mutation probability
     private long Gen;		  // Number of generations performed by the GA
@@ -41,10 +41,9 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
     private boolean StrictDominance; // Use strict dominance in the dominance comparison
     protected boolean elitism;        // Use the elite population or not
 
-    private float porcCob = 1;          // Biased initialization for individuals in ReInitCob
-    private float minCnf = 0;
     private QualityMeasure diversity; // The diversity quality measures to use
-    protected Individual<T> baseElement;
+    private T baseElement;
+    private int currentClass;
 
     /**
      * ELEMENTS OF THE GENETIC ALGORITHM
@@ -70,21 +69,16 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
 
         // initialise poblac, one array for each class
         for (int i = 0; i < StreamMOEAEFEP.instancia.numClasses(); i++) {
-            ArrayList<Individual<T>> aux = new ArrayList<>();
-            for (int j = 0; j < getLong_poblacion(); j++) {
-                Individual a = initialisation.doInitialisation(baseElement);
-                a.setClas(i);
-                aux.add(a.clone());
-            }
-            poblac.add(aux);
 
+            ArrayList<T> aux = initialisation.doInitialisation(long_poblacion);
+            final int clas = i;
+            aux.forEach(ind -> ind.setClas(clas)); // Set the class of all individuals generated
+            poblac.add(aux);
             offspring.add(new ArrayList<>());
             union.add(new ArrayList<>());
         }
 
-        //Trials = poblac.stream().mapToLong(p -> (long) p.size()).sum();  // The trials are the number of individuals (no individuals are evaluated yet)
         Gen = 0;
-
         // First evaluation of the whole population;
         poblac.forEach(pop -> {
             pop.forEach(ind -> {
@@ -102,11 +96,12 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
             for (int i = 0; i < StreamMOEAEFEP.instancia.numClasses(); i++) {
                 offspring.get(i).clear();
                 union.get(i).clear();
+                currentClass = i;
 
                 // Selection
-                ArrayList<Individual> selected = new ArrayList<>();
+                ArrayList<T> selected = new ArrayList<>();
                 for (int j = 0; j < getLong_poblacion(); j++) {
-                    selected.add(selection.doSelection(poblac.get(i)));
+                    selected.add((T) selection.doSelection(poblac.get(i)));
                 }
 
                 // Crossover
@@ -114,7 +109,7 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
                 // Now, the implementation of the GA depends on the type of crossover used.
                 for (int j = 0; j < selected.size(); j += crossover.getNumParents()) {
                     // Add the required number of parents to an auxiliar array in order to perform the crossover
-                    ArrayList<Individual<T>> cross = new ArrayList<>();
+                    ArrayList<T> cross = new ArrayList<>();
                     for (int k = 0; k < crossover.getNumParents(); k++) {
                         cross.add(selected.get((j + k) % selected.size())); // The last matches with the first if necessary
                     }
@@ -131,7 +126,7 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
                 for (int j = 0; j < offspring.get(i).size(); j++) {
                     if (Randomize.RanddoubleClosed(0.0, 1.0) <= getProb_mutation()) {
                         Individual mutated = mutation.doMutation(offspring.get(i).get(j));
-                        offspring.get(i).set(j, mutated.clone());
+                        offspring.get(i).set(j, (T) mutated.clone());
                     }
                 }
 
@@ -165,10 +160,12 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
                 if (reinitCriteria != null) {
                     if (reinitCriteria.checkReinitialisationCondition()) {
                         // Re-initialisation. Erase all elements in poblac
+                        ArrayList<T> newpop = reinitialisation.doInitialisation(long_poblacion);
                         poblac.get(i).clear();
-                        for (int j = 0; j < getLong_poblacion(); j++) {
-                            poblac.get(i).add(reinitialisation.doInitialisation(baseElement));
-                        }
+                        poblac.get(i).addAll(newpop);
+                        // Set the class of all new created inidividuals
+                        final int clas = i;
+                        poblac.get(i).forEach(ind -> ind.setClas(clas));
                     }
                 }
             }
@@ -186,16 +183,8 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
                 result.addAll(poblac.get(i));
             }
         }
-        
+
         //System.out.println("Generations: " + Gen + "   Evaluations: " + Trials);
-
-    }
-
-    /**
-     * @return the n_eval
-     */
-    public int getN_eval() {
-        return n_eval;
     }
 
     /**
@@ -369,21 +358,21 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
     /**
      * @return the result
      */
-    public ArrayList<Individual<T>> getResult() {
+    public ArrayList<T> getResult() {
         return result;
     }
 
     /**
      * @return the elite
      */
-    public ArrayList<ArrayList<Individual<T>>> getElite() {
+    public ArrayList<ArrayList<T>> getElite() {
         return elite;
     }
 
     /**
      * @param elite the elite to set
      */
-    public void setElite(ArrayList<ArrayList<Individual<T>>> elite) {
+    public void setElite(ArrayList<ArrayList<T>> elite) {
         this.elite = elite;
     }
 
@@ -446,8 +435,40 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
     /**
      * @param baseElement the baseElement to set
      */
-    public void setBaseElement(Individual<T> baseElement) {
+    public void setBaseElement(T baseElement) {
         this.baseElement = baseElement;
+    }
+
+    /**
+     * @return the baseElement
+     */
+    public T getBaseElement() {
+        return baseElement;
+    }
+
+    /**
+     * @return the poblac
+     */
+    public ArrayList<ArrayList<T>> getPoblac() {
+        return poblac;
+    }
+
+    /**
+     * @return the offspring
+     */
+    public ArrayList<ArrayList<T>> getOffspring() {
+        return offspring;
+    }
+
+    /**
+     * @return the currentClass
+     */
+    public int getCurrentClass() {
+        return currentClass;
+    }
+
+    public ArrayList<T> getPoblacOfCurrentClass() {
+        return poblac.get(currentClass);
     }
 
 }

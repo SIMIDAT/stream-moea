@@ -32,6 +32,10 @@ import moa.subgroupdiscovery.genetic.operators.MutationOperator;
 import moa.subgroupdiscovery.genetic.operators.SelectionOperator;
 import moa.subgroupdiscovery.genetic.operators.crossover.TwoPointCrossoverCAN;
 import moa.subgroupdiscovery.genetic.operators.crossover.TwoPointCrossoverDNF;
+import moa.subgroupdiscovery.genetic.operators.initialisation.BiasedInitialisationCAN;
+import moa.subgroupdiscovery.genetic.operators.initialisation.BiasedInitialisationDNF;
+import moa.subgroupdiscovery.genetic.operators.initialisation.CoverageBasedInitialisationCAN;
+import moa.subgroupdiscovery.genetic.operators.initialisation.CoverageBasedInitialisationDNF;
 import moa.subgroupdiscovery.genetic.operators.initialisation.RandomInitialisationCAN;
 import moa.subgroupdiscovery.genetic.operators.initialisation.RandomInitialisationDNF;
 import moa.subgroupdiscovery.genetic.operators.mutation.BiasedMutationCAN;
@@ -234,22 +238,23 @@ public class StreamMOEAEFEP extends AbstractClassifier {
             if (representation.equalsIgnoreCase("DNF")) {
                 ga = new GeneticAlgorithm<IndDNF>();
                 ga.setBaseElement(new IndDNF(inst.numInputAttributes(), dataChunk.size(), inst, 0));
+                initialisation = new BiasedInitialisationDNF((IndDNF) ga.getBaseElement(), 0.25, 0.75);
                 cross = new TwoPointCrossoverDNF();
                 mutation = new BiasedMutationDNF();
                 eval = new EvaluatorDNF(dataChunk);
-                reInit = new RandomInitialisationDNF();
-                initialisation = new RandomInitialisationDNF();
+                reInit = new CoverageBasedInitialisationDNF((IndDNF) ga.getBaseElement(), 0.25, dataChunk, ga);
                 reInitCriteria = null; // TODO:
             } else {
                 ga = new GeneticAlgorithm<IndCAN>();
                 ga.setBaseElement(new IndCAN(inst.numInputAttributes(), dataChunk.size(), 0));
+                initialisation = new BiasedInitialisationCAN((IndCAN) ga.getBaseElement(), 0.25, 0.75);
                 cross = new TwoPointCrossoverCAN();
                 mutation = new BiasedMutationCAN();
                 eval = new EvaluatorCAN(dataChunk);
-                reInit = new RandomInitialisationCAN();
-                initialisation = new RandomInitialisationCAN();
+                reInit = new CoverageBasedInitialisationCAN((IndCAN) ga.getBaseElement(), 0.25, dataChunk, ga);
                 reInitCriteria = null; // TODO:
             }
+            // END instantiation of elements of genetic algorithm
 
             // Following the interleaved test-then-train schema:
             // ---------------------------------------------

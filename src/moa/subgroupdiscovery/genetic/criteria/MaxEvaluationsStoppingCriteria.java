@@ -13,18 +13,32 @@ import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
  * @author Ángel Miguel García Vico (agvico@ujaen.es)
  * @since JDK 8.0
  */
-public class MaxEvaluationsStoppingCriteria extends StoppingCriteria{
+public final class MaxEvaluationsStoppingCriteria extends StoppingCriteria{
 
     
-    private int maxEvals;
+    private long maxEvals;
     
-    public MaxEvaluationsStoppingCriteria(int max){
+    public MaxEvaluationsStoppingCriteria(long max){
         maxEvals = max;
     }
     
     @Override
     public boolean checkStopCondition(GeneticAlgorithm GA) {
-        return GA.getTrials() >=  maxEvals;
+        return GA.getTrials() >=  getMaxEvals();
+    }
+
+    /**
+     * @return the maxEvals
+     */
+    public long getMaxEvals() {
+        return maxEvals;
+    }
+
+    /**
+     * @param maxEvals the maxEvals to set
+     */
+    public void setMaxEvals(long maxEvals) {
+        this.maxEvals = maxEvals;
     }
  
 

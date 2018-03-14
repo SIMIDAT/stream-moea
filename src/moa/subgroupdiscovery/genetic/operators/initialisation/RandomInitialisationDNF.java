@@ -5,6 +5,7 @@
  */
 package moa.subgroupdiscovery.genetic.operators.initialisation;
 
+import java.util.ArrayList;
 import moa.subgroupdiscovery.StreamMOEAEFEP;
 import moa.subgroupdiscovery.genetic.individual.IndDNF;
 import moa.subgroupdiscovery.genetic.Individual;
@@ -17,8 +18,12 @@ import org.core.Randomize;
  */
 public class RandomInitialisationDNF extends InitialisationOperator<IndDNF> {
 
+    public RandomInitialisationDNF(IndDNF base){
+        this.baseElement = base;
+    }
+    
     @Override
-    public IndDNF doInitialisation(IndDNF baseElement) {
+    public IndDNF doInitialisation() {
         IndDNF toReturn = (IndDNF) baseElement.clone();
         for (int i = 0; i < baseElement.getTamano(); i++) {
             int number = baseElement.getCromElem(i).getGeneLenght();
@@ -27,6 +32,16 @@ public class RandomInitialisationDNF extends InitialisationOperator<IndDNF> {
             }
         }
         return toReturn;
+    }
+
+    @Override
+    public ArrayList<IndDNF> doInitialisation(int longPopulation) {
+        ArrayList<IndDNF> result = new ArrayList<>();
+        for(int i = 0; i < longPopulation; i++){
+            result.add(doInitialisation());
+        }
+        
+        return result;
     }
 
 }

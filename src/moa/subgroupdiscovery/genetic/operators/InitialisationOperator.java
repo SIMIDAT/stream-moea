@@ -5,6 +5,7 @@
  */
 package moa.subgroupdiscovery.genetic.operators;
 
+import java.util.ArrayList;
 import moa.subgroupdiscovery.genetic.Individual;
 
 /**
@@ -13,11 +14,20 @@ import moa.subgroupdiscovery.genetic.Individual;
  */
 public abstract class InitialisationOperator<T extends Individual> {
     
+    /**
+     * A base element
+     */
+    protected T baseElement;
 
     /**
      * It initialises the baseElement and return it
      * @return 
      */
-    public abstract T doInitialisation(T baseElement);
+    public abstract T doInitialisation();
     
+    
+    /*
+    * It initialises a whole population by the operator
+    */
+    public abstract ArrayList<T> doInitialisation(int longPopulation);
 }

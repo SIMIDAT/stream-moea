@@ -5,6 +5,7 @@
  */
 package moa.subgroupdiscovery.genetic.operators.initialisation;
 
+import java.util.ArrayList;
 import moa.subgroupdiscovery.StreamMOEAEFEP;
 import moa.subgroupdiscovery.genetic.individual.IndCAN;
 import moa.subgroupdiscovery.genetic.individual.IndDNF;
@@ -17,8 +18,13 @@ import org.core.Randomize;
  */
 public class RandomInitialisationCAN extends InitialisationOperator<IndCAN> {
 
+    
+    public RandomInitialisationCAN(IndCAN base){
+        super.baseElement = base;
+    }
+    
     @Override
-    public IndCAN doInitialisation(IndCAN baseElement) {
+    public IndCAN doInitialisation() {
         IndCAN toReturn = (IndCAN) baseElement.clone();
         for (int i = 0; i < baseElement.getTamano(); i++) {
             if(StreamMOEAEFEP.instancia.attribute(i).isNominal()){
@@ -28,6 +34,16 @@ public class RandomInitialisationCAN extends InitialisationOperator<IndCAN> {
             }
         }
         return toReturn;
+    }
+
+    @Override
+    public ArrayList<IndCAN> doInitialisation(int longPopulation) {
+        ArrayList<IndCAN> result = new ArrayList<>();
+        for(int i = 0; i < longPopulation; i++){
+            result.add(doInitialisation());
+        }
+        
+        return result;
     }
 
 }
