@@ -12,10 +12,11 @@ import moa.subgroupdiscovery.genetic.individual.IndDNF;
 import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
 
 /**
- *
- * @author agvico
+ * Evaluator for DNF representation based on fuzzy logic.
+ * 
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public class EvaluatorDNF extends Evaluator<IndDNF> {
+public final class EvaluatorDNF extends Evaluator<IndDNF> {
 
     public EvaluatorDNF(ArrayList<Instance> data) {
         super.data = data;

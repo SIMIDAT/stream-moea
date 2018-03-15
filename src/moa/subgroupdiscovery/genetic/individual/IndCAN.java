@@ -19,10 +19,11 @@ import moa.subgroupdiscovery.qualitymeasures.NULL;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 
 /**
- *
- * @author agvico
+ * Class that represents a canonical rule, i.e., rule formed by conjuctions of attribute-value pairs
+ * 
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public class IndCAN extends Individual<Integer> {
+public final class IndCAN extends Individual<Integer> {
 
     public IndCAN(int length, int neje, int clas) {
         ArrayList<QualityMeasure> objectivesArray = StreamMOEAEFEP.getObjectivesArray();

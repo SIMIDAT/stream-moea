@@ -6,10 +6,12 @@
 package moa.subgroupdiscovery.genetic.criteria;
 
 /**
- *
- * @author agvico
+ * Re-initialisation based on the non-evolution of a population. A population is defined as stagnant 
+ * if the popoulation does not cover new examples for, at least, a % of the total of evaluations/generations
+ * 
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public class NonEvolutionReInitCriteria extends ReinitialisationCriteria{
+public final class NonEvolutionReInitCriteria extends ReinitialisationCriteria{
 
     @Override
     public boolean checkReinitialisationCondition() {

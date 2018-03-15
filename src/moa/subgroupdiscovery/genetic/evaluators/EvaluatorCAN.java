@@ -12,10 +12,11 @@ import moa.subgroupdiscovery.genetic.individual.IndCAN;
 import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
 
 /**
- *
+ * Evaluator for canonical representation based on fuzzy logic
+ * 
  * @author agvico
  */
-public class EvaluatorCAN extends Evaluator<IndCAN> {
+public final class EvaluatorCAN extends Evaluator<IndCAN> {
 
     public EvaluatorCAN(ArrayList<Instance> data) {
         super.data = data;

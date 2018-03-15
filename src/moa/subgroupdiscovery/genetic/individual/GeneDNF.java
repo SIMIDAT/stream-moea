@@ -10,7 +10,7 @@ package moa.subgroupdiscovery.genetic.individual;
 import org.core.*;
 import java.util.LinkedList;
 
-public class GeneDNF {
+public final class GeneDNF {
 
     /**
      * <p>

@@ -45,8 +45,9 @@ import org.core.File;
 import org.core.ResultWriter;
 
 /**
- *
- * @author agvico
+ * Main Class of the algorithm Stream-MOEA
+ * 
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
 public class StreamMOEAEFEP extends AbstractClassifier {
 

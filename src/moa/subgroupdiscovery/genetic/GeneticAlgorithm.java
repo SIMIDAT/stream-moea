@@ -7,7 +7,6 @@ package moa.subgroupdiscovery.genetic;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import moa.subgroupdiscovery.StreamMOEAEFEP;
 import moa.subgroupdiscovery.genetic.criteria.ReinitialisationCriteria;
 import moa.subgroupdiscovery.genetic.criteria.StoppingCriteria;
@@ -21,8 +20,10 @@ import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 import org.core.Randomize;
 
 /**
- *
- * @author agvico
+ * Class that implements a Multi-objective genetic algorithm
+ * 
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
+ * @param <T> The individuals that forms the population 
  */
 public class GeneticAlgorithm<T extends Individual> implements Serializable, Runnable {
 

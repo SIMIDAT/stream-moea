@@ -9,8 +9,9 @@ import java.util.ArrayList;
 import moa.subgroupdiscovery.genetic.Individual;
 
 /**
- *
- * @author agvico
+ * Class that represents a non-dominanted sorting algorithm
+ * 
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
 public abstract class DominanceComparator<T extends Individual> {
     

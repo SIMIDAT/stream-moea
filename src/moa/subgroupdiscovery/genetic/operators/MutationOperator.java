@@ -8,8 +8,9 @@ package moa.subgroupdiscovery.genetic.operators;
 import moa.subgroupdiscovery.genetic.Individual;
 
 /**
- *
- * @author agvico
+ * Class that represents a mutation operator
+ * 
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
 public abstract class MutationOperator<T extends Individual> {
     

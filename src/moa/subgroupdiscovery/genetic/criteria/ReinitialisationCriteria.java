@@ -6,8 +6,9 @@
 package moa.subgroupdiscovery.genetic.criteria;
 
 /**
- *
- * @author agvico
+ * Class that representent the criteria to trigger the re-initialisation procedure.
+ * 
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
 public abstract class ReinitialisationCriteria {
     public abstract boolean checkReinitialisationCondition();

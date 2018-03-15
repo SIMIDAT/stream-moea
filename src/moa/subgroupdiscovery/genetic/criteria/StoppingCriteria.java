@@ -8,8 +8,8 @@ package moa.subgroupdiscovery.genetic.criteria;
 import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 
 /**
- *
- * @author agvico
+ * Class that represent the stopping criteria of a genetic algorithm
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
 public abstract class StoppingCriteria {
     

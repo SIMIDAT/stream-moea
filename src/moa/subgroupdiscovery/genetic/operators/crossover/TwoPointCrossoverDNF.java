@@ -11,10 +11,11 @@ import moa.subgroupdiscovery.genetic.operators.CrossoverOperator;
 import org.core.Randomize;
 
 /**
- *
- * @author agvico
+ * Class that represents the two point crossover operator for the DNF representation
+ * 
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public class TwoPointCrossoverDNF extends CrossoverOperator<IndDNF> {
+public final class TwoPointCrossoverDNF extends CrossoverOperator<IndDNF> {
 
     public TwoPointCrossoverDNF() {
         super.numChildren = 2;

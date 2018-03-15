@@ -16,8 +16,9 @@ import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 import org.core.exceptions.InvalidRangeInMeasureException;
 
 /**
- *
- * @author agvico
+ * Class that represents the evaluation function of the individuals of a genetic algorithm
+ * 
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
 public abstract class Evaluator<T extends Individual> {
 

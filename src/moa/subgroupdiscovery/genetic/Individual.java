@@ -21,7 +21,7 @@ import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
  * It implements the clase comparable. Although it is for multi-objective purpose.
  * The main idea of the comparison is for other kind of sorting such us the one performed in the token competition procedure.
  * 
- * @author agvico
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  * @param <T> The elements of the chromosome that conforms the individual
  */
 public abstract class Individual<T> implements Serializable, Cloneable, Comparable<Individual<T>>{

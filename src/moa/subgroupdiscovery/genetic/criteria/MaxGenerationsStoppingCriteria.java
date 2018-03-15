@@ -8,8 +8,9 @@ package moa.subgroupdiscovery.genetic.criteria;
 import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 
 /**
- *
- * @author agvico
+ * Stopping criterion based on the number of maximum generations of the genetic algorithm
+ * 
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
 public final class MaxGenerationsStoppingCriteria extends StoppingCriteria{
 

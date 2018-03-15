@@ -11,10 +11,11 @@ import moa.subgroupdiscovery.genetic.operators.CrossoverOperator;
 import org.core.Randomize;
 
 /**
- *
- * @author agvico
+ * Class for the two-point crossover operator for the canonical representation
+ * 
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public class TwoPointCrossoverCAN extends CrossoverOperator<IndCAN> {
+public final class TwoPointCrossoverCAN extends CrossoverOperator<IndCAN> {
 
     public TwoPointCrossoverCAN() {
         super.numChildren = 2;

@@ -11,13 +11,13 @@ import java.util.LinkedList;
 import java.util.List;
 import moa.subgroupdiscovery.genetic.Individual;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
-import org.core.Utils;
 
 /**
- *
- * @author agvico
+ * Fast-non dominated sorting algorithm presented in the NSGA-II algorithm
+ * 
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public class FastNonDominatedSorting extends DominanceComparator<Individual> {
+public final class FastNonDominatedSorting extends DominanceComparator<Individual> {
 
     public FastNonDominatedSorting(boolean strongDominance) {
         super.StrictDominance = strongDominance;

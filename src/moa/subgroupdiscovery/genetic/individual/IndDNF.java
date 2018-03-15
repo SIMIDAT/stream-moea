@@ -18,10 +18,11 @@ import moa.subgroupdiscovery.qualitymeasures.NULL;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 
 /**
- *
+ * Class that represents an individual that represents a rule in disjunctive normal form (DNF)
+ * 
  * @author agvico
  */
-public class IndDNF extends Individual<GeneDNF> {
+public final class IndDNF extends Individual<GeneDNF> {
 
     public IndDNF(int lenght, int neje, Instance inst, int clas) {
         ArrayList<QualityMeasure> objectivesArray = StreamMOEAEFEP.getObjectivesArray();
