@@ -45,7 +45,7 @@ public class NonEvolutionReInitCriteria extends ReinitialisationCriteria {
     /**
      * The evaluation of the population with the last change.
      */
-    private long lastChange;
+    private long[] lastChange;
 
     /**
      * The maximum number of evaluation or generations
@@ -66,30 +66,39 @@ public class NonEvolutionReInitCriteria extends ReinitialisationCriteria {
     /**
      * The coverage population on the previous call.
      */
-    private BitSet previousCovered;
+    private BitSet[] previousCovered;
+    
 
-    public NonEvolutionReInitCriteria(double pct, long max) {
+    /**
+     * Default Constructor
+     * @param pct The percentage of maximum evaluations to consider the reinitialisation
+     * @param max The maximum evaluation/generations in the genetic algorithm
+     * @param numClass  The number of class of the problem.
+     */
+    public NonEvolutionReInitCriteria(double pct, long max, int numClass) {
         // TODO: It is necessary to add the previous population for all the classes.
         this.maxValue = max;
         this.pct = pct;
         this.max = ((Double) (maxValue * pct)).longValue();
+        this.lastChange = new long[numClass];
+        this.previousCovered = new BitSet[numClass];
     }
 
     @Override
     public boolean checkReinitialisationCondition(GeneticAlgorithm ga) {
         BitSet oldCovered;
-        if (previousCovered == null) {
+        if (previousCovered[ga.getCurrentClass()] == null) {
             oldCovered = new BitSet(ga.getBaseElement().getCubre().size());
         } else {
-            oldCovered = (BitSet) previousCovered.clone();
+            oldCovered = (BitSet) previousCovered[ga.getCurrentClass()].clone();
         }
 
         // First, get the BitSet of the covered examples for the whole population in this iteration
-        previousCovered = new BitSet(ga.getBaseElement().getCubre().size());
+        previousCovered[ga.getCurrentClass()] = new BitSet(ga.getBaseElement().getCubre().size());
         for (Iterator it = ga.getPoblacOfCurrentClass().iterator(); it.hasNext();) {
             Individual ind = (Individual) it.next();
             if (ind.getRank() == 0) {
-                previousCovered.or(ind.getCubre());
+                previousCovered[ga.getCurrentClass()].or(ind.getCubre());
             }
         }
 
@@ -97,16 +106,22 @@ public class NonEvolutionReInitCriteria extends ReinitialisationCriteria {
         BitSet aux = new BitSet(oldCovered.size());
         aux.clear(0,oldCovered.size());
         aux.or(oldCovered);
-        aux.xor(previousCovered);
+        aux.xor(previousCovered[ga.getCurrentClass()]);
         oldCovered.flip(0,oldCovered.size());
         aux.and(oldCovered);
-        System.out.println(aux.equals(previousCovered));
+        
         if (aux.cardinality() > 0) {
-            lastChange = ga.getTrials();
+            lastChange[ga.getCurrentClass()] = ga.getTrials();
             return false;
         }
 
-        return ga.getTrials() - lastChange >= max;
+        return ga.getTrials() - lastChange[ga.getCurrentClass()] >= max;
+    }
+
+    @Override
+    public void resetCriterion(GeneticAlgorithm ga) {
+        lastChange[ga.getCurrentClass()] = ga.getTrials();
+        previousCovered[ga.getCurrentClass()] = new BitSet(ga.getBaseElement().getCubre().size());
     }
 
 }

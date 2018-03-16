@@ -193,9 +193,8 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
                 // Re-initialisation criteria
                 if (reinitCriteria != null) {
                     if (reinitCriteria.checkReinitialisationCondition(this)) {
-                        System.out.println("Re-init!");
-                        // Re-initialisation. Erase all elements in poblac
                         ArrayList<T> newpop = reinitialisation.doInitialisation(long_poblacion);
+                        reinitCriteria.resetCriterion(this);
                         poblac.get(i).clear();
                         poblac.get(i).addAll(newpop);
                         // Set the class of all new created inidividuals
@@ -219,7 +218,7 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
             }
         }
 
-        //System.out.println("Generations: " + Gen + "   Evaluations: " + Trials);
+        System.out.println("Generations: " + Gen + "   Evaluations: " + Trials);
     }
 
     /**

@@ -132,7 +132,12 @@ public final class CoverageBasedInitialisationDNF extends InitialisationOperator
     @Override
     public ArrayList<IndDNF> doInitialisation(int longPopulation) {
         // First, keep in the population only non-repeated individuals of the pareto front
-        ArrayList<IndDNF> paretoFront = geneticAlgorithm.getRanking().getParetoFront();
+        ArrayList<IndDNF> paretoFront = new ArrayList<>();
+        for (IndDNF ind : geneticAlgorithm.getPoblacOfCurrentClass()) {
+            if (ind.getRank() == 0) {
+                paretoFront.add(ind);
+            }
+        }
         Set<IndDNF> set = new HashSet<>();
         set.addAll(paretoFront);
         paretoFront.clear();

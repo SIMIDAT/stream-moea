@@ -28,6 +28,8 @@ import com.github.javacliparser.IntOption;
 import com.github.javacliparser.FloatOption;
 import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import moa.classifiers.AbstractClassifier;
 import moa.core.AutoExpandVector;
 import moa.core.Measurement;
@@ -37,6 +39,7 @@ import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 import moa.subgroupdiscovery.genetic.Individual;
 import moa.subgroupdiscovery.genetic.individual.*;
 import moa.subgroupdiscovery.genetic.criteria.MaxEvaluationsStoppingCriteria;
+import moa.subgroupdiscovery.genetic.criteria.MaxGenerationsStoppingCriteria;
 import moa.subgroupdiscovery.genetic.criteria.NonEvolutionReInitCriteria;
 import moa.subgroupdiscovery.genetic.criteria.ReinitialisationCriteria;
 import moa.subgroupdiscovery.genetic.criteria.StoppingCriteria;
@@ -254,8 +257,9 @@ public class StreamMOEAEFEP extends AbstractClassifier {
             // Instantiation of the elements of the genetic algorithm
             selection = new BinaryTournamentSelection();
             comparator = new FastNonDominatedSorting(true);
-            stopCriteria = new MaxEvaluationsStoppingCriteria(10000);
-            reInitCriteria = new NonEvolutionReInitCriteria(0.05, 10000); // TODO:
+            //stopCriteria = new MaxEvaluationsStoppingCriteria(5000);
+            stopCriteria = new MaxGenerationsStoppingCriteria(maxGenerations.getValue());
+            reInitCriteria = new NonEvolutionReInitCriteria(0.05, 10000, inst.numClasses()); // TODO:
 
             if (representation.equalsIgnoreCase("DNF")) {
                 ga = new GeneticAlgorithm<IndDNF>(populationSize.getValue(),
@@ -339,6 +343,10 @@ public class StreamMOEAEFEP extends AbstractClassifier {
             // Shows information of the current run
             System.out.println("Time: " + (t_fin - t_ini) + " ms.");
             previousPopulation = ga.getResult();
+            Set<Individual> repes = new HashSet<Individual>();
+            repes.addAll(previousPopulation);
+            previousPopulation.clear();
+            previousPopulation.addAll(repes);
             System.out.println("Rules generated: " + previousPopulation.size());
 
             // Prepare next iteration

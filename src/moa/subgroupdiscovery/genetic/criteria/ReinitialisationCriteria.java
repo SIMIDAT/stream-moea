@@ -41,4 +41,10 @@ public abstract class ReinitialisationCriteria {
      * @return {@code true} if the reinitialisation procedure must be executed, {@code false} elsewhere. 
      */
     public abstract boolean checkReinitialisationCondition(GeneticAlgorithm ga);
+    
+    /**
+     * It resets the criteria
+     * @param ga 
+     */
+    public abstract void resetCriterion(GeneticAlgorithm ga);
 }
