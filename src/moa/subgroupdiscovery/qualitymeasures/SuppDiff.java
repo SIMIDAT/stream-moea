@@ -14,7 +14,7 @@ import org.core.exceptions.InvalidMeasureComparisonException;
  *
  * @author agvico
  */
-public class SuppDiff extends QualityMeasure {
+public final class SuppDiff extends QualityMeasure {
 
     public SuppDiff() {
         super.name = "Support Difference";

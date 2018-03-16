@@ -15,7 +15,7 @@ import org.core.exceptions.InvalidRangeInMeasureException;
  * @author Ángel Miguel García Vico (agvico@ujaen.es)
  * @since JDK 8.0
  */
-public class Coverage extends QualityMeasure {
+public final class Coverage extends QualityMeasure {
 
     public Coverage() {
         this.name = "Coverage";

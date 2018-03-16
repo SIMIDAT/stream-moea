@@ -18,10 +18,12 @@ import moa.subgroupdiscovery.genetic.operators.InitialisationOperator;
 import org.core.Randomize;
 
 /**
- *
- * @author agvico
+ * Class that represents the coverage-based initialisation for the DNF representation.
+ * 
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
+ * @since JDK 8.0
  */
-public class CoverageBasedInitialisationDNF extends InitialisationOperator<IndDNF> {
+public final class CoverageBasedInitialisationDNF extends InitialisationOperator<IndDNF> {
 
     /**
      * The data to cover

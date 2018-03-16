@@ -13,7 +13,7 @@ import moa.tasks.TaskMonitor;
  *
  * @author agvico
  */
-public class NULL extends QualityMeasure {
+public final class NULL extends QualityMeasure {
 
     public NULL() {
         super.name = "NULL";

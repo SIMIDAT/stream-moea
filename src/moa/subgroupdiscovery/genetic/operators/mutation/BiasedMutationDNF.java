@@ -11,9 +11,9 @@ import org.core.Randomize;
 
 /**
  *
- * @author agvico
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public class BiasedMutationDNF extends MutationOperator<IndDNF> {
+public final class BiasedMutationDNF extends MutationOperator<IndDNF> {
 
     @Override
     public IndDNF doMutation(IndDNF source) {

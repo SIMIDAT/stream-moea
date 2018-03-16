@@ -15,7 +15,7 @@ import org.core.exceptions.InvalidRangeInMeasureException;
  * @author Ángel Miguel García Vico (agvico@ujaen.es)
  * @since JDK 8.0
  */
-public class Jaccard extends QualityMeasure {
+public final class Jaccard extends QualityMeasure {
 
     public Jaccard() {
         this.name = "Jaccard Index";

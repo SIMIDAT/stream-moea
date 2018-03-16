@@ -11,10 +11,13 @@ import moa.subgroupdiscovery.genetic.operators.InitialisationOperator;
 import org.core.Randomize;
 
 /**
- *
- * @author agvico
+ * Class that represents a Biased initialisation operator for the DNF representation.
+ * 
+ * The idea is to initialise a % of the total number of individuals with, at most, a % of the number of variables initialised.
+ * 
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public class BiasedInitialisationDNF extends InitialisationOperator<IndDNF>{
+public final class BiasedInitialisationDNF extends InitialisationOperator<IndDNF>{
 
     /**
      * Maximum percentage of variables that could be initialised

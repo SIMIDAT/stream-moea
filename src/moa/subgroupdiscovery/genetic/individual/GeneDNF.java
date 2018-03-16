@@ -7,6 +7,7 @@
  */
 package moa.subgroupdiscovery.genetic.individual;
 
+import java.util.Arrays;
 import org.core.*;
 import java.util.LinkedList;
 
@@ -24,7 +25,6 @@ public final class GeneDNF {
     private boolean gen[];      // Gene content - boolean representation
 
     private int numTRUE, numFALSE;  // Number of elements in the gene sets to TRUE and FALSE
-
     /**
      * <p>
      * Creates new instance of gene
@@ -190,6 +190,13 @@ public final class GeneDNF {
         }
         
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 37 * hash + Arrays.hashCode(this.gen);
+        return hash;
     }
 
 }

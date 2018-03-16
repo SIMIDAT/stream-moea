@@ -13,15 +13,17 @@ import java.util.Set;
 import moa.subgroupdiscovery.StreamMOEAEFEP;
 import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 import moa.subgroupdiscovery.genetic.individual.IndCAN;
-import moa.subgroupdiscovery.genetic.individual.IndDNF;
 import moa.subgroupdiscovery.genetic.operators.InitialisationOperator;
 import org.core.Randomize;
 
 /**
- *
- * @author agvico
+ * Class that represents a coverage-based initialisation for the canonical representation.
+ * This operator appears in the NMEEF-SD algorithm.
+ * 
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
+ * @since JDK 8.0
  */
-public class CoverageBasedInitialisationCAN extends InitialisationOperator<IndCAN>{
+public final class CoverageBasedInitialisationCAN extends InitialisationOperator<IndCAN>{
 
  /**
      * The data to cover

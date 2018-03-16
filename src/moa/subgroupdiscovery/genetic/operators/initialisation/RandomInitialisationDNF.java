@@ -14,9 +14,9 @@ import org.core.Randomize;
 
 /**
  *
- * @author agvico
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public class RandomInitialisationDNF extends InitialisationOperator<IndDNF> {
+public final class RandomInitialisationDNF extends InitialisationOperator<IndDNF> {
 
     public RandomInitialisationDNF(IndDNF base){
         this.baseElement = base;

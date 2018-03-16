@@ -19,8 +19,8 @@ import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
  */
 public final class FastNonDominatedSorting extends DominanceComparator<Individual> {
 
-    public FastNonDominatedSorting(boolean strongDominance) {
-        super.StrictDominance = strongDominance;
+    public FastNonDominatedSorting(boolean strictDominance) {
+        super.StrictDominance = strictDominance;
         super.fronts = new ArrayList<>();
     }
 

@@ -230,19 +230,7 @@ public final class IndDNF extends Individual<GeneDNF> {
 
     @Override
     public int hashCode() {
-        int hash = 2;
-          for (int i = 0; i < chromosome.size(); i++) {
-            for(int j = 0; j < chromosome.get(i).getGeneLenght(); j++){
-                 int v;
-                 if(this.getCromGeneElem(i, j)){
-                     v = 1;
-                 } else {
-                     v = 0;
-                 }
-                 hash += i * j * v;
-            }
-        }
-          return hash;
+        return this.chromosome.hashCode();
     }
 
     @Override

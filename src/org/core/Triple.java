@@ -11,7 +11,7 @@ package org.core;
  * 
  * @author agvico
  */
-public class Triple<K, V, E> {
+public final class Triple<K, V, E> {
     public K key;
     public V value;
     public E extra;

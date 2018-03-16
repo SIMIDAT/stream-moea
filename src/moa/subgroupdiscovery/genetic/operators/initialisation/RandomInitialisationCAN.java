@@ -14,9 +14,9 @@ import org.core.Randomize;
 
 /**
  *
- * @author agvico
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public class RandomInitialisationCAN extends InitialisationOperator<IndCAN> {
+public final class RandomInitialisationCAN extends InitialisationOperator<IndCAN> {
 
     
     public RandomInitialisationCAN(IndCAN base){

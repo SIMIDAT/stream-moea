@@ -31,9 +31,9 @@ import org.core.exceptions.InvalidMeasureComparisonException;
 /**
  * Accuracy. It measures the precision of the model
  *
- * @author angel
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public class Accuracy extends QualityMeasure {
+public final class Accuracy extends QualityMeasure {
 
     public Accuracy() {
         super.name = "Accuracy";

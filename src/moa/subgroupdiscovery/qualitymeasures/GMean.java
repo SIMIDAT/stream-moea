@@ -34,7 +34,7 @@ import org.core.exceptions.InvalidMeasureComparisonException;
  *
  * @author angel
  */
-public class GMean extends QualityMeasure {
+public final class GMean extends QualityMeasure {
 
     public GMean() {
         super.name = "Geometric Mean";

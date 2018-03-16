@@ -12,9 +12,9 @@ import org.core.Randomize;
 
 /**
  *
- * @author agvico
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public class BinaryTournamentSelection extends SelectionOperator<Individual> {
+public final class BinaryTournamentSelection extends SelectionOperator<Individual> {
 
     public BinaryTournamentSelection() {
         super.numParticipants = 2;

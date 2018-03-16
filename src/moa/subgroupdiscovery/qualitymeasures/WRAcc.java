@@ -34,7 +34,7 @@ import org.core.exceptions.InvalidMeasureComparisonException;
  *
  * @author agvico
  */
-public class WRAcc extends QualityMeasure {
+public final class WRAcc extends QualityMeasure {
 
     public WRAcc() {
         super.name = "Weighted Relative Accuracy";

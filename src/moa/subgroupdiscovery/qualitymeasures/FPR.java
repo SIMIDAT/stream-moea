@@ -32,7 +32,7 @@ import org.core.exceptions.InvalidMeasureComparisonException;
  *
  * @author angel
  */
-public class FPR extends QualityMeasure {
+public final class FPR extends QualityMeasure {
 
     public FPR() {
         super.name = "False Positive Rate";

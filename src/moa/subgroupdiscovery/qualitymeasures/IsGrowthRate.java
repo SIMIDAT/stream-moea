@@ -20,7 +20,7 @@ import org.core.exceptions.InvalidRangeInMeasureException;
  * @author Ángel Miguel García Vico (agvico@ujaen.es)
  * @since JDK 8.0
  */
-public class IsGrowthRate extends QualityMeasure {
+public final class IsGrowthRate extends QualityMeasure {
 
     public IsGrowthRate() {
         this.name = "Is Growth Rate";

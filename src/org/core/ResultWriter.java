@@ -21,47 +21,47 @@ import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
  * @since JDK 8
  * @version 1.0
  */
-public class ResultWriter {
+public final class ResultWriter {
 
     /**
      * The path where the objectives values for each individual is stored
      */
-    private String pathTra;
+    private final String pathTra;
 
     /**
      * The path where the test quality measures are stored (detailed file)
      */
-    private String pathTst;
+    private final String pathTst;
 
     /**
      * The path where the test quality measures are stored (summary file)
      */
-    private String pathTstSummary;
+    private final String pathTstSummary;
 
     /**
      * The path where the rules are stored
      */
-    private String pathRules;
+    private final String pathRules;
 
     /**
      * The population to get the results
      */
-    private ArrayList<Individual> population;
+    private final ArrayList<Individual> population;
 
     /**
      * The instance where the variables are obtained
      */
-    private Instance inst;
+    private final Instance inst;
 
     /**
      * The formatter of the numbers
      */
-    private DecimalFormat sixDecimals;
+    private final DecimalFormat sixDecimals;
 
     /**
      * The symbols to use in the formatter
      */
-    private DecimalFormatSymbols symbols;
+    private final DecimalFormatSymbols symbols;
 
     
     

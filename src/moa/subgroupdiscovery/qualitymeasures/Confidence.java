@@ -39,7 +39,7 @@ import org.core.exceptions.InvalidMeasureComparisonException;
  *
  * @author Angel Miguel Garcia Vico <agvico at ujaen.es>
  */
-public class Confidence extends QualityMeasure {
+public final class Confidence extends QualityMeasure {
 
     public Confidence() {
         super.name = "Confidence";

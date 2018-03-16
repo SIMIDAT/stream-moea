@@ -229,12 +229,7 @@ public final class IndCAN extends Individual<Integer> {
 
     @Override
     public int hashCode() {
-        // TODO: ESTUDIAR MEJOR ESTE HASH
-        int hash = 2;
-        for (int i = 0; i < tamano; i++) {
-            hash += i * chromosome.get(i);
-        }
-        return hash;
+        return chromosome.hashCode();
     }
 
     @Override

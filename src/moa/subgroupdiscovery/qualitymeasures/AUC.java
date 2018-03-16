@@ -32,9 +32,9 @@ import org.core.exceptions.InvalidMeasureComparisonException;
 
 /**
  *
- * @author angel
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public class AUC extends QualityMeasure {
+public final class AUC extends QualityMeasure {
 
     /**
      * Default constructor

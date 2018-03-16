@@ -21,29 +21,28 @@ import org.core.Randomize;
 
 /**
  * Class that implements a Multi-objective genetic algorithm
- * 
+ *
  * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
- * @param <T> The individuals that forms the population 
+ * @param <T> The individuals that forms the population
  */
 public class GeneticAlgorithm<T extends Individual> implements Serializable, Runnable {
 
-    private ArrayList<ArrayList<T>> poblac;     // Main Population
+    private final ArrayList<ArrayList<T>> poblac;     // Main Population
     private ArrayList<ArrayList<T>> elite;       // Elite population
-    private ArrayList<ArrayList<T>> offspring;  // Offspring population
-    private ArrayList<ArrayList<T>> union;      // Main+Offspring populations
+    private final ArrayList<ArrayList<T>> offspring;  // Offspring population
+    private final ArrayList<ArrayList<T>> union;      // Main+Offspring populations
     private ArrayList<T> result;      // Result population which will be returned to the user.
 
-    protected int long_poblacion;   // Number of individuals of the population
-    protected float prob_crossover;     // Cross probability
-    protected float prob_mutation;  // Mutation probability
+    protected final int long_poblacion;   // Number of individuals of the population
+    protected final float prob_crossover;     // Cross probability
+    protected final float prob_mutation;  // Mutation probability
     private long Gen;		  // Number of generations performed by the GA
     private long Trials;		  // Number of evaluated chromosomes
 
-    private boolean StrictDominance; // Use strict dominance in the dominance comparison
     protected boolean elitism;        // Use the elite population or not
 
     private QualityMeasure diversity; // The diversity quality measures to use
-    private T baseElement;
+    private final T baseElement;
     private int currentClass;
 
     /**
@@ -59,27 +58,48 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
     private StoppingCriteria stopCriteria;
     private ReinitialisationCriteria reinitCriteria;
 
+    /**
+     * Default constructor
+     * @param popLength the population length
+     * @param crossPct the crossover probability [0,1]
+     * @param mutationPct the mutation probability [0,1]
+     * @param elitism Is elitism available?
+     * @param baseElement the base element of the population
+     */
+    public GeneticAlgorithm(int popLength, float crossPct, float mutationPct, boolean elitism, T baseElement) {
+        this.long_poblacion = popLength;
+        this.prob_crossover = crossPct;
+        this.prob_mutation = mutationPct;
+        this.elitism = elitism;
+        this.baseElement = baseElement;
+        this.Gen = 0;
+        this.Trials = 0;
+
+        // initialisation 
+        this.poblac = new ArrayList<>();
+        this.offspring = new ArrayList<>();
+        this.union = new ArrayList<>();
+        this.elite = new ArrayList<>();
+    }
+
     @Override
     public void run() {
 
-        // initialisation 
-        poblac = new ArrayList<>();
-        offspring = new ArrayList<>();
-        union = new ArrayList<>();
-        setElite(new ArrayList<>());
-
         // initialise poblac, one array for each class
         for (int i = 0; i < StreamMOEAEFEP.instancia.numClasses(); i++) {
-
             ArrayList<T> aux = initialisation.doInitialisation(long_poblacion);
             final int clas = i;
             aux.forEach(ind -> ind.setClas(clas)); // Set the class of all individuals generated
             poblac.add(aux);
             offspring.add(new ArrayList<>());
             union.add(new ArrayList<>());
+            
+            //DEBUG_ Show hash values
+            for(T ind : aux){
+                System.out.println(ind.hashCode());
+            }
         }
 
-        Gen = 0;
         // First evaluation of the whole population;
         poblac.forEach(pop -> {
             pop.forEach(ind -> {
@@ -202,20 +222,7 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
         return Trials;
     }
 
-    /**
-     * @return the StrictDominance
-     */
-    public boolean isStrictDominance() {
-        return StrictDominance;
-    }
-
-    /**
-     * @param StrictDominance the StrictDominance to set
-     */
-    public void setStrictDominance(boolean StrictDominance) {
-        this.StrictDominance = StrictDominance;
-    }
-
+  
     /**
      * @return the diversity
      */
@@ -398,12 +405,6 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
         return long_poblacion;
     }
 
-    /**
-     * @param long_poblacion the long_poblacion to set
-     */
-    public void setLong_poblacion(int long_poblacion) {
-        this.long_poblacion = long_poblacion;
-    }
 
     /**
      * @return the prob_crossover
@@ -412,12 +413,6 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
         return prob_crossover;
     }
 
-    /**
-     * @param prob_crossover the prob_crossover to set
-     */
-    public void setProb_crossover(float prob_crossover) {
-        this.prob_crossover = prob_crossover;
-    }
 
     /**
      * @return the prob_mutation
@@ -426,19 +421,6 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
         return prob_mutation;
     }
 
-    /**
-     * @param prob_mutation the prob_mutation to set
-     */
-    public void setProb_mutation(float prob_mutation) {
-        this.prob_mutation = prob_mutation;
-    }
-
-    /**
-     * @param baseElement the baseElement to set
-     */
-    public void setBaseElement(T baseElement) {
-        this.baseElement = baseElement;
-    }
 
     /**
      * @return the baseElement

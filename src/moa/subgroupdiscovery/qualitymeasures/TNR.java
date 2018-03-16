@@ -32,7 +32,7 @@ import org.core.exceptions.InvalidMeasureComparisonException;
  *
  * @author angel
  */
-public class TNR extends QualityMeasure {
+public final class TNR extends QualityMeasure {
 
     public TNR() {
         super.name = "True Negative Rate";

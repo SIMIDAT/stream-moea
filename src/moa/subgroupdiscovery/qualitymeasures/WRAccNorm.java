@@ -34,7 +34,7 @@ import org.core.exceptions.InvalidMeasureComparisonException;
  *
  * @author agvico
  */
-public class WRAccNorm extends QualityMeasure {
+public final class WRAccNorm extends QualityMeasure {
 
     public WRAccNorm() {
         super.value = 0.0;

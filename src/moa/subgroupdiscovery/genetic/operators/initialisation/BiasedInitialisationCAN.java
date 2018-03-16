@@ -8,15 +8,17 @@ package moa.subgroupdiscovery.genetic.operators.initialisation;
 import java.util.ArrayList;
 import moa.subgroupdiscovery.StreamMOEAEFEP;
 import moa.subgroupdiscovery.genetic.individual.IndCAN;
-import moa.subgroupdiscovery.genetic.individual.IndDNF;
 import moa.subgroupdiscovery.genetic.operators.InitialisationOperator;
 import org.core.Randomize;
 
 /**
- *
- * @author agvico
+ * Class that represents a Biased initialisation operator for the canonical representation.
+ * 
+ * The idea is to initialise a % of the total number of individuals with, at most, a % of the number of variables initialised.
+ * 
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public class BiasedInitialisationCAN extends InitialisationOperator<IndCAN> {
+public final class BiasedInitialisationCAN extends InitialisationOperator<IndCAN> {
 
     /**
      * Maximum percentage of variables that could be initialised
