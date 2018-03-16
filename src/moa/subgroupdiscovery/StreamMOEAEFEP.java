@@ -1,7 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * The MIT License
+ *
+ * Copyright 2018 Ángel Miguel García Vico.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package moa.subgroupdiscovery;
 
@@ -19,6 +37,7 @@ import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 import moa.subgroupdiscovery.genetic.Individual;
 import moa.subgroupdiscovery.genetic.individual.*;
 import moa.subgroupdiscovery.genetic.criteria.MaxEvaluationsStoppingCriteria;
+import moa.subgroupdiscovery.genetic.criteria.NonEvolutionReInitCriteria;
 import moa.subgroupdiscovery.genetic.criteria.ReinitialisationCriteria;
 import moa.subgroupdiscovery.genetic.criteria.StoppingCriteria;
 import moa.subgroupdiscovery.genetic.dominancecomparators.DominanceComparator;
@@ -69,7 +88,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
      * Set the population size of the genetic algorithm
      */
     public IntOption populationSize = new IntOption("popSize", 'p',
-            "The number of individuals in the population of the genetic algorithm", 3);
+            "The number of individuals in the population of the genetic algorithm", 51);
 
     /**
      * Set the Maximum evaluations/generations to stop the evolutionary process
@@ -168,7 +187,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
     private ResultWriter writer;
 
     public static Instance instancia;
-    private String representation = "DNF";
+    private String representation = "CAN";
 
     /**
      * Only for DEBUG purposes.
@@ -235,7 +254,8 @@ public class StreamMOEAEFEP extends AbstractClassifier {
             // Instantiation of the elements of the genetic algorithm
             selection = new BinaryTournamentSelection();
             comparator = new FastNonDominatedSorting(true);
-            stopCriteria = new MaxEvaluationsStoppingCriteria(5000);
+            stopCriteria = new MaxEvaluationsStoppingCriteria(10000);
+            reInitCriteria = new NonEvolutionReInitCriteria(0.05, 10000); // TODO:
 
             if (representation.equalsIgnoreCase("DNF")) {
                 ga = new GeneticAlgorithm<IndDNF>(populationSize.getValue(),
@@ -248,7 +268,6 @@ public class StreamMOEAEFEP extends AbstractClassifier {
                 mutation = new BiasedMutationDNF();
                 eval = new EvaluatorDNF(dataChunk);
                 reInit = new CoverageBasedInitialisationDNF((IndDNF) ga.getBaseElement(), 0.25, dataChunk, ga);
-                reInitCriteria = null; // TODO:
             } else {
                 ga = new GeneticAlgorithm<IndCAN>(populationSize.getValue(),
                         ((Double) crossPob.getValue()).floatValue(),
@@ -261,7 +280,6 @@ public class StreamMOEAEFEP extends AbstractClassifier {
                 mutation = new BiasedMutationCAN();
                 eval = new EvaluatorCAN(dataChunk);
                 reInit = new CoverageBasedInitialisationCAN((IndCAN) ga.getBaseElement(), 0.25, dataChunk, ga);
-                reInitCriteria = null; // TODO:
             }
 
             ga.setCrossover(cross);

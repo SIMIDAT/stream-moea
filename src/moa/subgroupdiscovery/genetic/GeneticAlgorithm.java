@@ -1,7 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * The MIT License
+ *
+ * Copyright 2018 Ángel Miguel García Vico.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package moa.subgroupdiscovery.genetic;
 
@@ -93,11 +111,6 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
             poblac.add(aux);
             offspring.add(new ArrayList<>());
             union.add(new ArrayList<>());
-            
-            //DEBUG_ Show hash values
-            for(T ind : aux){
-                System.out.println(ind.hashCode());
-            }
         }
 
         // First evaluation of the whole population;
@@ -179,7 +192,8 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
 
                 // Re-initialisation criteria
                 if (reinitCriteria != null) {
-                    if (reinitCriteria.checkReinitialisationCondition()) {
+                    if (reinitCriteria.checkReinitialisationCondition(this)) {
+                        System.out.println("Re-init!");
                         // Re-initialisation. Erase all elements in poblac
                         ArrayList<T> newpop = reinitialisation.doInitialisation(long_poblacion);
                         poblac.get(i).clear();
