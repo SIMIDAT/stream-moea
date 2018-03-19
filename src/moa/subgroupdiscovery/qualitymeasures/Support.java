@@ -44,9 +44,9 @@ public final class Support extends QualityMeasure {
     @Override
     public double calculateValue(ContingencyTable t) {
         if (t.getTotalExamples() == 0) {
-            value = 0;
+            setValue(0);
         } else {
-            value = (double) t.getTp() / t.getTotalExamples();
+            setValue((double) t.getTp() / t.getTotalExamples());
         }
 
         return value;
@@ -63,7 +63,7 @@ public final class Support extends QualityMeasure {
     public QualityMeasure clone() {
         Support a = new Support();
         a.name = this.name;
-        a.value = this.value;
+        a.setValue(this.value);
 
         return a;
     }

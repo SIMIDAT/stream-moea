@@ -58,7 +58,7 @@ public final class NULL extends QualityMeasure {
 
         NULL a = new NULL();
         a.name = this.name;
-        a.value = this.value;
+        a.setValue(this.value);
 
         return a;
 

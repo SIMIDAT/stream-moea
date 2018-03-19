@@ -55,11 +55,11 @@ public final class GrowthRate extends QualityMeasure {
             fpr.validate();
 
             if (fpr.getValue() == 0 && tpr.getValue() == 0) {
-                value = 0.0;
+                setValue(0.0);
             } else if (tpr.getValue() != 0 && fpr.getValue() == 0) {
-                value = Double.POSITIVE_INFINITY;
+                setValue(Double.POSITIVE_INFINITY);
             } else {
-                value = tpr.getValue() / fpr.getValue();
+                setValue(tpr.getValue() / fpr.getValue());
             }
 
         } catch (InvalidRangeInMeasureException ex) {
@@ -79,7 +79,7 @@ public final class GrowthRate extends QualityMeasure {
     public QualityMeasure clone() {
         GrowthRate a = new GrowthRate();
         a.name = this.name;
-        a.value = this.value;
+        a.setValue(this.value);
 
         return a;
     }

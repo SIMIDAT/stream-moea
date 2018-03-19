@@ -90,6 +90,13 @@ public abstract class QualityMeasure extends AbstractOptionHandler implements Cl
     }
 
     /**
+     * @param value the value to set
+     */
+    public void setValue(double value) {
+        this.value = value;
+    }
+
+    /**
      * It checks that the value of the measure is within the domain of the
      * measure
      *

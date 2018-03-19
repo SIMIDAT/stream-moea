@@ -55,7 +55,7 @@ public final class TNR extends QualityMeasure {
     public QualityMeasure clone() {
         TNR a = new TNR();
         a.name = this.name;
-        a.value = this.value;
+        a.setValue(this.value);
         return a;
     }
 
@@ -63,9 +63,9 @@ public final class TNR extends QualityMeasure {
     public double calculateValue(ContingencyTable t) {
         table = t;
         if (t.getTn() + t.getFp() == 0) {
-            value = 0.0;
+            setValue(0.0);
         } else {
-            value = (double) t.getTn() / (double) (t.getFp() + t.getTn());
+            setValue((double) t.getTn() / (double) (t.getFp() + t.getTn()));
         }
         return value;
     }

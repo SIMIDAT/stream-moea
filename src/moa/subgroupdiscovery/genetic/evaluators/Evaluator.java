@@ -27,6 +27,7 @@ import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 import moa.subgroupdiscovery.genetic.Individual;
 import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
 import moa.subgroupdiscovery.qualitymeasures.NULL;
@@ -40,6 +41,8 @@ import org.core.exceptions.InvalidRangeInMeasureException;
  */
 public abstract class Evaluator<T extends Individual> {
 
+
+    
     /**
      * The data used
      */
@@ -53,7 +56,21 @@ public abstract class Evaluator<T extends Individual> {
      * @param sample
      */
     public abstract void doEvaluation(T sample, boolean isTrain);
+    
+    /**
+     * It performs the evaluation of a whole population.
+     * 
+     * @param sample
+     * @param isTrain 
+     */
+    public abstract void doEvaluation(ArrayList<T> sample, boolean isTrain, GeneticAlgorithm<T> GA);
 
+    
+        
+    public Evaluator(ArrayList<Instance> data){
+        this.data = data;
+    }
+    
     /**
      * It calculates the quality measures given a contingency table
      *
@@ -127,6 +144,20 @@ public abstract class Evaluator<T extends Individual> {
 
         }
 
+    }
+
+    /**
+     * @return the data
+     */
+    public ArrayList<Instance> getData() {
+        return data;
+    }
+
+    /**
+     * @param data the data to set
+     */
+    public void setData(ArrayList<Instance> data) {
+        this.data = data;
     }
 
 }

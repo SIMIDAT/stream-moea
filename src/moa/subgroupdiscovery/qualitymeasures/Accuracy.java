@@ -44,7 +44,7 @@ public final class Accuracy extends QualityMeasure {
     @Override
     public double calculateValue(ContingencyTable t) {
         table = t;
-        value = (double) (t.getTp() + t.getTn()) / (double) t.getTotalExamples();
+        setValue((double) (t.getTp() + t.getTn()) / (double) t.getTotalExamples());
         return value;
     }
 

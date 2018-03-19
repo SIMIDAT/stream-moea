@@ -40,7 +40,7 @@ import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
  * 
  * @author agvico
  */
-public final class IndDNF extends Individual<GeneDNF> {
+public class IndDNF extends Individual<GeneDNF> {
 
     public IndDNF(int lenght, int neje, Instance inst, int clas) {
         ArrayList<QualityMeasure> objectivesArray = StreamMOEAEFEP.getObjectivesArray();

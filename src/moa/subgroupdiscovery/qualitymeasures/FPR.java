@@ -44,9 +44,9 @@ public final class FPR extends QualityMeasure {
     public double calculateValue(ContingencyTable t) {
         table = t;
         if (t.getFp() + t.getTn() == 0) {
-            value = 1.0;
+            setValue(1.0);
         } else {
-            value = (double) t.getFp() / (double) (t.getFp() + t.getTn());
+            setValue((double) t.getFp() / (double) (t.getFp() + t.getTn()));
         }
         return value;
     }
@@ -65,7 +65,7 @@ public final class FPR extends QualityMeasure {
     @Override
     public QualityMeasure clone() {
         FPR a = new FPR();
-        a.value = this.value;
+        a.setValue(this.value);
 
         return a;
     }

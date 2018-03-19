@@ -115,11 +115,7 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
 
         // First evaluation of the whole population;
         poblac.forEach(pop -> {
-            pop.forEach(ind -> {
-                evaluator.doEvaluation(ind, true);
-                Trials++;
-                ind.setNEval((int) Trials);
-            });
+                evaluator.doEvaluation(pop, true, this);
         });
 
         // Genetic Algorithm evolutionary cycle
@@ -165,13 +161,7 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
                 }
 
                 // Evaluates the offspring
-                for (Individual ind : offspring.get(i)) {
-                    if (!ind.isEvaluado()) {
-                        evaluator.doEvaluation(ind, true);
-                        Trials++;
-                        ind.setNEval((int) Trials);
-                    }
-                }
+                evaluator.doEvaluation(offspring.get(i), true, this);
 
                 // NOW, ADDITIONAL STUFF, SUCH AS DOMINANCE RANKING, ETC.
                 // Dominance ranking performance
@@ -467,4 +457,11 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
         return poblac.get(currentClass);
     }
 
+    public void TrialsPlusPlus(){
+        this.Trials++;
+    }
+    
+    public void TrialsPlusEqual(int value){
+        this.Trials += value;
+    }
 }

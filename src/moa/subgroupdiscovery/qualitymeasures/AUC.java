@@ -57,7 +57,7 @@ public final class AUC extends QualityMeasure {
             fpr.calculateValue(t);
             fpr.validate();
 
-            value = (1.0 + tpr.value - fpr.value) / 2.0;
+            setValue((1.0 + tpr.value - fpr.value) / 2.0);
 
         } catch (InvalidRangeInMeasureException ex) {
             ex.showAndExit(this);
@@ -77,7 +77,7 @@ public final class AUC extends QualityMeasure {
     @Override
     public QualityMeasure clone() {
         AUC a = new AUC();
-        a.value = this.value;
+        a.setValue(this.value);
 
         return a;
     }

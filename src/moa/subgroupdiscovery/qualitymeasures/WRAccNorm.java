@@ -58,12 +58,12 @@ public final class WRAccNorm extends QualityMeasure {
                 WRAcc unus = new WRAcc();
                 unus.calculateValue(t);
                 unus.validate();
-                value = (unus.value - minUnus) / (maxUnus - minUnus);
+                setValue((unus.value - minUnus) / (maxUnus - minUnus));
             } catch (InvalidRangeInMeasureException ex) {
                 ex.showAndExit(this);
             }
         } else {
-            value = 0.0;
+            setValue(0.0);
         }
 
         return value;
@@ -84,7 +84,7 @@ public final class WRAccNorm extends QualityMeasure {
     public QualityMeasure clone() {
         WRAccNorm a = new WRAccNorm();
         a.name = this.name;
-        a.value = this.value;
+        a.setValue(this.value);
 
         return a;
     }

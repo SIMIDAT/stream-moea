@@ -41,7 +41,7 @@ import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
  * 
  * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public final class IndCAN extends Individual<Integer> {
+public class IndCAN extends Individual<Integer> {
 
     public IndCAN(int length, int neje, int clas) {
         ArrayList<QualityMeasure> objectivesArray = StreamMOEAEFEP.getObjectivesArray();

@@ -44,9 +44,9 @@ public final class TPR extends QualityMeasure {
     public double calculateValue(ContingencyTable t) {
         table = t;
         if (t.getTp() + t.getFn() == 0) {
-            value = 0.0;
+            setValue(0.0);
         } else {
-            value = (double) t.getTp() / (double) (t.getTp() + t.getFn());
+            setValue((double) t.getTp() / (double) (t.getTp() + t.getFn()));
         }
         return value;
     }
@@ -67,7 +67,7 @@ public final class TPR extends QualityMeasure {
 
         TPR a = new TPR();
         a.name = this.name;
-        a.value = this.value;
+        a.setValue(this.value);
 
         return a;
 

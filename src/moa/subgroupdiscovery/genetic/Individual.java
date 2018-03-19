@@ -27,6 +27,7 @@ import com.yahoo.labs.samoa.instances.Instance;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.HashMap;
 import moa.subgroupdiscovery.qualitymeasures.Confidence;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 
@@ -46,6 +47,7 @@ public abstract class Individual<T> implements Serializable, Cloneable, Comparab
      * The chromosome of the individual.
      */
     protected ArrayList<T> chromosome;
+    
 
     /**
      * Sets the size of the individual

@@ -44,9 +44,9 @@ public final class Jaccard extends QualityMeasure {
     @Override
     public double calculateValue(ContingencyTable t) {
         if (t.getTp() + t.getFn() + t.getFp() == 0) {
-            value = 0;
+            setValue(0);
         } else {
-            value = (double) t.getTp() / (double) (t.getTp() + t.getFn() + t.getFp());
+            setValue((double) t.getTp() / (double) (t.getTp() + t.getFn() + t.getFp()));
         }
         return value;
     }
@@ -62,7 +62,7 @@ public final class Jaccard extends QualityMeasure {
     public QualityMeasure clone() {
         Jaccard a = new Jaccard();
         a.name = this.name;
-        a.value = this.value;
+        a.setValue(this.value);
 
         return a;
     }

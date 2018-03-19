@@ -51,9 +51,9 @@ public final class Confidence extends QualityMeasure {
     public double calculateValue(ContingencyTable t) {
         table = t;
         if (t.getTp() + t.getFp() == 0) {
-            value = 0.0;
+            setValue(0.0);
         } else {
-            value = (double) t.getTp() / (double) (t.getTp() + t.getFp());
+            setValue((double) t.getTp() / (double) (t.getTp() + t.getFp()));
         }
         return value;
     }
@@ -72,7 +72,7 @@ public final class Confidence extends QualityMeasure {
     @Override
     public QualityMeasure clone() {
         Confidence a = new Confidence();
-        a.value = this.value;
+        a.setValue(this.value);
 
         return a;
     }

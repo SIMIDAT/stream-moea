@@ -54,7 +54,7 @@ public final class GMean extends QualityMeasure {
             tnr.calculateValue(t);
             tnr.validate();
             
-            value = Math.sqrt(tpr.value * tnr.value);
+            setValue(Math.sqrt(tpr.value * tnr.value));
 
         } catch (InvalidRangeInMeasureException ex) {
            ex.showAndExit(this);
@@ -78,7 +78,7 @@ public final class GMean extends QualityMeasure {
     public QualityMeasure clone() {
         GMean a = new GMean();
         a.name = this.name;
-        a.value = this.value;
+        a.setValue(this.value);
 
         return a;
     }

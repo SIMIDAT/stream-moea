@@ -56,7 +56,7 @@ public final class SuppDiff extends QualityMeasure {
             tpr.validate();
             fpr.validate();
 
-            value = tpr.value - fpr.value;
+            setValue(tpr.value - fpr.value);
         } catch (InvalidRangeInMeasureException ex) {
             ex.showAndExit(this);
         }
@@ -74,7 +74,7 @@ public final class SuppDiff extends QualityMeasure {
     public QualityMeasure clone() {
         SuppDiff a = new SuppDiff();
         a.name = this.name;
-        a.value = this.value;
+        a.setValue(this.value);
 
         return a;
     }

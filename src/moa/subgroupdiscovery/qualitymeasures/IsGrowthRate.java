@@ -54,9 +54,9 @@ public final class IsGrowthRate extends QualityMeasure {
         try {
             gr.validate();
             if (gr.getValue() > 1.0) {
-                value = 1.0;
+                setValue(1.0);
             } else {
-                value = 0.0;
+                setValue(0.0);
             }
         } catch (InvalidRangeInMeasureException ex) {
             ex.showAndExit(this);
@@ -75,7 +75,7 @@ public final class IsGrowthRate extends QualityMeasure {
     public QualityMeasure clone() {
         IsGrowthRate a = new IsGrowthRate();
         a.name = this.name;
-        a.value = this.value;
+        a.setValue(this.value);
 
         return a;
     }

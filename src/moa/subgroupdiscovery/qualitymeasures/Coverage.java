@@ -45,9 +45,9 @@ public final class Coverage extends QualityMeasure {
     public double calculateValue(ContingencyTable t) {
 
         if (t.getTotalExamples() == 0) {
-            value = 0.0;
+            setValue(0.0);
         } else {
-            value = (double) (t.getTp() + t.getFp()) / t.getTotalExamples();
+            setValue((double) (t.getTp() + t.getFp()) / t.getTotalExamples());
         }
 
         return value;
@@ -64,7 +64,7 @@ public final class Coverage extends QualityMeasure {
     public QualityMeasure clone() {
         Coverage a = new Coverage();
         a.name = this.name;
-        a.value = this.value;
+        a.setValue(this.value);
 
         return a;
     }

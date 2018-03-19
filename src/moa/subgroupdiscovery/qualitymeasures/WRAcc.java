@@ -64,7 +64,7 @@ public final class WRAcc extends QualityMeasure {
             }
 
             // Calculate the value
-            value = cov * (conf.value - class_pct);
+            setValue(cov * (conf.value - class_pct));
         } catch (InvalidRangeInMeasureException ex) {
             ex.showAndExit(this);
         }
@@ -86,7 +86,7 @@ public final class WRAcc extends QualityMeasure {
     public QualityMeasure clone() {
         WRAcc a = new WRAcc();
         a.name = this.name;
-        a.value = this.value;
+        a.setValue(this.value);
 
         return a;
     }

@@ -26,6 +26,7 @@ package moa.subgroupdiscovery.genetic.evaluators;
 import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayList;
 import moa.subgroupdiscovery.StreamMOEAEFEP;
+import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 import moa.subgroupdiscovery.genetic.individual.IndDNF;
 import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
 
@@ -34,10 +35,10 @@ import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
  * 
  * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public final class EvaluatorDNF extends Evaluator<IndDNF> {
+public class EvaluatorDNF extends Evaluator<IndDNF> {
 
     public EvaluatorDNF(ArrayList<Instance> data) {
-        super.data = data;
+        super(data);
     }
 
     @Override
@@ -48,7 +49,7 @@ public final class EvaluatorDNF extends Evaluator<IndDNF> {
 
         // If the individual is non-empty, evaluate it against the data
         if (!sample.isEmpty()) {
-            for (int i = 0; i < data.size(); i++) {
+            for (int i = 0; i < getData().size(); i++) {
                 disparoFuzzy = 1;
 
                 // For each variable of the rule
@@ -57,7 +58,7 @@ public final class EvaluatorDNF extends Evaluator<IndDNF> {
                         // The variable participates
                         if (StreamMOEAEFEP.instancia.attribute(j).isNominal()) {
                             // Nominal Variable
-                            Double value = data.get(i).valueInputAttribute(j);
+                            Double value = getData().get(i).valueInputAttribute(j);
                             if (sample.getCromGeneElem(j, value.intValue()) && !data.get(i).isMissing(j)) {
                                 // The rule does not cover the example.
                                 disparoFuzzy = 0;
@@ -69,7 +70,7 @@ public final class EvaluatorDNF extends Evaluator<IndDNF> {
                                 float pert;
                                 for (int k = 0; k < StreamMOEAEFEP.nLabel; k++) {
                                     if (sample.getCromGeneElem(j, k)) {
-                                        pert = StreamMOEAEFEP.Fuzzy(j, k, data.get(i).valueInputAttribute(j));
+                                        pert = StreamMOEAEFEP.Fuzzy(j, k, getData().get(i).valueInputAttribute(j));
                                     } else {
                                         pert = 0;
                                     }
@@ -83,14 +84,14 @@ public final class EvaluatorDNF extends Evaluator<IndDNF> {
 
                 if (disparoFuzzy > 0) {
                     sample.getCubre().set(i); // Cambiar dos líneas más abajo si el token competition se va a hacer por clase.
-                    if (((Double) data.get(i).classValue()).intValue() == sample.getClas()) {
+                    if (((Double) getData().get(i).classValue()).intValue() == sample.getClas()) {
                         confMatrix.setTp(confMatrix.getTp() + 1);
                     } else {
                         confMatrix.setFp(confMatrix.getFp() + 1);
                     }
                 } else {
                     sample.getCubre().clear(i);
-                    if (((Double) data.get(i).classValue()).intValue() == sample.getClas()) {
+                    if (((Double) getData().get(i).classValue()).intValue() == sample.getClas()) {
                         confMatrix.setFn(confMatrix.getFn() + 1);
                     } else {
                         confMatrix.setTn(confMatrix.getTn() + 1);
@@ -106,6 +107,17 @@ public final class EvaluatorDNF extends Evaluator<IndDNF> {
         // Now, set individual as evaluated.
         sample.setEvaluado(true);
 
+    }
+
+    @Override
+    public void doEvaluation(ArrayList<IndDNF> sample, boolean isTrain, GeneticAlgorithm<IndDNF> GA) {
+        for(IndDNF ind : sample){
+            if(!ind.isEvaluado()){
+                doEvaluation(ind, isTrain);
+                GA.TrialsPlusPlus();
+                ind.setNEval((int) GA.getTrials());
+            }
+        }
     }
 
 }

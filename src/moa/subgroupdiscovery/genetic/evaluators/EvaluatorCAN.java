@@ -26,6 +26,7 @@ package moa.subgroupdiscovery.genetic.evaluators;
 import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayList;
 import moa.subgroupdiscovery.StreamMOEAEFEP;
+import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 import moa.subgroupdiscovery.genetic.individual.IndCAN;
 import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
 
@@ -34,10 +35,10 @@ import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
  * 
  * @author agvico
  */
-public final class EvaluatorCAN extends Evaluator<IndCAN> {
+public class EvaluatorCAN extends Evaluator<IndCAN> {
 
     public EvaluatorCAN(ArrayList<Instance> data) {
-        super.data = data;
+        super(data);
     }
 
     @Override
@@ -46,14 +47,14 @@ public final class EvaluatorCAN extends Evaluator<IndCAN> {
         ContingencyTable confMatrix = new ContingencyTable(0, 0, 0, 0);
 
         if (!sample.isEmpty()) {
-            for (int i = 0; i < data.size(); i++) {
+            for (int i = 0; i < getData().size(); i++) {
                 disparoFuzzy = 1;
                 for (int j = 0; j < sample.getTamano() && disparoFuzzy > 0; j++) {
-                    if (data.get(i).attribute(j).isNominal()) {
+                    if (getData().get(i).attribute(j).isNominal()) {
                         // Nominal Variable
-                        Double val = data.get(i).valueInputAttribute(j);
+                        Double val = getData().get(i).valueInputAttribute(j);
                         if (sample.getCromElem(j) < StreamMOEAEFEP.instancia.attribute(j).numValues()) {
-                            boolean missing = data.get(i).isMissing(j);
+                            boolean missing = getData().get(i).isMissing(j);
                             if (val.intValue() != sample.getCromElem(j) && !missing) {
                                 // Variable does not cover the example
                                 disparoFuzzy = 0;
@@ -62,7 +63,7 @@ public final class EvaluatorCAN extends Evaluator<IndCAN> {
                     } else {
                         // Numeric variable, do fuzzy computation
                         if (!data.get(i).isMissing(j) && sample.getCromElem(j) < StreamMOEAEFEP.nLabel) {
-                            float pertenencia = StreamMOEAEFEP.Fuzzy(j, sample.getCromElem(j), data.get(i).valueInputAttribute(j));
+                            float pertenencia = StreamMOEAEFEP.Fuzzy(j, sample.getCromElem(j), getData().get(i).valueInputAttribute(j));
                             disparoFuzzy = Math.min(pertenencia, disparoFuzzy);
                         }
                     }
@@ -70,14 +71,14 @@ public final class EvaluatorCAN extends Evaluator<IndCAN> {
 
                 if (disparoFuzzy > 0) {
                     sample.getCubre().set(i); // Cambiar dos líneas más abajo si el token competition se va a hacer por clase.
-                    if (((Double) data.get(i).classValue()).intValue() == sample.getClas()) {
+                    if (((Double) getData().get(i).classValue()).intValue() == sample.getClas()) {
                         confMatrix.setTp(confMatrix.getTp() + 1);
                     } else {
                         confMatrix.setFp(confMatrix.getFp() + 1);
                     }
                 } else {
                     sample.getCubre().clear(i);
-                    if (((Double) data.get(i).classValue()).intValue() == sample.getClas()) {
+                    if (((Double) getData().get(i).classValue()).intValue() == sample.getClas()) {
                         confMatrix.setFn(confMatrix.getFn() + 1);
                     } else {
                         confMatrix.setTn(confMatrix.getTn() + 1);
@@ -89,6 +90,17 @@ public final class EvaluatorCAN extends Evaluator<IndCAN> {
         super.calculateMeasures(sample, confMatrix, isTrain);
         sample.setEvaluado(true);
 
+    }
+
+    @Override
+    public void doEvaluation(ArrayList<IndCAN> sample, boolean isTrain, GeneticAlgorithm<IndCAN> GA) {
+        for(IndCAN ind : sample){
+            if(! ind.isEvaluado()){
+                doEvaluation(ind, isTrain);
+                GA.TrialsPlusPlus();
+                ind.setNEval((int) GA.getTrials());
+            }
+        }
     }
 
 }
