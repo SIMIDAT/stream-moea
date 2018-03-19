@@ -1,7 +1,7 @@
-/*
+/* 
  * The MIT License
  *
- * Copyright 2017 angel.
+ * Copyright 2018 Ángel Miguel García Vico.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,13 +26,14 @@ package moa.subgroupdiscovery.qualitymeasures;
 import org.core.exceptions.InvalidRangeInMeasureException;
 import moa.core.ObjectRepository;
 import moa.tasks.TaskMonitor;
+import org.core.exceptions.InvalidMeasureComparisonException;
 
 /**
  * Accuracy. It measures the precision of the model
  *
- * @author angel
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public class Accuracy extends QualityMeasure {
+public final class Accuracy extends QualityMeasure {
 
     public Accuracy() {
         super.name = "Accuracy";
@@ -43,7 +44,7 @@ public class Accuracy extends QualityMeasure {
     @Override
     public double calculateValue(ContingencyTable t) {
         table = t;
-        value = (double) (t.getTp() + t.getTn()) / (double) t.getTotalExamples();
+        setValue((double) (t.getTp() + t.getTn()) / (double) t.getTotalExamples());
         return value;
     }
 
@@ -68,6 +69,26 @@ public class Accuracy extends QualityMeasure {
 
     @Override
     protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
+    }
+
+    @Override
+    public int compareTo(QualityMeasure o) {
+        try {
+            if (!(o instanceof Accuracy)) {
+                throw new InvalidMeasureComparisonException(this, o);
+            }
+
+            if (this.value < o.value) {
+                return -1;
+            } else if (this.value > o.value) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (InvalidMeasureComparisonException ex) {
+            ex.showAndExit(this);
+        }
+        return 0;
     }
 
 }

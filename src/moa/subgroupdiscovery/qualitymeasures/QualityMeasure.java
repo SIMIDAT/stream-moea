@@ -1,7 +1,7 @@
-/*
+/* 
  * The MIT License
  *
- * Copyright 2017 Angel Miguel Garcia Vico <agvico at ujaen.es>.
+ * Copyright 2018 Ángel Miguel García Vico.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
  */
 package moa.subgroupdiscovery.qualitymeasures;
 
+import java.io.Serializable;
 import org.core.exceptions.InvalidRangeInMeasureException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -34,7 +35,7 @@ import moa.options.AbstractOptionHandler;
  *
  * @author Angel Miguel Garcia Vico <agvico at ujaen.es>
  */
-public abstract class QualityMeasure extends AbstractOptionHandler implements Cloneable {
+public abstract class QualityMeasure extends AbstractOptionHandler implements Cloneable, Serializable, Comparable<QualityMeasure> {
 
     /**
      * @return the short_name
@@ -89,6 +90,13 @@ public abstract class QualityMeasure extends AbstractOptionHandler implements Cl
     }
 
     /**
+     * @param value the value to set
+     */
+    public void setValue(double value) {
+        this.value = value;
+    }
+
+    /**
      * It checks that the value of the measure is within the domain of the
      * measure
      *
@@ -125,6 +133,9 @@ public abstract class QualityMeasure extends AbstractOptionHandler implements Cl
     public String getShortName() {
         return short_name;
     }
+
+    @Override
+    public abstract int compareTo(QualityMeasure o);
 
     
     

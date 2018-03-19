@@ -1,7 +1,7 @@
-/*
+/* 
  * The MIT License
  *
- * Copyright 2017 angel.
+ * Copyright 2018 Ángel Miguel García Vico.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,12 +26,13 @@ package moa.subgroupdiscovery.qualitymeasures;
 import org.core.exceptions.InvalidRangeInMeasureException;
 import moa.core.ObjectRepository;
 import moa.tasks.TaskMonitor;
+import org.core.exceptions.InvalidMeasureComparisonException;
 
 /**
  *
  * @author angel
  */
-public class FPR extends QualityMeasure {
+public final class FPR extends QualityMeasure {
 
     public FPR() {
         super.name = "False Positive Rate";
@@ -43,9 +44,9 @@ public class FPR extends QualityMeasure {
     public double calculateValue(ContingencyTable t) {
         table = t;
         if (t.getFp() + t.getTn() == 0) {
-            value = 1.0;
+            setValue(1.0);
         } else {
-            value = (double) t.getFp() / (double) (t.getFp() + t.getTn());
+            setValue((double) t.getFp() / (double) (t.getFp() + t.getTn()));
         }
         return value;
     }
@@ -64,13 +65,35 @@ public class FPR extends QualityMeasure {
     @Override
     public QualityMeasure clone() {
         FPR a = new FPR();
-        a.value = this.value;
+        a.setValue(this.value);
 
         return a;
     }
 
     @Override
     protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
+    }
+
+    @Override
+    public int compareTo(QualityMeasure o) {
+        
+        // THIS MEASURES MUST BE MINIMISED !!!!
+        try {
+            if (!(o instanceof FPR)) {
+                throw new InvalidMeasureComparisonException(this, o);
+            }
+
+            if (this.value < o.value) {
+                return 1;
+            } else if (this.value > o.value) {
+                return -1;
+            } else {
+                return 0;
+            }
+        } catch (InvalidMeasureComparisonException ex) {
+            ex.showAndExit(this);
+        }
+        return 0;
     }
 
 }

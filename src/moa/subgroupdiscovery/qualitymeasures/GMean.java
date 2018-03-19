@@ -1,7 +1,7 @@
-/*
+/* 
  * The MIT License
  *
- * Copyright 2017 angel.
+ * Copyright 2018 Ángel Miguel García Vico.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,12 +28,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import moa.core.ObjectRepository;
 import moa.tasks.TaskMonitor;
+import org.core.exceptions.InvalidMeasureComparisonException;
 
 /**
  *
  * @author angel
  */
-public class GMean extends QualityMeasure {
+public final class GMean extends QualityMeasure {
 
     public GMean() {
         super.name = "Geometric Mean";
@@ -53,7 +54,7 @@ public class GMean extends QualityMeasure {
             tnr.calculateValue(t);
             tnr.validate();
             
-            value = Math.sqrt(tpr.value * tnr.value);
+            setValue(Math.sqrt(tpr.value * tnr.value));
 
         } catch (InvalidRangeInMeasureException ex) {
            ex.showAndExit(this);
@@ -77,7 +78,7 @@ public class GMean extends QualityMeasure {
     public QualityMeasure clone() {
         GMean a = new GMean();
         a.name = this.name;
-        a.value = this.value;
+        a.setValue(this.value);
 
         return a;
     }
@@ -85,5 +86,24 @@ public class GMean extends QualityMeasure {
     @Override
     protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
     }
+
+    @Override
+    public int compareTo(QualityMeasure o) {
+        try {
+            if (!(o instanceof GMean)) {
+                throw new InvalidMeasureComparisonException(this, o);
+            }
+
+            if (this.value < o.value) {
+                return -1;
+            } else if (this.value > o.value) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (InvalidMeasureComparisonException ex) {
+            ex.showAndExit(this);
+        }
+        return 0;    }
 
 }

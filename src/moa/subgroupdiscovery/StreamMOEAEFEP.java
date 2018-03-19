@@ -1,27 +1,76 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * The MIT License
+ *
+ * Copyright 2018 Ángel Miguel García Vico.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package moa.subgroupdiscovery;
 
+import org.core.Fuzzy;
 import com.github.javacliparser.IntOption;
 import com.github.javacliparser.FloatOption;
+import com.yahoo.labs.samoa.instances.DenseInstance;
 import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import moa.classifiers.AbstractClassifier;
 import moa.core.AutoExpandVector;
 import moa.core.Measurement;
-import moa.evaluation.LearningCurve;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
-import moa.subgroupdiscovery.qualitymeasures.WRAccNorm;
 import moa.options.ClassOption;
+import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
+import moa.subgroupdiscovery.genetic.Individual;
+import moa.subgroupdiscovery.genetic.individual.*;
+import moa.subgroupdiscovery.genetic.criteria.MaxEvaluationsStoppingCriteria;
+import moa.subgroupdiscovery.genetic.criteria.MaxGenerationsStoppingCriteria;
+import moa.subgroupdiscovery.genetic.criteria.NonEvolutionReInitCriteria;
+import moa.subgroupdiscovery.genetic.criteria.ReinitialisationCriteria;
+import moa.subgroupdiscovery.genetic.criteria.StoppingCriteria;
+import moa.subgroupdiscovery.genetic.dominancecomparators.DominanceComparator;
+import moa.subgroupdiscovery.genetic.dominancecomparators.FastNonDominatedSorting;
+import moa.subgroupdiscovery.genetic.evaluators.Evaluator;
+import moa.subgroupdiscovery.genetic.evaluators.EvaluatorCAN;
+import moa.subgroupdiscovery.genetic.evaluators.EvaluatorDNF;
+import moa.subgroupdiscovery.genetic.operators.CrossoverOperator;
+import moa.subgroupdiscovery.genetic.operators.InitialisationOperator;
+import moa.subgroupdiscovery.genetic.operators.MutationOperator;
+import moa.subgroupdiscovery.genetic.operators.SelectionOperator;
+import moa.subgroupdiscovery.genetic.operators.crossover.TwoPointCrossoverCAN;
+import moa.subgroupdiscovery.genetic.operators.crossover.TwoPointCrossoverDNF;
+import moa.subgroupdiscovery.genetic.operators.initialisation.BiasedInitialisationCAN;
+import moa.subgroupdiscovery.genetic.operators.initialisation.BiasedInitialisationDNF;
+import moa.subgroupdiscovery.genetic.operators.initialisation.CoverageBasedInitialisationCAN;
+import moa.subgroupdiscovery.genetic.operators.initialisation.CoverageBasedInitialisationDNF;
+import moa.subgroupdiscovery.genetic.operators.initialisation.RandomInitialisationCAN;
+import moa.subgroupdiscovery.genetic.operators.initialisation.RandomInitialisationDNF;
+import moa.subgroupdiscovery.genetic.operators.mutation.BiasedMutationCAN;
+import moa.subgroupdiscovery.genetic.operators.mutation.BiasedMutationDNF;
+import moa.subgroupdiscovery.genetic.operators.selection.BinaryTournamentSelection;
 import org.core.File;
 import org.core.ResultWriter;
 
 /**
+ * Main Class of the algorithm Stream-MOEA
  *
- * @author agvico
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
 public class StreamMOEAEFEP extends AbstractClassifier {
 
@@ -43,7 +92,13 @@ public class StreamMOEAEFEP extends AbstractClassifier {
      * Set the population size of the genetic algorithm
      */
     public IntOption populationSize = new IntOption("popSize", 'p',
-            "The number of individuals in the population of the genetic algorithm", 3);
+            "The number of individuals in the population of the genetic algorithm", 51);
+
+    /**
+     * Set the Maximum evaluations/generations to stop the evolutionary process
+     */
+    public IntOption maxGenerations = new IntOption("maxGenerations", 'G',
+            "The number of individuals in the population of the genetic algorithm", 100);
 
     /**
      * Set the crossover probability of the genetic algorithm
@@ -98,7 +153,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
     /**
      * It gets the objects set as objecive measures from the user
      */
-    protected ArrayList<QualityMeasure> objectives;
+    protected static ArrayList<QualityMeasure> objectives;
 
     /**
      * The diversity function to sort the individuals in the token competition
@@ -108,7 +163,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
     /**
      * It stores the fuzzy linguistic labels definitions
      */
-    protected static Fuzzy[][] baseDatos;
+    public static Fuzzy[][] baseDatos;
 
     /**
      * The number of fuzzy labels used
@@ -128,7 +183,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
     /**
      * The previous population obtained in T-1
      */
-    protected Population previousPopulation = null;
+    protected ArrayList<Individual> previousPopulation = null;
 
     /**
      * The class that writes the results to a file
@@ -136,6 +191,9 @@ public class StreamMOEAEFEP extends AbstractClassifier {
     private ResultWriter writer;
 
     public static Instance instancia;
+    private String representation = "CAN";
+    private GeneticAlgorithm ga;
+    private Evaluator eval;
 
     /**
      * Only for DEBUG purposes.
@@ -161,7 +219,66 @@ public class StreamMOEAEFEP extends AbstractClassifier {
         objectives.add((QualityMeasure) getPreparedClassOption(Obj2));
         objectives.add((QualityMeasure) getPreparedClassOption(Obj3));
         diversityMeasure = (QualityMeasure) getPreparedClassOption(diversity);
+
+        // Genetic algorithm elements
+        CrossoverOperator cross;
+        MutationOperator mutation;
+        SelectionOperator selection;
+        DominanceComparator comparator;
+        StoppingCriteria stopCriteria;
+        ReinitialisationCriteria reInitCriteria;
+        InitialisationOperator initialisation;
+        InitialisationOperator reInit;
+
+        // *****************************************************************
+        // Instantiation of the elements of the genetic algorithm
+        selection = new BinaryTournamentSelection();
+        comparator = new FastNonDominatedSorting(true);
+        //stopCriteria = new MaxEvaluationsStoppingCriteria(5000);
+        stopCriteria = new MaxGenerationsStoppingCriteria(maxGenerations.getValue());
+        reInitCriteria = new NonEvolutionReInitCriteria(0.05, 10000, this.getModelContext().numClasses()); // TODO:
+        if (representation.equalsIgnoreCase("DNF")) {
+            ga = new GeneticAlgorithm<IndDNF>(populationSize.getValue(),
+                    ((Double) crossPob.getValue()).floatValue(),
+                    ((Double) mutProb.getValue()).floatValue(),
+                    false,
+                    new IndDNF(this.getModelContext().numInputAttributes(), period.getValue(), this.getModelContext().instance(0), 0));
+            initialisation = new BiasedInitialisationDNF((IndDNF) ga.getBaseElement(), 0.25, 0.75);
+            cross = new TwoPointCrossoverDNF();
+            mutation = new BiasedMutationDNF();
+            eval = new EvaluatorDNF(dataChunk);
+            reInit = new CoverageBasedInitialisationDNF((IndDNF) ga.getBaseElement(), 0.25, dataChunk, ga);
+        } else {
+            ga = new GeneticAlgorithm<IndCAN>(populationSize.getValue(),
+                    ((Double) crossPob.getValue()).floatValue(),
+                    ((Double) mutProb.getValue()).floatValue(),
+                    false,
+                    new IndCAN(this.getModelContext().numInputAttributes(), period.getValue(), 0));
+
+            initialisation = new BiasedInitialisationCAN((IndCAN) ga.getBaseElement(), 0.25, 0.75);
+            cross = new TwoPointCrossoverCAN();
+            mutation = new BiasedMutationCAN();
+            eval = new EvaluatorCAN(dataChunk);
+            reInit = new CoverageBasedInitialisationCAN((IndCAN) ga.getBaseElement(), 0.25, dataChunk, ga);
+        }
+
+        ga.setCrossover(cross);
+        ga.setMutation(mutation);
+        ga.setSelection(selection);
+        ga.setEvaluator(eval);
+        ga.setRanking(comparator);
+        ga.setStopCriteria(stopCriteria);
+        ga.setReinitialisation(reInit);
+        ga.setInitialisation(initialisation);
+        ga.setReinitCriteria(reInitCriteria);
+
+        // *****************************************************************
+        // END instantiation of elements of genetic algorithm
         System.out.println("Executing the Stream-MOEA algorithm...");
+    }
+
+    public static ArrayList<QualityMeasure> getObjectivesArray() {
+        return objectives;
     }
 
     @Override
@@ -181,24 +298,26 @@ public class StreamMOEAEFEP extends AbstractClassifier {
             Double cl = inst.valueOutputAttribute(0);
             EjClass.set(cl.intValue(), EjClass.get(cl.intValue()) + 1);
         } else {
+            eval.setData(dataChunk);
 
             // Following the interleaved test-then-train schema:
             // ---------------------------------------------
             //  TEST THE NEW DATA
             // ---------------------------------------------
             if (previousPopulation != null && baseDatos != null) {
-                for (int i = 0; i < previousPopulation.getNumIndiv(); i++) {
+                for (int i = 0; i < previousPopulation.size(); i++) {
                     // Evaluates the individuals agains the test data and show its measures
-                    previousPopulation.getIndiv(i).evalInd(dataChunk, objectives, false);
+                    eval.doEvaluation(previousPopulation.get(i), false);
+                    //previousPopulation.getIndiv(i).evalInd(dataChunk, objectives, false);
                 }
-                
+
                 // Writes the results in the quality measures files.
-                writer = new ResultWriter("tra_qua.txt",            // Training qm file
-                                          "tst_qua.txt",            // Full test qm file
-                                          "tst_quaSumm.txt",        // test qm file with only averages
-                                          "rules.txt",              // Rule extracted file
-                                          previousPopulation,       // population of results
-                                          inst);                    // object of class Instance to get variables information
+                writer = new ResultWriter("tra_qua.txt", // Training qm file
+                        "tst_qua.txt", // Full test qm file
+                        "tst_quaSumm.txt", // test qm file with only averages
+                        "rules.txt", // Rule extracted file
+                        previousPopulation, // population of results
+                        inst);                    // object of class Instance to get variables information
                 writer.writeResults();
 
             }
@@ -216,21 +335,22 @@ public class StreamMOEAEFEP extends AbstractClassifier {
 
             // initialize the genetic algorithm and set its parameters
             System.out.println("Processing Time " + getTimestamp() + "...");
-            Genetic GA = new Genetic();
-            GA.setObjectives(objectives);
-            GA.setLengthPopulation(populationSize.getValue());
-            GA.setNEval(5000); // Hay que cambiar por generaciones y poner la opción aqui
-            GA.setProbCross(((Double) crossPob.getValue()).floatValue());
-            GA.setProbMutation(((Double) mutProb.getValue()).floatValue());
-            GA.setRulesRep("DNF"); // Poner parametro y cambiar
 
             // Initialise the genetic algorithm with the population in t-1
-            previousPopulation = GA.GeneticAlgorithm(dataChunk, "", previousPopulation);
+            long t_ini = System.currentTimeMillis();
+            ga.run();
+            long t_fin = System.currentTimeMillis();
 
-            System.out.println("Rules generated: " + previousPopulation.getNumIndiv());
+            // Shows information of the current run
+            System.out.println("Time: " + (t_fin - t_ini) + " ms.");
+            previousPopulation = ga.getResult();
+            Set<Individual> repes = new HashSet<Individual>();
+            repes.addAll(previousPopulation);
+            previousPopulation.clear();
+            previousPopulation.addAll(repes);
+            System.out.println("Rules generated: " + previousPopulation.size());
 
-            //testChunk.clear();
-            //testChunk.addAll(dataChunk);
+            // Prepare next iteration
             dataChunk.clear();
             timestamp++;
         }
@@ -353,5 +473,12 @@ public class StreamMOEAEFEP extends AbstractClassifier {
      */
     public static long getTimestamp() {
         return timestamp;
+    }
+
+    /**
+     * @return the diversityMeasure
+     */
+    public static QualityMeasure getDiversityMeasure() {
+        return diversityMeasure;
     }
 }

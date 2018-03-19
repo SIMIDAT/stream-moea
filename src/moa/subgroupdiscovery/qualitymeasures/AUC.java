@@ -1,7 +1,7 @@
-/*
+/* 
  * The MIT License
  *
- * Copyright 2017 angel.
+ * Copyright 2018 Ángel Miguel García Vico.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,12 +28,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import moa.core.ObjectRepository;
 import moa.tasks.TaskMonitor;
+import org.core.exceptions.InvalidMeasureComparisonException;
 
 /**
  *
- * @author angel
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public class AUC extends QualityMeasure {
+public final class AUC extends QualityMeasure {
 
     /**
      * Default constructor
@@ -56,12 +57,12 @@ public class AUC extends QualityMeasure {
             fpr.calculateValue(t);
             fpr.validate();
 
-            value = (1.0 + tpr.value - fpr.value) / 2.0;
-            
+            setValue((1.0 + tpr.value - fpr.value) / 2.0);
+
         } catch (InvalidRangeInMeasureException ex) {
             ex.showAndExit(this);
         }
-        
+
         return value;
 
     }
@@ -76,7 +77,7 @@ public class AUC extends QualityMeasure {
     @Override
     public QualityMeasure clone() {
         AUC a = new AUC();
-        a.value = this.value;
+        a.setValue(this.value);
 
         return a;
     }
@@ -89,4 +90,23 @@ public class AUC extends QualityMeasure {
     protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
     }
 
+    @Override
+    public int compareTo(QualityMeasure o) {
+        try {
+            if (!(o instanceof AUC)) {
+                throw new InvalidMeasureComparisonException(this, o);
+            }
+
+            if (this.value < o.value) {
+                return -1;
+            } else if (this.value > o.value) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (InvalidMeasureComparisonException ex) {
+            ex.showAndExit(this);
+        }
+        return 0;
+    }
 }

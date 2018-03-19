@@ -1,7 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * The MIT License
+ *
+ * Copyright 2018 Ángel Miguel García Vico.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package org.core;
 
@@ -10,8 +28,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Locale;
-import moa.subgroupdiscovery.Individual;
-import moa.subgroupdiscovery.Population;
+import moa.subgroupdiscovery.genetic.Individual;
 import moa.subgroupdiscovery.StreamMOEAEFEP;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 
@@ -22,47 +39,47 @@ import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
  * @since JDK 8
  * @version 1.0
  */
-public class ResultWriter {
+public final class ResultWriter {
 
     /**
      * The path where the objectives values for each individual is stored
      */
-    private String pathTra;
+    private final String pathTra;
 
     /**
      * The path where the test quality measures are stored (detailed file)
      */
-    private String pathTst;
+    private final String pathTst;
 
     /**
      * The path where the test quality measures are stored (summary file)
      */
-    private String pathTstSummary;
+    private final String pathTstSummary;
 
     /**
      * The path where the rules are stored
      */
-    private String pathRules;
+    private final String pathRules;
 
     /**
      * The population to get the results
      */
-    private ArrayList<Individual> population;
+    private final ArrayList<Individual> population;
 
     /**
      * The instance where the variables are obtained
      */
-    private Instance inst;
+    private final Instance inst;
 
     /**
      * The formatter of the numbers
      */
-    private DecimalFormat sixDecimals;
+    private final DecimalFormat sixDecimals;
 
     /**
      * The symbols to use in the formatter
      */
-    private DecimalFormatSymbols symbols;
+    private final DecimalFormatSymbols symbols;
 
     
     
@@ -93,39 +110,7 @@ public class ResultWriter {
     }
 
     
-    
-    
-    
-    
-    
-    
-    /**
-     * Default contructor which uses the Population Structure.
-     *
-     * @param tra
-     * @param tst
-     * @param tstSummary
-     * @param rules
-     * @param population
-     */
-    public ResultWriter(String tra, String tst, String tstSummary, String rules, Population population, Instance inst) {
-        this.pathRules = rules;
-        this.pathTra = tra;
-        this.pathTst = tst;
-        this.pathTstSummary = tstSummary;
-        this.population = new ArrayList<>();
-        this.inst = inst;
-
-        for (int i = 0; i < population.getNumIndiv(); i++) {
-            this.population.add(population.getIndiv(i));
-        }
-        symbols = new DecimalFormatSymbols(Locale.GERMANY);
-        symbols.setDecimalSeparator('.');
-        symbols.setNaN("NaN");
-        symbols.setInfinity("INFINITY");
-        sixDecimals = new DecimalFormat("0.000000", symbols);
-    }
-
+   
     
     
     
@@ -138,7 +123,7 @@ public class ResultWriter {
         content += "Timestamp " + StreamMOEAEFEP.getTimestamp() + ":\n";
         for (int i = 0; i < population.size(); i++) {
             content += "Rule " + i + ":\n";
-            content += population.get(i).toString(inst);
+            content += population.get(i).toString(inst) + "\n";
         }
         content += "*************************************************\n";
         Files.addToFile(pathRules, content);
@@ -159,19 +144,19 @@ public class ResultWriter {
 
         // Write the header (the consequent first, and next, the objective quality measures, finaly, the diversity measure)
         content += "Rule\tConsequent";
-        for (QualityMeasure q : population.get(0).objs) {
+        for (QualityMeasure q : (ArrayList<QualityMeasure>) population.get(0).getObjs()) {
             content += "\t" + q.getShortName();
         }
-        content += "\t" + population.get(0).diversityMeasure.getShortName() + "(Diversity)";
+        content += "\t" + population.get(0).getDiversityMeasure().getShortName() + "(Diversity)";
         content += "\n";
 
         // Now, for each individual, writes the training measures
         for (int i = 0; i < population.size(); i++) {
             content += i + "\t" + inst.outputAttribute(0).value(population.get(i).getClas()) + "\t";
-            for (QualityMeasure q : population.get(i).objs) {
+            for (QualityMeasure q : (ArrayList<QualityMeasure>) population.get(i).getObjs()) {
                 content += sixDecimals.format(q.getValue()) + "\t";
             }
-            content += sixDecimals.format(population.get(i).diversityMeasure.getValue()) + "\n";
+            content += sixDecimals.format(population.get(i).getDiversityMeasure().getValue()) + "\n";
         }
         content += "*************************************************\n";
         Files.addToFile(pathTra, content);
@@ -191,7 +176,7 @@ public class ResultWriter {
         // this array stores the sum of the quality measures for the average
         ArrayList<Double> averages = new ArrayList<>();
         double numVars = 0.0;
-        for (QualityMeasure q : population.get(0).medidas) {
+        for (QualityMeasure q : (ArrayList<QualityMeasure>) population.get(0).getMedidas()) {
             averages.add(0.0);
         }
 
@@ -199,8 +184,9 @@ public class ResultWriter {
         String content = "Timestamp\tRule\tClass\tNumRules\tNumVars";
 
         // now, append each test quality measure
-        for (int j = 0; j < population.get(0).medidas.size(); j++) {
-            content += "\t" + population.get(0).medidas.get(j).getShortName();
+        for (int j = 0; j < population.get(0).getMedidas().size(); j++) {
+            QualityMeasure q = (QualityMeasure) population.get(0).getMedidas().get(j);
+            content += "\t" + q.getShortName();
         }
         content += "\n";
 
@@ -213,9 +199,10 @@ public class ResultWriter {
                     + sixDecimals.format(population.get(i).getNumVars()) + "\t";
             numVars += population.get(i).getNumVars();
 
-            for (int j = 0; j < population.get(i).medidas.size(); j++) {
-                content += sixDecimals.format(population.get(i).medidas.get(j).getValue()) + "\t";
-                averages.set(j, averages.get(j) + population.get(i).medidas.get(j).getValue());
+            for (int j = 0; j < population.get(i).getMedidas().size(); j++) {
+                QualityMeasure q = (QualityMeasure) population.get(i).getMedidas().get(j);
+                content += sixDecimals.format(q.getValue()) + "\t";
+                averages.set(j, averages.get(j) + q.getValue());
             }
             content += "\n";
         }
@@ -244,7 +231,7 @@ public class ResultWriter {
         // this array stores the sum of the quality measures for the average
         ArrayList<Double> averages = new ArrayList<>();
         double numVars = 0.0;
-        for (QualityMeasure q : population.get(0).medidas) {
+        for (QualityMeasure q : (ArrayList<QualityMeasure>) population.get(0).getMedidas()) {
             averages.add(0.0);
         }
 
@@ -252,16 +239,18 @@ public class ResultWriter {
         String content = "Timestamp\tRule\tClass\tNumRules\tNumVars";
 
         // now, append each test quality measure
-        for (int j = 0; j < population.get(0).medidas.size(); j++) {
-            content += "\t" + population.get(0).medidas.get(j).getShortName();
+        for (int j = 0; j < population.get(0).getMedidas().size(); j++) {
+            QualityMeasure q = (QualityMeasure) population.get(0).getMedidas().get(j);
+            content += "\t" + q.getShortName();
         }
         content += "\n";
 
         // Now, average the results of the test measures
         for (int i = 0; i < population.size(); i++) {
             numVars += population.get(i).getNumVars();
-            for (int j = 0; j < population.get(i).medidas.size(); j++) {
-                averages.set(j, averages.get(j) + population.get(i).medidas.get(j).getValue());
+            for (int j = 0; j < population.get(i).getMedidas().size(); j++) {
+                QualityMeasure q = (QualityMeasure) population.get(i).getMedidas().get(j);
+                averages.set(j, averages.get(j) + q.getValue());
             }
         }
 

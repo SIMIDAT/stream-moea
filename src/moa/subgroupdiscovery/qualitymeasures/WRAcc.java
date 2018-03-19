@@ -1,7 +1,7 @@
-/*
+/* 
  * The MIT License
  *
- * Copyright 2017 agvico.
+ * Copyright 2018 Ángel Miguel García Vico.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,14 +28,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import moa.core.ObjectRepository;
 import moa.tasks.TaskMonitor;
-
-
+import org.core.exceptions.InvalidMeasureComparisonException;
 
 /**
  *
  * @author agvico
  */
-public class WRAcc extends QualityMeasure {
+public final class WRAcc extends QualityMeasure {
 
     public WRAcc() {
         super.name = "Weighted Relative Accuracy";
@@ -52,24 +51,24 @@ public class WRAcc extends QualityMeasure {
             if (t.getTotalExamples() != 0) {
                 cov = (double) (t.getTp() + t.getFp()) / (double) t.getTotalExamples();
             }
-            
+
             // Calculate the confidence
             Confidence conf = new Confidence();
             conf.calculateValue(t);
             conf.validate();
-            
+
             // Calculate the class percentage with respect to the total examples
             double class_pct = 0.0;
-            if(t.getTotalExamples() != 0){
+            if (t.getTotalExamples() != 0) {
                 class_pct = (double) (t.getTp() + t.getFn()) / (double) t.getTotalExamples();
             }
-            
+
             // Calculate the value
-            value = cov * (conf.value - class_pct);
+            setValue(cov * (conf.value - class_pct));
         } catch (InvalidRangeInMeasureException ex) {
-           ex.showAndExit(this);
+            ex.showAndExit(this);
         }
-            return value;
+        return value;
     }
 
     @Override
@@ -87,13 +86,33 @@ public class WRAcc extends QualityMeasure {
     public QualityMeasure clone() {
         WRAcc a = new WRAcc();
         a.name = this.name;
-        a.value = this.value;
+        a.setValue(this.value);
 
         return a;
     }
 
     @Override
     protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
+    }
+
+    @Override
+    public int compareTo(QualityMeasure o) {
+        try {
+            if (!(o instanceof WRAcc)) {
+                throw new InvalidMeasureComparisonException(this, o);
+            }
+
+            if (this.value < o.value) {
+                return -1;
+            } else if (this.value > o.value) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (InvalidMeasureComparisonException ex) {
+            ex.showAndExit(this);
+        }
+        return 0;
     }
 
 }
