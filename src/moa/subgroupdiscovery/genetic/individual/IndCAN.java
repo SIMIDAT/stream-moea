@@ -247,7 +247,7 @@ public class IndCAN extends Individual<Integer> {
 
     @Override
     public int hashCode() {
-        return chromosome.hashCode();
+        return chromosome.hashCode() + this.clas;
     }
 
     @Override
@@ -273,7 +273,7 @@ public class IndCAN extends Individual<Integer> {
             return false;
         }
         
-        return true;
+        return this.clas == other.clas;
     }
 
 }

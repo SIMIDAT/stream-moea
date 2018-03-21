@@ -62,6 +62,7 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
     private QualityMeasure diversity; // The diversity quality measures to use
     private final T baseElement;
     private int currentClass;
+    private int numClasses;
 
     /**
      * ELEMENTS OF THE GENETIC ALGORITHM
@@ -78,13 +79,15 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
 
     /**
      * Default constructor
+     *
      * @param popLength the population length
      * @param crossPct the crossover probability [0,1]
      * @param mutationPct the mutation probability [0,1]
      * @param elitism Is elitism available?
      * @param baseElement the base element of the population
+     * @param numClasses The number of classes in the problem
      */
-    public GeneticAlgorithm(int popLength, float crossPct, float mutationPct, boolean elitism, T baseElement) {
+    public GeneticAlgorithm(int popLength, float crossPct, float mutationPct, boolean elitism, T baseElement, int numClasses) {
         this.long_poblacion = popLength;
         this.prob_crossover = crossPct;
         this.prob_mutation = mutationPct;
@@ -98,25 +101,34 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
         this.offspring = new ArrayList<>();
         this.union = new ArrayList<>();
         this.elite = new ArrayList<>();
+        this.numClasses = numClasses;
+        
+        for (int i = 0; i < numClasses; i++) {
+            this.poblac.add(new ArrayList<>());
+            this.offspring.add(new ArrayList<>());
+            this.union.add(new ArrayList<>());
+            this.elite.add(new ArrayList<>());
+        }
     }
 
     @Override
     public void run() {
 
-        // initialise poblac, one array for each class
+        // initialise poblac
+        // Initialise only the necessary individuals to reach long_poblacion.
+        // Other individuals were added from the previous timestamp.
         for (int i = 0; i < StreamMOEAEFEP.instancia.numClasses(); i++) {
-            ArrayList<T> aux = initialisation.doInitialisation(long_poblacion);
+            int remaining = long_poblacion - poblac.get(i).size();
+            ArrayList<T> aux = initialisation.doInitialisation(remaining);
             final int clas = i;
             aux.forEach(ind -> ind.setClas(clas)); // Set the class of all individuals generated
-            poblac.add(aux);
-            offspring.add(new ArrayList<>());
-            union.add(new ArrayList<>());
+            poblac.get(i).addAll(aux);
         }
 
         // First evaluation of the whole population;
-        poblac.forEach(pop -> {
-                evaluator.doEvaluation(pop, true, this);
-        });
+        /*poblac.forEach(pop -> {
+            evaluator.doEvaluation(pop, true, this);
+        });*/
 
         // Genetic Algorithm evolutionary cycle
         do {
@@ -161,18 +173,27 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
                 }
 
                 // Evaluates the offspring
-                evaluator.doEvaluation(offspring.get(i), true, this);
+                //evaluator.doEvaluation(offspring.get(i), true, this);
 
                 // NOW, ADDITIONAL STUFF, SUCH AS DOMINANCE RANKING, ETC.
                 // Dominance ranking performance
                 if (ranking != null) {
                     union.get(i).addAll(poblac.get(i));
                     union.get(i).addAll(offspring.get(i));
-
+               
+                    // Evaluates the whole union
+                    evaluator.doEvaluation(union.get(i), true, this);
+                    
                     // Do the dominance ranking and get population for next generation
                     ranking.doDominanceRanking(union.get(i));
                     poblac.get(i).clear();
                     poblac.get(i).addAll(ranking.returnNextPopulation(getLong_poblacion()));
+                } else {
+                    // If there is no dominance ranking, it works as a generational mono-objective GA.
+                    // Do the replacement of poblac (now, it works as a generational GA, i.e., the whole offspring replace the whole population
+                    evaluator.doEvaluation(offspring.get(i), true, this);
+                    poblac.get(currentClass).clear();
+                    poblac.get(currentClass).addAll(offspring.get(currentClass));
                 }
 
                 // Elitism
@@ -225,7 +246,6 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
         return Trials;
     }
 
-  
     /**
      * @return the diversity
      */
@@ -408,7 +428,6 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
         return long_poblacion;
     }
 
-
     /**
      * @return the prob_crossover
      */
@@ -416,14 +435,12 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
         return prob_crossover;
     }
 
-
     /**
      * @return the prob_mutation
      */
     public float getProb_mutation() {
         return prob_mutation;
     }
-
 
     /**
      * @return the baseElement
@@ -447,21 +464,51 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
     }
 
     /**
+     * It gets the current class it is executed in the Genetic Algorithm
      * @return the currentClass
      */
     public int getCurrentClass() {
         return currentClass;
     }
 
+    /**
+     * It returns the population of the class that is now executing
+     * @return 
+     */
     public ArrayList<T> getPoblacOfCurrentClass() {
         return poblac.get(currentClass);
     }
 
-    public void TrialsPlusPlus(){
+    /**
+     * It sums one to the number of trials
+     */
+    public void TrialsPlusPlus() {
         this.Trials++;
     }
-    
-    public void TrialsPlusEqual(int value){
+
+    /**
+     * It sums {@code value} to the number of trials
+     * @param value 
+     */
+    public void TrialsPlusEqual(int value) {
         this.Trials += value;
+    }
+    
+    /**
+     * It sets in the population of the Genetic algorithm the population given. 
+     * It clears the previous population (if exists).
+     * 
+     * NOTE: This population could contain a mix of individuals belonging to different classes. In this case
+     * 
+     * @param population The population
+     */
+    public void setPopulation(ArrayList<T> population){
+        for(ArrayList<T> pop : poblac){
+            pop.clear();
+        }
+        
+        for(T ind : population){
+            poblac.get(ind.getClas()).add(ind);
+        }
     }
 }

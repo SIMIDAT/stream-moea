@@ -27,6 +27,7 @@ import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
@@ -45,7 +46,8 @@ import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 public class EvaluatorWithTime<T extends Evaluator> extends Evaluator<Individual> {
 
     /**
-     * The main structure of this class, it stores the appearance of all individuals throught the execution of the method.
+     * The main structure of this class, it stores the appearance of all
+     * individuals throught the execution of the method.
      */
     protected HashMap<Individual, ArrayDeque<Boolean>> appearance;
 
@@ -75,11 +77,17 @@ public class EvaluatorWithTime<T extends Evaluator> extends Evaluator<Individual
         maxTime = maximumAppearance;
     }
 
-    private void updateAppearance(ArrayList<Individual> population) {
+    private void updateAppearance(ArrayList<Individual> population, int clas) {
+        // Remove duplicated to avoid add values twice or more.
+        HashSet<Individual> a = new HashSet<>();
+        a.addAll(population);
+        ArrayList<Individual> toProcess = new ArrayList<>();
+        toProcess.addAll(a);
         // All individuals in population are present in the previous population. The remaining, not.
-        for (Individual ind : population) {
+        for (Individual ind : toProcess) {
             ArrayDeque<Boolean> values = appearance.get(ind);
             if (values != null) {
+                System.out.println("He entrado! ");
                 // the indivual was previously added. Update the structure
                 values.addFirst(Boolean.TRUE);
                 if (values.size() > maxTime) {
@@ -95,13 +103,16 @@ public class EvaluatorWithTime<T extends Evaluator> extends Evaluator<Individual
 
         // Now, the remaining individuals in the hashmap does not appear in this timestamp. Update it.
         Set<Individual> notPresent = appearance.keySet();
-        notPresent.removeAll(population);
+        //notPresent.removeAll(population);
 
         for (Individual ind : notPresent) {
-            ArrayDeque<Boolean> values = appearance.get(ind);
-            values.addFirst(Boolean.FALSE);
-            if (values.size() > maxTime) {
-                values.removeLast();
+            if ((!population.contains(ind)) && clas == ind.getClas()) {
+                System.out.println("Polizon!!");
+                ArrayDeque<Boolean> values = appearance.get(ind);
+                values.addFirst(Boolean.FALSE);
+                if (values.size() > maxTime) {
+                    values.removeLast();
+                }
             }
         }
     }
@@ -127,28 +138,30 @@ public class EvaluatorWithTime<T extends Evaluator> extends Evaluator<Individual
             // Now, apply the decay factor to all individuals in the population
             for (Individual ind : sample) {
                 ArrayDeque<Boolean> aux = appearance.get(ind);
-                Iterator<Boolean> iterator = aux.iterator();
+                if (aux != null) {
+                    Iterator<Boolean> iterator = aux.iterator();
 
-                int exponent = -1;
-                double decayFactor = 0.0;
+                    int exponent = -1;
+                    double decayFactor = Math.pow(2, -1 * maxTime);
 
-                // Calculate the decay factor of this individual
-                while (iterator.hasNext()) {
-                    if (iterator.next()) {
-                        // The element was present, add to the decay factor
-                        decayFactor += Math.pow(2, exponent);
+                    // Calculate the decay factor of this individual
+                    while (iterator.hasNext()) {
+                        if (iterator.next()) {
+                            // The element was present, add to the decay factor
+                            decayFactor += Math.pow(2, exponent);
+                        }
+                        exponent--;
                     }
-                    exponent--;
-                }
 
-                // Now, get indivual's objectives and apply the dacay factor to all of them
-                for (QualityMeasure obj : (ArrayList<QualityMeasure>) ind.getObjs()) {
-                    obj.setValue(obj.getValue() * decayFactor);
+                    // Now, get indivual's objectives and apply the dacay factor to all of them
+                    for (QualityMeasure obj : (ArrayList<QualityMeasure>) ind.getObjs()) {
+                        obj.setValue(obj.getValue() * decayFactor);
+                    }
                 }
             }
 
             // Once applied the decay factor, update the time structure, adding the new individuals.
-            updateAppearance(sample);
+            updateAppearance(sample, GA.getCurrentClass());
         }
     }
 

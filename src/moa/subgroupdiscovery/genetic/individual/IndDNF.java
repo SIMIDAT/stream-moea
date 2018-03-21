@@ -25,6 +25,7 @@ package moa.subgroupdiscovery.genetic.individual;
 
 import moa.subgroupdiscovery.genetic.Individual;
 import com.yahoo.labs.samoa.instances.Instance;
+import com.yahoo.labs.samoa.instances.InstancesHeader;
 import java.io.InvalidClassException;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -42,13 +43,13 @@ import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
  */
 public class IndDNF extends Individual<GeneDNF> {
 
-    public IndDNF(int lenght, int neje, Instance inst, int clas) {
+    public IndDNF(int lenght, int neje, InstancesHeader inst, int clas) {
         ArrayList<QualityMeasure> objectivesArray = StreamMOEAEFEP.getObjectivesArray();
         try {
             super.tamano = lenght;
             super.chromosome = new ArrayList<>();
             for (int i = 0; i < lenght; i++) {
-                if (inst.attribute(i).isNominal()) {
+                if (inst.attribute(i).isNominal()) { 
                     super.chromosome.add(new GeneDNF(inst.attribute(i).numValues()));
                 } else {
                     super.chromosome.add(new GeneDNF(StreamMOEAEFEP.nLabel));
@@ -214,7 +215,7 @@ public class IndDNF extends Individual<GeneDNF> {
 
     @Override
     public Individual<GeneDNF> clone() {
-        IndDNF copia = new IndDNF(this.tamano, this.getCubre().size(), StreamMOEAEFEP.instancia, this.clas);
+        IndDNF copia = new IndDNF(this.tamano, this.getCubre().size(), StreamMOEAEFEP.header, this.clas);
         
         copia.conf = (Confidence) this.conf.clone();
         copia.crowdingDistance = this.crowdingDistance;
@@ -248,7 +249,7 @@ public class IndDNF extends Individual<GeneDNF> {
 
     @Override
     public int hashCode() {
-        return this.chromosome.hashCode();
+        return this.chromosome.hashCode() + this.clas;
     }
 
     @Override
@@ -274,7 +275,7 @@ public class IndDNF extends Individual<GeneDNF> {
             }
         }
         
-        return true;
+        return this.clas == other.clas;
     }
 
 }

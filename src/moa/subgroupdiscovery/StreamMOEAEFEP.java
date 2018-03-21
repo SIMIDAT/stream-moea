@@ -28,6 +28,7 @@ import com.github.javacliparser.IntOption;
 import com.github.javacliparser.FloatOption;
 import com.yahoo.labs.samoa.instances.DenseInstance;
 import com.yahoo.labs.samoa.instances.Instance;
+import com.yahoo.labs.samoa.instances.InstancesHeader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -49,6 +50,7 @@ import moa.subgroupdiscovery.genetic.dominancecomparators.FastNonDominatedSortin
 import moa.subgroupdiscovery.genetic.evaluators.Evaluator;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorCAN;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorDNF;
+import moa.subgroupdiscovery.genetic.evaluators.EvaluatorWithTime;
 import moa.subgroupdiscovery.genetic.operators.CrossoverOperator;
 import moa.subgroupdiscovery.genetic.operators.InitialisationOperator;
 import moa.subgroupdiscovery.genetic.operators.MutationOperator;
@@ -191,6 +193,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
     private ResultWriter writer;
 
     public static Instance instancia;
+    public static InstancesHeader header;
     private String representation = "CAN";
     private GeneticAlgorithm ga;
     private Evaluator eval;
@@ -219,7 +222,8 @@ public class StreamMOEAEFEP extends AbstractClassifier {
         objectives.add((QualityMeasure) getPreparedClassOption(Obj2));
         objectives.add((QualityMeasure) getPreparedClassOption(Obj3));
         diversityMeasure = (QualityMeasure) getPreparedClassOption(diversity);
-
+        header = this.getModelContext();
+        
         // Genetic algorithm elements
         CrossoverOperator cross;
         MutationOperator mutation;
@@ -237,28 +241,31 @@ public class StreamMOEAEFEP extends AbstractClassifier {
         //stopCriteria = new MaxEvaluationsStoppingCriteria(5000);
         stopCriteria = new MaxGenerationsStoppingCriteria(maxGenerations.getValue());
         reInitCriteria = new NonEvolutionReInitCriteria(0.05, 10000, this.getModelContext().numClasses()); // TODO:
+        
         if (representation.equalsIgnoreCase("DNF")) {
             ga = new GeneticAlgorithm<IndDNF>(populationSize.getValue(),
                     ((Double) crossPob.getValue()).floatValue(),
                     ((Double) mutProb.getValue()).floatValue(),
                     false,
-                    new IndDNF(this.getModelContext().numInputAttributes(), period.getValue(), this.getModelContext().instance(0), 0));
+                    new IndDNF(this.getModelContext().numInputAttributes(), period.getValue(), header, 0),
+                    this.getModelContext().numClasses());
             initialisation = new BiasedInitialisationDNF((IndDNF) ga.getBaseElement(), 0.25, 0.75);
             cross = new TwoPointCrossoverDNF();
             mutation = new BiasedMutationDNF();
-            eval = new EvaluatorDNF(dataChunk);
+            eval = new EvaluatorWithTime(dataChunk, new EvaluatorDNF(dataChunk), 5);
             reInit = new CoverageBasedInitialisationDNF((IndDNF) ga.getBaseElement(), 0.25, dataChunk, ga);
         } else {
             ga = new GeneticAlgorithm<IndCAN>(populationSize.getValue(),
                     ((Double) crossPob.getValue()).floatValue(),
                     ((Double) mutProb.getValue()).floatValue(),
                     false,
-                    new IndCAN(this.getModelContext().numInputAttributes(), period.getValue(), 0));
+                    new IndCAN(this.getModelContext().numInputAttributes(), period.getValue(), 0),
+                    this.getModelContext().numClasses());
 
             initialisation = new BiasedInitialisationCAN((IndCAN) ga.getBaseElement(), 0.25, 0.75);
             cross = new TwoPointCrossoverCAN();
             mutation = new BiasedMutationCAN();
-            eval = new EvaluatorCAN(dataChunk);
+            eval = new EvaluatorWithTime(dataChunk, new EvaluatorCAN(dataChunk), 5);
             reInit = new CoverageBasedInitialisationCAN((IndCAN) ga.getBaseElement(), 0.25, dataChunk, ga);
         }
 
@@ -298,6 +305,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
             Double cl = inst.valueOutputAttribute(0);
             EjClass.set(cl.intValue(), EjClass.get(cl.intValue()) + 1);
         } else {
+            // Sets in the evaluator the new data chunk
             eval.setData(dataChunk);
 
             // Following the interleaved test-then-train schema:
@@ -305,28 +313,34 @@ public class StreamMOEAEFEP extends AbstractClassifier {
             //  TEST THE NEW DATA
             // ---------------------------------------------
             if (previousPopulation != null && baseDatos != null) {
-                for (int i = 0; i < previousPopulation.size(); i++) {
+                for(Individual ind : previousPopulation){
                     // Evaluates the individuals agains the test data and show its measures
-                    eval.doEvaluation(previousPopulation.get(i), false);
-                    //previousPopulation.getIndiv(i).evalInd(dataChunk, objectives, false);
+                    eval.doEvaluation(ind, false);
+                    
+                    // Sets the individual as NON-EVALUATED: Data change in the next timestamp and it is necessary a new evaluation
+                    ind.setEvaluado(false);
                 }
-
-                // Writes the results in the quality measures files.
+                
+                // Writes the results in the quality measures files. (Modificar)
+                // llevar constructor a reset Learning, cambiar Instance por Header.
                 writer = new ResultWriter("tra_qua.txt", // Training qm file
                         "tst_qua.txt", // Full test qm file
                         "tst_quaSumm.txt", // test qm file with only averages
                         "rules.txt", // Rule extracted file
                         previousPopulation, // population of results
                         inst);                    // object of class Instance to get variables information
+                
                 writer.writeResults();
-
+                
+                // Sets in the genetic algorithm this population
+                ga.setPopulation(previousPopulation);
             }
 
             // Now, perform the training 
             // ---------------------------------------------
             // TRAIN THE MODEL WITH THE DATA
             // ---------------------------------------------
-            /// Initialize the genetic algorithm
+            
             if (index == period.getValue()) {
                 // initialize the fuzzy sets definitions (only once)
                 baseDatos = new Fuzzy[inst.numInputAttributes()][nLabels.getValue()];
