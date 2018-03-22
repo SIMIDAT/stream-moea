@@ -334,6 +334,11 @@ public class StreamMOEAEFEP extends AbstractClassifier {
                 
                 // Sets in the genetic algorithm this population
                 ga.setPopulation(previousPopulation);
+                
+                // Sets the rules in the evaluator if it is evaluator with time for streaming data
+                if(eval instanceof EvaluatorWithTime){
+                    ((EvaluatorWithTime) eval).updateAppearance(previousPopulation, ga);
+                }
             }
 
             // Now, perform the training 
@@ -341,7 +346,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
             // TRAIN THE MODEL WITH THE DATA
             // ---------------------------------------------
             
-            if (index == period.getValue()) {
+                if (index == period.getValue()) {
                 // initialize the fuzzy sets definitions (only once)
                 baseDatos = new Fuzzy[inst.numInputAttributes()][nLabels.getValue()];
                 InitSemantics(dataChunk, nLabels.getValue(), baseDatos);

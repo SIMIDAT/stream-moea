@@ -114,6 +114,9 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
     @Override
     public void run() {
 
+        Gen = 0;
+        Trials = 0;
+        
         // initialise poblac
         // Initialise only the necessary individuals to reach long_poblacion.
         // Other individuals were added from the previous timestamp.
@@ -183,6 +186,7 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
                
                     // Evaluates the whole union
                     evaluator.doEvaluation(union.get(i), true, this);
+                    
                     
                     // Do the dominance ranking and get population for next generation
                     ranking.doDominanceRanking(union.get(i));
