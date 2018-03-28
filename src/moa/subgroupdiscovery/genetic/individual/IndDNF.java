@@ -46,7 +46,7 @@ public class IndDNF extends Individual<GeneDNF> {
     public IndDNF(int lenght, int neje, InstancesHeader inst, int clas) {
         ArrayList<QualityMeasure> objectivesArray = StreamMOEAEFEP.getObjectivesArray();
         try {
-            super.tamano = lenght;
+            super.size = lenght;
             super.chromosome = new ArrayList<>();
             for (int i = 0; i < lenght; i++) {
                 if (inst.attribute(i).isNominal()) { 
@@ -69,7 +69,7 @@ public class IndDNF extends Individual<GeneDNF> {
             diversityMeasure = (QualityMeasure) StreamMOEAEFEP.getDiversityMeasure().getClass().newInstance();
             this.clas = clas;
 
-            evaluado = false;
+            evaluated = false;
             cubre = new BitSet(neje);
 
             crowdingDistance = 0.0;
@@ -114,7 +114,7 @@ public class IndDNF extends Individual<GeneDNF> {
         IndDNF a = (IndDNF) indi;
 
         int number;
-        for (int i = 0; i < this.getTamano(); i++) {
+        for (int i = 0; i < this.getSize(); i++) {
             number = a.getCromElem(i).getGeneLenght();
             for (int j = 0; j <= number; j++) {
                 this.getCromElem(i).setGeneElem(j, a.getCromElem(i).getGeneElem(j));
@@ -215,13 +215,13 @@ public class IndDNF extends Individual<GeneDNF> {
 
     @Override
     public Individual<GeneDNF> clone() {
-        IndDNF copia = new IndDNF(this.tamano, this.getCubre().size(), StreamMOEAEFEP.header, this.clas);
+        IndDNF copia = new IndDNF(this.size, this.getCubre().size(), StreamMOEAEFEP.header, this.clas);
         
         copia.conf = (Confidence) this.conf.clone();
         copia.crowdingDistance = this.crowdingDistance;
         copia.cubre = (BitSet) this.getCubre().clone();
         copia.diversityMeasure = this.getDiversityMeasure().clone();
-        copia.evaluado = this.evaluado;
+        copia.evaluated = this.evaluated;
         copia.medidas = new ArrayList<>();
 
         for (QualityMeasure q : this.medidas) {
@@ -235,7 +235,7 @@ public class IndDNF extends Individual<GeneDNF> {
         }
 
         copia.rank = this.rank;
-        copia.tamano = this.tamano;
+        copia.size = this.size;
 
         // Copy the elements of the chromosome
         for (int i = 0; i < chromosome.size(); i++) {
@@ -265,7 +265,7 @@ public class IndDNF extends Individual<GeneDNF> {
         }
         final IndDNF other = (IndDNF) obj;
         
-        if(this.getTamano() != other.getTamano()){
+        if(this.getSize() != other.getSize()){
             return false;
         }
         

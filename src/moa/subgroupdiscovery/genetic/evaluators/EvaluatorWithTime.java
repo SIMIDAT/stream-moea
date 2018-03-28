@@ -41,15 +41,18 @@ import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
  *
  * @author Ángel Miguel García Vico (agvico@ujaen.es)
  * @param <T> The base evaluator without considering this time constraint
+ * @param <E> Additional class which consider a relevant property of the individuals thorought time. 
+ *             For example, it could be {@code Boolean} to represent whether the individual appears or not
+ *             in previous timestamps.
  * @since JDK 8.0
  */
-public class EvaluatorWithTime<T extends Evaluator> extends Evaluator<Individual> {
+public abstract class EvaluatorWithTime<T extends Evaluator, E> extends Evaluator<Individual> {
 
     /**
      * The main structure of this class, it stores the appearance of all
      * individuals throught the execution of the method.
      */
-    protected HashMap<Individual, ArrayDeque<Boolean>> appearance;
+    protected HashMap<Individual, ArrayDeque<E>> appearance;
 
     /**
      * The base evaluator
@@ -59,7 +62,7 @@ public class EvaluatorWithTime<T extends Evaluator> extends Evaluator<Individual
     /**
      * The maximum time
      */
-    private int maxTime;
+    protected int maxTime;
 
     /**
      * Default constructor
@@ -77,135 +80,18 @@ public class EvaluatorWithTime<T extends Evaluator> extends Evaluator<Individual
         maxTime = maximumAppearance;
     }
 
-    public void updateAppearance(ArrayList<Individual> population, GeneticAlgorithm GA) {
-        // Remove duplicated to avoid add values twice or more.
-        HashSet<Individual> a = new HashSet<>();
-        a.addAll(population);
-        ArrayList<Individual> toProcess = new ArrayList<>();
-        toProcess.addAll(a);
-
-        // All individuals in population are present in the previous population. The remaining, not.
-        for (Individual ind : toProcess) {
-            ArrayDeque<Boolean> values = appearance.get(ind);
-            if (values != null) {
-                // the indivual was previously added. Update the structure
-                values.addFirst(Boolean.TRUE);
-                if (values.size() > maxTime) {
-                    values.removeLast();
-                }
-            } else {
-                // new Individual. Add it to the hashmap
-                ArrayDeque<Boolean> toAdd = new ArrayDeque<>(maxTime);
-                toAdd.add(Boolean.TRUE);
-                appearance.put(ind, toAdd);
-            }
-        }
-
-        // Now, the remaining individuals in the hashmap does not appear in this timestamp. Update it.
-        Set<Individual> notPresent = appearance.keySet();
-        //notPresent.removeAll(population);
-
-        for (Individual ind : notPresent) {
-            if (!population.contains(ind)) {
-                ArrayDeque<Boolean> values = appearance.get(ind);
-                values.addFirst(Boolean.FALSE);
-                if (values.size() > maxTime) {
-                    values.removeLast();
-                }
-            }
-        }
-    }
-
-    private void updateAppearance(ArrayList<Individual> population, int clas) {
-        // Remove duplicated to avoid add values twice or more.
-        HashSet<Individual> a = new HashSet<>();
-        a.addAll(population);
-        ArrayList<Individual> toProcess = new ArrayList<>();
-        toProcess.addAll(a);
-
-        // All individuals in population are present in the previous population. The remaining, not.
-        for (Individual ind : toProcess) {
-            ArrayDeque<Boolean> values = appearance.get(ind);
-            if (values != null) {
-                // the indivual was previously added. Update the structure
-                values.addFirst(Boolean.TRUE);
-                if (values.size() > maxTime) {
-                    values.removeLast();
-                }
-            } else {
-                // new Individual. Add it to the hashmap
-                ArrayDeque<Boolean> toAdd = new ArrayDeque<>(maxTime);
-                toAdd.add(Boolean.TRUE);
-                appearance.put(ind, toAdd);
-            }
-        }
-
-        // Now, the remaining individuals in the hashmap does not appear in this timestamp. Update it.
-        Set<Individual> notPresent = appearance.keySet();
-        //notPresent.removeAll(population);
-
-        for (Individual ind : notPresent) {
-            if ((!population.contains(ind)) && clas == ind.getClas()) {
-                ArrayDeque<Boolean> values = appearance.get(ind);
-                values.addFirst(Boolean.FALSE);
-                if (values.size() > maxTime) {
-                    values.removeLast();
-                }
-            }
-        }
-    }
+    /**
+     * It updates the structure that store tha appearance of individuals throughout time
+     * 
+     * @param population
+     * @param GA 
+     */
+    public abstract void updateAppearance(ArrayList<Individual> population, GeneticAlgorithm GA); 
 
     @Override
-    public void doEvaluation(Individual sample, boolean isTrain) {
-        // Do the evaluation of the base evaluator. This is used only for test purposes
-        mainEvaluator.doEvaluation(sample, isTrain);
-    }
+    public abstract void doEvaluation(Individual sample, boolean isTrain); 
 
     @Override
-    public void doEvaluation(ArrayList<Individual> sample, boolean isTrain, GeneticAlgorithm<Individual> GA) {
-        // First, it evaluates all individuals
-        for (Individual ind : sample) {
-            if (!ind.isEvaluado()) {
-                mainEvaluator.doEvaluation(ind, isTrain);
-                GA.TrialsPlusPlus();
-                ind.setNEval((int) GA.getTrials());
-            }
-        }
-
-        if (isTrain) {
-            // Now, apply the decay factor to all individuals in the population
-            for (Individual ind : sample) {
-                ArrayDeque<Boolean> aux = appearance.get(ind);
-                if (aux != null) {
-                    Iterator<Boolean> iterator = aux.iterator();
-
-                    int exponent = -1;
-                    double decayFactor = 1.0;
-
-                    // Calculate the decay factor of this individual
-                    while (iterator.hasNext()) {
-                        if (!iterator.next()) {
-                            // The element was present, add to the decay factor
-                            decayFactor -= Math.pow(2, exponent);
-                        }
-                        exponent--;
-                    }
-
-                    // Now, get indivual's objectives and apply the dacay factor to all of them
-                    for (QualityMeasure obj : (ArrayList<QualityMeasure>) ind.getObjs()) {
-                        if (obj.getValue() >= 0) {
-                            obj.setValue(obj.getValue() * decayFactor);
-                        } else { 
-                            // if the value is negative, to make it worst we need to divide
-                            obj.setValue(obj.getValue() / decayFactor);
-                        }
-                    }
-                }
-            }
-
-            // Once applied the decay factor, update the time structure, adding the new individuals.
-            //updateAppearance(sample, GA.getCurrentClass());
-        }
-    }
+    public abstract void doEvaluation(ArrayList<Individual> sample, boolean isTrain, GeneticAlgorithm<Individual> GA); 
 
 }

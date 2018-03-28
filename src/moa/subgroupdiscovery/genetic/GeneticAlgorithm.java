@@ -512,6 +512,11 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
         }
         
         for(T ind : population){
+            
+            // reset the test measures array, the measurements stored are not valid anymore.
+            ind.medidas.clear();
+            ind.setEvaluated(false); // individual needs to be evaluated again in the genetic algorithm
+            
             poblac.get(ind.getClas()).add(ind);
         }
     }

@@ -48,7 +48,7 @@ public class IndCAN extends Individual<Integer> {
 
         try {
             this.clas = clas;
-            tamano = length;
+            size = length;
             chromosome = new ArrayList<>();
             for (int i = 0; i < length; i++) {
                 chromosome.add(0);
@@ -63,7 +63,7 @@ public class IndCAN extends Individual<Integer> {
 
             conf = new Confidence();
             diversityMeasure = (QualityMeasure) StreamMOEAEFEP.getDiversityMeasure().getClass().newInstance();
-            evaluado = false;
+            evaluated = false;
             cubre = new BitSet(neje);
 
             crowdingDistance = 0.0;
@@ -95,7 +95,7 @@ public class IndCAN extends Individual<Integer> {
         }
 
         IndCAN a = (IndCAN) indi;
-        for (int i = 0; i < this.getTamano(); i++) {
+        for (int i = 0; i < this.getSize(); i++) {
             this.setCromElem(i, a.getCromElem(i));
         }
 
@@ -215,13 +215,13 @@ public class IndCAN extends Individual<Integer> {
 
     @Override
     public Individual<Integer> clone() {
-        IndCAN copia = new IndCAN(this.tamano, this.cubre.size(), this.clas);
+        IndCAN copia = new IndCAN(this.size, this.cubre.size(), this.clas);
 
         copia.conf = (Confidence) this.conf.clone();
         copia.crowdingDistance = this.crowdingDistance;
         copia.cubre = (BitSet) this.getCubre().clone();
         copia.diversityMeasure = this.getDiversityMeasure().clone();
-        copia.evaluado = this.evaluado;
+        copia.evaluated = this.evaluated;
         copia.medidas = new ArrayList<>();
 
         for (QualityMeasure q : this.medidas) {
@@ -235,7 +235,7 @@ public class IndCAN extends Individual<Integer> {
         }
 
         copia.rank = this.rank;
-        copia.tamano = this.tamano;
+        copia.size = this.size;
 
         // Copy the elements of the chromosome
         for (int i = 0; i < chromosome.size(); i++) {
@@ -263,7 +263,7 @@ public class IndCAN extends Individual<Integer> {
         }
         
         final IndCAN other = (IndCAN) obj;
-        for (int i = 0; i < tamano; i++) {
+        for (int i = 0; i < size; i++) {
             if (!Objects.equals(this.chromosome.get(i), other.chromosome.get(i))) {
                 return false;
             }

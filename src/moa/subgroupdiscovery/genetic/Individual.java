@@ -52,12 +52,12 @@ public abstract class Individual<T> implements Serializable, Cloneable, Comparab
     /**
      * Sets the size of the individual
      */
-    protected int tamano;
+    protected int size;
 
     /**
      * Sets whether the individual is evaluated or not
      */
-    protected boolean evaluado;
+    protected boolean evaluated;
 
     /**
      * Sets the individuals covered in this chunk of data
@@ -297,31 +297,31 @@ public abstract class Individual<T> implements Serializable, Cloneable, Comparab
     
     
         /**
-     * @return the tamano
+     * @return the size
      */
-    public int getTamano() {
-        return tamano;
+    public int getSize() {
+        return size;
     }
 
     /**
-     * @param tamano the tamano to set
+     * @param size the size to set
      */
-    public void setTamano(int tamano) {
-        this.tamano = tamano;
+    public void setSize(int size) {
+        this.size = size;
     }
 
     /**
-     * @return the evaluado
+     * @return the evaluated
      */
-    public boolean isEvaluado() {
-        return evaluado;
+    public boolean isEvaluated() {
+        return evaluated;
     }
 
     /**
-     * @param evaluado the evaluado to set
+     * @param evaluated the evaluated to set
      */
-    public void setEvaluado(boolean evaluado) {
-        this.evaluado = evaluado;
+    public void setEvaluated(boolean evaluated) {
+        this.evaluated = evaluated;
     }
 
     /**
@@ -429,7 +429,7 @@ public abstract class Individual<T> implements Serializable, Cloneable, Comparab
      * @return Value of the example
      */
     public boolean getIndivEvaluated() {
-        return isEvaluado();
+        return isEvaluated();
     }
 
     /**
@@ -440,7 +440,7 @@ public abstract class Individual<T> implements Serializable, Cloneable, Comparab
      * @param val Value of the state of the individual
      */
     public void setIndivEvaluated(boolean val) {
-        setEvaluado(val);
+        setEvaluated(val);
     }
 
     /**
@@ -575,5 +575,8 @@ public abstract class Individual<T> implements Serializable, Cloneable, Comparab
     
     @Override
     public abstract int hashCode();
+    
+    @Override
+    public abstract boolean equals(Object obj);
 
 }

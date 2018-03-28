@@ -51,6 +51,7 @@ import moa.subgroupdiscovery.genetic.evaluators.Evaluator;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorCAN;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorDNF;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorWithTime;
+import moa.subgroupdiscovery.genetic.evaluators.EvaluatorWithTimeBoolean;
 import moa.subgroupdiscovery.genetic.operators.CrossoverOperator;
 import moa.subgroupdiscovery.genetic.operators.InitialisationOperator;
 import moa.subgroupdiscovery.genetic.operators.MutationOperator;
@@ -100,7 +101,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
      * Set the Maximum evaluations/generations to stop the evolutionary process
      */
     public IntOption maxGenerations = new IntOption("maxGenerations", 'G',
-            "The number of individuals in the population of the genetic algorithm", 100);
+            "The number of individuals in the population of the genetic algorithm", 20);
 
     /**
      * Set the crossover probability of the genetic algorithm
@@ -223,7 +224,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
         objectives.add((QualityMeasure) getPreparedClassOption(Obj3));
         diversityMeasure = (QualityMeasure) getPreparedClassOption(diversity);
         header = this.getModelContext();
-        
+
         // Genetic algorithm elements
         CrossoverOperator cross;
         MutationOperator mutation;
@@ -241,7 +242,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
         //stopCriteria = new MaxEvaluationsStoppingCriteria(5000);
         stopCriteria = new MaxGenerationsStoppingCriteria(maxGenerations.getValue());
         reInitCriteria = new NonEvolutionReInitCriteria(0.05, 10000, this.getModelContext().numClasses()); // TODO:
-        
+
         if (representation.equalsIgnoreCase("DNF")) {
             ga = new GeneticAlgorithm<IndDNF>(populationSize.getValue(),
                     ((Double) crossPob.getValue()).floatValue(),
@@ -252,7 +253,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
             initialisation = new BiasedInitialisationDNF((IndDNF) ga.getBaseElement(), 0.25, 0.75);
             cross = new TwoPointCrossoverDNF();
             mutation = new BiasedMutationDNF();
-            eval = new EvaluatorWithTime(dataChunk, new EvaluatorDNF(dataChunk), 5);
+            eval = new EvaluatorWithTimeBoolean<EvaluatorDNF>(dataChunk, new EvaluatorDNF(dataChunk), 5);
             reInit = new CoverageBasedInitialisationDNF((IndDNF) ga.getBaseElement(), 0.25, dataChunk, ga);
         } else {
             ga = new GeneticAlgorithm<IndCAN>(populationSize.getValue(),
@@ -265,7 +266,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
             initialisation = new BiasedInitialisationCAN((IndCAN) ga.getBaseElement(), 0.25, 0.75);
             cross = new TwoPointCrossoverCAN();
             mutation = new BiasedMutationCAN();
-            eval = new EvaluatorWithTime(dataChunk, new EvaluatorCAN(dataChunk), 5);
+            eval = new EvaluatorWithTimeBoolean<EvaluatorCAN>(dataChunk, new EvaluatorCAN(dataChunk), 5);
             reInit = new CoverageBasedInitialisationCAN((IndCAN) ga.getBaseElement(), 0.25, dataChunk, ga);
         }
 
@@ -313,14 +314,14 @@ public class StreamMOEAEFEP extends AbstractClassifier {
             //  TEST THE NEW DATA
             // ---------------------------------------------
             if (previousPopulation != null && baseDatos != null) {
-                for(Individual ind : previousPopulation){
+                for (Individual ind : previousPopulation) {
                     // Evaluates the individuals agains the test data and show its measures
                     eval.doEvaluation(ind, false);
-                    
+
                     // Sets the individual as NON-EVALUATED: Data change in the next timestamp and it is necessary a new evaluation
-                    ind.setEvaluado(false);
+                    ind.setEvaluated(false);
                 }
-                
+
                 // Writes the results in the quality measures files. (Modificar)
                 // llevar constructor a reset Learning, cambiar Instance por Header.
                 writer = new ResultWriter("tra_qua.txt", // Training qm file
@@ -329,14 +330,14 @@ public class StreamMOEAEFEP extends AbstractClassifier {
                         "rules.txt", // Rule extracted file
                         previousPopulation, // population of results
                         inst);                    // object of class Instance to get variables information
-                
+
                 writer.writeResults();
-                
+
                 // Sets in the genetic algorithm this population
                 ga.setPopulation(previousPopulation);
-                
+
                 // Sets the rules in the evaluator if it is evaluator with time for streaming data
-                if(eval instanceof EvaluatorWithTime){
+                if (eval instanceof EvaluatorWithTime) {
                     ((EvaluatorWithTime) eval).updateAppearance(previousPopulation, ga);
                 }
             }
@@ -345,8 +346,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
             // ---------------------------------------------
             // TRAIN THE MODEL WITH THE DATA
             // ---------------------------------------------
-            
-                if (index == period.getValue()) {
+            if (index == period.getValue()) {
                 // initialize the fuzzy sets definitions (only once)
                 baseDatos = new Fuzzy[inst.numInputAttributes()][nLabels.getValue()];
                 InitSemantics(dataChunk, nLabels.getValue(), baseDatos);
@@ -362,6 +362,8 @@ public class StreamMOEAEFEP extends AbstractClassifier {
 
             // Shows information of the current run
             System.out.println("Time: " + (t_fin - t_ini) + " ms.");
+
+            // Remove repeated rules
             previousPopulation = ga.getResult();
             Set<Individual> repes = new HashSet<Individual>();
             repes.addAll(previousPopulation);

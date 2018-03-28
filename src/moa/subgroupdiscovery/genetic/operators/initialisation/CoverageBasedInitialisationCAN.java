@@ -74,8 +74,8 @@ public final class CoverageBasedInitialisationCAN extends InitialisationOperator
         }
 
         IndCAN result = (IndCAN) baseElement.clone();
-        Double maxVariables = Math.floor(pctVar * baseElement.getTamano());
-        boolean[] variablesInitialised = new boolean[baseElement.getTamano()];
+        Double maxVariables = Math.floor(pctVar * baseElement.getSize());
+        boolean[] variablesInitialised = new boolean[baseElement.getSize()];
         int variablesToInitialise = Randomize.RandintClosed(1, maxVariables.intValue());
 
         // Select an example not covered 
@@ -94,9 +94,9 @@ public final class CoverageBasedInitialisationCAN extends InitialisationOperator
         Instance inst = data.get(selectedExample);
         // Now, select the variables to initialise. These must cover the selected example
         for (int i = 0; i < variablesToInitialise; i++) {
-            int variable = Randomize.Randint(0, baseElement.getTamano());
+            int variable = Randomize.Randint(0, baseElement.getSize());
             while (variablesInitialised[variable]) {
-                variable = Randomize.Randint(0, baseElement.getTamano());
+                variable = Randomize.Randint(0, baseElement.getSize());
             }
 
             if (inst.attribute(variable).isNominal()) {
