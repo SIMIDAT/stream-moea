@@ -118,11 +118,11 @@ public class EvaluatorWithTimeByMeasure<T extends Evaluator> extends EvaluatorWi
     public void doEvaluation(ArrayList<Individual> sample, boolean isTrain, GeneticAlgorithm<Individual> GA) {
         // First, it evaluates all individuals
         for (Individual ind : sample) {
-            //if (!ind.isEvaluated()) { // TODO: Check whether you can avoid the evaluation of the whole population
+            if (!ind.isEvaluated()) { // TODO: Check whether the evaluation of the whole population can be avoided
                 mainEvaluator.doEvaluation(ind, isTrain);
                 GA.TrialsPlusPlus();
                 ind.setNEval((int) GA.getTrials());
-            //}
+            }
         }
 
         if (isTrain) {
