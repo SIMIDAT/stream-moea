@@ -27,13 +27,8 @@ import com.yahoo.labs.samoa.instances.Instance;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 import moa.subgroupdiscovery.genetic.Individual;
-import moa.subgroupdiscovery.genetic.individual.IndCAN;
-import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 
 /**
  * Evaluator of individuals which considers the appearance of the individuals on
