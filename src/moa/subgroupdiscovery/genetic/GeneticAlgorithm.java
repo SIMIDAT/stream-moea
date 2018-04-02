@@ -102,7 +102,7 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
         this.union = new ArrayList<>();
         this.elite = new ArrayList<>();
         this.numClasses = numClasses;
-        
+
         for (int i = 0; i < numClasses; i++) {
             this.poblac.add(new ArrayList<>());
             this.offspring.add(new ArrayList<>());
@@ -116,7 +116,7 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
 
         Gen = 0;
         Trials = 0;
-        
+
         // initialise poblac
         // Initialise only the necessary individuals to reach long_poblacion.
         // Other individuals were added from the previous timestamp.
@@ -132,7 +132,6 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
         /*poblac.forEach(pop -> {
             evaluator.doEvaluation(pop, true, this);
         });*/
-
         // Genetic Algorithm evolutionary cycle
         do {
             Gen++;
@@ -177,17 +176,15 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
 
                 // Evaluates the offspring
                 //evaluator.doEvaluation(offspring.get(i), true, this);
-
                 // NOW, ADDITIONAL STUFF, SUCH AS DOMINANCE RANKING, ETC.
                 // Dominance ranking performance
                 if (ranking != null) {
                     union.get(i).addAll(poblac.get(i));
                     union.get(i).addAll(offspring.get(i));
-               
+
                     // Evaluates the whole union
                     evaluator.doEvaluation(union.get(i), true, this);
-                    
-                    
+
                     // Do the dominance ranking and get population for next generation
                     ranking.doDominanceRanking(union.get(i));
                     poblac.get(i).clear();
@@ -219,18 +216,20 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
                 }
             }
 
-        } while (!stopCriteria.checkStopCondition(this));
+        } while (!stopCriteria.checkStopCondition(this)); // End of Evolutionary cycle
 
+        // Finally, perform a last evaluation of non-evaluated individuals (due to a re-init on the last generation, for example)
+        // Perform the ranking and return only the individuals that belongs to the Pareto Front (?)
         result = new ArrayList<>();
-        // At the end, return the final population, or the elite
-        if (elitism) {
-            for (int i = 0; i < elite.size(); i++) {
-                result.addAll(elite.get(i));
+        for (int i = 0; i < StreamMOEAEFEP.header.numClasses(); i++) {
+            if (elitism) {
+                evaluator.doEvaluation(elite.get(i), true, this);
+                ranking.doDominanceRanking(elite.get(i));
+            } else {
+                evaluator.doEvaluation(poblac.get(i), true, this);
+                ranking.doDominanceRanking(poblac.get(i));
             }
-        } else {
-            for (int i = 0; i < poblac.size(); i++) {
-                result.addAll(poblac.get(i));
-            }
+            result.addAll(ranking.getParetoFront());
         }
 
         System.out.println("Generations: " + Gen + "   Evaluations: " + Trials);
@@ -469,6 +468,7 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
 
     /**
      * It gets the current class it is executed in the Genetic Algorithm
+     *
      * @return the currentClass
      */
     public int getCurrentClass() {
@@ -477,7 +477,8 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
 
     /**
      * It returns the population of the class that is now executing
-     * @return 
+     *
+     * @return
      */
     public ArrayList<T> getPoblacOfCurrentClass() {
         return poblac.get(currentClass);
@@ -492,31 +493,33 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
 
     /**
      * It sums {@code value} to the number of trials
-     * @param value 
+     *
+     * @param value
      */
     public void TrialsPlusEqual(int value) {
         this.Trials += value;
     }
-    
+
     /**
-     * It sets in the population of the Genetic algorithm the population given. 
+     * It sets in the population of the Genetic algorithm the population given.
      * It clears the previous population (if exists).
-     * 
-     * NOTE: This population could contain a mix of individuals belonging to different classes. In this case
-     * 
+     *
+     * NOTE: This population could contain a mix of individuals belonging to
+     * different classes. In this case
+     *
      * @param population The population
      */
-    public void setPopulation(ArrayList<T> population){
-        for(ArrayList<T> pop : poblac){
+    public void setPopulation(ArrayList<T> population) {
+        for (ArrayList<T> pop : poblac) {
             pop.clear();
         }
-        
-        for(T ind : population){
-            
+
+        for (T ind : population) {
+
             // reset the test measures array, the measurements stored are not valid anymore.
             ind.medidas.clear();
             ind.setEvaluated(false); // individual needs to be evaluated again in the genetic algorithm
-            
+
             poblac.get(ind.getClas()).add(ind);
         }
     }

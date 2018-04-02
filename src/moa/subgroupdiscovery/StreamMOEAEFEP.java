@@ -52,6 +52,7 @@ import moa.subgroupdiscovery.genetic.evaluators.EvaluatorCAN;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorDNF;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorWithTime;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorWithTimeBoolean;
+import moa.subgroupdiscovery.genetic.evaluators.EvaluatorWithTimeByMeasure;
 import moa.subgroupdiscovery.genetic.operators.CrossoverOperator;
 import moa.subgroupdiscovery.genetic.operators.InitialisationOperator;
 import moa.subgroupdiscovery.genetic.operators.MutationOperator;
@@ -253,7 +254,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
             initialisation = new BiasedInitialisationDNF((IndDNF) ga.getBaseElement(), 0.25, 0.75);
             cross = new TwoPointCrossoverDNF();
             mutation = new BiasedMutationDNF();
-            eval = new EvaluatorWithTimeBoolean<EvaluatorDNF>(dataChunk, new EvaluatorDNF(dataChunk), 5);
+            eval = new EvaluatorWithTimeByMeasure<EvaluatorDNF>(dataChunk, new EvaluatorDNF(dataChunk), 5);
             reInit = new CoverageBasedInitialisationDNF((IndDNF) ga.getBaseElement(), 0.25, dataChunk, ga);
         } else {
             ga = new GeneticAlgorithm<IndCAN>(populationSize.getValue(),
@@ -266,7 +267,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
             initialisation = new BiasedInitialisationCAN((IndCAN) ga.getBaseElement(), 0.25, 0.75);
             cross = new TwoPointCrossoverCAN();
             mutation = new BiasedMutationCAN();
-            eval = new EvaluatorWithTimeBoolean<EvaluatorCAN>(dataChunk, new EvaluatorCAN(dataChunk), 5);
+            eval = new EvaluatorWithTimeByMeasure<EvaluatorCAN>(dataChunk, new EvaluatorCAN(dataChunk), 5);
             reInit = new CoverageBasedInitialisationCAN((IndCAN) ga.getBaseElement(), 0.25, dataChunk, ga);
         }
 
@@ -333,13 +334,14 @@ public class StreamMOEAEFEP extends AbstractClassifier {
 
                 writer.writeResults();
 
-                // Sets in the genetic algorithm this population
-                ga.setPopulation(previousPopulation);
-
                 // Sets the rules in the evaluator if it is evaluator with time for streaming data
                 if (eval instanceof EvaluatorWithTime) {
                     ((EvaluatorWithTime) eval).updateAppearance(previousPopulation, ga);
                 }
+                
+                // Finally, sets in the genetic algorithm this population
+                ga.setPopulation(previousPopulation);
+
             }
 
             // Now, perform the training 

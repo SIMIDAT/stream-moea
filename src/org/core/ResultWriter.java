@@ -107,6 +107,7 @@ public final class ResultWriter {
         symbols.setNaN("NaN");
         symbols.setInfinity("INFINITY");
         sixDecimals = new DecimalFormat("0.000000", symbols);
+        population.sort((x,y) -> Integer.compare(x.getClas(), y.getClas()));
     }
 
     
