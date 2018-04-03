@@ -24,6 +24,8 @@
 package org.core;
 
 import com.yahoo.labs.samoa.instances.Instance;
+import com.yahoo.labs.samoa.instances.InstancesHeader;
+import java.io.File;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
@@ -64,12 +66,12 @@ public final class ResultWriter {
     /**
      * The population to get the results
      */
-    private final ArrayList<Individual> population;
+    private ArrayList<Individual> population;
 
     /**
      * The instance where the variables are obtained
      */
-    private final Instance inst;
+    private final InstancesHeader inst;
 
     /**
      * The formatter of the numbers
@@ -81,41 +83,50 @@ public final class ResultWriter {
      */
     private final DecimalFormatSymbols symbols;
 
-    
-    
-    
-    
-    
-    
+    /**
+     * It determines if it is the first time to write the header or not
+     */
+    private boolean firstTime;
+
     /**
      * Default constructor, it sets the path where the files are stored.
      *
      *
-     * @param tra
-     * @param tst
-     * @param rules
+     * @param tra The path for training QMs files
+     * @param tst The path fot test QMs files
+     * @param tstSummary The path for the summary of the test QMs file
+     * @param rules The path for the rules file
+     * @param population The population of individuals
+     * @param header The InstancesHeader of the given problem
+     * @param overwrite If previous files exists, overwrite it?
      */
-    public ResultWriter(String tra, String tst, String tstSummary, String rules, ArrayList<Individual> population, Instance inst) {
+    public ResultWriter(String tra, String tst, String tstSummary, String rules, ArrayList<Individual> population, InstancesHeader header, boolean overwrite) {
         this.pathRules = rules;
         this.pathTra = tra;
         this.pathTst = tst;
         this.pathTstSummary = tstSummary;
         this.population = population;
-        this.inst = inst;
+        this.inst = header;
         symbols = new DecimalFormatSymbols(Locale.GERMANY);
         symbols.setDecimalSeparator('.');
         symbols.setNaN("NaN");
         symbols.setInfinity("INFINITY");
         sixDecimals = new DecimalFormat("0.000000", symbols);
-        population.sort((x,y) -> Integer.compare(x.getClas(), y.getClas()));
+        if (this.population != null) {
+            this.population.sort((x, y) -> Integer.compare(x.getClas(), y.getClas()));
+        }
+        firstTime = true;
+
+        if (overwrite) {
+            File[] a = {new File(tra), new File(tst), new File(tstSummary), new File(rules)};
+            for (File f : a) {
+                if (f.exists()) {
+                    f.delete();
+                }
+            }
+        }
     }
 
-    
-   
-    
-    
-    
-    
     /**
      * It only writes the results of the rules
      */
@@ -126,16 +137,9 @@ public final class ResultWriter {
             content += "Rule " + i + ":\n";
             content += population.get(i).toString(inst) + "\n";
         }
-        content += "*************************************************\n";
         Files.addToFile(pathRules, content);
     }
 
-    
-    
-    
-    
-    
-    
     /**
      * It only writes the results of the objectives
      */
@@ -159,15 +163,9 @@ public final class ResultWriter {
             }
             content += sixDecimals.format(population.get(i).getDiversityMeasure().getValue()) + "\n";
         }
-        content += "*************************************************\n";
         Files.addToFile(pathTra, content);
     }
 
-    
-    
-    
-    
-    
     /**
      * It writes the full version of the results test quality measures, i.e.,
      * the whole set of measures for each individual on each timestamp, in
@@ -182,14 +180,17 @@ public final class ResultWriter {
         }
 
         // First, write the headers
-        String content = "Timestamp\tRule\tClass\tNumRules\tNumVars";
+        String content = "";
+        if (firstTime) {
+            content = "Timestamp\tRule\tClass\tNumRules\tNumVars";
 
-        // now, append each test quality measure
-        for (int j = 0; j < population.get(0).getMedidas().size(); j++) {
-            QualityMeasure q = (QualityMeasure) population.get(0).getMedidas().get(j);
-            content += "\t" + q.getShortName();
+            // now, append each test quality measure
+            for (int j = 0; j < population.get(0).getMedidas().size(); j++) {
+                QualityMeasure q = (QualityMeasure) population.get(0).getMedidas().get(j);
+                content += "\t" + q.getShortName();
+            }
+            content += "\n";
         }
-        content += "\n";
 
         // now write the test results for each individual
         for (int i = 0; i < population.size(); i++) {
@@ -218,12 +219,6 @@ public final class ResultWriter {
         Files.addToFile(pathTst, content);
     }
 
-    
-    
-    
-    
-    
-    
     /**
      * It writes the summary results of the test quality measures, i.e., it only
      * writes the line with the average results.
@@ -237,14 +232,17 @@ public final class ResultWriter {
         }
 
         // First, write the headers
-        String content = "Timestamp\tRule\tClass\tNumRules\tNumVars";
+        String content = "";
+        if (firstTime) {
+            content = "Timestamp\tRule\tClass\tNumRules\tNumVars";
 
-        // now, append each test quality measure
-        for (int j = 0; j < population.get(0).getMedidas().size(); j++) {
-            QualityMeasure q = (QualityMeasure) population.get(0).getMedidas().get(j);
-            content += "\t" + q.getShortName();
+            // now, append each test quality measure
+            for (int j = 0; j < population.get(0).getMedidas().size(); j++) {
+                QualityMeasure q = (QualityMeasure) population.get(0).getMedidas().get(j);
+                content += "\t" + q.getShortName();
+            }
+            content += "\n";
         }
-        content += "\n";
 
         // Now, average the results of the test measures
         for (int i = 0; i < population.size(); i++) {
@@ -263,14 +261,8 @@ public final class ResultWriter {
         }
         content += "\n";
         Files.addToFile(pathTstSummary, content);
-
     }
 
-    
-    
-    
-    
-    
     /**
      * It writes the results of the individuals in the files
      */
@@ -279,6 +271,24 @@ public final class ResultWriter {
         writeTrainingMeasures();
         writeTestFullResults();
         writeTestSummaryResults();
+        firstTime = false;
+    }
+
+    /**
+     * @return the population
+     */
+    public ArrayList<Individual> getPopulation() {
+        return population;
+    }
+
+    /**
+     * @param population the population to set
+     */
+    public void setPopulation(ArrayList<Individual> population) {
+        this.population = population;
+        if (this.population != null) {
+            this.population.sort((x, y) -> Integer.compare(x.getClas(), y.getClas()));
+        }
     }
 
 }

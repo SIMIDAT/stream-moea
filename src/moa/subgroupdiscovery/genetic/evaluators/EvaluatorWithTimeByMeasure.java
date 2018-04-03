@@ -61,23 +61,23 @@ public class EvaluatorWithTimeByMeasure<T extends Evaluator> extends EvaluatorWi
         a.addAll(population);
         ArrayList<Individual> toProcess = new ArrayList<>();
         toProcess.addAll(a);
-        
-         // All individuals in population are present in the previous population. The remaining, not.
+
+        // All individuals in population are present in the previous population. The remaining, not.
         for (Individual ind : toProcess) {
             ArrayDeque<Pair<Boolean, ArrayList<QualityMeasure>>> values = appearance.get(ind);
-            
+
             // This function is always called after the test phase. We stored the objective test values as
             // the values of the QMs of the previous timestamps. This is because the objs array is modified
             // due to the evaluation process that takes into account the previous timestamps.
             ArrayList<QualityMeasure> objectiveValues = new ArrayList<>();
-            for(QualityMeasure q : (ArrayList<QualityMeasure>) ind.getMeasures()){
-                for(QualityMeasure p : StreamMOEAEFEP.getObjectivesArray()){
-                    if(q.getClass().equals(p.getClass())){
+            for (QualityMeasure q : (ArrayList<QualityMeasure>) ind.getMeasures()) {
+                for (QualityMeasure p : StreamMOEAEFEP.getObjectivesArray()) {
+                    if (q.getClass().equals(p.getClass())) {
                         objectiveValues.add(q.clone());
                     }
                 }
             }
-            
+
             if (values != null) {
                 Pair<Boolean, ArrayList<QualityMeasure>> pair = new Pair<>(Boolean.TRUE, objectiveValues);
                 // the indivual was previously added. Update the structure
@@ -133,9 +133,14 @@ public class EvaluatorWithTimeByMeasure<T extends Evaluator> extends EvaluatorWi
                     Iterator<Pair<Boolean, ArrayList<QualityMeasure>>> iterator = aux.iterator();
 
                     // Creates the new objectives array for the individual.
+                    // Gets the measures from "medidas" array, because the objective array does not contain the real measure value
                     ArrayList<QualityMeasure> newObjs = new ArrayList<>();
-                    for (QualityMeasure q : (ArrayList<QualityMeasure>) ind.getObjs()) {
-                        newObjs.add(q.clone());
+                    for (QualityMeasure q : (ArrayList<QualityMeasure>) ind.getMeasures()) {
+                        for (QualityMeasure p : (ArrayList<QualityMeasure>) ind.getObjs()) {
+                            if (q.getClass().equals(p.getClass())) {
+                                newObjs.add(q.clone());
+                            }
+                        }
                     }
 
                     int exponent = -1;

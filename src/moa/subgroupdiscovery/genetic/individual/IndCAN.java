@@ -25,6 +25,7 @@ package moa.subgroupdiscovery.genetic.individual;
 
 import moa.subgroupdiscovery.genetic.Individual;
 import com.yahoo.labs.samoa.instances.Instance;
+import com.yahoo.labs.samoa.instances.InstancesHeader;
 import java.io.InvalidClassException;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -145,7 +146,7 @@ public class IndCAN extends Individual<Integer> {
     }
 
     @Override
-    public String toString(Instance inst) {
+    public String toString(InstancesHeader inst) {
         String content = "";
         for (int i = 0; i < inst.numInputAttributes(); i++) {
             if (inst.attribute(i).isNominal()) {

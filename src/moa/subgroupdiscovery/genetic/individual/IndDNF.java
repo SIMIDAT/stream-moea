@@ -160,7 +160,7 @@ public class IndDNF extends Individual<GeneDNF> {
     }
 
     @Override
-    public String toString(Instance inst) {
+    public String toString(InstancesHeader inst) {
         String content = "";
         for (int i = 0; i < inst.numInputAttributes(); i++) {
             if (!this.getCromElem(i).isNonParticipant()) {

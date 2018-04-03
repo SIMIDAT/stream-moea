@@ -24,6 +24,7 @@
 package moa.subgroupdiscovery.genetic;
 
 import com.yahoo.labs.samoa.instances.Instance;
+import com.yahoo.labs.samoa.instances.InstancesHeader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -225,7 +226,7 @@ public abstract class Individual<T> implements Serializable, Cloneable, Comparab
      * @param inst
      * @return 
      */
-    public abstract String toString(Instance inst);
+    public abstract String toString(InstancesHeader inst);
     
     /**
      * It applies the mutation operator over all genes of an individual,

@@ -127,7 +127,8 @@ public abstract class Evaluator<T extends Individual> {
                 ex.showAndExit(this);
             }
         } else {
-
+            sample.getMeasures().clear();
+            
             // Test the individual.
             try {
                 // Get all the quality measures available in the package qualitymeasures

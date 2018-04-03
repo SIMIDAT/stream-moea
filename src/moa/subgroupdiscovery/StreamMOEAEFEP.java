@@ -226,6 +226,14 @@ public class StreamMOEAEFEP extends AbstractClassifier {
         diversityMeasure = (QualityMeasure) getPreparedClassOption(diversity);
         header = this.getModelContext();
 
+        // Instantiate the result writer. Overwrite previous files???
+        writer = new ResultWriter("tra_qua.txt", // Training qm file
+                "tst_qua.txt", // Full test qm file
+                "tst_quaSumm.txt", // test qm file with only averages
+                "rules.txt", // Rule extracted file
+                previousPopulation, // population of results
+                header, true);                    // object of class Instance to get variables information
+
         // Genetic algorithm elements
         CrossoverOperator cross;
         MutationOperator mutation;
@@ -241,7 +249,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
         selection = new BinaryTournamentSelection();
         comparator = new FastNonDominatedSorting(true);
         //stopCriteria = new MaxEvaluationsStoppingCriteria(5000);
-        stopCriteria = new MaxGenerationsStoppingCriteria(maxGenerations.getValue());
+        stopCriteria = new MaxGenerationsStoppingCriteria(maxGenerations.getValue()); 
         reInitCriteria = new NonEvolutionReInitCriteria(0.05, 10000, this.getModelContext().numClasses()); // TODO:
 
         if (representation.equalsIgnoreCase("DNF")) {
@@ -323,22 +331,15 @@ public class StreamMOEAEFEP extends AbstractClassifier {
                     ind.setEvaluated(false);
                 }
 
-                // Writes the results in the quality measures files. (Modificar)
-                // llevar constructor a reset Learning, cambiar Instance por Header.
-                writer = new ResultWriter("tra_qua.txt", // Training qm file
-                        "tst_qua.txt", // Full test qm file
-                        "tst_quaSumm.txt", // test qm file with only averages
-                        "rules.txt", // Rule extracted file
-                        previousPopulation, // population of results
-                        inst);                    // object of class Instance to get variables information
-
+                // Writes the results in the quality measures files.
+                writer.setPopulation(previousPopulation);
                 writer.writeResults();
 
                 // Sets the rules in the evaluator if it is evaluator with time for streaming data
                 if (eval instanceof EvaluatorWithTime) {
                     ((EvaluatorWithTime) eval).updateAppearance(previousPopulation, ga);
                 }
-                
+
                 // Finally, sets in the genetic algorithm this population
                 ga.setPopulation(previousPopulation);
 
