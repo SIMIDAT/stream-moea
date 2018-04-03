@@ -23,6 +23,7 @@
  */
 package moa.subgroupdiscovery;
 
+import com.yahoo.labs.samoa.instances.Range;
 import java.io.IOException;
 
 import java.util.ArrayList;
@@ -34,7 +35,18 @@ import moa.classifiers.Classifier;
 
 import moa.core.InstanceExample;
 import moa.core.TimingUtils;
+import moa.streams.generators.HyperplaneGenerator;
+import moa.streams.generators.LEDGenerator;
 import moa.streams.generators.RandomRBFGenerator;
+import moa.streams.generators.RandomRBFGeneratorDrift;
+import moa.streams.generators.RandomTreeGenerator;
+import moa.streams.generators.SEAGenerator;
+import moa.streams.generators.STAGGERGenerator;
+import moa.streams.generators.cd.AbruptChangeGenerator;
+import moa.streams.generators.cd.GradualChangeGenerator;
+import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
+import moa.subgroupdiscovery.genetic.criteria.MaxEvaluationsStoppingCriteria;
+import moa.subgroupdiscovery.genetic.individual.IndCAN;
 import moa.subgroupdiscovery.qualitymeasures.AUC;
 import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
 import org.core.exceptions.InvalidContingencyTableException;
@@ -51,7 +63,15 @@ public class ExperimentTest {
         
         Classifier learner = new StreamMOEAEFEP();
         
-        RandomRBFGenerator stream = new RandomRBFGenerator();
+        //RandomRBFGenerator stream = new RandomRBFGenerator();
+        //SEAGenerator stream = new SEAGenerator();
+        RandomTreeGenerator stream = new RandomTreeGenerator();
+        //LEDGenerator stream = new LEDGenerator();
+        //STAGGERGenerator stream = new STAGGERGenerator();
+        //HyperplaneGenerator stream = new HyperplaneGenerator();
+        //stream.numAttsOption.setValue(15);
+        stream.numNumericsOption.setValue(15);
+      
         //ArffFileStream stream = new ArffFileStream("/home/sramirez/datasets/drift/real/elecNormNew.arff", -1);
         //ArffFileStream stream = new ArffFileStream("/home/sramirez/datasets/drift/real/covtypeNorm.arff", -1);
         //ArffFileStream stream = new ArffFileStream("/home/sramirez/datasets/drift/real/poker-lsn.arff", -1);
@@ -79,6 +99,7 @@ public class ExperimentTest {
                         }
                         numberSamples++;*/
             learner.trainOnInstance(trainInst);
+            numberSamples++;
         }
         double accuracy = 100.0 * (double) numberSamplesCorrect / (double) numberSamples;
         double time = TimingUtils.nanoTimeToSeconds(TimingUtils.getNanoCPUTimeOfCurrentThread() - evaluateStartTime);
@@ -87,6 +108,6 @@ public class ExperimentTest {
     
     public static void main(String[] args) throws IOException {
         ExperimentTest exp = new ExperimentTest();
-        exp.run(10, true);
+        exp.run(52*2500, true);
     }
 }

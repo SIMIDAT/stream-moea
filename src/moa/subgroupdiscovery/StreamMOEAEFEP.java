@@ -71,6 +71,7 @@ import moa.subgroupdiscovery.genetic.operators.selection.BinaryTournamentSelecti
 import org.core.File;
 import org.core.ResultWriter;
 
+
 /**
  * Main Class of the algorithm Stream-MOEA
  *
@@ -194,11 +195,17 @@ public class StreamMOEAEFEP extends AbstractClassifier {
      */
     private ResultWriter writer;
 
+    /**
+     * The execution time on each run
+     */
+    private long execTime;
+    
     public static Instance instancia;
     public static InstancesHeader header;
     private String representation = "CAN";
     private GeneticAlgorithm ga;
     private Evaluator eval;
+    
 
     /**
      * Only for DEBUG purposes.
@@ -215,6 +222,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
 
     @Override
     public void resetLearningImpl() {
+        
         index = 0;
         dataChunk = new AutoExpandVector<>();
         EjClass = new ArrayList<>();
@@ -276,6 +284,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
             cross = new TwoPointCrossoverCAN();
             mutation = new BiasedMutationCAN();
             eval = new EvaluatorWithTimeByMeasure<EvaluatorCAN>(dataChunk, new EvaluatorCAN(dataChunk), 5);
+            //eval = new EvaluatorWithTimeBoolean<EvaluatorCAN>(dataChunk, new EvaluatorCAN(dataChunk), 5);
             reInit = new CoverageBasedInitialisationCAN((IndCAN) ga.getBaseElement(), 0.25, dataChunk, ga);
         }
 
@@ -333,7 +342,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
 
                 // Writes the results in the quality measures files.
                 writer.setPopulation(previousPopulation);
-                writer.writeResults();
+                writer.writeResults(execTime);
 
                 // Sets the rules in the evaluator if it is evaluator with time for streaming data
                 if (eval instanceof EvaluatorWithTime) {
@@ -361,10 +370,10 @@ public class StreamMOEAEFEP extends AbstractClassifier {
             // Initialise the genetic algorithm with the population in t-1
             long t_ini = System.currentTimeMillis();
             ga.run();
-            long t_fin = System.currentTimeMillis();
+            execTime = System.currentTimeMillis() - t_ini;
 
             // Shows information of the current run
-            System.out.println("Time: " + (t_fin - t_ini) + " ms.");
+            System.out.println("Time: " + execTime + " ms.");
 
             // Remove repeated rules
             previousPopulation = ga.getResult();
@@ -415,6 +424,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
         float auxX0, auxX1, auxX3, auxY;
         String contents;
         Instance aux = instances.get(0);
+        
 
         contents = "\n--------------------------------------------\n";
         contents += "|  Semantics for the continuous variables  |\n";

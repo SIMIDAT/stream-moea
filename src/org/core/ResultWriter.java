@@ -222,8 +222,9 @@ public final class ResultWriter {
     /**
      * It writes the summary results of the test quality measures, i.e., it only
      * writes the line with the average results.
+     * @param time_ms The execution time in milliseconds.
      */
-    public void writeTestSummaryResults() {
+    public void writeTestSummaryResults(long time_ms) {
         // this array stores the sum of the quality measures for the average
         ArrayList<Double> averages = new ArrayList<>();
         double numVars = 0.0;
@@ -241,7 +242,7 @@ public final class ResultWriter {
                 QualityMeasure q = (QualityMeasure) population.get(0).getMedidas().get(j);
                 content += "\t" + q.getShortName();
             }
-            content += "\n";
+            content += "\tExecTime_ms\n";
         }
 
         // Now, average the results of the test measures
@@ -259,18 +260,18 @@ public final class ResultWriter {
         for (Double d : averages) {
             content += sixDecimals.format(d / (double) population.size()) + "\t";
         }
-        content += "\n";
+        content += sixDecimals.format(time_ms) + "\n";
         Files.addToFile(pathTstSummary, content);
     }
 
     /**
      * It writes the results of the individuals in the files
      */
-    public void writeResults() {
+    public void writeResults(long time_ms) {
         writeRules();
         writeTrainingMeasures();
         writeTestFullResults();
-        writeTestSummaryResults();
+        writeTestSummaryResults(time_ms);
         firstTime = false;
     }
 
