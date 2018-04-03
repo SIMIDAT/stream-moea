@@ -53,7 +53,7 @@ public class EvaluatorDNF extends Evaluator<IndDNF> {
                 disparoFuzzy = 1;
 
                 // For each variable of the rule
-                for (int j = 0; j < sample.getTamano() && disparoFuzzy > 0; j++) {
+                for (int j = 0; j < sample.getSize() && disparoFuzzy > 0; j++) {
                     if (!sample.getCromElem(j).isNonParticipant()) {
                         // The variable participates
                         if (StreamMOEAEFEP.instancia.attribute(j).isNominal()) {
@@ -105,14 +105,14 @@ public class EvaluatorDNF extends Evaluator<IndDNF> {
         super.calculateMeasures(sample, confMatrix, isTrain);
 
         // Now, set individual as evaluated.
-        sample.setEvaluado(true);
+        sample.setEvaluated(true);
 
     }
 
     @Override
     public void doEvaluation(ArrayList<IndDNF> sample, boolean isTrain, GeneticAlgorithm<IndDNF> GA) {
         for(IndDNF ind : sample){
-            if(!ind.isEvaluado()){
+            if(!ind.isEvaluated()){
                 doEvaluation(ind, isTrain);
                 GA.TrialsPlusPlus();
                 ind.setNEval((int) GA.getTrials());

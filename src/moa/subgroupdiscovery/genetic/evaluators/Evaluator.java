@@ -81,29 +81,37 @@ public abstract class Evaluator<T extends Individual> {
     public void calculateMeasures(T sample, ContingencyTable confMatrix, boolean isTrain) {
         ArrayList<QualityMeasure> objs = sample.getObjs();
         if (isTrain) {
-            // Compute the objective quality measures
-            if (sample.getObjs().isEmpty()) {
-                objs.forEach((q) -> {
-                    // If it is empty, then the measures are not created, copy the default objects
-                    // from the objectives array
-                    sample.getObjs().add(q.clone());
-                });
-            }
+            
+             try {
+                sample.getMeasures().clear();
+                 
+                // Get all the quality measures available in the package qualitymeasures
+                ArrayList<QualityMeasure> measures = org.core.ClassLoader.getClasses();
 
-            for (QualityMeasure q : (ArrayList<QualityMeasure>) sample.getObjs()) {
-                if (!(q instanceof NULL)) {
-                    // Calculate if it is not the null measure.
-                    q.calculateValue(confMatrix);
+                // Calculates the value of each measure
+                measures.forEach(q -> {
                     try {
-                        // Check for errors in the measures, exit if they are detected
+                        q.calculateValue(confMatrix);
                         q.validate();
+                        sample.getMeasures().add(q);
+                        
+                        for(QualityMeasure p : (ArrayList<QualityMeasure>) sample.getObjs()){
+                            if(q.getClass().equals(p.getClass())){
+                                p.setValue(q.getValue());
+                            }
+                        }
+                        
                     } catch (InvalidRangeInMeasureException ex) {
-                        // If this exception occurred, then exit the program
+                        System.err.println("In test: ");
                         ex.showAndExit(this);
                     }
-                }
-            }
+                });
 
+            } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
+                Logger.getLogger(Evaluator.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("Classes not found in package quality measures");
+            }
+             
             // Compute the confidence
             sample.getConf().calculateValue(confMatrix);
 
@@ -119,7 +127,8 @@ public abstract class Evaluator<T extends Individual> {
                 ex.showAndExit(this);
             }
         } else {
-
+            sample.getMeasures().clear();
+            
             // Test the individual.
             try {
                 // Get all the quality measures available in the package qualitymeasures

@@ -273,7 +273,7 @@ public final class FastNonDominatedSorting extends DominanceComparator<Individua
             int i = front.size() - 1;
 
             for (int k = remain - 1; k >= 0; k--) {
-                resultPopulation.add(front.get(k));
+                resultPopulation.add(front.get(k).clone());
                 //poblac.get(clas).CopyIndiv(contador, instances.size(), getNumObjectives(), front.getIndiv(indices[i]));
                 i--;
                 counter++;

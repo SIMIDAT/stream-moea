@@ -43,7 +43,7 @@ public final class RandomInitialisationDNF extends InitialisationOperator<IndDNF
     @Override
     public IndDNF doInitialisation() {
         IndDNF toReturn = (IndDNF) baseElement.clone();
-        for (int i = 0; i < baseElement.getTamano(); i++) {
+        for (int i = 0; i < baseElement.getSize(); i++) {
             int number = baseElement.getCromElem(i).getGeneLenght();
             for (int j = 0; j < number; j++) {
                 toReturn.getCromElem(i).setGeneElem(j, Randomize.RandintClosed(0, 1) == 1);

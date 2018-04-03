@@ -51,12 +51,12 @@ public final class TwoPointCrossoverDNF extends CrossoverOperator<IndDNF> {
         children.add((IndDNF) parents.get(1).clone());
 
         // Get the two point of crossover
-        int xpoint1 = Randomize.Randint(0, parents.get(0).getTamano() - 1);
+        int xpoint1 = Randomize.Randint(0, parents.get(0).getSize() - 1);
         int xpoint2;
-        if (xpoint1 != parents.get(0).getTamano() - 1) {
-            xpoint2 = Randomize.Randint(xpoint1 + 1, parents.get(0).getTamano() - 1);
+        if (xpoint1 != parents.get(0).getSize() - 1) {
+            xpoint2 = Randomize.Randint(xpoint1 + 1, parents.get(0).getSize() - 1);
         } else {
-            xpoint2 = parents.get(0).getTamano() - 1;
+            xpoint2 = parents.get(0).getSize() - 1;
         }
 
         // Perform the crossover
@@ -69,7 +69,7 @@ public final class TwoPointCrossoverDNF extends CrossoverOperator<IndDNF> {
 
         // Set individuals as non-evaluated
         for(int i = 0; i < children.size(); i++){
-            children.get(i).setEvaluado(false);
+            children.get(i).setEvaluated(false);
         }
         
         return children;

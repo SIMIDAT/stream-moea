@@ -49,7 +49,7 @@ public class EvaluatorCAN extends Evaluator<IndCAN> {
         if (!sample.isEmpty()) {
             for (int i = 0; i < getData().size(); i++) {
                 disparoFuzzy = 1;
-                for (int j = 0; j < sample.getTamano() && disparoFuzzy > 0; j++) {
+                for (int j = 0; j < sample.getSize() && disparoFuzzy > 0; j++) {
                     if (getData().get(i).attribute(j).isNominal()) {
                         // Nominal Variable
                         Double val = getData().get(i).valueInputAttribute(j);
@@ -88,14 +88,14 @@ public class EvaluatorCAN extends Evaluator<IndCAN> {
         }
         // Calculate the measures and set as evaluated
         super.calculateMeasures(sample, confMatrix, isTrain);
-        sample.setEvaluado(true);
+        sample.setEvaluated(true);
 
     }
 
     @Override
     public void doEvaluation(ArrayList<IndCAN> sample, boolean isTrain, GeneticAlgorithm<IndCAN> GA) {
         for(IndCAN ind : sample){
-            if(! ind.isEvaluado()){
+            if(! ind.isEvaluated()){
                 doEvaluation(ind, isTrain);
                 GA.TrialsPlusPlus();
                 ind.setNEval((int) GA.getTrials());

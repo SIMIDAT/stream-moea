@@ -57,15 +57,15 @@ public final class BiasedInitialisationDNF extends InitialisationOperator<IndDNF
 
     @Override
     public IndDNF doInitialisation() {
-        Double maxVars = Math.floor(baseElement.getTamano() * varPct);
+        Double maxVars = Math.floor(baseElement.getSize() * varPct);
         int variablesToInitialise = Randomize.RandintClosed(1, maxVars.intValue());
-        boolean[] variablesInitialised = new boolean[baseElement.getTamano()];
+        boolean[] variablesInitialised = new boolean[baseElement.getSize()];
         
         IndDNF result = (IndDNF) baseElement.clone();
         for(int i = 0; i < variablesToInitialise; i++){
-            int variable = Randomize.Randint(0, baseElement.getTamano());
+            int variable = Randomize.Randint(0, baseElement.getSize());
             while(variablesInitialised[variable]){
-                variable = Randomize.Randint(0, baseElement.getTamano());
+                variable = Randomize.Randint(0, baseElement.getSize());
             }
             
             // A non-initialised variable has been selected, initialise it randomly

@@ -1,7 +1,7 @@
-/* 
+/*
  * The MIT License
  *
- * Copyright 2018 Ángel Miguel García Vico.
+ * Copyright 2018 agvico.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,39 +21,56 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package moa.subgroupdiscovery.genetic.operators.mutation;
 
-import moa.subgroupdiscovery.genetic.individual.IndDNF;
-import moa.subgroupdiscovery.genetic.operators.MutationOperator;
-import org.core.Randomize;
+package org.core;
 
 /**
  *
- * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
+ * @author Ángel Miguel García Vico (agvico@ujaen.es)
+ * @since JDK 8.0
  */
-public final class BiasedMutationDNF extends MutationOperator<IndDNF> {
+public final class Pair<K,V> {
 
-    @Override
-    public IndDNF doMutation(IndDNF source) {
-        IndDNF mutated = (IndDNF) source.clone();
-
-        double option = Randomize.RanddoubleClosed(0.0, 1.0);
-        if (option <= 0.5) {
-            // Erase variable
-            int var = Randomize.Randint(0, mutated.getSize());
-            mutated.getCromElem(var).NoTakeInitGene();
-
-        } else {
-            // Random change on the variable 
-            int var = Randomize.Randint(0, mutated.getSize());
-            for(int i = 0; i < mutated.getCromElem(var).getGeneLenght(); i++){
-                mutated.setCromGeneElem(var, i, Randomize.RandintClosed(0, 1) == 1);
-            }
-        }
-        
-        mutated.setEvaluated(false);
-        
-        return mutated;
+    protected K key;
+    protected V value;
+    
+    
+    public Pair(K key, V value){
+        this.key = key;
+        this.value = value;
     }
 
+    /**
+     * @return the key
+     */
+    public K getKey() {
+        return key;
+    }
+
+    /**
+     * @param key the key to set
+     */
+    public void setKey(K key) {
+        this.key = key;
+    }
+
+    /**
+     * @return the value
+     */
+    public V getValue() {
+        return value;
+    }
+
+    /**
+     * @param value the value to set
+     */
+    public void setValue(V value) {
+        this.value = value;
+    }
+    
+    public void put(K key, V value){
+        this.key = key;
+        this.value = value;
+    }
+    
 }
