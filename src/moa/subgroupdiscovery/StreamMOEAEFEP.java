@@ -38,6 +38,7 @@ import moa.core.Measurement;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 import moa.options.ClassOption;
 import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
+import moa.subgroupdiscovery.genetic.GeneticAlgorithmBuilder;
 import moa.subgroupdiscovery.genetic.Individual;
 import moa.subgroupdiscovery.genetic.individual.*;
 import moa.subgroupdiscovery.genetic.criteria.MaxEvaluationsStoppingCriteria;
@@ -70,7 +71,6 @@ import moa.subgroupdiscovery.genetic.operators.mutation.BiasedMutationDNF;
 import moa.subgroupdiscovery.genetic.operators.selection.BinaryTournamentSelection;
 import org.core.File;
 import org.core.ResultWriter;
-
 
 /**
  * Main Class of the algorithm Stream-MOEA
@@ -199,13 +199,12 @@ public class StreamMOEAEFEP extends AbstractClassifier {
      * The execution time on each run
      */
     private long execTime;
-    
+
     public static Instance instancia;
     public static InstancesHeader header;
     private String representation = "CAN";
     private GeneticAlgorithm ga;
     private Evaluator eval;
-    
 
     /**
      * Only for DEBUG purposes.
@@ -222,7 +221,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
 
     @Override
     public void resetLearningImpl() {
-        
+
         index = 0;
         dataChunk = new AutoExpandVector<>();
         EjClass = new ArrayList<>();
@@ -243,60 +242,46 @@ public class StreamMOEAEFEP extends AbstractClassifier {
                 header, true);                    // object of class Instance to get variables information
 
         // Genetic algorithm elements
-        CrossoverOperator cross;
-        MutationOperator mutation;
-        SelectionOperator selection;
-        DominanceComparator comparator;
-        StoppingCriteria stopCriteria;
-        ReinitialisationCriteria reInitCriteria;
-        InitialisationOperator initialisation;
-        InitialisationOperator reInit;
+        GeneticAlgorithmBuilder gaBuilder = new GeneticAlgorithmBuilder()
+                .setSelection(new BinaryTournamentSelection())
+                .setRanking(new FastNonDominatedSorting(true))
+                .setStopCriteria(new MaxGenerationsStoppingCriteria(maxGenerations.getValue()))
+                .setReinitCriteria(new NonEvolutionReInitCriteria(0.05, 10000, this.getModelContext().numClasses()))
+                .setPopulationLength(populationSize.getValue())
+                .setCrossoverProbability(((Double) crossPob.getValue()).floatValue())
+                .setMutationProbability(((Double) mutProb.getValue()).floatValue())
+                .setElitism(false)
+                .setDiversity(diversityMeasure);
 
         // *****************************************************************
         // Instantiation of the elements of the genetic algorithm
-        selection = new BinaryTournamentSelection();
-        comparator = new FastNonDominatedSorting(true);
-        //stopCriteria = new MaxEvaluationsStoppingCriteria(5000);
-        stopCriteria = new MaxGenerationsStoppingCriteria(maxGenerations.getValue()); 
-        reInitCriteria = new NonEvolutionReInitCriteria(0.05, 10000, this.getModelContext().numClasses()); // TODO:
-
         if (representation.equalsIgnoreCase("DNF")) {
-            ga = new GeneticAlgorithm<IndDNF>(populationSize.getValue(),
-                    ((Double) crossPob.getValue()).floatValue(),
-                    ((Double) mutProb.getValue()).floatValue(),
-                    false,
-                    new IndDNF(this.getModelContext().numInputAttributes(), period.getValue(), header, 0),
-                    this.getModelContext().numClasses());
-            initialisation = new BiasedInitialisationDNF((IndDNF) ga.getBaseElement(), 0.25, 0.75);
-            cross = new TwoPointCrossoverDNF();
-            mutation = new BiasedMutationDNF();
+            IndDNF base = new IndDNF(this.getModelContext().numInputAttributes(), period.getValue(), header, 0);
             eval = new EvaluatorWithTimeByMeasure<EvaluatorDNF>(dataChunk, new EvaluatorDNF(dataChunk), 5);
-            reInit = new CoverageBasedInitialisationDNF((IndDNF) ga.getBaseElement(), 0.25, dataChunk, ga);
-        } else {
-            ga = new GeneticAlgorithm<IndCAN>(populationSize.getValue(),
-                    ((Double) crossPob.getValue()).floatValue(),
-                    ((Double) mutProb.getValue()).floatValue(),
-                    false,
-                    new IndCAN(this.getModelContext().numInputAttributes(), period.getValue(), 0),
-                    this.getModelContext().numClasses());
 
-            initialisation = new BiasedInitialisationCAN((IndCAN) ga.getBaseElement(), 0.25, 0.75);
-            cross = new TwoPointCrossoverCAN();
-            mutation = new BiasedMutationCAN();
+            gaBuilder.setInitialisation(new BiasedInitialisationDNF(base, 0.25, 0.75))
+                    .setCrossover(new TwoPointCrossoverDNF())
+                    .setMutation(new BiasedMutationDNF())
+                    .setBaseElement(base)
+                    .setEvaluator(eval);
+        } else {
+            IndCAN base = new IndCAN(this.getModelContext().numInputAttributes(), period.getValue(), 0);
             eval = new EvaluatorWithTimeByMeasure<EvaluatorCAN>(dataChunk, new EvaluatorCAN(dataChunk), 5);
-            //eval = new EvaluatorWithTimeBoolean<EvaluatorCAN>(dataChunk, new EvaluatorCAN(dataChunk), 5);
-            reInit = new CoverageBasedInitialisationCAN((IndCAN) ga.getBaseElement(), 0.25, dataChunk, ga);
+
+            gaBuilder.setInitialisation(new BiasedInitialisationCAN(base, 0.25, 0.75))
+                    .setCrossover(new TwoPointCrossoverCAN())
+                    .setMutation(new BiasedMutationCAN())
+                    .setBaseElement(base)
+                    .setEvaluator(eval);
         }
 
-        ga.setCrossover(cross);
-        ga.setMutation(mutation);
-        ga.setSelection(selection);
-        ga.setEvaluator(eval);
-        ga.setRanking(comparator);
-        ga.setStopCriteria(stopCriteria);
-        ga.setReinitialisation(reInit);
-        ga.setInitialisation(initialisation);
-        ga.setReinitCriteria(reInitCriteria);
+        ga = gaBuilder.build();
+        
+        if (representation.equalsIgnoreCase("DNF")) { // The re-initialisation based on coverage needs an instance of the genetic algorithm
+            ga.setReinitialisation(new CoverageBasedInitialisationDNF((IndDNF) ga.getBaseElement(), 0.25, dataChunk, ga));
+        } else {
+            ga.setReinitialisation(new CoverageBasedInitialisationCAN((IndCAN) ga.getBaseElement(), 0.25, dataChunk, ga));
+        }
 
         // *****************************************************************
         // END instantiation of elements of genetic algorithm
@@ -424,7 +409,6 @@ public class StreamMOEAEFEP extends AbstractClassifier {
         float auxX0, auxX1, auxX3, auxY;
         String contents;
         Instance aux = instances.get(0);
-        
 
         contents = "\n--------------------------------------------\n";
         contents += "|  Semantics for the continuous variables  |\n";

@@ -70,7 +70,8 @@ public class ExperimentTest {
         //STAGGERGenerator stream = new STAGGERGenerator();
         //HyperplaneGenerator stream = new HyperplaneGenerator();
         //stream.numAttsOption.setValue(15);
-        stream.numNumericsOption.setValue(15);
+        stream.numNumericsOption.setValue(0);
+        stream.numNominalsOption.setValue(15);
       
         //ArffFileStream stream = new ArffFileStream("/home/sramirez/datasets/drift/real/elecNormNew.arff", -1);
         //ArffFileStream stream = new ArffFileStream("/home/sramirez/datasets/drift/real/covtypeNorm.arff", -1);

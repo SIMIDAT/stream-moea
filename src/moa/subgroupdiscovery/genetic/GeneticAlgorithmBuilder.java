@@ -23,6 +23,13 @@
  */
 package moa.subgroupdiscovery.genetic;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import moa.subgroupdiscovery.StreamMOEAEFEP;
 import moa.subgroupdiscovery.genetic.criteria.ReinitialisationCriteria;
 import moa.subgroupdiscovery.genetic.criteria.StoppingCriteria;
@@ -68,7 +75,7 @@ public class GeneticAlgorithmBuilder<T extends Individual> {
     /**
      * @param long_poblacion the long_poblacion to set
      */
-    public GeneticAlgorithmBuilder setLong_poblacion(int long_poblacion) {
+    public GeneticAlgorithmBuilder setPopulationLength(int long_poblacion) {
         this.long_poblacion = long_poblacion;
         return this;
     }
@@ -76,7 +83,7 @@ public class GeneticAlgorithmBuilder<T extends Individual> {
     /**
      * @param prob_crossover the prob_crossover to set
      */
-    public GeneticAlgorithmBuilder setProb_crossover(float prob_crossover) {
+    public GeneticAlgorithmBuilder setCrossoverProbability(float prob_crossover) {
         this.prob_crossover = prob_crossover;
         return this;
     }
@@ -84,7 +91,7 @@ public class GeneticAlgorithmBuilder<T extends Individual> {
     /**
      * @param prob_mutation the prob_mutation to set
      */
-    public GeneticAlgorithmBuilder setProb_mutation(float prob_mutation) {
+    public GeneticAlgorithmBuilder setMutationProbability(float prob_mutation) {
         this.prob_mutation = prob_mutation;
         return this;
     }
@@ -199,7 +206,8 @@ public class GeneticAlgorithmBuilder<T extends Individual> {
      * @return
      */
     public GeneticAlgorithm build() {
-
+        
+        // TODO: Set defaults to every element instead of exiting. Show warnings!
         GeneticAlgorithm ga = new GeneticAlgorithm(this.long_poblacion, this.prob_crossover, this.prob_mutation, this.elitism, this.baseElement, StreamMOEAEFEP.header.numClasses());
         
         if (crossover != null) {
@@ -256,6 +264,32 @@ public class GeneticAlgorithmBuilder<T extends Individual> {
         }
         
         return ga;
+    }
+    
+    
+    /**
+     * It builds a new genetic algorithm that reads the components from a file.
+     * 
+     * @param path
+     * @return 
+     */
+    public GeneticAlgorithm buildFromFile(String path){
+        // TODO: You need to finished this function.
+        try {
+            BufferedReader bf = new BufferedReader(new FileReader(path));
+            String line;
+            
+            while((line = bf.readLine()) != null){
+                StringTokenizer tokens = new StringTokenizer(line, "=");
+                
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GeneticAlgorithmBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(GeneticAlgorithmBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
     }
 
 }
