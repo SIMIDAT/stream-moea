@@ -76,7 +76,6 @@ public class NonEvolutionReInitCriteria extends ReinitialisationCriteria {
      * @param numClass  The number of class of the problem.
      */
     public NonEvolutionReInitCriteria(double pct, long max, int numClass) {
-        // TODO: It is necessary to add the previous population for all the classes.
         this.maxValue = max;
         this.pct = pct;
         this.max = ((Double) (maxValue * pct)).longValue();

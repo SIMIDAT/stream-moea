@@ -35,11 +35,22 @@ import moa.subgroupdiscovery.genetic.criteria.ReinitialisationCriteria;
 import moa.subgroupdiscovery.genetic.criteria.StoppingCriteria;
 import moa.subgroupdiscovery.genetic.dominancecomparators.DominanceComparator;
 import moa.subgroupdiscovery.genetic.evaluators.Evaluator;
+import moa.subgroupdiscovery.genetic.individual.IndCAN;
+import moa.subgroupdiscovery.genetic.individual.IndDNF;
 import moa.subgroupdiscovery.genetic.operators.CrossoverOperator;
 import moa.subgroupdiscovery.genetic.operators.InitialisationOperator;
 import moa.subgroupdiscovery.genetic.operators.MutationOperator;
 import moa.subgroupdiscovery.genetic.operators.SelectionOperator;
+import moa.subgroupdiscovery.genetic.operators.crossover.TwoPointCrossoverCAN;
+import moa.subgroupdiscovery.genetic.operators.crossover.TwoPointCrossoverDNF;
+import moa.subgroupdiscovery.genetic.operators.initialisation.BiasedInitialisationCAN;
+import moa.subgroupdiscovery.genetic.operators.initialisation.RandomInitialisationCAN;
+import moa.subgroupdiscovery.genetic.operators.initialisation.RandomInitialisationDNF;
+import moa.subgroupdiscovery.genetic.operators.mutation.BiasedMutationCAN;
+import moa.subgroupdiscovery.genetic.operators.mutation.BiasedMutationDNF;
+import moa.subgroupdiscovery.genetic.operators.selection.BinaryTournamentSelection;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
+import moa.subgroupdiscovery.qualitymeasures.WRAccNorm;
 
 /**
  * Builder class of genetic algorithm.
@@ -207,44 +218,79 @@ public class GeneticAlgorithmBuilder<T extends Individual> {
      */
     public GeneticAlgorithm build() {
         
-        // TODO: Set defaults to every element instead of exiting. Show warnings!
+        String WARN = "WARNING: ";
+        String ERR = "ERROR: ";
+        
+        if(this.long_poblacion < 3){
+            System.err.println(WARN + "Population length < 3. Default population lenght has been set value: 51");
+            this.long_poblacion = 51;
+        }
+        
+        if(this.prob_crossover < 0 || this.prob_crossover > 1){
+            System.err.println(WARN + "Crossover probability greater than 1 or lower than 0. Default crossover probability has been set: 0.6");
+            this.prob_crossover = 0.6f;
+        }
+        
+        if(this.prob_mutation <0 || this.prob_mutation > 1){
+            System.err.println(WARN + "Mutation probability greater than 1 or lower than 0. Default mutation probability has been set: 0.1");
+            this.prob_mutation = 0.1f;
+        }
+        
+       if(this.baseElement == null){
+           // If base element is null, we must stop.
+           System.err.println(ERR + "Base element not set. Please, set one.");
+           System.exit(2);
+       }
+        
         GeneticAlgorithm ga = new GeneticAlgorithm(this.long_poblacion, this.prob_crossover, this.prob_mutation, this.elitism, this.baseElement, StreamMOEAEFEP.header.numClasses());
         
         if (crossover != null) {
             ga.setCrossover(crossover);
         } else {
-            System.err.println("ERROR on building Genetic Algorithm: Crossover is null.");
-            System.exit(2);
+            if(baseElement instanceof IndCAN){
+                ga.setCrossover(new TwoPointCrossoverCAN());
+            } else {
+                ga.setCrossover(new TwoPointCrossoverDNF());
+            }
+            System.err.println(WARN + "Crossover not set. Setting two point crossover by default.");
         }
 
         if (diversity != null) {
             ga.setDiversity(diversity);
         } else {
-            System.err.println("ERROR on building Genetic Algorithm: Diversity measure is null.");
-            System.exit(2);
+            ga.setDiversity(new WRAccNorm());
+            System.err.println(WARN + "Diversity measure not set. Setting the default: WRACC_Norm");
         }
 
         if (evaluator != null) {
             ga.setEvaluator(evaluator);
         } else {
-            System.err.println("ERROR on building Genetic Algorithm: Evaluator is null.");
+            System.err.println(ERR + "Evaluator has not been set. Please, set one.");
             System.exit(2);
         }
 
         if (initialisation != null) {
             ga.setInitialisation(initialisation);
         } else {
-            System.err.println("ERROR on building Genetic Algorithm: Initialisation is null.");
-            System.exit(2);
+           if(baseElement instanceof IndCAN){
+               ga.setInitialisation(new RandomInitialisationCAN((IndCAN) baseElement));
+           } else {
+               ga.setInitialisation(new RandomInitialisationDNF((IndDNF) baseElement));
+           }
+            System.err.println(WARN + "Initialisation has not been set. Default random initialisation is set.");
         }
 
         if (mutation != null) {
             ga.setMutation(mutation);
         } else {
-            System.err.println("ERROR on building Genetic Algorithm: Mutation is null.");
-            System.exit(2);
+            if(baseElement instanceof IndCAN){
+                ga.setMutation(new BiasedMutationCAN());
+            } else {
+                ga.setMutation(new BiasedMutationDNF());
+            }
+            System.err.println(WARN + "Mutation operator has not been set. Default biased mutation is set.");
         }
-
+        
         ga.setRanking(ranking);
         ga.setReinitCriteria(reinitCriteria);
         ga.setReinitialisation(reinitialisation);
@@ -252,14 +298,15 @@ public class GeneticAlgorithmBuilder<T extends Individual> {
         if (selection != null) {
             ga.setSelection(selection);
         } else {
-            System.err.println("ERROR on building Genetic Algorithm: Selection operator is null.");
+            ga.setSelection(new BinaryTournamentSelection());
+            System.err.println(WARN + "Selection not set. Binary tournament selection has been set by default.");
             System.exit(2);
         }
 
         if (stopCriteria != null) {
             ga.setStopCriteria(stopCriteria);
         } else {
-            System.err.println("ERROR on building Genetic Algorithm: Stop Criteria is null.");
+            System.err.println(ERR + "Stopping criterion not set. You must set one.");
             System.exit(2);
         }
         
