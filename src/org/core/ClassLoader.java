@@ -24,49 +24,63 @@
 package org.core;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 
-
 /**
  * A Class to load the classes of the quality measures
- * 
+ *
  * @author Angel Miguel Garcia Vico <agvico at ujaen.es>
  */
 public class ClassLoader {
-    
+
     /**
-     * The package name. (Change if necessary)
+     * The names of the class of each quality measure that should be used.
+     *
+     * If you want to add new measures, add them to the
+     * moa.subgroupdiscovery.qualitymeasures package and after that, add the
+     * name of the class here in order to be used by the algorithm
      */
-    private static String pkg = "moa.subgroupdiscovery.qualitymeasures";
-    
-    
+    private static String[] measureClassNames = {"AUC",
+        "Accuracy",
+        "Confidence",
+        "Coverage",
+        "FPR",
+        "GMean",
+        "GrowthRate",
+        "IsGrowthRate",
+        "Jaccard",
+        "SuppDiff",
+        "Support",
+        "TNR",
+        "TPR",
+        "WRAcc",
+        "WRAccNorm"};
+
     /**
-     * Returns the classes that represents the quality measures that are available on the framework.
-     * 
-     * This measures are found on the src/moa/subgroupdiscovery/qualitymeasures folder under the package
-     * "qualitymeasures".
-     * 
-     * @return An ArrayList, with all the QualityMeasure classes of the measures.
-     * 
+     * Returns the classes that represents the quality measures that are
+     * available on the framework.
+     *
+     * This measures are found on the src/moa/subgroupdiscovery/qualitymeasures
+     * folder under the package "qualitymeasures".
+     *
+     * @return An ArrayList, with all the QualityMeasure classes of the
+     * measures.
+     *
      * @throws InstantiationException
      * @throws IllegalAccessException
-     * @throws ClassNotFoundException 
+     * @throws ClassNotFoundException
      */
     public static ArrayList<QualityMeasure> getClasses() throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-   
-        File root = new File("src/" + pkg.replace('.', '/'));
-        ArrayList<QualityMeasure> measures = new ArrayList<QualityMeasure>();
-        File[] listFiles = root.listFiles();
-        Arrays.sort(listFiles);
-        for (File i : listFiles) {
-            if(! i.getName().contains("Exception") && ! i.getName().contains("ClassLoader") && ! i.getName().contains("NULL") && ! i.getName().contains("ContingencyTable") && ! i.getName().contains("QualityMeasure")){
-                String fullyName = pkg + "." + i.getName().replaceAll(".java", "");
-                Class a = Class.forName(fullyName);
-                Object instance = a.newInstance();
-                measures.add((QualityMeasure) instance);
-            }
+        // Sort the array of class names 
+        Arrays.sort(measureClassNames, String.CASE_INSENSITIVE_ORDER);
+        ArrayList<QualityMeasure> measures = new ArrayList<>();
+        for (String i : measureClassNames) {
+            Class a = Class.forName(QualityMeasure.class.getPackage().getName() + "." + i);
+            Object instance = a.newInstance();
+            measures.add((QualityMeasure) instance);
         }
         return measures;
     }

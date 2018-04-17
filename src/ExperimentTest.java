@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package moa.subgroupdiscovery;
+
 
 import com.yahoo.labs.samoa.instances.Range;
 import java.io.IOException;
@@ -35,6 +35,7 @@ import moa.classifiers.Classifier;
 
 import moa.core.InstanceExample;
 import moa.core.TimingUtils;
+import moa.streams.InstanceStream;
 import moa.streams.generators.HyperplaneGenerator;
 import moa.streams.generators.LEDGenerator;
 import moa.streams.generators.RandomRBFGenerator;
@@ -44,7 +45,9 @@ import moa.streams.generators.SEAGenerator;
 import moa.streams.generators.STAGGERGenerator;
 import moa.streams.generators.cd.AbruptChangeGenerator;
 import moa.streams.generators.cd.GradualChangeGenerator;
+import moa.subgroupdiscovery.StreamMOEAEFEP;
 import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
+import moa.subgroupdiscovery.genetic.GeneticAlgorithmBuilder;
 import moa.subgroupdiscovery.genetic.criteria.MaxEvaluationsStoppingCriteria;
 import moa.subgroupdiscovery.genetic.individual.IndCAN;
 import moa.subgroupdiscovery.qualitymeasures.AUC;
@@ -61,17 +64,20 @@ public class ExperimentTest {
     
     public void run(int numInstances, boolean isTesting) {
         
-        Classifier learner = new StreamMOEAEFEP();
+    
         
-        //RandomRBFGenerator stream = new RandomRBFGenerator();
+        Classifier learner = new StreamMOEAEFEP();
+        ((StreamMOEAEFEP) learner).setParametersFromFile("param.txt");
+        RandomRBFGenerator stream = new RandomRBFGenerator();
         //SEAGenerator stream = new SEAGenerator();
-        RandomTreeGenerator stream = new RandomTreeGenerator();
+        //RandomTreeGenerator stream = new RandomTreeGenerator();
         //LEDGenerator stream = new LEDGenerator();
         //STAGGERGenerator stream = new STAGGERGenerator();
         //HyperplaneGenerator stream = new HyperplaneGenerator();
-        //stream.numAttsOption.setValue(15);
-        stream.numNumericsOption.setValue(0);
-        stream.numNominalsOption.setValue(15);
+        stream.numAttsOption.setValue(15);
+       
+        //stream.numNumericsOption.setValue(0);
+        //stream.numNominalsOption.setValue(15);
       
         //ArffFileStream stream = new ArffFileStream("/home/sramirez/datasets/drift/real/elecNormNew.arff", -1);
         //ArffFileStream stream = new ArffFileStream("/home/sramirez/datasets/drift/real/covtypeNorm.arff", -1);

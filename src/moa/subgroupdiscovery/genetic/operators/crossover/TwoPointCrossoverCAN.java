@@ -69,7 +69,7 @@ public final class TwoPointCrossoverCAN extends CrossoverOperator<IndCAN> {
         for (int i = 0; i < children.size(); i++) {
             children.get(i).setEvaluated(false);
         }
-
+        
         return children;
     }
 

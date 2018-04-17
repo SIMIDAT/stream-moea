@@ -150,7 +150,7 @@ public class GeneticAlgorithmBuilder<T extends Individual> {
     /**
      * @param ranking the ranking to set
      */
-    public GeneticAlgorithmBuilder setRanking(DominanceComparator ranking) {
+    public GeneticAlgorithmBuilder setDominanceComparator(DominanceComparator ranking) {
         this.ranking = ranking;
         return this;
     }
@@ -314,29 +314,5 @@ public class GeneticAlgorithmBuilder<T extends Individual> {
     }
     
     
-    /**
-     * It builds a new genetic algorithm that reads the components from a file.
-     * 
-     * @param path
-     * @return 
-     */
-    public GeneticAlgorithm buildFromFile(String path){
-        // TODO: You need to finished this function.
-        try {
-            BufferedReader bf = new BufferedReader(new FileReader(path));
-            String line;
-            
-            while((line = bf.readLine()) != null){
-                StringTokenizer tokens = new StringTokenizer(line, "=");
-                
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(GeneticAlgorithmBuilder.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(GeneticAlgorithmBuilder.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return null;
-    }
 
 }

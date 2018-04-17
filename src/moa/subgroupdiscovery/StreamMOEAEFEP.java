@@ -29,10 +29,18 @@ import com.github.javacliparser.FloatOption;
 import com.yahoo.labs.samoa.instances.DenseInstance;
 import com.yahoo.labs.samoa.instances.Instance;
 import com.yahoo.labs.samoa.instances.InstancesHeader;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import moa.classifiers.AbstractClassifier;
+import moa.classifiers.MultiClassClassifier;
 import moa.core.AutoExpandVector;
 import moa.core.Measurement;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
@@ -70,6 +78,7 @@ import moa.subgroupdiscovery.genetic.operators.mutation.BiasedMutationCAN;
 import moa.subgroupdiscovery.genetic.operators.mutation.BiasedMutationDNF;
 import moa.subgroupdiscovery.genetic.operators.selection.BinaryTournamentSelection;
 import org.core.File;
+import org.core.Randomize;
 import org.core.ResultWriter;
 
 /**
@@ -77,7 +86,7 @@ import org.core.ResultWriter;
  *
  * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public class StreamMOEAEFEP extends AbstractClassifier {
+public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClassifier {
 
     // OPTIONS FOR THE ALGORITHM
     /**
@@ -202,7 +211,11 @@ public class StreamMOEAEFEP extends AbstractClassifier {
 
     public static Instance instancia;
     public static InstancesHeader header;
-    private String representation = "CAN";
+    private static String representation = "CAN";
+
+    /**
+     * GENETIC ALGORITHM ELEMENTS
+     */
     private GeneticAlgorithm ga;
     private Evaluator eval;
 
@@ -221,6 +234,11 @@ public class StreamMOEAEFEP extends AbstractClassifier {
 
     @Override
     public void resetLearningImpl() {
+
+        double PCT_REINIT = 0.05;            // Percentage used for the re-initialisation criterion based on non-evolution of the population
+        double PCT_VARS_BIASED_INIT = 0.25;  // Maximum percentage of variables initialised when individuals are biased initialised
+        double PCT_INDS_BIASED_INIT = 0.75;  // On biased initialisation, the percentage of individuals that must be initialised following the biased initialisation
+        int SLIDING_WINDOW_SIZE = 5;         // The size of the sliding window used in evaluator that uses a sliding window model.
 
         index = 0;
         dataChunk = new AutoExpandVector<>();
@@ -244,9 +262,9 @@ public class StreamMOEAEFEP extends AbstractClassifier {
         // Genetic algorithm elements
         GeneticAlgorithmBuilder gaBuilder = new GeneticAlgorithmBuilder()
                 .setSelection(new BinaryTournamentSelection())
-                .setRanking(new FastNonDominatedSorting(true))
+                .setDominanceComparator(new FastNonDominatedSorting(true))
                 .setStopCriteria(new MaxGenerationsStoppingCriteria(maxGenerations.getValue()))
-                .setReinitCriteria(new NonEvolutionReInitCriteria(0.05, 10000, this.getModelContext().numClasses()))
+                .setReinitCriteria(new NonEvolutionReInitCriteria(PCT_REINIT, maxGenerations.getValue() * populationSize.getValue(), this.getModelContext().numClasses()))
                 .setPopulationLength(populationSize.getValue())
                 .setCrossoverProbability(((Double) crossPob.getValue()).floatValue())
                 .setMutationProbability(((Double) mutProb.getValue()).floatValue())
@@ -257,18 +275,18 @@ public class StreamMOEAEFEP extends AbstractClassifier {
         // Instantiation of the elements of the genetic algorithm
         if (representation.equalsIgnoreCase("DNF")) {
             IndDNF base = new IndDNF(this.getModelContext().numInputAttributes(), period.getValue(), header, 0);
-            eval = new EvaluatorWithTimeByMeasure<EvaluatorDNF>(dataChunk, new EvaluatorDNF(dataChunk), 5);
+            eval = new EvaluatorWithTimeByMeasure<EvaluatorDNF>(dataChunk, new EvaluatorDNF(dataChunk), SLIDING_WINDOW_SIZE);
 
-            gaBuilder.setInitialisation(new BiasedInitialisationDNF(base, 0.25, 0.75))
+            gaBuilder.setInitialisation(new BiasedInitialisationDNF(base, PCT_VARS_BIASED_INIT, PCT_INDS_BIASED_INIT))
                     .setCrossover(new TwoPointCrossoverDNF())
                     .setMutation(new BiasedMutationDNF())
                     .setBaseElement(base)
                     .setEvaluator(eval);
         } else {
             IndCAN base = new IndCAN(this.getModelContext().numInputAttributes(), period.getValue(), 0);
-            eval = new EvaluatorWithTimeByMeasure<EvaluatorCAN>(dataChunk, new EvaluatorCAN(dataChunk), 5);
+            eval = new EvaluatorWithTimeByMeasure<EvaluatorCAN>(dataChunk, new EvaluatorCAN(dataChunk), SLIDING_WINDOW_SIZE);
 
-            gaBuilder.setInitialisation(new BiasedInitialisationCAN(base, 0.25, 0.75))
+            gaBuilder.setInitialisation(new BiasedInitialisationCAN(base, PCT_VARS_BIASED_INIT, PCT_INDS_BIASED_INIT))
                     .setCrossover(new TwoPointCrossoverCAN())
                     .setMutation(new BiasedMutationCAN())
                     .setBaseElement(base)
@@ -276,7 +294,7 @@ public class StreamMOEAEFEP extends AbstractClassifier {
         }
 
         ga = gaBuilder.build();
-        
+
         if (representation.equalsIgnoreCase("DNF")) { // The re-initialisation based on coverage needs an instance of the genetic algorithm
             ga.setReinitialisation(new CoverageBasedInitialisationDNF((IndDNF) ga.getBaseElement(), 0.25, dataChunk, ga));
         } else {
@@ -438,6 +456,14 @@ public class StreamMOEAEFEP extends AbstractClassifier {
         });
 
         // Calculate the fuzzy intervals
+        /**
+         * The fuzzy intervals are generated by means of triangular fuzzy partitions.
+         * the minimum value of each variable corresponds to a belonging degree of 1 for the linguistic label number 0.
+         * The maximum value of each variable corresponds to a belonging degree of 1 for the linguistic label number l-1, where l is the number of labels used.
+         * 
+         * Linguistic labels 0 and l-1 must cover the whole range of real numbers. This means that triangular partitions of label 0 starts at minus infinity (-1 * Float.MAX_VALUE) to the minimum value. 
+         * The same is applied for the last label.
+         */
         int num_vars = aux.numInputAttributes();
         for (v = 0; v < num_vars; v++) {
             if (aux.attribute(v).isNumeric()) {
@@ -446,11 +472,19 @@ public class StreamMOEAEFEP extends AbstractClassifier {
                 contents += "Fuzzy sets parameters for variable " + aux.attribute(v).name() + ":\n";
                 for (etq = 0; etq < nLabels; etq++) {
                     valor = minis[v] + marca * (etq - 1);
-                    auxX0 = Round(((Double) valor).floatValue(), ((Double) maxis[v]).floatValue());
+                    if (etq == 0) {
+                        auxX0 = -1 * Float.MAX_VALUE;
+                    } else {
+                        auxX0 = Round(((Double) valor).floatValue(), ((Double) maxis[v]).floatValue());
+                    }
                     valor = minis[v] + marca * etq;
                     auxX1 = Round(((Double) valor).floatValue(), ((Double) maxis[v]).floatValue());
                     valor = minis[v] + marca * (etq + 1);
-                    auxX3 = Round(((Double) valor).floatValue(), ((Double) maxis[v]).floatValue());
+                    if (etq == nLabels - 1) {
+                        auxX3 = Float.MAX_VALUE;
+                    } else {
+                        auxX3 = Round(((Double) valor).floatValue(), ((Double) maxis[v]).floatValue());
+                    }
                     auxY = 1;
                     BaseDatos[v][etq] = new Fuzzy();
                     BaseDatos[v][etq].setVal(auxX0, auxX1, auxX3, auxY);
@@ -499,4 +533,96 @@ public class StreamMOEAEFEP extends AbstractClassifier {
     public static QualityMeasure getDiversityMeasure() {
         return diversityMeasure;
     }
+
+    public static void setSeed(long seed) {
+        Randomize.setSeed(seed);
+    }
+
+    public static void setRepresentation(String rep) {
+        representation = rep;
+    }
+
+    /**
+     * This function sets all the necessary parameters of the Stream-MOEA
+     * algorithm by means of a parameters file. If a parameter is not set in the
+     * file, it is set the default value.
+     *
+     * @param path the path to the parameter file
+     */
+    public void setParametersFromFile(String path) {
+        // TODO: You need to finished this function.
+        try {
+            BufferedReader bf = new BufferedReader(new FileReader(path));
+            String line;
+
+            while ((line = bf.readLine()) != null) {
+                // Comments starts with a #
+                if (!line.startsWith("#")) {
+                    StringTokenizer tokens = new StringTokenizer(line, "[ \t\n\f\r]*=[ \t\n\f\r]*");
+                    String tok = tokens.nextToken();
+                    if (tok.equalsIgnoreCase("algorithm")) {
+                        tok = tokens.nextToken();
+                        if (!tok.equalsIgnoreCase("stream-moea")) {
+                            System.err.println("ERROR: Parameters file: 'algorithm' is incorrect.");
+                            System.exit(1);
+                        }
+                    } else if (tok.equalsIgnoreCase("seed")) {   // Seed of the genetic algorithm
+                        Randomize.setSeed(Long.parseLong(tokens.nextToken()));
+                    } else if (tok.equalsIgnoreCase("rulesrepresentation")) {  // The representation to use
+                        String a = tokens.nextToken();
+                        representation = a;
+                    } else if (tok.equalsIgnoreCase("nlabels")) { // The number of fuzzy labels
+                        int num = Integer.parseInt(tokens.nextToken());
+                        nLabel = num;
+                        nLabels.setValue(num);
+                    } else if (tok.equalsIgnoreCase("ngen")) {
+                        this.maxGenerations.setValue(Integer.parseInt(tokens.nextToken()));
+                    } else if (tok.equalsIgnoreCase("poplength")) {
+                        this.populationSize.setValue(Integer.parseInt(tokens.nextToken()));
+                    } else if (tok.equalsIgnoreCase("crossprob")) {
+                        this.crossPob.setValue(Double.parseDouble(tokens.nextToken()));
+                    } else if (tok.equalsIgnoreCase("mutprob")) {
+                        this.mutProb.setValue(Double.parseDouble(tokens.nextToken()));
+                    } else if (tok.equalsIgnoreCase("period")) {
+                        this.period.setValue(Integer.parseInt(tokens.nextToken()));
+                    } else if (tok.equalsIgnoreCase("obj1")) {
+                        String className = tokens.nextToken();
+                        if (!className.equalsIgnoreCase("null")) {
+                            String klass = QualityMeasure.class.getPackage().getName() + "." + className;
+                            Class a = Class.forName(klass);
+                            QualityMeasure q = (QualityMeasure) a.newInstance();
+                            this.Obj1.setCurrentObject(q);
+                        } else {
+                            System.err.println("WARNING: NULL measure set as Obj1, using G-Mean as default.");
+                        }
+                    } else if (tok.equalsIgnoreCase("obj2")) {
+                        String className = tokens.nextToken();
+                        String klass = QualityMeasure.class.getPackage().getName() + "." + className;
+                        Class a = Class.forName(klass);
+                        QualityMeasure q = (QualityMeasure) a.newInstance();
+                        this.Obj2.setCurrentObject(q);
+                    } else if (tok.equalsIgnoreCase("obj3")) {
+                        String className = tokens.nextToken();
+                        String klass = QualityMeasure.class.getPackage().getName() + "." + className;
+                        Class a = Class.forName(klass);
+                        QualityMeasure q = (QualityMeasure) a.newInstance();
+                        this.Obj3.setCurrentObject(q);
+                    } else {
+                        System.err.println("ERROR: '" + tok + "' is not a valid parameter");
+                        System.exit(1);
+                    }
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GeneticAlgorithmBuilder.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(1);
+        } catch (IOException ex) {
+            Logger.getLogger(GeneticAlgorithmBuilder.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(1);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(StreamMOEAEFEP.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(1);
+        }
+    }
+
 }

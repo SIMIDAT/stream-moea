@@ -42,7 +42,6 @@ public class Utils {
      */
     public static int getParamInt (StringTokenizer s) {
         String val = s.nextToken(); // skip "="
-        val = s.nextToken();
         return Integer.parseInt(val);
     }
 
@@ -55,7 +54,6 @@ public class Utils {
      */
     public static float getParamFloat (StringTokenizer s) {
         String val = s.nextToken(); // skip "="
-        val = s.nextToken();
         return Float.parseFloat(val);
     }
 

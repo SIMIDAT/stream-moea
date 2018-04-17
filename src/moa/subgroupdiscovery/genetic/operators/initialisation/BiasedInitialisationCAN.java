@@ -87,7 +87,7 @@ public final class BiasedInitialisationCAN extends InitialisationOperator<IndCAN
                 }
             }
         }
-
+        
         return result;
     }
 

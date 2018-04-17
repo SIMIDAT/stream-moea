@@ -125,6 +125,7 @@ public final class CoverageBasedInitialisationCAN extends InitialisationOperator
         }
 
         result.setClas(geneticAlgorithm.getCurrentClass());
+        
         return result;
     }
 

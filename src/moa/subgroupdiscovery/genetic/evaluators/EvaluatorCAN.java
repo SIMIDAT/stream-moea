@@ -32,7 +32,7 @@ import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
 
 /**
  * Evaluator for canonical representation based on fuzzy logic
- * 
+ *
  * @author agvico
  */
 public class EvaluatorCAN extends Evaluator<IndCAN> {
@@ -63,8 +63,14 @@ public class EvaluatorCAN extends Evaluator<IndCAN> {
                     } else {
                         // Numeric variable, do fuzzy computation
                         if (!data.get(i).isMissing(j) && sample.getCromElem(j) < StreamMOEAEFEP.nLabel) {
-                            float pertenencia = StreamMOEAEFEP.Fuzzy(j, sample.getCromElem(j), getData().get(i).valueInputAttribute(j));
-                            disparoFuzzy = Math.min(pertenencia, disparoFuzzy);
+                            //System.out.println(j + " --- "+ sample.getCromElem(j));
+                            try {
+                                float pertenencia = StreamMOEAEFEP.Fuzzy(j, sample.getCromElem(j), getData().get(i).valueInputAttribute(j));
+                                disparoFuzzy = Math.min(pertenencia, disparoFuzzy);
+                            } catch (ArrayIndexOutOfBoundsException ex) {
+                                System.err.println("ERROR: " + j + "  -----  " + sample.getCromElem(j) + "\nChromosome: " + sample.getChromosome().toString());
+                                System.exit(1);
+                            }
                         }
                     }
                 }
@@ -94,8 +100,8 @@ public class EvaluatorCAN extends Evaluator<IndCAN> {
 
     @Override
     public void doEvaluation(ArrayList<IndCAN> sample, boolean isTrain, GeneticAlgorithm<IndCAN> GA) {
-        for(IndCAN ind : sample){
-            if(! ind.isEvaluated()){
+        for (IndCAN ind : sample) {
+            if (!ind.isEvaluated()) {
                 doEvaluation(ind, isTrain);
                 GA.TrialsPlusPlus();
                 ind.setNEval((int) GA.getTrials());

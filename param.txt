@@ -1,0 +1,22 @@
+# This a comment. Comments starts with a '#' sign.
+algorithm=stream-moea
+#inputData = "iris-10-1tra.dat" "iris-10-1tra.dat" "iris-10-1tst.dat"
+#outputData = "iris-10-1tra_reg.txt" "iris-10-1tra_qua.txt" "iris-10-1tra_seg.txt" "iris-10-1tst_quac.txt"
+seed    =1
+RulesRepresentation     =          can
+nLabels = 3
+#nEval = 10000
+nGen = 20
+popLength = 20
+crossProb = 0.9
+mutProb = 0.04
+period = 3000
+#diversity = crowding
+#ReInitCob = yes
+#porcCob = 0.5
+Obj1 = GMean
+Obj2 = SuppDiff
+Obj3 = NULL
+#minCnf = 0.6
+#StrictDominance = yes
+#OnePerClass = no
