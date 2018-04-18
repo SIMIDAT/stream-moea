@@ -1,7 +1,7 @@
-/*
+/* 
  * The MIT License
  *
- * Copyright 2017 Angel Miguel Garcia Vico <agvico at ujaen.es>.
+ * Copyright 2018 Ángel Miguel García Vico.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,38 +23,46 @@
  */
 package moa.subgroupdiscovery.qualitymeasures;
 
+import org.core.exceptions.InvalidRangeInMeasureException;
 import moa.core.ObjectRepository;
-import moa.options.AbstractOptionHandler;
 import moa.tasks.TaskMonitor;
+import org.core.exceptions.InvalidMeasureComparisonException;
 
 /**
- * Confidence Quality Measure. It measures the precision of a pattern with respect
- * to the examples it covers.
+ * Confidence Quality Measure. It measures the precision of a pattern with
+ * respect to the examples it covers.
  * <p>
- * Ref.:
- * U. M. Fayyad, G. Piatetsky-Shapiro, and P. Smyth. From data mining to knowledge discovery: an overview. In Advances in knowledge discovery and data mining, pages 1–34. AAAI/MIT Press, 1996.
+ * Ref.: U. M. Fayyad, G. Piatetsky-Shapiro, and P. Smyth. From data mining to
+ * knowledge discovery: an overview. In Advances in knowledge discovery and data
+ * mining, pages 1–34. AAAI/MIT Press, 1996.
  * </p>
+ *
  * @author Angel Miguel Garcia Vico <agvico at ujaen.es>
  */
-public class Confidence extends AbstractOptionHandler implements QualityMeasure{
-    
-    public String name = "Confidence";
-    public double value;
+public final class Confidence extends QualityMeasure {
 
-    @Override
-    public double getValue(ContingencyTable t) {
-       name = "Confidence";
-       value = (double) t.getTp() / (double) (t.getTp() + t.getFp());
-       return value;
+    public Confidence() {
+        super.name = "Confidence";
+        super.short_name = "CONF";
+        super.value = 0.0;
     }
 
     @Override
-    public boolean validate(double value) {
-        return value <= 1.0 && value >= 0.0;
+    public double calculateValue(ContingencyTable t) {
+        table = t;
+        if (t.getTp() + t.getFp() == 0) {
+            setValue(0.0);
+        } else {
+            setValue((double) t.getTp() / (double) (t.getTp() + t.getFp()));
+        }
+        return value;
     }
 
     @Override
-    protected void prepareForUseImpl(TaskMonitor arg0, ObjectRepository arg1) {
+    public void validate() throws InvalidRangeInMeasureException {
+        if (!(value <= 1.0 && value >= 0.0) || Double.isNaN(value)) {
+            throw new InvalidRangeInMeasureException(this);
+        }
     }
 
     @Override
@@ -62,13 +70,35 @@ public class Confidence extends AbstractOptionHandler implements QualityMeasure{
     }
 
     @Override
-    public double getValue() {
-        return value;
+    public QualityMeasure clone() {
+        Confidence a = new Confidence();
+        a.setValue(this.value);
+
+        return a;
     }
 
     @Override
-    public String getName() {
-        return name;
+    protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
     }
-    
+
+    @Override
+    public int compareTo(QualityMeasure o) {
+        try {
+            if (!(o instanceof Confidence)) {
+                throw new InvalidMeasureComparisonException(this, o);
+            }
+
+            if (this.value < o.value) {
+                return -1;
+            } else if (this.value > o.value) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (InvalidMeasureComparisonException ex) {
+            ex.showAndExit(this);
+        }
+        return 0;
+    }
+
 }

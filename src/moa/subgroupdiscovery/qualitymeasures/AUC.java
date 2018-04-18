@@ -1,7 +1,7 @@
-/*
+/* 
  * The MIT License
  *
- * Copyright 2017 angel.
+ * Copyright 2018 Ángel Miguel García Vico.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,48 +23,90 @@
  */
 package moa.subgroupdiscovery.qualitymeasures;
 
+import org.core.exceptions.InvalidRangeInMeasureException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import moa.core.ObjectRepository;
-import moa.options.AbstractOptionHandler;
 import moa.tasks.TaskMonitor;
+import org.core.exceptions.InvalidMeasureComparisonException;
 
 /**
  *
- * @author angel
+ * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
-public class AUC extends AbstractOptionHandler implements QualityMeasure{
+public final class AUC extends QualityMeasure {
 
-    public double value;
-    public String name = "Area Under the Curve (AUC)";
-    
+    /**
+     * Default constructor
+     */
+    public AUC() {
+        super.name = "Area Under the Curve";
+        super.short_name = "AUC";
+        super.value = 0.0;
+    }
+
     @Override
-    public double getValue(ContingencyTable t) {
-        TPR tpr = new TPR();
-        FPR fpr = new FPR();
-        value = (1.0 + tpr.getValue(t) - fpr.getValue(t)) / 2.0;
+    public double calculateValue(ContingencyTable t) {
+        table = t;
+        try {
+            TPR tpr = new TPR();
+            tpr.calculateValue(t);
+            tpr.validate();
+
+            FPR fpr = new FPR();
+            fpr.calculateValue(t);
+            fpr.validate();
+
+            setValue((1.0 + tpr.value - fpr.value) / 2.0);
+
+        } catch (InvalidRangeInMeasureException ex) {
+            ex.showAndExit(this);
+        }
+
         return value;
+
     }
 
     @Override
-    public boolean validate(double value) {
-        return value >= 0.0 && value <= 1.0;
+    public void validate() throws InvalidRangeInMeasureException {
+        if (!(value >= 0.0 && value <= 1.0) || Double.isNaN(value)) {
+            throw new InvalidRangeInMeasureException(this);
+        }
     }
 
     @Override
-    protected void prepareForUseImpl(TaskMonitor arg0, ObjectRepository arg1) {
+    public QualityMeasure clone() {
+        AUC a = new AUC();
+        a.setValue(this.value);
+
+        return a;
     }
 
     @Override
-    public void getDescription(StringBuilder arg0, int arg1) {
+    public void getDescription(StringBuilder sb, int i) {
     }
 
     @Override
-    public double getValue() {
-        return value;
+    protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
     }
 
     @Override
-    public String getName() {
-        return name;
+    public int compareTo(QualityMeasure o) {
+        try {
+            if (!(o instanceof AUC)) {
+                throw new InvalidMeasureComparisonException(this, o);
+            }
+
+            if (this.value < o.value) {
+                return -1;
+            } else if (this.value > o.value) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (InvalidMeasureComparisonException ex) {
+            ex.showAndExit(this);
+        }
+        return 0;
     }
-    
 }

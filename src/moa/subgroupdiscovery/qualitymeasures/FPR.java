@@ -1,7 +1,7 @@
-/*
+/* 
  * The MIT License
  *
- * Copyright 2017 angel.
+ * Copyright 2018 Ángel Miguel García Vico.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,33 +23,39 @@
  */
 package moa.subgroupdiscovery.qualitymeasures;
 
+import org.core.exceptions.InvalidRangeInMeasureException;
 import moa.core.ObjectRepository;
-import moa.options.AbstractOptionHandler;
 import moa.tasks.TaskMonitor;
+import org.core.exceptions.InvalidMeasureComparisonException;
 
 /**
  *
  * @author angel
  */
-public class FPR extends AbstractOptionHandler implements QualityMeasure{
-    
-    public String name = "False Positive Rate";
-    public double value;
-    
+public final class FPR extends QualityMeasure {
+
+    public FPR() {
+        super.name = "False Positive Rate";
+        super.short_name = "FPR";
+        super.value = 1.0;
+    }
+
     @Override
-    public double getValue(ContingencyTable t) {
-        name = "False Positive Rate / Specificity";
-        value = (double) t.getFp() / (double) (t.getFp() + t.getTn());
+    public double calculateValue(ContingencyTable t) {
+        table = t;
+        if (t.getFp() + t.getTn() == 0) {
+            setValue(1.0);
+        } else {
+            setValue((double) t.getFp() / (double) (t.getFp() + t.getTn()));
+        }
         return value;
     }
 
     @Override
-    public boolean validate(double value) {
-        return value >= 0.0 && value <= 1.0;
-    }
-
-    @Override
-    protected void prepareForUseImpl(TaskMonitor arg0, ObjectRepository arg1) {
+    public void validate() throws InvalidRangeInMeasureException {
+        if (!(value >= 0.0 && value <= 1.0) || Double.isNaN(value)) {
+            throw new InvalidRangeInMeasureException(this);
+        }
     }
 
     @Override
@@ -57,13 +63,37 @@ public class FPR extends AbstractOptionHandler implements QualityMeasure{
     }
 
     @Override
-    public double getValue() {
-        return value;
+    public QualityMeasure clone() {
+        FPR a = new FPR();
+        a.setValue(this.value);
+
+        return a;
     }
 
     @Override
-    public String getName() {
-        return name;
+    protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
     }
-    
+
+    @Override
+    public int compareTo(QualityMeasure o) {
+        
+        // THIS MEASURES MUST BE MINIMISED !!!!
+        try {
+            if (!(o instanceof FPR)) {
+                throw new InvalidMeasureComparisonException(this, o);
+            }
+
+            if (this.value < o.value) {
+                return 1;
+            } else if (this.value > o.value) {
+                return -1;
+            } else {
+                return 0;
+            }
+        } catch (InvalidMeasureComparisonException ex) {
+            ex.showAndExit(this);
+        }
+        return 0;
+    }
+
 }

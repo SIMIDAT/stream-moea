@@ -1,7 +1,7 @@
-/*
+/* 
  * The MIT License
  *
- * Copyright 2017 agvico.
+ * Copyright 2018 Ángel Miguel García Vico.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,42 +23,57 @@
  */
 package moa.subgroupdiscovery.qualitymeasures;
 
+import org.core.exceptions.InvalidRangeInMeasureException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import moa.core.ObjectRepository;
-import moa.options.AbstractOptionHandler;
 import moa.tasks.TaskMonitor;
+import org.core.exceptions.InvalidMeasureComparisonException;
 
 /**
  *
  * @author agvico
  */
-public class WRAccNorm  extends AbstractOptionHandler implements QualityMeasure{
-    
-    public String name = "Normalized WRAcc";
-    public double value;
-    
+public final class WRAccNorm extends QualityMeasure {
+
+    public WRAccNorm() {
+        super.value = 0.0;
+        super.name = "Weighter Relative Accuracy (Normalised)";
+        super.short_name = "WRAcc_Norm";
+    }
+
     @Override
-    public double getValue(ContingencyTable t) {
-        double classPct = (double) (t.getTp() + t.getFn()) / t.getTotalExamples();
+    public double calculateValue(ContingencyTable t) {
+        table = t;
+        double classPct = 0.0;
+        if (t.getTotalExamples() != 0) {
+            classPct = (double) (t.getTp() + t.getFn()) / (double) t.getTotalExamples();
+        }
+
         double minUnus = (1.0 - classPct) * (0.0 - classPct);
         double maxUnus = classPct * (1.0 - classPct);
-        
-        if(maxUnus - minUnus != 0){
-            WRAcc unus = new WRAcc();
-            value = (unus.getValue(t) - minUnus) / (maxUnus - minUnus);
+
+        if (maxUnus - minUnus != 0) {
+            try {
+                WRAcc unus = new WRAcc();
+                unus.calculateValue(t);
+                unus.validate();
+                setValue((unus.value - minUnus) / (maxUnus - minUnus));
+            } catch (InvalidRangeInMeasureException ex) {
+                ex.showAndExit(this);
+            }
         } else {
-            value =  0.0;
+            setValue(0.0);
         }
-        
+
         return value;
     }
 
     @Override
-    public boolean validate(double value) {
-        return value >= 0.0 && value <= 1.0;
-    }
-
-    @Override
-    protected void prepareForUseImpl(TaskMonitor arg0, ObjectRepository arg1) {
+    public void validate() throws InvalidRangeInMeasureException {
+        if (!(value >= 0.0 && value <= 1.0) || Double.isNaN(value)) {
+            throw new InvalidRangeInMeasureException(this);
+        }
     }
 
     @Override
@@ -66,13 +81,36 @@ public class WRAccNorm  extends AbstractOptionHandler implements QualityMeasure{
     }
 
     @Override
-    public double getValue() {
-        return value;
+    public QualityMeasure clone() {
+        WRAccNorm a = new WRAccNorm();
+        a.name = this.name;
+        a.setValue(this.value);
+
+        return a;
     }
 
     @Override
-    public String getName() {
-       return name;
+    protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
     }
-    
+
+    @Override
+    public int compareTo(QualityMeasure o) {
+        try {
+            if (!(o instanceof WRAccNorm)) {
+                throw new InvalidMeasureComparisonException(this, o);
+            }
+
+            if (this.value < o.value) {
+                return -1;
+            } else if (this.value > o.value) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (InvalidMeasureComparisonException ex) {
+            ex.showAndExit(this);
+        }
+        return 0;
+    }
+
 }

@@ -1,7 +1,7 @@
-/*
+/* 
  * The MIT License
  *
- * Copyright 2017 Angel Miguel Garcia Vico <agvico at ujaen.es>.
+ * Copyright 2018 Ángel Miguel García Vico.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,8 @@
  * THE SOFTWARE.
  */
 package moa.subgroupdiscovery.qualitymeasures;
+
+import org.core.exceptions.InvalidContingencyTableException;
 
 /**
  * Class to represent a contingency table.
@@ -134,5 +136,15 @@ public class ContingencyTable {
     
     public String toString(){
         return "TP: " + tp + "  FP: " + fp + "  TN: " + tn + "  FP: " + fp;
+    }
+    
+    /**
+     * It checks if the contingency table is correctly created.
+     * @throws InvalidContingencyTableException 
+     */
+    public void validate() throws InvalidContingencyTableException{
+        if(tp < 0 || fp < 0 || tn < 0 || fn < 0){
+            throw new InvalidContingencyTableException(this);
+        }
     }
 }

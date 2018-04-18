@@ -1,7 +1,7 @@
-/*
+/* 
  * The MIT License
  *
- * Copyright 2017 Angel Miguel Garcia Vico <agvico at ujaen.es>.
+ * Copyright 2018 Ángel Miguel García Vico.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,44 +23,121 @@
  */
 package moa.subgroupdiscovery.qualitymeasures;
 
-import moa.options.OptionHandler;
-
+import java.io.Serializable;
+import org.core.exceptions.InvalidRangeInMeasureException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+import moa.options.AbstractOptionHandler;
 
 /**
  * Abstract class that represents an statistical quality measure
+ *
  * @author Angel Miguel Garcia Vico <agvico at ujaen.es>
  */
-public interface QualityMeasure extends OptionHandler{
-    
-   
+public abstract class QualityMeasure extends AbstractOptionHandler implements Cloneable, Serializable, Comparable<QualityMeasure> {
+
     /**
-     * It calculates the value of the given quality measure.
+     * @return the short_name
+     */
+    public String getShort_name() {
+        return short_name;
+    }
+
+    /**
+     * @return the table
+     */
+    public ContingencyTable getTable() {
+        return table;
+    }
+
+    /**
+     * The value of the quality measure
+     */
+    protected double value;
+
+    /**
+     * The name of the quality measure
+     */
+    protected String name;
+
+    /**
+     * The acronim of the quality measure
+     */
+    protected String short_name;
+    
+    /**
+     * The contingencyTable from the values are calculated
+     */
+    protected ContingencyTable table;
+
+    /**
+     * It calculates the value of the given quality measure by means of the
+     * given contingency table
+     *
      * @param t
-     * @return 
+     * @return
      */
-    public double getValue(ContingencyTable t);
-    
+    public abstract double calculateValue(ContingencyTable t);
+
     /**
-     * Return the last calculate value of the measure
-     * @return 
+     * Return the last calculated value of the measure
+     *
+     * @return
      */
-    public double getValue();
-    
+    public double getValue() {
+        return value;
+    }
+
     /**
-     * It checks that the value of the measure is within the domain of the measure
+     * @param value the value to set
+     */
+    public void setValue(double value) {
+        this.value = value;
+    }
+
+    /**
+     * It checks that the value of the measure is within the domain of the
+     * measure
+     *
      * @param value
-     * @return 
+     * @return
      */
-    public boolean validate(double value);
-    
-    @Override
-    public String toString();
-    
+    public abstract void validate() throws InvalidRangeInMeasureException;
+
     /**
-     * Returns the name of the quality measure
-     * @return 
+     * Returns a copy of this object
+     *
+     * @return
      */
-    public String getName();
+    @Override
+    public abstract QualityMeasure clone();
+
+    @Override
+    public String toString() {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setDecimalSeparator('.');
+        DecimalFormat sixDecimals = new DecimalFormat("0.000000", symbols);
+        return short_name + " = " + sixDecimals.format(value);
+    }
+
+    /**
+     * Returns the full name of the quality measure
+     *
+     * @return
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    public String getShortName() {
+        return short_name;
+    }
+
+    @Override
+    public abstract int compareTo(QualityMeasure o);
+
     
-   
+    
+    
 }
