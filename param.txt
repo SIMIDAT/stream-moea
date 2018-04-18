@@ -1,22 +1,32 @@
-# This a comment. Comments starts with a '#' sign.
-algorithm=stream-moea
-#inputData = "iris-10-1tra.dat" "iris-10-1tra.dat" "iris-10-1tst.dat"
-#outputData = "iris-10-1tra_reg.txt" "iris-10-1tra_qua.txt" "iris-10-1tra_seg.txt" "iris-10-1tst_quac.txt"
-seed    =1
-RulesRepresentation     =          can
+
+#This a comment. Comments starts with a '#' sign.
+
+algorithm = stream-moea
+inputData = dataset.arff
+seed = 1
+RulesRepresentation = dnf
 nLabels = 3
-#nEval = 10000
 nGen = 20
-popLength = 20
-crossProb = 0.9
-mutProb = 0.04
-period = 3000
-#diversity = crowding
-#ReInitCob = yes
-#porcCob = 0.5
+popLength = 51
+crossProb = 0.7
+mutProb = 0.1
+
+
+# The number of collected instances before starting the genetic algorithm.
+period = 2500
+
+# Use this to set the evaluator: "byMeasure" uses presence and objective values in previous timestamps. Other value use only presence in previous steps.
+Evaluator = byMeasure
+
+# The size of the sliding window to be used by the evaluator.
+SlidingWindowSize = 5
+
+# The objectives to be used in the genetic algorithm.
+# They must match with the name of the class that represent the quality measure
 Obj1 = GMean
-Obj2 = SuppDiff
+Obj2 = FPR
 Obj3 = NULL
-#minCnf = 0.6
-#StrictDominance = yes
-#OnePerClass = no
+
+# The diversity measure to be used. Useful for process like Token Competition.
+diversity = WRAccNorm
+

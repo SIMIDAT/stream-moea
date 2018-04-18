@@ -148,7 +148,7 @@ public final class ResultWriter {
         content += "Timestamp " + StreamMOEAEFEP.getTimestamp() + ":\n";
 
         // Write the header (the consequent first, and next, the objective quality measures, finaly, the diversity measure)
-        content += "Rule\tConsequent";
+        content += "Rule\tID\tConsequent";
         for (QualityMeasure q : (ArrayList<QualityMeasure>) population.get(0).getObjs()) {
             content += "\t" + q.getShortName();
         }
@@ -157,7 +157,7 @@ public final class ResultWriter {
 
         // Now, for each individual, writes the training measures
         for (int i = 0; i < population.size(); i++) {
-            content += i + "\t" + inst.outputAttribute(0).value(population.get(i).getClas()) + "\t";
+            content += i + "\t" + population.get(i).hashCode() + "\t" + inst.outputAttribute(0).value(population.get(i).getClas()) + "\t";
             for (QualityMeasure q : (ArrayList<QualityMeasure>) population.get(i).getObjs()) {
                 content += sixDecimals.format(q.getValue()) + "\t";
             }

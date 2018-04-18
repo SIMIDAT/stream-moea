@@ -22,9 +22,13 @@
  * THE SOFTWARE.
  */
 
-
+import com.github.javacliparser.IntOption;
+import com.yahoo.labs.samoa.instances.InstancesHeader;
 import com.yahoo.labs.samoa.instances.Range;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +39,7 @@ import moa.classifiers.Classifier;
 
 import moa.core.InstanceExample;
 import moa.core.TimingUtils;
+import moa.streams.ArffFileStream;
 import moa.streams.InstanceStream;
 import moa.streams.generators.HyperplaneGenerator;
 import moa.streams.generators.LEDGenerator;
@@ -58,63 +63,80 @@ import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 import moa.subgroupdiscovery.qualitymeasures.*;
 
 public class ExperimentTest {
-    
+
     public ExperimentTest() {
     }
-    
-    public void run(int numInstances, boolean isTesting) {
-        
-    
-        
-        Classifier learner = new StreamMOEAEFEP();
-        ((StreamMOEAEFEP) learner).setParametersFromFile("param.txt");
-        RandomRBFGenerator stream = new RandomRBFGenerator();
-        //SEAGenerator stream = new SEAGenerator();
-        //RandomTreeGenerator stream = new RandomTreeGenerator();
-        //LEDGenerator stream = new LEDGenerator();
-        //STAGGERGenerator stream = new STAGGERGenerator();
-        //HyperplaneGenerator stream = new HyperplaneGenerator();
-        stream.numAttsOption.setValue(15);
-       
-        //stream.numNumericsOption.setValue(0);
-        //stream.numNominalsOption.setValue(15);
-      
-        //ArffFileStream stream = new ArffFileStream("/home/sramirez/datasets/drift/real/elecNormNew.arff", -1);
-        //ArffFileStream stream = new ArffFileStream("/home/sramirez/datasets/drift/real/covtypeNorm.arff", -1);
-        //ArffFileStream stream = new ArffFileStream("/home/sramirez/datasets/drift/real/poker-lsn.arff", -1);
-        //ArffFileStream stream = new ArffFileStream("/home/sramirez/datasets/drift/artificial/sudden_drift_med.arff", -1);
-        //ArffFileStream stream = new ArffFileStream("/home/sramirez/datasets/drift/artificial/incremental_slow_med.arff", -1);
 
-        //ArffFileStream stream = new ArffFileStream("/home/sramirez/TEST_FUSINTER/datasets/spambase/spambase-10-1tra-weka.dat", -1);
-        //ArffFileStream stream = new ArffFileStream("/home/sramirez/datasets/drift/artificial/gradual_drift_100k.arff", -1);
-        //stream.numAttsOption.setValue(1000);
+    public void run(int numInstances, boolean isTesting) {
+        Classifier learner = new StreamMOEAEFEP();
+        String inputData = ((StreamMOEAEFEP) learner).setParametersFromFile("param.txt");
+        ArffFileStream stream = new ArffFileStream(inputData, -1);
         stream.prepareForUse();
-        
+
+        System.out.println("Using stream dataset named: " + stream.getHeader().getRelationName());
         learner.setModelContext(stream.getHeader());
         learner.prepareForUse();
-        
+
         int numberSamplesCorrect = 0;
         int numberSamples = 0;
         long evaluateStartTime = TimingUtils.getNanoCPUTimeOfCurrentThread();
         while (stream.hasMoreInstances() && numberSamples < numInstances) {
-            
+
             InstanceExample trainInst = stream.nextInstance();
-            /*if (isTesting) {
-                                if (learner.correctlyClassifies(trainInst.getData())){
-                                        numberSamplesCorrect++;
-                                }
-                        }
-                        numberSamples++;*/
             learner.trainOnInstance(trainInst);
             numberSamples++;
         }
-        double accuracy = 100.0 * (double) numberSamplesCorrect / (double) numberSamples;
         double time = TimingUtils.nanoTimeToSeconds(TimingUtils.getNanoCPUTimeOfCurrentThread() - evaluateStartTime);
-        System.out.println(numberSamples + " instances processed with " + accuracy + "% accuracy in " + time + " seconds.");
+        System.out.println(numberSamples + " instances processed in " + time + " seconds.");
+
     }
-    
+
     public static void main(String[] args) throws IOException {
         ExperimentTest exp = new ExperimentTest();
-        exp.run(52*2500, true);
+        exp.run(100000000, true);
+    }
+
+    /**
+     * It dinamycally creates the generator class specified at name.
+     *
+     * Note that some generators could only generate numeric data and only use
+     * the numAtts option.
+     *
+     * @param name The name of the class
+     * @param numAtts The total number of attributes
+     * @param numNumeric The number of numeric attributes
+     * @param numNominal The number of nominal attributes.
+     * @return The generator
+     *
+     */
+    public Object getGenerator(String name, int numAtts, int numNumeric, int numNominal) {
+        try {
+            // Call to ANY generator available in the moa.streams.generators package
+            // Instantiation of the generator
+            Class clazz = Class.forName("moa.streams.generators.RandomRBFGenerator");
+
+            Object generator = clazz.newInstance();
+            Method prepareForUse = generator.getClass().getMethod("prepareForUse", (Class<?>[]) null);
+            Method getHeader = generator.getClass().getMethod("getHeader", (Class<?>[]) null);
+            Method hasMoreInstances = generator.getClass().getMethod("hasMoreInstances", (Class<?>[]) null);
+            Method nextInstance = generator.getClass().getMethod("nextInstance", (Class<?>[]) null);
+            Method atts;
+
+            // Catch attributes to set the number of variables.
+            try {
+                Field numAttsOption = generator.getClass().getField("numAttsOption");
+                IntOption a = (IntOption) numAttsOption.get(generator);
+                a.setValue(15);
+                System.out.println("");
+            } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {
+                Logger.getLogger(ExperimentTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Field[] fields = generator.getClass().getFields();
+            System.out.println("Holaa");
+            return null;
+        } catch (NoSuchMethodException | SecurityException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(ExperimentTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }
