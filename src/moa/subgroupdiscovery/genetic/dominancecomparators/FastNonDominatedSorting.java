@@ -32,7 +32,7 @@ import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 
 /**
  * Fast-non dominated sorting algorithm presented in the NSGA-II algorithm
- * 
+ *
  * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
 public final class FastNonDominatedSorting extends DominanceComparator<Individual> {
@@ -44,7 +44,7 @@ public final class FastNonDominatedSorting extends DominanceComparator<Individua
 
     @Override
     public void doDominanceRanking(ArrayList<Individual> elements) {
-        
+
         fronts.clear();
         // dominateMe[i] contains the number of solutions dominating i        
         int[] dominateMe = new int[elements.size()];
@@ -170,23 +170,12 @@ public final class FastNonDominatedSorting extends DominanceComparator<Individua
         ArrayList<QualityMeasure> a1 = a.getObjs();
         ArrayList<QualityMeasure> b1 = b.getObjs();
         for (int i = 0; i < a1.size(); i++) {
-            //medidas = solution1.getMeasures();
-            value1 = a1.get(i).getValue();//medidas.getObjectiveValue(i));
-            //medidas = solution2.getMeasures();
-            value2 = b1.get(i).getValue();//medidas.getObjectiveValue(i);
             if (StrictDominance) {
-                if (value1 < value2) {
-                    flag = 1;
-                } else if (value1 > value2) {
-                    flag = -1;
-                } else {
-                    flag = 0;
-                }
+                flag = b1.get(i).compareTo(a1.get(i));
             } else {
-                if (value1 < value2) {
+                flag = b1.get(i).compareTo(a1.get(i));
+                if (flag == 0) {
                     flag = 1;
-                } else {
-                    flag = -1;
                 }
             }
 
@@ -199,6 +188,7 @@ public final class FastNonDominatedSorting extends DominanceComparator<Individua
             }
 
         }
+ 
 
         if (dominate1 == dominate2) {
             return 0; //No one dominate the other
@@ -214,7 +204,7 @@ public final class FastNonDominatedSorting extends DominanceComparator<Individua
         if (fronts.isEmpty()) {
             throw new UnsupportedOperationException("FastNonDominantedSorting: Return next population before the execution of the ranking!");
         }
-        
+
         int remain = tamPopulation;
         int index = 0;
         ArrayList<Individual> resultPopulation = new ArrayList<>();
@@ -341,7 +331,6 @@ public final class FastNonDominatedSorting extends DominanceComparator<Individua
 
             //ini = indices
             //fin = indices[pop.getNumIndiv() - 1];
-
             //medidas = pop.getIndiv(ini).getMeasures();
             objetiveMinn = ((QualityMeasure) front.get(0).getObjs().get(i)).getValue(); //medidas.getObjectiveValue(i);
             //medidas = pop.getIndiv(fin).getMeasures();
