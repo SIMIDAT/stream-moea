@@ -77,6 +77,7 @@ import moa.subgroupdiscovery.genetic.operators.initialisation.RandomInitialisati
 import moa.subgroupdiscovery.genetic.operators.mutation.BiasedMutationCAN;
 import moa.subgroupdiscovery.genetic.operators.mutation.BiasedMutationDNF;
 import moa.subgroupdiscovery.genetic.operators.selection.BinaryTournamentSelection;
+import moa.subgroupdiscovery.qualitymeasures.NULL;
 import org.core.File;
 import org.core.Randomize;
 import org.core.ResultWriter;
@@ -249,16 +250,18 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
         objectives.add((QualityMeasure) getPreparedClassOption(Obj1));
         objectives.add((QualityMeasure) getPreparedClassOption(Obj2));
         objectives.add((QualityMeasure) getPreparedClassOption(Obj3));
+        objectives.sort((x, y) -> {
+            if(x instanceof NULL)
+                return 1;
+            if(y instanceof NULL)
+                return -1;
+            return x.getShortName().compareTo(y.getShortName());
+        });
         diversityMeasure = (QualityMeasure) getPreparedClassOption(diversity);
         header = this.getModelContext();
 
         // Instantiate the result writer. Overwrite previous files???
-        writer = new ResultWriter("tra_qua.txt", // Training qm file
-                "tst_qua.txt", // Full test qm file
-                "tst_quaSumm.txt", // test qm file with only averages
-                "rules.txt", // Rule extracted file
-                previousPopulation, // population of results
-                header, true);                    // object of class Instance to get variables information
+        writer.setInstancesHeader(header);
 
         // Genetic algorithm elements
         GeneticAlgorithmBuilder gaBuilder = new GeneticAlgorithmBuilder()
@@ -583,6 +586,14 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
                         }
                     } else if (tok.equalsIgnoreCase("inputdata")) {
                         pathInputData = tokens.nextToken();
+                    } else if (tok.equalsIgnoreCase("outputdata")) {
+                        // For output data, we need 4 fields, separated by whitespaces: training measures, test measures for all rules, summary of test measure and rules file
+                        String tra = tokens.nextToken();
+                        String tst = tokens.nextToken();
+                        String tstSumm = tokens.nextToken();
+                        String rules = tokens.nextToken();
+
+                        this.writer = new ResultWriter(tra, tst, tstSumm, rules, null, null, true);
                     } else if (tok.equalsIgnoreCase("seed")) {   // Seed of the genetic algorithm
                         Randomize.setSeed(Long.parseLong(tokens.nextToken()));
                     } else if (tok.equalsIgnoreCase("rulesrepresentation")) {  // The representation to use
