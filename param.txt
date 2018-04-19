@@ -1,8 +1,17 @@
-
+# THIS IS A PARAMETER FILE FOR THE STREAM-MOEA ALGORITHM
 #This a comment. Comments starts with a '#' sign.
-
 algorithm = stream-moea
+
+# The input data, it must be a stream stored in an arff file. Other kinds of streams should be added in next versions.
 inputData = dataset.arff
+
+# The paths of the results files, separated by whitespaces, in this order: training QMs, test QMs for each rule, test QMs summary and rules.
+outputData = tra_qua.txt    tst_qua.txt     tst_quaSumm.txt     rules.txt
+
+# The number of collected instances before starting the genetic algorithm.
+period = 2500
+
+# Parameters of the genetic algorithm
 seed = 1
 RulesRepresentation = dnf
 nLabels = 3
@@ -11,9 +20,6 @@ popLength = 51
 crossProb = 0.7
 mutProb = 0.1
 
-
-# The number of collected instances before starting the genetic algorithm.
-period = 2500
 
 # Use this to set the evaluator: "byMeasure" uses presence and objective values in previous timestamps. Other value use only presence in previous steps.
 Evaluator = byMeasure

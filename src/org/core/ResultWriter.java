@@ -71,7 +71,7 @@ public final class ResultWriter {
     /**
      * The instance where the variables are obtained
      */
-    private final InstancesHeader inst;
+    private InstancesHeader inst;
 
     /**
      * The formatter of the numbers
@@ -290,6 +290,13 @@ public final class ResultWriter {
         if (this.population != null) {
             this.population.sort((x, y) -> Integer.compare(x.getClas(), y.getClas()));
         }
+    }
+
+    /**
+     * @param inst the inst to set
+     */
+    public void setInstancesHeader(InstancesHeader header) {
+        this.inst = header;
     }
 
 }
