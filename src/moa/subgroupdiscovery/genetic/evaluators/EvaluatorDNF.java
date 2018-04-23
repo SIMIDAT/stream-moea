@@ -59,7 +59,7 @@ public class EvaluatorDNF extends Evaluator<IndDNF> {
                         if (StreamMOEAEFEP.instancia.attribute(j).isNominal()) {
                             // Nominal Variable
                             Double value = getData().get(i).valueInputAttribute(j);
-                            if (sample.getCromGeneElem(j, value.intValue()) && !data.get(i).isMissing(j)) {
+                            if (! sample.getCromGeneElem(j, value.intValue()) && !data.get(i).isMissing(j)) {
                                 // The rule does not cover the example.
                                 disparoFuzzy = 0;
                             }

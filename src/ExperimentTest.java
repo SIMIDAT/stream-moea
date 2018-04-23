@@ -67,9 +67,9 @@ public class ExperimentTest {
     public ExperimentTest() {
     }
 
-    public void run(int numInstances, boolean isTesting) {
+    public void run(int numInstances, boolean isTesting, String paramFile) {
         Classifier learner = new StreamMOEAEFEP();
-        String inputData = ((StreamMOEAEFEP) learner).setParametersFromFile("param.txt");
+        String inputData = ((StreamMOEAEFEP) learner).setParametersFromFile(paramFile);
         ArffFileStream stream = new ArffFileStream(inputData, -1);
         stream.prepareForUse();
 
@@ -93,7 +93,7 @@ public class ExperimentTest {
 
     public static void main(String[] args) throws IOException {
         ExperimentTest exp = new ExperimentTest();
-        exp.run(100000000, true);
+        exp.run(100000000, true, args[0]);
     }
 
     /**

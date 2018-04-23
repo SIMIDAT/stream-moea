@@ -43,6 +43,7 @@ import moa.classifiers.AbstractClassifier;
 import moa.classifiers.MultiClassClassifier;
 import moa.core.AutoExpandVector;
 import moa.core.Measurement;
+import moa.core.SizeOf;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 import moa.options.ClassOption;
 import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
@@ -59,9 +60,13 @@ import moa.subgroupdiscovery.genetic.dominancecomparators.FastNonDominatedSortin
 import moa.subgroupdiscovery.genetic.evaluators.Evaluator;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorCAN;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorDNF;
-import moa.subgroupdiscovery.genetic.evaluators.EvaluatorWithTime;
-import moa.subgroupdiscovery.genetic.evaluators.EvaluatorWithTimeBoolean;
-import moa.subgroupdiscovery.genetic.evaluators.EvaluatorWithTimeByMeasure;
+import moa.subgroupdiscovery.genetic.evaluators.EvaluatorWithDecay;
+import moa.subgroupdiscovery.genetic.evaluators.EvaluatorWithDecayBasedOnDiversity;
+import moa.subgroupdiscovery.genetic.evaluators.EvaluatorWithDecayBasedOnPresence;
+import moa.subgroupdiscovery.genetic.evaluators.EvaluatorWithDecayBasedOnPreviousObjectives;
+import moa.subgroupdiscovery.genetic.filters.Filter;
+import moa.subgroupdiscovery.genetic.filters.MeasureFilter;
+import moa.subgroupdiscovery.genetic.filters.TokenCompetition;
 import moa.subgroupdiscovery.genetic.operators.CrossoverOperator;
 import moa.subgroupdiscovery.genetic.operators.InitialisationOperator;
 import moa.subgroupdiscovery.genetic.operators.MutationOperator;
@@ -77,6 +82,7 @@ import moa.subgroupdiscovery.genetic.operators.initialisation.RandomInitialisati
 import moa.subgroupdiscovery.genetic.operators.mutation.BiasedMutationCAN;
 import moa.subgroupdiscovery.genetic.operators.mutation.BiasedMutationDNF;
 import moa.subgroupdiscovery.genetic.operators.selection.BinaryTournamentSelection;
+import moa.subgroupdiscovery.qualitymeasures.Confidence;
 import moa.subgroupdiscovery.qualitymeasures.NULL;
 import org.core.File;
 import org.core.Randomize;
@@ -219,6 +225,7 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
     /**
      * GENETIC ALGORITHM ELEMENTS
      */
+    private GeneticAlgorithmBuilder gaBuilder = new GeneticAlgorithmBuilder();
     private GeneticAlgorithm ga;
     private Evaluator eval;
 
@@ -238,7 +245,7 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
     @Override
     public void resetLearningImpl() {
 
-        double PCT_REINIT = 0.05;            // Percentage used for the re-initialisation criterion based on non-evolution of the population
+        double PCT_REINIT = 0.25;            // Percentage used for the re-initialisation criterion based on non-evolution of the population
         double PCT_VARS_BIASED_INIT = 0.25;  // Maximum percentage of variables initialised when individuals are biased initialised
         double PCT_INDS_BIASED_INIT = 0.75;  // On biased initialisation, the percentage of individuals that must be initialised following the biased initialisation
 
@@ -251,10 +258,12 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
         objectives.add((QualityMeasure) getPreparedClassOption(Obj2));
         objectives.add((QualityMeasure) getPreparedClassOption(Obj3));
         objectives.sort((x, y) -> {
-            if(x instanceof NULL)
+            if (x instanceof NULL) {
                 return 1;
-            if(y instanceof NULL)
+            }
+            if (y instanceof NULL) {
                 return -1;
+            }
             return x.getShortName().compareTo(y.getShortName());
         });
         diversityMeasure = (QualityMeasure) getPreparedClassOption(diversity);
@@ -264,8 +273,7 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
         writer.setInstancesHeader(header);
 
         // Genetic algorithm elements
-        GeneticAlgorithmBuilder gaBuilder = new GeneticAlgorithmBuilder()
-                .setSelection(new BinaryTournamentSelection())
+        gaBuilder.setSelection(new BinaryTournamentSelection())
                 .setDominanceComparator(new FastNonDominatedSorting(true))
                 .setStopCriteria(new MaxGenerationsStoppingCriteria(maxGenerations.getValue()))
                 .setReinitCriteria(new NonEvolutionReInitCriteria(PCT_REINIT, maxGenerations.getValue() * populationSize.getValue(), this.getModelContext().numClasses()))
@@ -279,10 +287,12 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
         // Instantiation of the elements of the genetic algorithm
         if (representation.equalsIgnoreCase("DNF")) {
             IndDNF base = new IndDNF(this.getModelContext().numInputAttributes(), period.getValue(), header, 0);
-            if (evaluator.equalsIgnoreCase("bymeasure")) {
-                eval = new EvaluatorWithTimeByMeasure<EvaluatorDNF>(dataChunk, new EvaluatorDNF(dataChunk), SLIDING_WINDOW_SIZE);
+            if (evaluator.equalsIgnoreCase("byobjectives")) {
+                eval = new EvaluatorWithDecayBasedOnDiversity<EvaluatorDNF>(dataChunk, new EvaluatorDNF(dataChunk), SLIDING_WINDOW_SIZE);
+            } else if (evaluator.equalsIgnoreCase("bydiversity")) {
+                eval = new EvaluatorWithDecayBasedOnDiversity<EvaluatorDNF>(dataChunk, new EvaluatorDNF(dataChunk), SLIDING_WINDOW_SIZE);
             } else {
-                eval = new EvaluatorWithTimeBoolean<EvaluatorDNF>(dataChunk, new EvaluatorDNF(dataChunk), SLIDING_WINDOW_SIZE);
+                eval = new EvaluatorWithDecayBasedOnPresence<EvaluatorDNF>(dataChunk, new EvaluatorDNF(dataChunk), SLIDING_WINDOW_SIZE);
             }
 
             gaBuilder.setInitialisation(new BiasedInitialisationDNF(base, PCT_VARS_BIASED_INIT, PCT_INDS_BIASED_INIT))
@@ -292,10 +302,12 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
                     .setEvaluator(eval);
         } else {
             IndCAN base = new IndCAN(this.getModelContext().numInputAttributes(), period.getValue(), 0);
-            if (evaluator.equalsIgnoreCase("bymeasure")) {
-                eval = new EvaluatorWithTimeByMeasure<EvaluatorCAN>(dataChunk, new EvaluatorCAN(dataChunk), SLIDING_WINDOW_SIZE);
+            if (evaluator.equalsIgnoreCase("byobjectives")) {
+                eval = new EvaluatorWithDecayBasedOnPreviousObjectives<EvaluatorCAN>(dataChunk, new EvaluatorCAN(dataChunk), SLIDING_WINDOW_SIZE);
+            } else if (evaluator.equalsIgnoreCase("bydiversity")) {
+                eval = new EvaluatorWithDecayBasedOnDiversity(dataChunk, new EvaluatorCAN(dataChunk), SLIDING_WINDOW_SIZE);
             } else {
-                eval = new EvaluatorWithTimeBoolean(dataChunk, new EvaluatorCAN(dataChunk), SLIDING_WINDOW_SIZE);
+                eval = new EvaluatorWithDecayBasedOnPresence(dataChunk, new EvaluatorCAN(dataChunk), SLIDING_WINDOW_SIZE);
             }
 
             gaBuilder.setInitialisation(new BiasedInitialisationCAN(base, PCT_VARS_BIASED_INIT, PCT_INDS_BIASED_INIT))
@@ -316,6 +328,7 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
         // *****************************************************************
         // END instantiation of elements of genetic algorithm
         System.out.println("Executing the Stream-MOEA algorithm...");
+
     }
 
     public static ArrayList<QualityMeasure> getObjectivesArray() {
@@ -360,8 +373,8 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
                 writer.writeResults(execTime);
 
                 // Sets the rules in the evaluator if it is evaluator with time for streaming data
-                if (eval instanceof EvaluatorWithTime) {
-                    ((EvaluatorWithTime) eval).updateAppearance(previousPopulation, ga);
+                if (eval instanceof EvaluatorWithDecay) {
+                    ((EvaluatorWithDecay) eval).updateAppearance(previousPopulation, ga);
                 }
 
                 // Finally, sets in the genetic algorithm this population
@@ -380,7 +393,8 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
             }
 
             // initialize the genetic algorithm and set its parameters
-            System.out.println("Processing Time " + getTimestamp() + "...");
+            String str = "Processing Time " + getTimestamp() + "...";
+            System.out.print(str + "\r");
 
             // Initialise the genetic algorithm with the population in t-1
             long t_ini = System.currentTimeMillis();
@@ -388,15 +402,14 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
             execTime = System.currentTimeMillis() - t_ini;
 
             // Shows information of the current run
-            System.out.println("Time: " + execTime + " ms.");
-
+            //System.out.println("  Time: " + execTime + " ms.");
             // Remove repeated rules
             previousPopulation = ga.getResult();
             Set<Individual> repes = new HashSet<Individual>();
             repes.addAll(previousPopulation);
             previousPopulation.clear();
             previousPopulation.addAll(repes);
-            System.out.println("Rules generated: " + previousPopulation.size());
+            //System.out.println("  Rules generated: " + previousPopulation.size() + "\r");
 
             // Prepare next iteration
             dataChunk.clear();
@@ -645,6 +658,12 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
                         evaluator = tokens.nextToken();
                     } else if (tok.equalsIgnoreCase("slidingwindowsize")) {
                         SLIDING_WINDOW_SIZE = Integer.parseInt(tokens.nextToken());
+                    } else if (tok.equalsIgnoreCase("filter")) {
+                        String className = tokens.nextToken();
+                        String klass = Filter.class.getPackage().getName() + "." + className;
+                        Class a = Class.forName(klass);
+                        Filter f = (Filter) a.newInstance();
+                        gaBuilder.addFilter(f);
                     } else {
                         System.err.println("ERROR: '" + tok + "' is not a valid parameter");
                         System.exit(1);

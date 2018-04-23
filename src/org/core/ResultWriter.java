@@ -144,20 +144,21 @@ public final class ResultWriter {
      * It only writes the results of the objectives
      */
     public void writeTrainingMeasures() {
-        String content = "*************************************************\n";
-        content += "Timestamp " + StreamMOEAEFEP.getTimestamp() + ":\n";
+        String content = "";
+        if (firstTime) {
 
-        // Write the header (the consequent first, and next, the objective quality measures, finaly, the diversity measure)
-        content += "Rule\tID\tConsequent";
-        for (QualityMeasure q : (ArrayList<QualityMeasure>) population.get(0).getObjs()) {
-            content += "\t" + q.getShortName();
+            // Write the header (the consequent first, and next, the objective quality measures, finaly, the diversity measure)
+            content += "Timestamp\tRule\tID\tConsequent";
+            for (QualityMeasure q : (ArrayList<QualityMeasure>) population.get(0).getObjs()) {
+                content += "\t" + q.getShortName();
+            }
+            content += "\t" + population.get(0).getDiversityMeasure().getShortName() + "(Diversity)";
+            content += "\n";
         }
-        content += "\t" + population.get(0).getDiversityMeasure().getShortName() + "(Diversity)";
-        content += "\n";
-
+        
         // Now, for each individual, writes the training measures
         for (int i = 0; i < population.size(); i++) {
-            content += i + "\t" + population.get(i).hashCode() + "\t" + inst.outputAttribute(0).value(population.get(i).getClas()) + "\t";
+            content += sixDecimals.format(StreamMOEAEFEP.getTimestamp()) + "\t" + i + "\t" + population.get(i).hashCode() + "\t" + inst.outputAttribute(0).value(population.get(i).getClas()) + "\t";
             for (QualityMeasure q : (ArrayList<QualityMeasure>) population.get(i).getObjs()) {
                 content += sixDecimals.format(q.getValue()) + "\t";
             }
@@ -222,6 +223,7 @@ public final class ResultWriter {
     /**
      * It writes the summary results of the test quality measures, i.e., it only
      * writes the line with the average results.
+     *
      * @param time_ms The execution time in milliseconds.
      */
     public void writeTestSummaryResults(long time_ms) {

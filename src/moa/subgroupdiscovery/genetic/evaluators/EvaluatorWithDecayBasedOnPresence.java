@@ -29,28 +29,25 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import moa.subgroupdiscovery.StreamMOEAEFEP;
 import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 import moa.subgroupdiscovery.genetic.Individual;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
-import org.core.Pair;
 
 /**
- * Evaluator which consider, in addition to the appearance, the previous values
- * of the objectives measurements of the individual.
- *
- * Let X be the value of an objective measure in the current timestamp, then the
- * new X for this timestamp is:
- *
- * {@code X = X + X_t-i * 2^-i} if and only if {@code i} is equal to true.
- *
+ *  Evaluator which only considers wheter the individual appears or not in previous timestamps.
+ * 
+ *  The evaluation of the individuals is the following: let X be the value of any objective measure
+ * computed by the base evaluator {@code T} in the current timestamp t. Then, for each value from t-1 to t-{@code maxTime} it is calculated:
+ * 
+ * {@code decayFactor = 1 - sumatory(2^-i) for each i whose value is false; X *= decayfactor}
+ * 
  * @author Ángel Miguel García Vico (agvico@ujaen.es)
- * @param <T> The base evaluator (CAN or DNF)
+ * @param <T> The base evaluator
  * @since JDK 8.0
  */
-public class EvaluatorWithTimeByMeasure<T extends Evaluator> extends EvaluatorWithTime<T, Pair<Boolean, ArrayList<QualityMeasure>>> {
+public class EvaluatorWithDecayBasedOnPresence<T extends Evaluator> extends EvaluatorWithDecay<T, Boolean> {
 
-    public EvaluatorWithTimeByMeasure(ArrayList<Instance> data, T evaluator, int maximumAppearance) {
+    public EvaluatorWithDecayBasedOnPresence(ArrayList<Instance> data, T evaluator, int maximumAppearance) {
         super(data, evaluator, maximumAppearance);
     }
 
@@ -64,31 +61,17 @@ public class EvaluatorWithTimeByMeasure<T extends Evaluator> extends EvaluatorWi
 
         // All individuals in population are present in the previous population. The remaining, not.
         for (Individual ind : toProcess) {
-            ArrayDeque<Pair<Boolean, ArrayList<QualityMeasure>>> values = appearance.get(ind);
-
-            // This function is always called after the test phase. We stored the objective test values as
-            // the values of the QMs of the previous timestamps. This is because the objs array is modified
-            // due to the evaluation process that takes into account the previous timestamps.
-            ArrayList<QualityMeasure> objectiveValues = new ArrayList<>();
-            for (QualityMeasure q : (ArrayList<QualityMeasure>) ind.getMeasures()) {
-                for (QualityMeasure p : StreamMOEAEFEP.getObjectivesArray()) {
-                    if (q.getClass().equals(p.getClass())) {
-                        objectiveValues.add(q.clone());
-                    }
-                }
-            }
-
+            ArrayDeque<Boolean> values = appearance.get(ind);
             if (values != null) {
-                Pair<Boolean, ArrayList<QualityMeasure>> pair = new Pair<>(Boolean.TRUE, objectiveValues);
                 // the indivual was previously added. Update the structure
-                values.addFirst(pair);
+                values.addFirst(Boolean.TRUE);
                 if (values.size() > maxTime) {
                     values.removeLast();
                 }
             } else {
                 // new Individual. Add it to the hashmap
-                ArrayDeque<Pair<Boolean, ArrayList<QualityMeasure>>> toAdd = new ArrayDeque<>(maxTime);
-                toAdd.add(new Pair<>(Boolean.TRUE, objectiveValues));
+                ArrayDeque<Boolean> toAdd = new ArrayDeque<>(maxTime);
+                toAdd.add(Boolean.TRUE);
                 appearance.put(ind, toAdd);
             }
         }
@@ -99,8 +82,8 @@ public class EvaluatorWithTimeByMeasure<T extends Evaluator> extends EvaluatorWi
 
         for (Individual ind : notPresent) {
             if (!population.contains(ind)) {
-                ArrayDeque<Pair<Boolean, ArrayList<QualityMeasure>>> values = appearance.get(ind);
-                values.addFirst(new Pair<>(Boolean.FALSE, null));
+                ArrayDeque<Boolean> values = appearance.get(ind);
+                values.addFirst(Boolean.FALSE);
                 if (values.size() > maxTime) {
                     values.removeLast();
                 }
@@ -118,7 +101,7 @@ public class EvaluatorWithTimeByMeasure<T extends Evaluator> extends EvaluatorWi
     public void doEvaluation(ArrayList<Individual> sample, boolean isTrain, GeneticAlgorithm<Individual> GA) {
         // First, it evaluates all individuals
         for (Individual ind : sample) {
-            if (!ind.isEvaluated()) { // TODO: Check whether the evaluation of the whole population can be avoided
+            if (!ind.isEvaluated()) {
                 mainEvaluator.doEvaluation(ind, isTrain);
                 GA.TrialsPlusPlus();
                 ind.setNEval((int) GA.getTrials());
@@ -128,39 +111,31 @@ public class EvaluatorWithTimeByMeasure<T extends Evaluator> extends EvaluatorWi
         if (isTrain) {
             // Now, apply the decay factor to all individuals in the population
             for (Individual ind : sample) {
-                ArrayDeque<Pair<Boolean, ArrayList<QualityMeasure>>> aux = appearance.get(ind);
+                ArrayDeque<Boolean> aux = appearance.get(ind);
                 if (aux != null) {
-                    Iterator<Pair<Boolean, ArrayList<QualityMeasure>>> iterator = aux.iterator();
-
-                    // Creates the new objectives array for the individual.
-                    // Gets the measures from "medidas" array, because the objective array does not contain the real measure value
-                    ArrayList<QualityMeasure> newObjs = new ArrayList<>();
-                    for (QualityMeasure q : (ArrayList<QualityMeasure>) ind.getMeasures()) {
-                        for (QualityMeasure p : (ArrayList<QualityMeasure>) ind.getObjs()) {
-                            if (q.getClass().equals(p.getClass())) {
-                                newObjs.add(q.clone());
-                            }
-                        }
-                    }
+                    Iterator<Boolean> iterator = aux.iterator();
 
                     int exponent = -1;
-                    // now, for each element in the deque, if individual appeared on previous timestamps, 
-                    // The new objective value is the value of the objectives in the current timestamp plus the previous objectives values with their decai factor
+                    double decayFactor = 1.0;
+
+                    // Calculate the decay factor of this individual
                     while (iterator.hasNext()) {
-                        Pair<Boolean, ArrayList<QualityMeasure>> element = iterator.next();
-                        if (element.getKey()) {
-                            ArrayList<QualityMeasure> prevObjs = element.getValue();
+                        if (!iterator.next()) {
                             // The element was present, add to the decay factor
-                            for (int i = 0; i < prevObjs.size(); i++) {
-                                newObjs.get(i).setValue(newObjs.get(i).getValue() + prevObjs.get(i).getValue() * Math.pow(2, exponent));
-                            }
+                            decayFactor -= Math.pow(2, exponent);
                         }
                         exponent--;
                     }
 
-                    // Now, the new objective values for this individual are stored in newObjs
-                    ind.setObjs(newObjs);
-
+                    // Now, get indivual's objectives and apply the dacay factor to all of them
+                    for (QualityMeasure obj : (ArrayList<QualityMeasure>) ind.getObjs()) {
+                        if (obj.getValue() >= 0) {
+                            obj.setValue(obj.getValue() * decayFactor);
+                        } else {
+                            // if the value is negative, to make it worst we need to divide
+                            obj.setValue(obj.getValue() / decayFactor);
+                        }
+                    }
                 }
             }
 

@@ -30,6 +30,7 @@ import moa.subgroupdiscovery.genetic.criteria.ReinitialisationCriteria;
 import moa.subgroupdiscovery.genetic.criteria.StoppingCriteria;
 import moa.subgroupdiscovery.genetic.dominancecomparators.DominanceComparator;
 import moa.subgroupdiscovery.genetic.evaluators.Evaluator;
+import moa.subgroupdiscovery.genetic.filters.Filter;
 import moa.subgroupdiscovery.genetic.operators.CrossoverOperator;
 import moa.subgroupdiscovery.genetic.operators.InitialisationOperator;
 import moa.subgroupdiscovery.genetic.operators.MutationOperator;
@@ -76,6 +77,7 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
     private InitialisationOperator reinitialisation;
     private StoppingCriteria stopCriteria;
     private ReinitialisationCriteria reinitCriteria;
+    private ArrayList<Filter> filters;
 
     /**
      * Default constructor
@@ -218,7 +220,7 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
 
         } while (!stopCriteria.checkStopCondition(this)); // End of Evolutionary cycle
 
-        // Finally, perform a last evaluation of non-evaluated individuals (due to a re-init on the last generation, for example)
+        // Perform a last evaluation of non-evaluated individuals (due to a re-init on the last generation, for example)
         // Perform the ranking and return only the individuals that belongs to the Pareto Front (?)
         result = new ArrayList<>();
         for (int i = 0; i < StreamMOEAEFEP.header.numClasses(); i++) {
@@ -231,8 +233,15 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
             }
             result.addAll(ranking.getParetoFront());
         }
+        
+        // Finally, secuentally apply the filters to the result (if available)
+        if(! filters.isEmpty()){
+            for(Filter f : filters){
+                result = f.doFilter(result, this);
+            }
+        }
 
-        System.out.println("Generations: " + Gen + "   Evaluations: " + Trials);
+        //System.out.print(" Generations: " + Gen + "   Evaluations: " + Trials );
     }
 
     /**
@@ -522,5 +531,19 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
 
             poblac.get(ind.getClas()).add(ind);
         }
+    }
+
+    /**
+     * @return the filters
+     */
+    public ArrayList<Filter> getFilters() {
+        return filters;
+    }
+
+    /**
+     * @param filters the filters to set
+     */
+    public void setFilters(ArrayList<Filter> filters) {
+        this.filters = filters;
     }
 }
