@@ -23,7 +23,9 @@
  */
 package moa.subgroupdiscovery.genetic.operators.mutation;
 
+import java.util.ArrayList;
 import moa.subgroupdiscovery.StreamMOEAEFEP;
+import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 import moa.subgroupdiscovery.genetic.individual.IndCAN;
 import moa.subgroupdiscovery.genetic.operators.MutationOperator;
 import org.core.Randomize;
@@ -56,10 +58,20 @@ public final class BiasedMutationCAN extends MutationOperator<IndCAN> {
                 mutated.setCromElem(var, Randomize.RandintClosed(0, StreamMOEAEFEP.nLabel));
             }
         }
-        
+
         mutated.setEvaluated(false);
-        
+
         return mutated;
+    }
+
+    @Override
+    public ArrayList<IndCAN> doMutation(ArrayList<IndCAN> source, GeneticAlgorithm<IndCAN> ga) {
+        for (int i = 0; i < source.size(); i++) {
+            if (Randomize.RanddoubleClosed(0.0, 1.0) <= ga.getProb_mutation()) {
+                source.set(i, doMutation((IndCAN) source.get(i).clone()));
+            }
+        }
+        return source;
     }
 
 }

@@ -24,6 +24,7 @@
 package moa.subgroupdiscovery.genetic.operators;
 
 import java.util.ArrayList;
+import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 import moa.subgroupdiscovery.genetic.Individual;
 
 /**
@@ -47,5 +48,13 @@ public abstract class SelectionOperator<T extends Individual> {
      * @return 
      */
     public abstract T doSelection(ArrayList<T> elements);
+    
+    
+    /**
+     * Performs the selection operator over the given list of elements, it returns a whole population.
+     * @param elements
+     * @return 
+     */
+    public abstract ArrayList<T> doSelection(ArrayList<T> elements, GeneticAlgorithm<T> ga);
     
 }

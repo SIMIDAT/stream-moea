@@ -24,6 +24,7 @@
 package moa.subgroupdiscovery.genetic.operators.selection;
 
 import java.util.ArrayList;
+import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 import moa.subgroupdiscovery.genetic.Individual;
 import moa.subgroupdiscovery.genetic.operators.SelectionOperator;
 import org.core.Randomize;
@@ -68,6 +69,16 @@ public final class BinaryTournamentSelection extends SelectionOperator<Individua
         }
         
         return elements.get(winner);
+    }
+
+    @Override
+    public ArrayList<Individual> doSelection(ArrayList<Individual> elements, GeneticAlgorithm<Individual> ga) {
+        ArrayList<Individual> pop = new ArrayList<>();
+        for(int i = 0; i < ga.getLong_poblacion(); i++){
+            pop.add(doSelection(elements));
+        }
+        
+        return pop;
     }
 
 }

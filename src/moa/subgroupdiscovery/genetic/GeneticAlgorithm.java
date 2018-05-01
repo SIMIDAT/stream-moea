@@ -145,41 +145,17 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
                 currentClass = i;
 
                 // Selection
-                ArrayList<T> selected = new ArrayList<>();
-                for (int j = 0; j < getLong_poblacion(); j++) {
-                    selected.add((T) selection.doSelection(poblac.get(i)));
-                }
+                ArrayList<T> selected = selection.doSelection(poblac.get(i), this);
 
                 // Crossover
-                // The crossover must be changed. It should use the whole population and return an offspring.
-                // Now, the implementation of the GA depends on the type of crossover used.
-                for (int j = 0; j < selected.size(); j += crossover.getNumParents()) {
-                    // Add the required number of parents to an auxiliar array in order to perform the crossover
-                    ArrayList<T> cross = new ArrayList<>();
-                    for (int k = 0; k < crossover.getNumParents(); k++) {
-                        cross.add(selected.get((j + k) % selected.size())); // The last matches with the first if necessary
-                    }
-
-                    // Do the crossover if necessary
-                    if (Randomize.RanddoubleClosed(0.0, 1.0) <= getProb_crossover()) {
-                        offspring.get(i).addAll(crossover.doCrossover(cross));
-                    } else {
-                        offspring.get(i).addAll(cross);
-                    }
-                }
+                offspring.get(i).addAll(crossover.doCrossover(selected, this));
 
                 // Mutation 
-                for (int j = 0; j < offspring.get(i).size(); j++) {
-                    if (Randomize.RanddoubleClosed(0.0, 1.0) <= getProb_mutation()) {
-                        Individual mutated = mutation.doMutation(offspring.get(i).get(j));
-                        offspring.get(i).set(j, (T) mutated.clone());
-                    }
-                }
-
-                // Evaluates the offspring
-                //evaluator.doEvaluation(offspring.get(i), true, this);
+                offspring.set(i, mutation.doMutation(offspring.get(i), this));
+  
+                
                 // NOW, ADDITIONAL STUFF, SUCH AS DOMINANCE RANKING, ETC.
-                // Dominance ranking performance
+                // Dominance ranking performance (AND EVALUATION OF THE OFFSPRING (OR UNION)
                 if (ranking != null) {
                     union.get(i).addAll(poblac.get(i));
                     union.get(i).addAll(offspring.get(i));
