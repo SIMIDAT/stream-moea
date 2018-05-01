@@ -155,7 +155,7 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
   
                 
                 // NOW, ADDITIONAL STUFF, SUCH AS DOMINANCE RANKING, ETC.
-                // Dominance ranking performance (AND EVALUATION OF THE OFFSPRING (OR UNION)
+                // Dominance ranking performance (AND EVALUATION OF THE OFFSPRING (OR UNION))
                 if (ranking != null) {
                     union.get(i).addAll(poblac.get(i));
                     union.get(i).addAll(offspring.get(i));

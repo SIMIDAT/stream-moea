@@ -9,13 +9,13 @@ inputData = dataset.arff
 outputData = tra_qua.txt    tst_qua.txt     tst_quaSumm.txt     rules.txt
 
 # The number of collected instances before starting the genetic algorithm.
-period = 2500
+period = 30000
 
 # Parameters of the genetic algorithm
 seed = 1
 RulesRepresentation = can
 nLabels = 3
-nGen = 20
+nGen = 100
 popLength = 51
 crossProb = 0.7
 mutProb = 0.1

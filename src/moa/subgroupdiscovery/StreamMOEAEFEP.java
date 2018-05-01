@@ -59,6 +59,7 @@ import moa.subgroupdiscovery.genetic.dominancecomparators.DominanceComparator;
 import moa.subgroupdiscovery.genetic.dominancecomparators.FastNonDominatedSorting;
 import moa.subgroupdiscovery.genetic.evaluators.Evaluator;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorCAN;
+import moa.subgroupdiscovery.genetic.evaluators.EvaluatorCANImproved;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorDNF;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorWithDecay;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorWithDecayBasedOnDiversity;
@@ -307,7 +308,9 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
             } else if (evaluator.equalsIgnoreCase("bydiversity")) {
                 eval = new EvaluatorWithDecayBasedOnDiversity(dataChunk, new EvaluatorCAN(dataChunk), SLIDING_WINDOW_SIZE);
             } else {
-                eval = new EvaluatorWithDecayBasedOnPresence(dataChunk, new EvaluatorCAN(dataChunk), SLIDING_WINDOW_SIZE);
+                //eval = new EvaluatorWithDecayBasedOnPresence(dataChunk, new EvaluatorCAN(dataChunk), SLIDING_WINDOW_SIZE);
+                eval = new EvaluatorCANImproved(dataChunk, header, nLabel);
+                //eval = new EvaluatorCAN(dataChunk);
             }
 
             gaBuilder.setInitialisation(new BiasedInitialisationCAN(base, PCT_VARS_BIASED_INIT, PCT_INDS_BIASED_INIT))
@@ -400,7 +403,11 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
             long t_ini = System.currentTimeMillis();
             ga.run();
             execTime = System.currentTimeMillis() - t_ini;
-
+            /*System.out.println("");
+            System.out.println("Evaluation time with evaluator " + eval.getClass().getName() + " = " + execTime + " ms.");
+            System.out.println("Number of Trials: " + ga.getTrials());
+            System.exit(0);*/
+            
             // Shows information of the current run
             //System.out.println("  Time: " + execTime + " ms.");
             // Remove repeated rules
