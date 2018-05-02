@@ -9,13 +9,13 @@ inputData = dataset.arff
 outputData = tra_qua.txt    tst_qua.txt     tst_quaSumm.txt     rules.txt
 
 # The number of collected instances before starting the genetic algorithm.
-period = 30000
+period = 2500
 
 # Parameters of the genetic algorithm
 seed = 1
 RulesRepresentation = can
 nLabels = 3
-nGen = 100
+nGen = 110
 popLength = 51
 crossProb = 0.7
 mutProb = 0.1
@@ -39,4 +39,4 @@ diversity = WRAccNorm
 
 # The different filter applied at the end of the evolutionary process. It will be applied in 
 # order, i.e., the first one is applied over the result, then the second is applied over the result extracted from the first one and so on.
-filter = TokenCompetition
+#filter = TokenCompetition

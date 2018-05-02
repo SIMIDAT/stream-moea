@@ -61,6 +61,7 @@ import moa.subgroupdiscovery.genetic.evaluators.Evaluator;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorCAN;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorCANImproved;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorDNF;
+import moa.subgroupdiscovery.genetic.evaluators.EvaluatorDNFImproved;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorWithDecay;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorWithDecayBasedOnDiversity;
 import moa.subgroupdiscovery.genetic.evaluators.EvaluatorWithDecayBasedOnPresence;
@@ -308,9 +309,7 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
             } else if (evaluator.equalsIgnoreCase("bydiversity")) {
                 eval = new EvaluatorWithDecayBasedOnDiversity(dataChunk, new EvaluatorCAN(dataChunk), SLIDING_WINDOW_SIZE);
             } else {
-                //eval = new EvaluatorWithDecayBasedOnPresence(dataChunk, new EvaluatorCAN(dataChunk), SLIDING_WINDOW_SIZE);
-                eval = new EvaluatorCANImproved(dataChunk, header, nLabel);
-                //eval = new EvaluatorCAN(dataChunk);
+                eval = new EvaluatorWithDecayBasedOnPresence(dataChunk, new EvaluatorCAN(dataChunk), SLIDING_WINDOW_SIZE);
             }
 
             gaBuilder.setInitialisation(new BiasedInitialisationCAN(base, PCT_VARS_BIASED_INIT, PCT_INDS_BIASED_INIT))
@@ -407,6 +406,7 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
             System.out.println("Evaluation time with evaluator " + eval.getClass().getName() + " = " + execTime + " ms.");
             System.out.println("Number of Trials: " + ga.getTrials());
             System.exit(0);*/
+          
             
             // Shows information of the current run
             //System.out.println("  Time: " + execTime + " ms.");

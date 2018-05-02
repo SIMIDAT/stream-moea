@@ -152,8 +152,7 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
 
                 // Mutation 
                 offspring.set(i, mutation.doMutation(offspring.get(i), this));
-  
-                
+
                 // NOW, ADDITIONAL STUFF, SUCH AS DOMINANCE RANKING, ETC.
                 // Dominance ranking performance (AND EVALUATION OF THE OFFSPRING (OR UNION))
                 if (ranking != null) {
@@ -209,11 +208,13 @@ public class GeneticAlgorithm<T extends Individual> implements Serializable, Run
             }
             result.addAll(ranking.getParetoFront());
         }
-        
+
         // Finally, secuentally apply the filters to the result (if available)
-        if(! filters.isEmpty()){
-            for(Filter f : filters){
-                result = f.doFilter(result, this);
+        if (filters != null) {
+            if (!filters.isEmpty()) {
+                for (Filter f : filters) {
+                    result = f.doFilter(result, this);
+                }
             }
         }
 

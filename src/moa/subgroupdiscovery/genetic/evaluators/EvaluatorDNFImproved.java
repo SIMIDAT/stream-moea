@@ -30,19 +30,23 @@ import java.util.BitSet;
 import moa.subgroupdiscovery.StreamMOEAEFEP;
 import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 import moa.subgroupdiscovery.genetic.individual.IndCAN;
+import moa.subgroupdiscovery.genetic.individual.IndDNF;
 import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
 
 /**
- * Improved version of the {@link EvaluatorCAN} class to calculate the quality of a given individual or rule.
- * 
- * This improved version make use of a BitSet for each attribute-value pair in the population.
- * These BitSets contains information about whether a given examples is covered by the attribute value pair or not.
- * Therefore, the calculation the coverage of a rules is by means of bit operations among several BitSets.
- * 
+ * Improved version of the {@link EvaluatorDNF} class to calculate the quality
+ * of a given individual or rule.
+ *
+ * This improved version make use of a BitSet for each attribute-value pair in
+ * the population. These BitSets contains information about whether a given
+ * examples is covered by the attribute value pair or not. Therefore, the
+ * calculation the coverage of a rules is by means of bit operations among
+ * several BitSets.
+ *
  * @author Ángel Miguel García Vico (agvico@ujaen.es)
  * @since JDK 8.0
  */
-public class EvaluatorCANImproved extends Evaluator<IndCAN> {
+public class EvaluatorDNFImproved extends Evaluator<IndDNF> {
 
     /**
      * Coverage information for each attribute-pair on each example
@@ -53,18 +57,10 @@ public class EvaluatorCANImproved extends Evaluator<IndCAN> {
      * The classes the samples belongs to
      */
     private ArrayList<BitSet> classes;
-
-    /**
-     * The default constructor
-     *
-     * @param data The data itself
-     * @param dataInfo The information about the variables
-     * @param nLabels
-     */
-    public EvaluatorCANImproved(ArrayList<Instance> data, InstancesHeader dataInfo, int nLabels) {
+    
+    public EvaluatorDNFImproved(ArrayList<Instance> data, InstancesHeader dataInfo, int nLabels) {
         super(data);
         coverInformation = new ArrayList<>();
-
         // fill coverInformation with nulls according to the number of LLs or nominal variables it owns
         for (int i = 0; i < dataInfo.numInputAttributes(); i++) {
             coverInformation.add(new ArrayList<>());
@@ -82,34 +78,36 @@ public class EvaluatorCANImproved extends Evaluator<IndCAN> {
         // fill the classes array
         classes = new ArrayList<>();
         
-        // Add this lines for static data??
-        /*for (int i = 0; i < dataInfo.numClasses(); i++) {
-            classes.add(new BitSet(data.size()));
-        }
-        for (int i = 0; i < data.size(); i++) {
-            Instance inst = data.get(i);
-            classes.get(((Double) inst.classValue()).intValue()).set(i);
-        }*/
     }
-
+    
     @Override
-    public void doEvaluation(IndCAN sample, boolean isTrain) {
+    public void doEvaluation(IndDNF sample, boolean isTrain) {
         BitSet coverage = new BitSet(this.data.size());
         boolean first = true;
         if (!sample.isEmpty()) {
             for (int j = 0; j < sample.getSize(); j++) {
-                if (sample.getCromElem(j) < coverInformation.get(j).size()) {
-                    if (coverInformation.get(j).get(sample.getCromElem(j)) == null) {
-                        BitSet aux = initialiseBitSet(sample, j);
-                        coverInformation.get(j).set(sample.getCromElem(j), aux);
+                if (!sample.getCromElem(j).isNonParticipant()) {
+                    BitSet coverageWithinVariable = new BitSet(this.data.size());
+                    // for each element in the gene
+                    for (int k = 0; k < sample.getCromElem(j).getGeneLenght(); k++) {
+                        if (sample.getCromGeneElem(j, k) && coverInformation.get(j).get(k) == null) {
+                            BitSet aux = initialiseBitSet(sample, j, k);
+                            coverInformation.get(j).set(k, aux);
+                        }
+
+                        // active genes within the same variable: OR operation.
+                        if (sample.getCromGeneElem(j, k)) {
+                            coverageWithinVariable.or(coverInformation.get(j).get(k));
+                        }
                     }
 
-                    // At this point, all variables in the rules are initialised. Do the bitset computations
+                    // At this point, all variables in the rules are initialised. Do the bitset computation
+                    // AND between different variables.
                     if (first) {
-                        coverage.or(coverInformation.get(j).get(sample.getCromElem(j)));
+                        coverage.or(coverageWithinVariable);
                         first = false;
                     } else {
-                        coverage.and(coverInformation.get(j).get(sample.getCromElem(j)));
+                        coverage.and(coverageWithinVariable);
                     }
                 }
             }
@@ -127,25 +125,25 @@ public class EvaluatorCANImproved extends Evaluator<IndCAN> {
             
             BitSet tn = (BitSet) noCoverage.clone();
             tn.and(noClass);
-
+            
             BitSet fp = (BitSet) coverage.clone();
             fp.and(noClass);
-
+            
             BitSet fn = (BitSet) noCoverage.clone();
             fn.and(classes.get(sample.getClas()));
-
-            ContingencyTable confMatrix = new ContingencyTable(tp.cardinality(), fp.cardinality(), tn.cardinality(), fn.cardinality());
             
+            ContingencyTable confMatrix = new ContingencyTable(tp.cardinality(), fp.cardinality(), tn.cardinality(), fn.cardinality());
+
             // Calculate the measures and set as evaluated
             super.calculateMeasures(sample, confMatrix, isTrain);
             sample.setEvaluated(true);
         }
-
+        
     }
-
+    
     @Override
-    public void doEvaluation(ArrayList<IndCAN> sample, boolean isTrain, GeneticAlgorithm<IndCAN> GA) {
-        for (IndCAN ind : sample) {
+    public void doEvaluation(ArrayList<IndDNF> sample, boolean isTrain, GeneticAlgorithm<IndDNF> GA) {
+        for (IndDNF ind : sample) {
             if (!ind.isEvaluated()) {
                 doEvaluation(ind, isTrain);
                 GA.TrialsPlusPlus();
@@ -158,11 +156,12 @@ public class EvaluatorCANImproved extends Evaluator<IndCAN> {
      * Initialise an attribute-value pair. It returns a bitset that determines
      * whether a given sample is covered by the attribute-value pair or not.
      *
-     * @param sample
-     * @param position
+     * @param sample The individual to evaluate
+     * @param position The variable
+     * @param value The value within the variable
      * @return
      */
-    private BitSet initialiseBitSet(IndCAN sample, int position) {
+    private BitSet initialiseBitSet(IndDNF sample, int position, int value) {
         BitSet infoCovering = new BitSet(this.data.size());
 
         // If this value is null, it means that the att-value pair has not been initialised yet. Lets initialise
@@ -171,15 +170,15 @@ public class EvaluatorCANImproved extends Evaluator<IndCAN> {
                 // Nominal variable
                 Double val = getData().get(i).valueInputAttribute(position);
                 boolean missing = getData().get(i).isMissing(position);
-                if (val.intValue() == sample.getCromElem(position) || missing) {
+                if (val.intValue() == value || missing) {
                     infoCovering.set(i);
                 }
-
+                
             } else {
                 // Numeric variable
                 //System.out.println(j + " --- "+ sample.getCromElem(j));
                 try {
-                    float pertenencia = StreamMOEAEFEP.Fuzzy(position, sample.getCromElem(position), getData().get(i).valueInputAttribute(position));
+                    float pertenencia = StreamMOEAEFEP.Fuzzy(position, value, getData().get(i).valueInputAttribute(position));
                     if (pertenencia > 0 || data.get(i).isMissing(position)) {
                         infoCovering.set(i);
                     }
@@ -187,14 +186,14 @@ public class EvaluatorCANImproved extends Evaluator<IndCAN> {
                     System.err.println("ERROR: " + position + "  -----  " + sample.getCromElem(position) + "\nChromosome: " + sample.getChromosome().toString());
                     System.exit(1);
                 }
-
+                
             }
         }
-
+        
         return infoCovering;
-
+        
     }
-
+    
     @Override
     public void setData(ArrayList<Instance> data) {
         classes.clear();
@@ -206,5 +205,5 @@ public class EvaluatorCANImproved extends Evaluator<IndCAN> {
             classes.get(((Double) inst.classValue()).intValue()).set(i);
         }
     }
-
+    
 }

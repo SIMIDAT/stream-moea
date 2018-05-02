@@ -277,5 +277,7 @@ public class IndDNF extends Individual<GeneDNF> {
         
         return this.clas == other.clas;
     }
-
+    
+    
+  
 }
