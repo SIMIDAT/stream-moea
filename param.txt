@@ -15,8 +15,8 @@ period = 2500
 seed = 1
 RulesRepresentation = can
 nLabels = 3
-nGen = 110
-popLength = 51
+nGen = 20
+popLength = 26
 crossProb = 0.7
 mutProb = 0.1
 
@@ -39,4 +39,4 @@ diversity = WRAccNorm
 
 # The different filter applied at the end of the evolutionary process. It will be applied in 
 # order, i.e., the first one is applied over the result, then the second is applied over the result extracted from the first one and so on.
-#filter = TokenCompetition
+filter = TokenCompetition
