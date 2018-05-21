@@ -176,6 +176,7 @@ public final class ResultWriter {
         // this array stores the sum of the quality measures for the average
         ArrayList<Double> averages = new ArrayList<>();
         double numVars = 0.0;
+        
         for (QualityMeasure q : (ArrayList<QualityMeasure>) population.get(0).getMedidas()) {
             averages.add(0.0);
         }

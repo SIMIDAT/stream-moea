@@ -78,7 +78,9 @@ import moa.subgroupdiscovery.genetic.operators.crossover.TwoPointCrossoverDNF;
 import moa.subgroupdiscovery.genetic.operators.initialisation.BiasedInitialisationCAN;
 import moa.subgroupdiscovery.genetic.operators.initialisation.BiasedInitialisationDNF;
 import moa.subgroupdiscovery.genetic.operators.initialisation.CoverageBasedInitialisationCAN;
+import moa.subgroupdiscovery.genetic.operators.initialisation.CoverageBasedInitialisationCANWithTC;
 import moa.subgroupdiscovery.genetic.operators.initialisation.CoverageBasedInitialisationDNF;
+import moa.subgroupdiscovery.genetic.operators.initialisation.CoverageBasedInitialisationDNFWithTC;
 import moa.subgroupdiscovery.genetic.operators.initialisation.RandomInitialisationCAN;
 import moa.subgroupdiscovery.genetic.operators.initialisation.RandomInitialisationDNF;
 import moa.subgroupdiscovery.genetic.operators.mutation.BiasedMutationCAN;
@@ -290,7 +292,7 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
         if (representation.equalsIgnoreCase("DNF")) {
             IndDNF base = new IndDNF(this.getModelContext().numInputAttributes(), period.getValue(), header, 0);
             if (evaluator.equalsIgnoreCase("byobjectives")) {
-                eval = new EvaluatorWithDecayBasedOnDiversity<EvaluatorDNF>(dataChunk, new EvaluatorDNF(dataChunk), SLIDING_WINDOW_SIZE);
+                eval = new EvaluatorWithDecayBasedOnPreviousObjectives<EvaluatorDNF>(dataChunk, new EvaluatorDNF(dataChunk), SLIDING_WINDOW_SIZE);
             } else if (evaluator.equalsIgnoreCase("bydiversity")) {
                 eval = new EvaluatorWithDecayBasedOnDiversity<EvaluatorDNF>(dataChunk, new EvaluatorDNF(dataChunk), SLIDING_WINDOW_SIZE);
             } else {
@@ -322,9 +324,9 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
         ga = gaBuilder.build();
 
         if (representation.equalsIgnoreCase("DNF")) { // The re-initialisation based on coverage needs an instance of the genetic algorithm
-            ga.setReinitialisation(new CoverageBasedInitialisationDNF((IndDNF) ga.getBaseElement(), 0.25, dataChunk, ga));
+            ga.setReinitialisation(new CoverageBasedInitialisationDNFWithTC((IndDNF) ga.getBaseElement(), 0.25, dataChunk, ga));
         } else {
-            ga.setReinitialisation(new CoverageBasedInitialisationCAN((IndCAN) ga.getBaseElement(), 0.25, dataChunk, ga));
+            ga.setReinitialisation(new CoverageBasedInitialisationCANWithTC((IndCAN) ga.getBaseElement(), 0.25, dataChunk, ga));
         }
 
         // *****************************************************************
@@ -415,7 +417,7 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
             repes.addAll(previousPopulation);
             previousPopulation.clear();
             previousPopulation.addAll(repes);
-            //System.out.println("  Rules generated: " + previousPopulation.size() + "\r");
+            System.out.println("  Rules generated: " + previousPopulation.size() + "\r");
 
             // Prepare next iteration
             dataChunk.clear();

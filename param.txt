@@ -13,7 +13,7 @@ period = 2500
 
 # Parameters of the genetic algorithm
 seed = 1
-RulesRepresentation = can
+RulesRepresentation = dnf
 nLabels = 3
 nGen = 20
 popLength = 26

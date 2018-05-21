@@ -43,16 +43,16 @@ import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
  * @author Ángel Miguel García Vico (agvico@ujaen.es)
  * @since JDK 8.0
  */
-public class TokenCompetition extends Filter<Individual> {
+public class TokenCompetition<T extends Individual> extends Filter<T> {
 
     @Override
-    public ArrayList<Individual> doFilter(ArrayList<Individual> population, GeneticAlgorithm<Individual> ga) {
+    public ArrayList<T> doFilter(ArrayList<T> population, GeneticAlgorithm<T> ga) {
 
         // Sorts population by the diversity measure
-        population.sort(Comparator.comparing( (Individual ind) -> ind.getDiversityMeasure().getValue()).reversed());
+        population.sort(Comparator.comparing( (T ind) -> ind.getDiversityMeasure().getValue()).reversed());
         
 
-        ArrayList<Individual> rules = new ArrayList<>();
+        ArrayList<T> rules = new ArrayList<>();
         BitSet tokens = new BitSet(ga.getEvaluator().getData().size());
 
         int counter = 0;
@@ -80,6 +80,11 @@ public class TokenCompetition extends Filter<Individual> {
             counter++;
 
         } while (counter < population.size() && !allCovered);
+        
+        // When rules not cover ANY example (very weird case), returns the first rule.
+        if(rules.isEmpty()){
+            rules.add(population.get(0));
+        }
 
         return rules;
     }

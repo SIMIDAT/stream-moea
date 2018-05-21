@@ -1,0 +1,7700 @@
+*************************************************
+Timestamp 1:
+Rule 0:
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value5  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal5 = value1  value4  value6  value7  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal2 = value7  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal4 = value7  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal5 = value2  value3  value4  value6  value7  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal3 = value4  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal3 = value6  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal1 = value5  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal4 = value4  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal2 = value6  
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable nominal5 = value6  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 2:
+Rule 0:
+	Variable nominal2 = value7  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal1 = value1  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal4 = value6  
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal5 = value5  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal5 = value4  
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal4 = value4  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal5 = value6  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal2 = value3  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal4 = value7  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 3:
+Rule 0:
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal2 = value7  
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal2 = value4  
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal3 = value5  
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal2 = value2  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal5 = value2  
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal1 = value3  
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal4 = value7  
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal5 = value2  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 4:
+Rule 0:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal4 = value5  
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal3 = value3  
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal1 = value7  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal3 = value7  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal3 = value7  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal1 = value6  
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal3 = value1  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal5 = value2  value4  value5  value6  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal4 = value1  
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal2 = value5  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 5:
+Rule 0:
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal1 = value2  
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal3 = value3  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal3 = value5  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal2 = value3  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal3 = value7  
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal1 = value5  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal5 = value3  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 6:
+Rule 0:
+	Variable nominal1 = value2  
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value3  value5  
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value2  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal4 = value2  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal5 = value4  
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal3 = value7  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal1 = value6  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal4 = value1  value2  value6  value7  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal5 = value6  
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal1 = value4  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal3 = value7  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 7:
+Rule 0:
+	Variable nominal3 = value6  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal4 = value3  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal2 = value4  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal4 = value2  
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal5 = value7  
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal5 = value4  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal4 = value1  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class1
+
+
+Rule 9:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Consecuent: class1
+
+
+Rule 10:
+	Variable nominal3 = value5  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 11:
+	Variable nominal5 = value3  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class1
+
+
+Rule 12:
+	Variable nominal1 = value7  
+	Consecuent: class1
+
+
+Rule 13:
+	Variable nominal5 = value2  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal1 = value3  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable nominal1 = value3  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 16:
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 17:
+	Variable nominal1 = value4  
+	Consecuent: class2
+
+
+Rule 18:
+	Variable nominal5 = value5  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 8:
+Rule 0:
+	Variable nominal2 = value3  
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal1 = value2  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal5 = value6  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal1 = value5  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 4:
+	Variable nominal1 = value4  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 5:
+	Variable nominal2 = value5  
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 9:
+Rule 0:
+	Variable nominal2 = value1  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal1 = value1  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value5  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal5 = value3  
+	Consecuent: class1
+
+
+Rule 5:
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal5 = value3  
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal1 = value3  
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal4 = value3  
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal4 = value6  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 10:
+Rule 0:
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value2  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal4 = value7  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value7  
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal5 = value1  
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal1 = value2  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal2 = value5  
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal5 = value5  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal1 = value3  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal4 = value6  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal4 = value1  
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 11:
+Rule 0:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value3  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal1 = value2  
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal4 = value2  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal3 = value7  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal3 = value3  
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal4 = value1  
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal3 = value4  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal1 = value4  
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal1 = value6  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 12:
+Rule 0:
+	Variable nominal5 = value5  
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value6  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal3 = value2  
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal1 = value7  
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal1 = value1  
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal1 = value5  
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal2 = value3  
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal1 = value6  
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal2 = value5  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal2 = value2  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 13:
+Rule 0:
+	Variable nominal5 = value2  
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal3 = value7  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal2 = value4  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal4 = value1  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal5 = value5  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal4 = value3  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal5 = value4  
+	Consecuent: class1
+
+
+Rule 9:
+	Variable nominal4 = value7  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal2 = value2  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal3 = value6  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 14:
+Rule 0:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal1 = value6  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal1 = value2  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal5 = value6  
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 5:
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal4 = value1  
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal5 = value7  
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal5 = value6  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal5 = value3  
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal5 = value3  
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 15:
+Rule 0:
+	Variable nominal3 = value1  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal4 = value4  
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value3  
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal1 = value2  
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal4 = value5  
+	Consecuent: class1
+
+
+Rule 6:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal4 = value4  
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal3 = value2  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal4 = value6  
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal1 = value6  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal5 = value4  
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal1 = value5  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 16:
+Rule 0:
+	Variable nominal3 = value7  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal2 = value1  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value5  
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal3 = value7  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal5 = value7  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal1 = value6  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal2 = value2  
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 17:
+Rule 0:
+	Variable nominal2 = value4  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal3 = value4  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal3 = value4  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value6  
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 5:
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal2 = value1  value2  value3  value4  value5  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal3 = value5  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal1 = value5  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal4 = value4  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 18:
+Rule 0:
+	Variable nominal3 = value3  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal1 = value2  
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal3 = value1  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal5 = value1  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal4 = value3  
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal4 = value7  
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 9:
+	Variable nominal2 = value5  
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal2 = value2  
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal2 = value6  
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal5 = value5  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable nominal3 = value7  
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 16:
+	Variable nominal1 = value6  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 19:
+Rule 0:
+	Variable nominal5 = value5  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value1  
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal2 = value7  
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value2  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal4 = value5  
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal2 = value1  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal1 = value5  
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal4 = value3  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal1 = value6  
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal3 = value2  
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal5 = value6  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal2 = value3  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal5 = value4  
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 20:
+Rule 0:
+	Variable nominal4 = value6  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal3 = value5  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal3 = value3  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 4:
+	Variable nominal1 = value3  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 5:
+	Variable nominal5 = value1  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal5 = value2  
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal1 = value5  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal2 = value6  
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal4 = value6  
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 21:
+Rule 0:
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal2 = value4  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal5 = value2  value3  value7  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal2 = value5  
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal1 = value2  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal4 = value7  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal4 = value6  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal3 = value6  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 22:
+Rule 0:
+	Variable nominal5 = value2  
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value3  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal1 = value3  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 3:
+	Variable nominal2 = value3  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+Rule 4:
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 5:
+	Variable nominal1 = value4  
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal2 = value7  
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 23:
+Rule 0:
+	Variable nominal2 = value1  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal4 = value2  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal2 = value5  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal4 = value2  
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal1 = value6  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal3 = value2  
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal5 = value1  value3  value4  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	Label 1 (0.0 0.4999052 0.99977034)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 9:
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 10:
+	Variable nominal3 = value1  
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 11:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal5 = value2  value3  value4  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal1 = value1  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal2 = value2  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable nominal5 = value4  
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 16:
+	Variable nominal1 = value5  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 24:
+Rule 0:
+	Variable nominal5 = value2  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal4 = value3  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal2 = value4  
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal1 = value2  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal3 = value6  
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 5:
+	Variable nominal2 = value6  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal5 = value6  
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal1 = value5  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal5 = value2  
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal2 = value6  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal5 = value7  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 25:
+Rule 0:
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value1  
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal2 = value1  
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal2 = value2  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 5:
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal3 = value3  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal4 = value2  value3  value7  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal4 = value1  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal5 = value3  
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal4 = value2  
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 26:
+Rule 0:
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal4 = value2  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal3 = value6  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal4 = value4  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal5 = value5  
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal2 = value5  
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal3 = value2  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class1
+
+
+Rule 9:
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class1
+
+
+Rule 10:
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class1
+
+
+Rule 11:
+	Variable nominal5 = value5  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 12:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 13:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal2 = value5  
+	Consecuent: class2
+
+
+Rule 15:
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 16:
+	Variable nominal1 = value3  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class2
+
+
+Rule 17:
+	Variable nominal1 = value6  
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 18:
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 27:
+Rule 0:
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal4 = value1  
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal4 = value4  
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value6  
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal5 = value5  
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal5 = value5  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal1 = value4  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal4 = value1  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal4 = value3  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal3 = value1  
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal5 = value4  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 28:
+Rule 0:
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal1 = value2  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal2 = value1  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal2 = value7  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal1 = value5  
+	Consecuent: class2
+
+
+Rule 5:
+	Variable nominal5 = value4  
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal5 = value6  
+	Consecuent: class2
+
+
+Rule 7:
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal4 = value4  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal3 = value7  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal2 = value7  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal5 = value2  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal4 = value3  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 29:
+Rule 0:
+	Variable nominal2 = value1  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal3 = value6  
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value3  
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal2 = value7  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal5 = value3  
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal5 = value6  
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal5 = value6  
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal3 = value4  
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal3 = value6  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal3 = value7  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal4 = value6  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal5 = value1  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable nominal3 = value5  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 30:
+Rule 0:
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal5 = value6  
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal1 = value2  
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal1 = value6  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal3 = value6  
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal2 = value3  
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal1 = value1  
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal2 = value4  
+	Consecuent: class1
+
+
+Rule 9:
+	Variable nominal2 = value6  
+	Consecuent: class1
+
+
+Rule 10:
+	Variable nominal2 = value5  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal5 = value5  
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal5 = value3  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal5 = value5  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 31:
+Rule 0:
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal3 = value2  
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal1 = value2  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal5 = value2  
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal5 = value6  
+	Consecuent: class2
+
+
+Rule 7:
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal1 = value4  
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal2 = value5  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal5 = value7  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal2 = value2  
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 32:
+Rule 0:
+	Variable nominal4 = value4  
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal4 = value3  
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal5 = value7  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal2 = value1  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal5 = value3  
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 5:
+	Variable nominal5 = value6  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal4 = value4  
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal4 = value5  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 33:
+Rule 0:
+	Variable nominal4 = value4  
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal2 = value1  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal1 = value7  
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal1 = value6  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal5 = value4  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal2 = value6  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal3 = value3  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal5 = value6  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal4 = value6  
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal5 = value4  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 34:
+Rule 0:
+	Variable nominal1 = value2  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal1 = value2  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal3 = value6  
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal2 = value1  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal4 = value2  
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal4 = value4  
+	Consecuent: class1
+
+
+Rule 8:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal4 = value1  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal2 = value3  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 35:
+Rule 0:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal3 = value6  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal1 = value7  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal1 = value5  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal3 = value2  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal1 = value5  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal5 = value1  value3  value5  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	Label 1 (0.0 0.4999052 0.99977034)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal5 = value2  
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal5 = value4  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal5 = value1  
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 36:
+Rule 0:
+	Variable nominal2 = value7  
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal1 = value7  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal4 = value2  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal1 = value1  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal5 = value2  
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal1 = value6  
+	Consecuent: class2
+
+
+Rule 7:
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal3 = value2  
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal3 = value6  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal3 = value7  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal3 = value4  
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable nominal5 = value1  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 37:
+Rule 0:
+	Variable nominal2 = value1  
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal2 = value7  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal2 = value1  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal5 = value2  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal5 = value5  
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal1 = value5  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal1 = value4  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal4 = value7  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal3 = value7  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal5 = value2  value3  value4  value7  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal5 = value4  
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 38:
+Rule 0:
+	Variable nominal3 = value3  
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal5 = value4  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal1 = value2  
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal5 = value7  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal4 = value5  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal2 = value5  
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal1 = value7  
+	Consecuent: class1
+
+
+Rule 8:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal5 = value3  
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal5 = value2  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal2 = value3  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal1 = value3  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 39:
+Rule 0:
+	Variable nominal1 = value7  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal4 = value3  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal3 = value6  
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value1  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal2 = value6  
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal5 = value4  
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal1 = value2  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal2 = value5  
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal3 = value6  
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal1 = value6  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal2 = value6  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal3 = value6  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 40:
+Rule 0:
+	Variable nominal2 = value6  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal3 = value4  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal3 = value4  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value5  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal5 = value4  value6  value7  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal5 = value7  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal5 = value7  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal5 = value6  
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal5 = value4  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal1 = value3  
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal4 = value3  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 41:
+Rule 0:
+	Variable nominal4 = value5  
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal1 = value2  
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal5 = value7  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 42:
+Rule 0:
+	Variable nominal3 = value3  
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal2 = value1  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal5 = value5  value6  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal2 = value1  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal5 = value5  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal3 = value4  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal5 = value7  
+	Consecuent: class2
+
+
+Rule 10:
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 43:
+Rule 0:
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal2 = value7  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal4 = value2  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal4 = value5  
+	Consecuent: class2
+
+
+Rule 4:
+	Variable nominal5 = value7  
+	Consecuent: class2
+
+
+Rule 5:
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal4 = value3  
+	Consecuent: class2
+
+
+Rule 7:
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal3 = value2  
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal4 = value2  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal5 = value2  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal4 = value6  
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 44:
+Rule 0:
+	Variable nominal3 = value1  
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal1 = value7  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal3 = value7  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal5 = value5  
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal4 = value3  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal5 = value4  
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal4 = value5  
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal4 = value6  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 9:
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 10:
+	Variable nominal5 = value1  value2  value3  value7  
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal3 = value2  
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 45:
+Rule 0:
+	Variable nominal3 = value2  
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal1 = value2  
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal5 = value7  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal3 = value7  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal4 = value4  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal5 = value1  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal3 = value1  value4  value6  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal2 = value3  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal3 = value7  
+	Consecuent: class1
+
+
+Rule 9:
+	Variable nominal2 = value2  
+	Consecuent: class1
+
+
+Rule 10:
+	Variable nominal2 = value4  
+	Consecuent: class1
+
+
+Rule 11:
+	Variable nominal5 = value3  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal1 = value6  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal5 = value6  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal3 = value4  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable nominal4 = value1  
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 16:
+	Variable nominal4 = value3  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 46:
+Rule 0:
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal4 = value7  
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal4 = value2  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal4 = value3  
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal2 = value6  
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal4 = value1  
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal5 = value4  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal3 = value7  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal1 = value5  
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal1 = value7  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal2 = value3  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 47:
+Rule 0:
+	Variable nominal3 = value3  
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value4  
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal1 = value2  
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal2 = value5  
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal2 = value2  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal3 = value1  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal4 = value2  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal5 = value5  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 8:
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 9:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal2 = value5  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal5 = value1  
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal4 = value2  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class2
+
+
+Rule 16:
+	Variable nominal2 = value3  
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 48:
+Rule 0:
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value4  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal3 = value3  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal5 = value6  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal5 = value2  
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal3 = value6  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal3 = value6  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal2 = value4  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class1
+
+
+Rule 9:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 10:
+	Variable nominal5 = value4  
+	Consecuent: class1
+
+
+Rule 11:
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal4 = value7  
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal4 = value1  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal4 = value7  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable nominal5 = value6  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class2
+
+
+Rule 16:
+	Variable nominal4 = value4  
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 17:
+	Variable nominal5 = value2  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 18:
+	Variable nominal3 = value2  
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 19:
+	Variable nominal1 = value5  value6  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 49:
+Rule 0:
+	Variable nominal5 = value1  value3  value4  value7  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	Label 1 (0.0 0.4999052 0.99977034)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal3 = value5  
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal3 = value7  
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal2 = value4  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal5 = value6  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal5 = value6  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal4 = value7  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal3 = value1  
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal5 = value1  value2  value4  value5  value6  
+	Consecuent: class2
+
+
+Rule 12:
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal1 = value4  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal1 = value6  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 16:
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 17:
+	Variable nominal5 = value4  
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 50:
+Rule 0:
+	Variable nominal1 = value2  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal3 = value7  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal1 = value2  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal3 = value3  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal3 = value1  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal3 = value3  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal5 = value7  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal3 = value4  
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal5 = value5  
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable nominal1 = value4  
+	Consecuent: class2
+
+
+Rule 16:
+	Variable nominal3 = value5  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 51:
+Rule 0:
+	Variable nominal4 = value3  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal1 = value2  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal1 = value2  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal3 = value6  
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal1 = value7  
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal2 = value6  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal1 = value6  
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal1 = value4  
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal4 = value7  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal5 = value2  
+	Consecuent: class2
+
+
+Rule 13:
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal1 = value5  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 52:
+Rule 0:
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal3 = value4  value7  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal2 = value5  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal2 = value5  
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal1 = value5  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal5 = value4  
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal3 = value5  
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal3 = value4  
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal5 = value6  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal1 = value7  
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 53:
+Rule 0:
+	Variable nominal2 = value1  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal1 = value2  
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal3 = value6  
+	Consecuent: class1
+
+
+Rule 5:
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal4 = value1  
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal4 = value7  
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal3 = value7  
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal4 = value3  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal2 = value1  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal4 = value1  value2  value5  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal5 = value1  value2  value5  value6  value7  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal2 = value7  
+	Consecuent: class2
+
+
+Rule 15:
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 16:
+	Variable nominal4 = value7  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 17:
+	Variable nominal3 = value6  
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 54:
+Rule 0:
+	Variable nominal5 = value2  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value1  value4  value5  value7  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal5 = value1  value2  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal3 = value6  
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 5:
+	Variable nominal5 = value4  
+	Consecuent: class2
+
+
+Rule 6:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal5 = value3  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal1 = value7  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal3 = value2  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal4 = value2  
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal5 = value4  
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal4 = value6  
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 55:
+Rule 0:
+	Variable nominal5 = value3  
+	Consecuent: class1
+
+
+Rule 1:
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal1 = value2  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal5 = value6  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal3 = value1  
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal4 = value6  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal5 = value4  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal3 = value6  
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 56:
+Rule 0:
+	Variable nominal2 = value7  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal4 = value6  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal1 = value2  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value3  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal2 = value4  
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal1 = value3  
+	Consecuent: class2
+
+
+Rule 7:
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal4 = value3  
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal1 = value6  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal2 = value2  
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal5 = value5  
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 57:
+Rule 0:
+	Variable nominal1 = value1  
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal4 = value3  
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal5 = value7  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal2 = value5  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 4:
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class2
+
+
+Rule 5:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal2 = value3  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal2 = value3  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal1 = value3  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 58:
+Rule 0:
+	Variable nominal1 = value3  
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal5 = value2  
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal4 = value4  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal1 = value4  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal3 = value7  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal2 = value2  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal2 = value2  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal3 = value1  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal5 = value1  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal5 = value6  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 59:
+Rule 0:
+	Variable nominal3 = value3  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value2  
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal2 = value1  
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal2 = value1  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal4 = value5  
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal3 = value7  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal2 = value5  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal2 = value6  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal4 = value7  
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 60:
+Rule 0:
+	Variable nominal4 = value2  
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal1 = value7  
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal2 = value7  
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal2 = value1  
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal5 = value4  
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal1 = value2  
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal3 = value2  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal2 = value3  
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal2 = value5  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 61:
+Rule 0:
+	Variable nominal3 = value7  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal2 = value1  
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal3 = value6  
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value4  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Consecuent: class2
+
+
+Rule 4:
+	Variable nominal2 = value5  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 5:
+	Variable nominal1 = value4  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal1 = value3  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal4 = value4  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 62:
+Rule 0:
+	Variable nominal3 = value5  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal2 = value2  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal2 = value7  
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value2  value6  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal5 = value1  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal3 = value1  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal5 = value2  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal1 = value6  
+	Consecuent: class2
+
+
+Rule 10:
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal1 = value4  
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal1 = value4  value5  value7  
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 63:
+Rule 0:
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value1  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal2 = value1  
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal2 = value4  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal2 = value3  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal2 = value6  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal3 = value4  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal4 = value3  
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal5 = value6  
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 64:
+Rule 0:
+	Variable nominal3 = value5  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal3 = value7  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal1 = value2  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal3 = value3  
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal3 = value5  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 5:
+	Variable nominal2 = value5  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal3 = value7  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal1 = value6  
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 65:
+Rule 0:
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal4 = value5  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal2 = value1  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value4  
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal5 = value1  value4  value6  value7  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal5 = value1  value2  value5  value7  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal4 = value1  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal3 = value7  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 66:
+Rule 0:
+	Variable nominal4 = value5  
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal2 = value4  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal1 = value4  
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal2 = value7  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal4 = value5  
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal2 = value1  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal5 = value7  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal5 = value3  
+	Consecuent: class1
+
+
+Rule 9:
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class1
+
+
+Rule 10:
+	Variable nominal4 = value5  
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal2 = value5  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal5 = value7  
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal5 = value2  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal1 = value3  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 16:
+	Variable nominal4 = value7  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class2
+
+
+Rule 17:
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class2
+
+
+Rule 18:
+	Variable nominal5 = value5  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 19:
+	Variable nominal2 = value1  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 20:
+	Variable nominal4 = value1  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 21:
+	Variable nominal5 = value6  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 67:
+Rule 0:
+	Variable nominal3 = value6  
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal2 = value4  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal2 = value7  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal2 = value1  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal1 = value1  
+	Consecuent: class1
+
+
+Rule 7:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal3 = value5  
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal2 = value1  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal1 = value3  
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal5 = value5  
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal1 = value5  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable nominal2 = value3  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 16:
+	Variable nominal4 = value2  value3  value4  
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 17:
+	Variable nominal4 = value1  
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 18:
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 19:
+	Variable nominal5 = value5  
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 68:
+Rule 0:
+	Variable nominal2 = value4  
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal3 = value5  
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal5 = value3  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal1 = value5  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal3 = value6  
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal3 = value1  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal3 = value2  
+	Consecuent: class2
+
+
+Rule 10:
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 69:
+Rule 0:
+	Variable nominal4 = value7  
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value5  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal3 = value7  
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal1 = value1  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal3 = value6  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal1 = value6  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal3 = value7  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 70:
+Rule 0:
+	Variable nominal3 = value2  
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal4 = value5  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal5 = value1  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal3 = value4  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal5 = value2  
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal2 = value5  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal3 = value6  
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal2 = value6  
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal3 = value3  
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal5 = value6  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 16:
+	Variable nominal1 = value5  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 17:
+	Variable nominal2 = value6  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 71:
+Rule 0:
+	Variable nominal2 = value7  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal4 = value2  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal3 = value3  
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 72:
+Rule 0:
+	Variable nominal1 = value2  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value7  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal4 = value3  
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal3 = value3  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal1 = value4  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal4 = value1  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal4 = value3  value4  value5  value6  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal4 = value4  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal5 = value6  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal5 = value3  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal1 = value3  
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable nominal4 = value3  
+	Consecuent: class2
+
+
+Rule 16:
+	Variable nominal2 = value5  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 73:
+Rule 0:
+	Variable nominal4 = value5  
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value5  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal5 = value2  value3  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal3 = value6  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal1 = value1  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal4 = value2  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal4 = value7  
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 8:
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal5 = value2  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal1 = value4  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal3 = value4  
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal5 = value3  
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal4 = value3  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 74:
+Rule 0:
+	Variable nominal4 = value2  
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal3 = value7  
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value6  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal2 = value4  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal5 = value5  
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal1 = value2  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal5 = value3  
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal1 = value3  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal5 = value7  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal1 = value5  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal2 = value5  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal4 = value4  
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal5 = value5  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class2
+
+
+Rule 16:
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 75:
+Rule 0:
+	Variable nominal4 = value2  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal3 = value3  
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal5 = value7  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 76:
+Rule 0:
+	Variable nominal2 = value4  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value4  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal4 = value5  
+	Consecuent: class1
+
+
+Rule 3:
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal5 = value4  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal3 = value3  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal1 = value3  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal4 = value4  
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal5 = value4  
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal5 = value1  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal5 = value1  value6  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal4 = value7  
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal3 = value2  
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 77:
+Rule 0:
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal4 = value1  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal3 = value4  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal4 = value4  
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal3 = value4  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal1 = value6  
+	Consecuent: class2
+
+
+Rule 8:
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal5 = value2  
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal2 = value3  
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 78:
+Rule 0:
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value4  
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal1 = value2  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal3 = value3  
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal5 = value7  
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal4 = value3  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal2 = value2  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal1 = value4  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal5 = value3  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal3 = value5  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable nominal4 = value4  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 79:
+Rule 0:
+	Variable nominal2 = value5  
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal4 = value6  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal1 = value2  
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal4 = value1  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal4 = value5  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal5 = value5  
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal5 = value7  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal1 = value5  
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal4 = value1  
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 9:
+	Variable nominal2 = value7  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal5 = value2  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal5 = value3  
+	Consecuent: class2
+
+
+Rule 12:
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal3 = value7  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal2 = value5  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable nominal5 = value2  
+	Consecuent: class2
+
+
+Rule 16:
+	Variable nominal3 = value2  
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 17:
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 80:
+Rule 0:
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal2 = value7  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value4  
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal3 = value6  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal5 = value2  
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal1 = value3  
+	Consecuent: class2
+
+
+Rule 7:
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal1 = value5  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal5 = value3  
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal4 = value3  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal2 = value6  
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal2 = value5  
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 81:
+Rule 0:
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal1 = value2  
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal5 = value1  
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal4 = value3  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal3 = value1  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal1 = value6  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal5 = value3  
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal2 = value6  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal5 = value5  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal1 = value4  
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal5 = value1  
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal4 = value2  
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 82:
+Rule 0:
+	Variable nominal1 = value1  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal2 = value1  
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal2 = value6  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal5 = value7  
+	Consecuent: class1
+
+
+Rule 5:
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal3 = value4  
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal5 = value5  
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal3 = value7  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal3 = value6  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal3 = value4  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal3 = value2  
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal2 = value2  
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 83:
+Rule 0:
+	Variable nominal2 = value4  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal2 = value1  
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal5 = value1  
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value5  
+	Variable numeric2 = Label 1 (3.141081E-4 0.49988106 0.999448)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal3 = value6  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 84:
+Rule 0:
+	Variable nominal4 = value3  
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value6  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal4 = value7  
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal4 = value1  
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal4 = value4  
+	Consecuent: class1
+
+
+Rule 6:
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal3 = value6  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal5 = value7  
+	Consecuent: class1
+
+
+Rule 9:
+	Variable nominal1 = value2  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 10:
+	Variable nominal4 = value5  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class1
+
+
+Rule 11:
+	Variable nominal2 = value7  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 12:
+	Variable nominal3 = value3  
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 13:
+	Variable nominal2 = value2  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal1 = value1  value3  value4  value5  value6  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 15:
+	Variable nominal3 = value6  
+	Consecuent: class2
+
+
+Rule 16:
+	Variable nominal2 = value6  
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 17:
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class2
+
+
+Rule 18:
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 19:
+	Variable nominal4 = value6  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+Rule 20:
+	Variable nominal1 = value5  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+Rule 21:
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 22:
+	Variable nominal1 = value4  
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 85:
+Rule 0:
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value7  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal2 = value7  
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal1 = value3  
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class2
+
+
+Rule 5:
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric3 = Label 0 (-3.4028235E38 0.0 0.50003415)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal5 = value7  
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal1 = value4  
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal5 = value4  
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal2 = value2  
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 86:
+Rule 0:
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric9 = Label 2 (0.4999052 0.99977034 3.4028235E38)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal2 = value4  
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal4 = value7  
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal4 = value4  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal3 = value4  
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal5 = value6  
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal2 = value6  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal4 = value5  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal3 = value2  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable numeric4 = Label 1 (1.4955086E-4 0.49979296 0.9994364)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal3 = value4  
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 87:
+Rule 0:
+	Variable nominal4 = value3  
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal3 = value2  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 88:
+Rule 0:
+	Variable nominal4 = value7  
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal5 = value6  
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal1 = value2  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal4 = value7  
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal4 = value5  
+	Consecuent: class2
+
+
+Rule 5:
+	Variable nominal1 = value4  
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal5 = value5  
+	Consecuent: class2
+
+
+Rule 7:
+	Variable numeric8 = Label 2 (0.49997792 0.9998006 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal2 = value6  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal3 = value6  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric6 = Label 2 (0.4999396 0.9998039 3.4028235E38)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal1 = value6  
+	Variable numeric5 = Label 1 (0.0 0.4998865 0.99976414)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal4 = value7  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 89:
+Rule 0:
+	Variable nominal2 = value7  
+	Variable numeric1 = Label 1 (0.0 0.4997695 0.9995355)	
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal4 = value4  
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal2 = value1  
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal5 = value3  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal2 = value6  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric3 = Label 1 (0.0 0.50003415 0.99998754)	
+	Consecuent: class1
+
+
+Rule 6:
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	
+	Consecuent: class1
+
+
+Rule 7:
+	Variable nominal5 = value4  
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Consecuent: class1
+
+
+Rule 8:
+	Variable nominal2 = value1  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 9:
+	Variable nominal5 = value5  
+	Consecuent: class1
+
+
+Rule 10:
+	Variable nominal4 = value2  
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric8 = Label 0 (-3.4028235E38 1.5519765E-4 0.49997792)	Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal5 = value5  
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 90:
+Rule 0:
+	Variable nominal3 = value1  
+	Variable numeric10 = Label 1 (5.256035E-4 0.50012064 0.99971575)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal4 = value7  
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	Label 1 (0.0 0.4998865 0.99976414)	
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal5 = value1  
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal3 = value3  
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal3 = value6  
+	Consecuent: class1
+
+
+Rule 6:
+	Variable nominal1 = value5  
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal4 = value1  
+	Consecuent: class2
+
+
+Rule 8:
+	Variable numeric6 = Label 0 (-3.4028235E38 0.0 0.4999396)	
+	Variable numeric7 = Label 1 (2.4426196E-4 0.49984246 0.99944067)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable nominal5 = value6  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable numeric10 = Label 2 (0.50012064 0.99971575 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable nominal3 = value4  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable numeric3 = Label 2 (0.50003415 0.99998754 3.4028235E38)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable numeric5 = Label 0 (-3.4028235E38 0.0 0.4998865)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable numeric4 = Label 2 (0.49979296 0.9994364 3.4028235E38)	
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class2
+
+
+*************************************************
+Timestamp 91:
+Rule 0:
+	Variable nominal3 = value1  
+	Variable numeric2 = Label 2 (0.49988106 0.999448 3.4028235E38)	
+	Consecuent: class1
+
+
+Rule 1:
+	Variable nominal1 = value2  
+	Consecuent: class1
+
+
+Rule 2:
+	Variable nominal4 = value3  
+	Variable numeric1 = Label 2 (0.4997695 0.9995355 3.4028235E38)	
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 3:
+	Variable nominal4 = value5  
+	Variable numeric10 = Label 0 (-3.4028235E38 5.256035E-4 0.50012064)	
+	Consecuent: class1
+
+
+Rule 4:
+	Variable nominal1 = value7  
+	Variable numeric4 = Label 0 (-3.4028235E38 1.4955086E-4 0.49979296)	
+	Consecuent: class1
+
+
+Rule 5:
+	Variable nominal3 = value2  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Consecuent: class2
+
+
+Rule 6:
+	Variable nominal3 = value7  
+	Variable numeric6 = Label 1 (0.0 0.4999396 0.9998039)	
+	Consecuent: class2
+
+
+Rule 7:
+	Variable nominal2 = value4  
+	Consecuent: class2
+
+
+Rule 8:
+	Variable nominal2 = value5  
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 9:
+	Variable numeric2 = Label 0 (-3.4028235E38 3.141081E-4 0.49988106)	
+	Variable numeric8 = Label 1 (1.5519765E-4 0.49997792 0.9998006)	
+	Variable numeric9 = Label 1 (0.0 0.4999052 0.99977034)	
+	Consecuent: class2
+
+
+Rule 10:
+	Variable nominal1 = value6  
+	Variable numeric1 = Label 0 (-3.4028235E38 0.0 0.4997695)	
+	Variable numeric7 = Label 2 (0.49984246 0.99944067 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 11:
+	Variable numeric9 = Label 0 (-3.4028235E38 0.0 0.4999052)	
+	Consecuent: class2
+
+
+Rule 12:
+	Variable nominal1 = value7  
+	Variable numeric5 = Label 2 (0.4998865 0.99976414 3.4028235E38)	
+	Consecuent: class2
+
+
+Rule 13:
+	Variable nominal1 = value3  
+	Variable numeric7 = Label 0 (-3.4028235E38 2.4426196E-4 0.49984246)	
+	Consecuent: class2
+
+
+Rule 14:
+	Variable nominal5 = value3  
+	Consecuent: class2
+
+
