@@ -99,7 +99,7 @@ public final class CoverageBasedInitialisationCAN extends InitialisationOperator
                 variable = Randomize.Randint(0, baseElement.getSize());
             }
 
-            if (inst.attribute(variable).isNominal()) {
+            if (inst.inputAttribute(variable).isNominal()) {
                 // Discrete Variable
                 Double value = inst.valueInputAttribute(variable);
                 result.setCromElem(variable, value.intValue());
@@ -116,8 +116,8 @@ public final class CoverageBasedInitialisationCAN extends InitialisationOperator
         // now, initialise the rest of variables as non-participant
         for (int i = 0; i < variablesInitialised.length; i++) {
             if (!variablesInitialised[i]) {
-                if (inst.attribute(i).isNominal()) {
-                    result.setCromElem(i, inst.attribute(i).numValues());
+                if (inst.inputAttribute(i).isNominal()) {
+                    result.setCromElem(i, inst.inputAttribute(i).numValues());
                 } else {
                     result.setCromElem(i, StreamMOEAEFEP.nLabel);
                 }

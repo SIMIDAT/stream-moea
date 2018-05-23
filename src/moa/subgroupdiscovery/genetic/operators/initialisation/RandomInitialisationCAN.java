@@ -45,8 +45,8 @@ public final class RandomInitialisationCAN extends InitialisationOperator<IndCAN
     public IndCAN doInitialisation() {
         IndCAN toReturn = (IndCAN) baseElement.clone();
         for (int i = 0; i < baseElement.getSize(); i++) {
-            if(StreamMOEAEFEP.instancia.attribute(i).isNominal()){
-                toReturn.setCromElem(i, Randomize.RandintClosed(0, StreamMOEAEFEP.instancia.attribute(i).numValues()));
+            if(StreamMOEAEFEP.instancia.inputAttribute(i).isNominal()){
+                toReturn.setCromElem(i, Randomize.RandintClosed(0, StreamMOEAEFEP.instancia.inputAttribute(i).numValues()));
             } else {
                 toReturn.setCromElem(i, Randomize.RandintClosed(0, StreamMOEAEFEP.nLabel));      
             }

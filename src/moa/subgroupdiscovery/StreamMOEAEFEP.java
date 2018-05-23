@@ -332,6 +332,7 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
         // *****************************************************************
         // END instantiation of elements of genetic algorithm
         System.out.println("Executing the Stream-MOEA algorithm...");
+        System.out.println("Class: " + header.classAttribute().name());
 
     }
 
@@ -417,7 +418,7 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
             repes.addAll(previousPopulation);
             previousPopulation.clear();
             previousPopulation.addAll(repes);
-            System.out.println("  Rules generated: " + previousPopulation.size() + "\r");
+            //System.out.println("  Rules generated: " + previousPopulation.size() + "\r");
 
             // Prepare next iteration
             dataChunk.clear();
@@ -476,7 +477,7 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
         // Calculate maximum and minimum for numeric variables in order to calculate the fuzzy labels
         instances.forEach((ins) -> {
             for (int i = 0; i < ins.numInputAttributes(); i++) {
-                if (ins.attribute(i).isNumeric()) {
+                if (ins.inputAttribute(i).isNumeric()) {
                     if (ins.valueInputAttribute(i) > maxis[i]) {
                         maxis[i] = ins.valueInputAttribute(i);
                     }
@@ -503,10 +504,10 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
          */
         int num_vars = aux.numInputAttributes();
         for (v = 0; v < num_vars; v++) {
-            if (aux.attribute(v).isNumeric()) {
+            if (aux.inputAttribute(v).isNumeric()) {
                 marca = (maxis[v] - minis[v]) / ((float) (nLabels - 1));
                 p_corte = minis[v] + marca / 2;
-                contents += "Fuzzy sets parameters for variable " + aux.attribute(v).name() + ":\n";
+                contents += "Fuzzy sets parameters for variable " + aux.inputAttribute(v).name() + ":\n";
                 for (etq = 0; etq < nLabels; etq++) {
                     valor = minis[v] + marca * (etq - 1);
                     if (etq == 0) {

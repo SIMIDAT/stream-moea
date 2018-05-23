@@ -56,7 +56,7 @@ public class EvaluatorDNF extends Evaluator<IndDNF> {
                 for (int j = 0; j < sample.getSize() && disparoFuzzy > 0; j++) {
                     if (!sample.getCromElem(j).isNonParticipant()) {
                         // The variable participates
-                        if (StreamMOEAEFEP.instancia.attribute(j).isNominal()) {
+                        if (StreamMOEAEFEP.instancia.inputAttribute(j).isNominal()) {
                             // Nominal Variable
                             Double value = getData().get(i).valueInputAttribute(j);
                             if (! sample.getCromGeneElem(j, value.intValue()) && !data.get(i).isMissing(j)) {

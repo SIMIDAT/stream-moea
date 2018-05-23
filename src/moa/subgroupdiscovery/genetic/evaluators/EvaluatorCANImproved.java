@@ -167,7 +167,7 @@ public class EvaluatorCANImproved extends Evaluator<IndCAN> {
 
         // If this value is null, it means that the att-value pair has not been initialised yet. Lets initialise
         for (int i = 0; i < this.data.size(); i++) {
-            if (data.get(i).attribute(position).isNominal()) {
+            if (data.get(i).inputAttribute(position).isNominal()) {
                 // Nominal variable
                 Double val = getData().get(i).valueInputAttribute(position);
                 boolean missing = getData().get(i).isMissing(position);

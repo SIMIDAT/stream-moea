@@ -103,7 +103,7 @@ public final class CoverageBasedInitialisationDNFWithTC extends InitialisationOp
                 variable = Randomize.Randint(0, baseElement.getSize());
             }
             
-            if(inst.attribute(variable).isNominal()){
+            if(inst.inputAttribute(variable).isNominal()){
                 // Discrete Variable
                 result.getCromElem(variable).NoTakeInitGene();
                 Double value = inst.valueInputAttribute(variable);

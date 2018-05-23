@@ -44,16 +44,16 @@ public final class BiasedMutationCAN extends MutationOperator<IndCAN> {
         if (option <= 0.5) {
             // Erase variable
             int var = Randomize.Randint(0, mutated.getSize());
-            if (StreamMOEAEFEP.instancia.attribute(var).isNominal()) {
-                mutated.setCromElem(var, StreamMOEAEFEP.instancia.attribute(var).numValues());
+            if (StreamMOEAEFEP.instancia.inputAttribute(var).isNominal()) {
+                mutated.setCromElem(var, StreamMOEAEFEP.instancia.inputAttribute(var).numValues());
             } else {
                 mutated.setCromElem(var, StreamMOEAEFEP.nLabel);
             }
         } else {
             // Random Change on the variable (erase value can participate)
             int var = Randomize.Randint(0, mutated.getSize());
-            if (StreamMOEAEFEP.instancia.attribute(var).isNominal()) {
-                mutated.setCromElem(var, Randomize.RandintClosed(0, StreamMOEAEFEP.instancia.attribute(var).numValues()));
+            if (StreamMOEAEFEP.instancia.inputAttribute(var).isNominal()) {
+                mutated.setCromElem(var, Randomize.RandintClosed(0, StreamMOEAEFEP.instancia.inputAttribute(var).numValues()));
             } else {
                 mutated.setCromElem(var, Randomize.RandintClosed(0, StreamMOEAEFEP.nLabel));
             }
