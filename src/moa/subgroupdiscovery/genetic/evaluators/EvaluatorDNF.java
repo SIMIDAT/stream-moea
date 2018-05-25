@@ -120,4 +120,5 @@ public class EvaluatorDNF extends Evaluator<IndDNF> {
         }
     }
 
+
 }

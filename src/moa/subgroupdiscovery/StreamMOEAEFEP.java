@@ -292,11 +292,11 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
         if (representation.equalsIgnoreCase("DNF")) {
             IndDNF base = new IndDNF(this.getModelContext().numInputAttributes(), period.getValue(), header, 0);
             if (evaluator.equalsIgnoreCase("byobjectives")) {
-                eval = new EvaluatorWithDecayBasedOnPreviousObjectives<EvaluatorDNF>(dataChunk, new EvaluatorDNF(dataChunk), SLIDING_WINDOW_SIZE);
+                eval = new EvaluatorWithDecayBasedOnPreviousObjectives<EvaluatorDNFImproved>(dataChunk, new EvaluatorDNFImproved(dataChunk, header, nLabel), SLIDING_WINDOW_SIZE);
             } else if (evaluator.equalsIgnoreCase("bydiversity")) {
-                eval = new EvaluatorWithDecayBasedOnDiversity<EvaluatorDNF>(dataChunk, new EvaluatorDNF(dataChunk), SLIDING_WINDOW_SIZE);
+                eval = new EvaluatorWithDecayBasedOnDiversity<EvaluatorDNFImproved>(dataChunk, new EvaluatorDNFImproved(dataChunk, header, nLabel), SLIDING_WINDOW_SIZE);
             } else {
-                eval = new EvaluatorWithDecayBasedOnPresence<EvaluatorDNF>(dataChunk, new EvaluatorDNF(dataChunk), SLIDING_WINDOW_SIZE);
+                eval = new EvaluatorWithDecayBasedOnPresence<EvaluatorDNFImproved>(dataChunk, new EvaluatorDNFImproved(dataChunk, header, nLabel), SLIDING_WINDOW_SIZE);
             }
 
             gaBuilder.setInitialisation(new BiasedInitialisationDNF(base, PCT_VARS_BIASED_INIT, PCT_INDS_BIASED_INIT))
@@ -307,11 +307,11 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
         } else {
             IndCAN base = new IndCAN(this.getModelContext().numInputAttributes(), period.getValue(), 0);
             if (evaluator.equalsIgnoreCase("byobjectives")) {
-                eval = new EvaluatorWithDecayBasedOnPreviousObjectives<EvaluatorCAN>(dataChunk, new EvaluatorCAN(dataChunk), SLIDING_WINDOW_SIZE);
+                eval = new EvaluatorWithDecayBasedOnPreviousObjectives<EvaluatorCANImproved>(dataChunk, new EvaluatorCANImproved(dataChunk, header, nLabel), SLIDING_WINDOW_SIZE);
             } else if (evaluator.equalsIgnoreCase("bydiversity")) {
-                eval = new EvaluatorWithDecayBasedOnDiversity(dataChunk, new EvaluatorCAN(dataChunk), SLIDING_WINDOW_SIZE);
+                eval = new EvaluatorWithDecayBasedOnDiversity(dataChunk, new EvaluatorCANImproved(dataChunk, header, nLabel), SLIDING_WINDOW_SIZE);
             } else {
-                eval = new EvaluatorWithDecayBasedOnPresence(dataChunk, new EvaluatorCAN(dataChunk), SLIDING_WINDOW_SIZE);
+                eval = new EvaluatorWithDecayBasedOnPresence(dataChunk, new EvaluatorCANImproved(dataChunk, header, nLabel), SLIDING_WINDOW_SIZE);
             }
 
             gaBuilder.setInitialisation(new BiasedInitialisationCAN(base, PCT_VARS_BIASED_INIT, PCT_INDS_BIASED_INIT))
@@ -399,13 +399,13 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
 
             // initialize the genetic algorithm and set its parameters
             String str = "Processing Time " + getTimestamp() + "...";
-            System.out.print(str + "\r");
+            System.out.println(str + "\r");
             // Initialise the genetic algorithm with the population in t-1
             long t_ini = System.currentTimeMillis();
             ga.run();
             execTime = System.currentTimeMillis() - t_ini;
-            /*System.out.println("");
             System.out.println("Evaluation time with evaluator " + eval.getClass().getName() + " = " + execTime + " ms.");
+            /*System.out.println("");
             System.out.println("Number of Trials: " + ga.getTrials());
             System.exit(0);*/
           

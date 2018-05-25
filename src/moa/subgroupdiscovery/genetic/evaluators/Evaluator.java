@@ -64,6 +64,8 @@ public abstract class Evaluator<T extends Individual> {
      * @param isTrain 
      */
     public abstract void doEvaluation(ArrayList<T> sample, boolean isTrain, GeneticAlgorithm<T> GA);
+    
+ 
 
     
         

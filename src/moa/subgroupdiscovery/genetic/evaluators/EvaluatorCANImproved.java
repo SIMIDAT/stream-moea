@@ -33,12 +33,15 @@ import moa.subgroupdiscovery.genetic.individual.IndCAN;
 import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
 
 /**
- * Improved version of the {@link EvaluatorCAN} class to calculate the quality of a given individual or rule.
- * 
- * This improved version make use of a BitSet for each attribute-value pair in the population.
- * These BitSets contains information about whether a given examples is covered by the attribute value pair or not.
- * Therefore, the calculation the coverage of a rules is by means of bit operations among several BitSets.
- * 
+ * Improved version of the {@link EvaluatorCAN} class to calculate the quality
+ * of a given individual or rule.
+ *
+ * This improved version make use of a BitSet for each attribute-value pair in
+ * the population. These BitSets contains information about whether a given
+ * examples is covered by the attribute value pair or not. Therefore, the
+ * calculation the coverage of a rules is by means of bit operations among
+ * several BitSets.
+ *
  * @author Ángel Miguel García Vico (agvico@ujaen.es)
  * @since JDK 8.0
  */
@@ -81,7 +84,7 @@ public class EvaluatorCANImproved extends Evaluator<IndCAN> {
 
         // fill the classes array
         classes = new ArrayList<>();
-        
+
         // Add this lines for static data??
         /*for (int i = 0; i < dataInfo.numClasses(); i++) {
             classes.add(new BitSet(data.size()));
@@ -113,7 +116,7 @@ public class EvaluatorCANImproved extends Evaluator<IndCAN> {
                     }
                 }
             }
-            
+
             sample.setCubre(coverage);
 
             // now, all variables have been processed , perform computing of the confusion matrix.
@@ -121,10 +124,10 @@ public class EvaluatorCANImproved extends Evaluator<IndCAN> {
             noClass.flip(0, this.data.size());
             BitSet noCoverage = (BitSet) coverage.clone();
             noCoverage.flip(0, this.data.size());
-            
+
             BitSet tp = (BitSet) coverage.clone();
             tp.and(classes.get(sample.getClas()));
-            
+
             BitSet tn = (BitSet) noCoverage.clone();
             tn.and(noClass);
 
@@ -135,7 +138,7 @@ public class EvaluatorCANImproved extends Evaluator<IndCAN> {
             fn.and(classes.get(sample.getClas()));
 
             ContingencyTable confMatrix = new ContingencyTable(tp.cardinality(), fp.cardinality(), tn.cardinality(), fn.cardinality());
-            
+
             // Calculate the measures and set as evaluated
             super.calculateMeasures(sample, confMatrix, isTrain);
             sample.setEvaluated(true);
@@ -197,6 +200,7 @@ public class EvaluatorCANImproved extends Evaluator<IndCAN> {
 
     @Override
     public void setData(ArrayList<Instance> data) {
+        super.data = data;
         classes.clear();
         for (int i = 0; i < data.get(0).numClasses(); i++) {
             classes.add(new BitSet(data.size()));
@@ -205,6 +209,13 @@ public class EvaluatorCANImproved extends Evaluator<IndCAN> {
             Instance inst = data.get(i);
             classes.get(((Double) inst.classValue()).intValue()).set(i);
         }
+
+        for (int i = 0; i < coverInformation.size(); i++) {
+            for (int j = 0; j < coverInformation.get(i).size(); j++) {
+                coverInformation.get(i).set(j, null);
+            }
+        }
     }
+
 
 }

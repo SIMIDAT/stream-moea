@@ -70,7 +70,7 @@ public final class GrowthRate extends QualityMeasure {
 
     @Override
     public void validate() throws InvalidRangeInMeasureException {
-        if (value < 0) {
+        if (value < 0 - THRESHOLD) {
             throw new InvalidRangeInMeasureException(this);
         }
     }

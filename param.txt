@@ -6,7 +6,7 @@ algorithm = stream-moea
 inputData = dataset.arff
 
 # The paths of the results files, separated by whitespaces, in this order: training QMs, test QMs for each rule, test QMs summary and rules.
-outputData = tra_qua.txt    tst_qua.txt     tst_quaSumm.txt     rules.txt
+outputData = tra_qua10000.txt    tst_qua10000.txt     tst_quaSumm10000.txt     rules10000.txt
 
 # The number of collected instances before starting the genetic algorithm.
 period = 2500
@@ -16,14 +16,14 @@ seed = 1
 RulesRepresentation = dnf
 nLabels = 3
 nGen = 20
-popLength = 26
+popLength = 25
 crossProb = 0.7
 mutProb = 0.1
 
 
 # Use this to set the evaluator: "byObjectives" uses presence and objective values in previous timestamps. Other value use only presence in previous steps.
 # Use: "byDiversity" to apply the evaluator based in the application of the decay factor on the diversity measure
-Evaluator = byMeasure
+Evaluator = byObjectives
 
 # The size of the sliding window to be used by the evaluator.
 SlidingWindowSize = 5

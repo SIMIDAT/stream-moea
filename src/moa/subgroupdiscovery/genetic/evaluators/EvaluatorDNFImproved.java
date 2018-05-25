@@ -57,7 +57,7 @@ public class EvaluatorDNFImproved extends Evaluator<IndDNF> {
      * The classes the samples belongs to
      */
     private ArrayList<BitSet> classes;
-    
+
     public EvaluatorDNFImproved(ArrayList<Instance> data, InstancesHeader dataInfo, int nLabels) {
         super(data);
         coverInformation = new ArrayList<>();
@@ -77,9 +77,9 @@ public class EvaluatorDNFImproved extends Evaluator<IndDNF> {
 
         // fill the classes array
         classes = new ArrayList<>();
-        
+
     }
-    
+
     @Override
     public void doEvaluation(IndDNF sample, boolean isTrain) {
         BitSet coverage = new BitSet(this.data.size());
@@ -111,7 +111,7 @@ public class EvaluatorDNFImproved extends Evaluator<IndDNF> {
                     }
                 }
             }
-            
+
             sample.setCubre(coverage);
 
             // now, all variables have been processed , perform computing of the confusion matrix.
@@ -119,28 +119,28 @@ public class EvaluatorDNFImproved extends Evaluator<IndDNF> {
             noClass.flip(0, this.data.size());
             BitSet noCoverage = (BitSet) coverage.clone();
             noCoverage.flip(0, this.data.size());
-            
+
             BitSet tp = (BitSet) coverage.clone();
             tp.and(classes.get(sample.getClas()));
-            
+
             BitSet tn = (BitSet) noCoverage.clone();
             tn.and(noClass);
-            
+
             BitSet fp = (BitSet) coverage.clone();
             fp.and(noClass);
-            
+
             BitSet fn = (BitSet) noCoverage.clone();
             fn.and(classes.get(sample.getClas()));
-            
+
             ContingencyTable confMatrix = new ContingencyTable(tp.cardinality(), fp.cardinality(), tn.cardinality(), fn.cardinality());
 
             // Calculate the measures and set as evaluated
             super.calculateMeasures(sample, confMatrix, isTrain);
             sample.setEvaluated(true);
         }
-        
+
     }
-    
+
     @Override
     public void doEvaluation(ArrayList<IndDNF> sample, boolean isTrain, GeneticAlgorithm<IndDNF> GA) {
         for (IndDNF ind : sample) {
@@ -173,7 +173,7 @@ public class EvaluatorDNFImproved extends Evaluator<IndDNF> {
                 if (val.intValue() == value || missing) {
                     infoCovering.set(i);
                 }
-                
+
             } else {
                 // Numeric variable
                 //System.out.println(j + " --- "+ sample.getCromElem(j));
@@ -186,16 +186,17 @@ public class EvaluatorDNFImproved extends Evaluator<IndDNF> {
                     System.err.println("ERROR: " + position + "  -----  " + sample.getCromElem(position) + "\nChromosome: " + sample.getChromosome().toString());
                     System.exit(1);
                 }
-                
+
             }
         }
-        
+
         return infoCovering;
-        
+
     }
-    
+
     @Override
     public void setData(ArrayList<Instance> data) {
+        super.data = data;
         classes.clear();
         for (int i = 0; i < data.get(0).numClasses(); i++) {
             classes.add(new BitSet(data.size()));
@@ -204,6 +205,13 @@ public class EvaluatorDNFImproved extends Evaluator<IndDNF> {
             Instance inst = data.get(i);
             classes.get(((Double) inst.classValue()).intValue()).set(i);
         }
+
+        for (int i = 0; i < coverInformation.size(); i++) {
+            for (int j = 0; j < coverInformation.get(i).size(); j++) {
+                coverInformation.get(i).set(j, null);
+            }
+        }
     }
-    
+
+
 }

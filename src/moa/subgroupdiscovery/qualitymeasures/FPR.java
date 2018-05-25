@@ -53,7 +53,7 @@ public final class FPR extends QualityMeasure {
 
     @Override
     public void validate() throws InvalidRangeInMeasureException {
-        if (!(value >= 0.0 && value <= 1.0) || Double.isNaN(value)) {
+        if (!(isGreaterTharOrEqualZero(value) && value <= 1.0) || Double.isNaN(value)) {
             throw new InvalidRangeInMeasureException(this);
         }
     }

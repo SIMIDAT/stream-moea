@@ -144,4 +144,11 @@ public class EvaluatorWithDecayBasedOnPresence<T extends Evaluator> extends Eval
         }
     }
 
+    
+    @Override
+    public void setData(ArrayList<Instance> data){
+        super.data = data;
+        mainEvaluator.setData(data);
+    }
+
 }

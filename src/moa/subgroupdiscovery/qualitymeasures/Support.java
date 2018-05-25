@@ -54,7 +54,7 @@ public final class Support extends QualityMeasure {
 
     @Override
     public void validate() throws InvalidRangeInMeasureException {
-        if (value > 1.0 || value < 0.0 || Double.isNaN(value)) {
+        if (value > 1.0 || value < 0.0 - THRESHOLD || Double.isNaN(value)) {
             throw new InvalidRangeInMeasureException(this);
         }
     }

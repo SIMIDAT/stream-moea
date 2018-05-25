@@ -61,8 +61,6 @@ public class EvaluatorWithDecayBasedOnDiversity<T extends Evaluator> extends Eva
             // This function is always called after the test phase. We stored the objective test values as
             // the values of the QMs of the previous timestamps. This is because the objs array is modified
             // due to the evaluation process that takes into account the previous timestamps.
-            
-
             if (values != null) {
                 Pair<Boolean, QualityMeasure> pair = new Pair<>(Boolean.TRUE, ind.getDiversityMeasure());
                 // the indivual was previously added. Update the structure
@@ -133,6 +131,12 @@ public class EvaluatorWithDecayBasedOnDiversity<T extends Evaluator> extends Eva
                 }
             }
         }
+    }
+
+    @Override
+    public void setData(ArrayList<Instance> data) {
+        super.data = data;
+        mainEvaluator.setData(data);
     }
 
 }
