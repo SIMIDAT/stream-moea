@@ -206,7 +206,20 @@ public final class ResultWriter {
             for (int j = 0; j < population.get(i).getMedidas().size(); j++) {
                 QualityMeasure q = (QualityMeasure) population.get(i).getMedidas().get(j);
                 content += sixDecimals.format(q.getValue()) + "\t";
+                try{
                 averages.set(j, averages.get(j) + q.getValue());
+                } catch (IndexOutOfBoundsException ex){
+                    System.err.println("PopSize: " + population.size());
+                    System.err.println("Medidas: " + population.get(0).getMeasures());
+                    for(int k = 0; k < population.size(); k++){
+                        System.err.println("Empty?: " + population.get(k).isEmpty());
+                        System.err.println("Diversity: " + population.get(k).getDiversityMeasure());
+                    }
+                    System.err.println("averages: " + averages.size());
+                    System.err.println("j: " + j);
+                    System.err.println("i: " + i);
+                    System.exit(-1);
+                }
             }
             content += "\n";
         }

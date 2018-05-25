@@ -111,22 +111,24 @@ public class EvaluatorWithDecayBasedOnDiversity<T extends Evaluator> extends Eva
         if (isTrain) {
             // Now, apply the decay factor to all individuals in the population
             for (Individual ind : sample) {
-                ArrayDeque<Pair<Boolean, QualityMeasure>> aux = appearance.get(ind);
-                if (aux != null) {
-                    Iterator<Pair<Boolean, QualityMeasure>> iterator = aux.iterator();
+                if (!ind.isEmpty()) {
+                    ArrayDeque<Pair<Boolean, QualityMeasure>> aux = appearance.get(ind);
+                    if (aux != null) {
+                        Iterator<Pair<Boolean, QualityMeasure>> iterator = aux.iterator();
 
-                    int exponent = -1;
-                    // now, for each element in the deque, if individual appeared on previous timestamps, 
-                    // The new objective value is the value of the objectives in the current timestamp plus the previous objectives values with their decai factor
-                    while (iterator.hasNext()) {
-                        Pair<Boolean, QualityMeasure> element = iterator.next();
-                        if (element.getKey()) {
-                            QualityMeasure prevObjs = element.getValue();
+                        int exponent = -1;
+                        // now, for each element in the deque, if individual appeared on previous timestamps, 
+                        // The new objective value is the value of the objectives in the current timestamp plus the previous objectives values with their decai factor
+                        while (iterator.hasNext()) {
+                            Pair<Boolean, QualityMeasure> element = iterator.next();
+                            if (element.getKey()) {
+                                QualityMeasure prevObjs = element.getValue();
 
-                            // Apply the decay factor on the diversity measure
-                            ind.getDiversityMeasure().setValue(ind.getDiversityMeasure().getValue() + prevObjs.getValue() * Math.pow(2, exponent));
+                                // Apply the decay factor on the diversity measure
+                                ind.getDiversityMeasure().setValue(ind.getDiversityMeasure().getValue() + prevObjs.getValue() * Math.pow(2, exponent));
+                            }
+                            exponent--;
                         }
-                        exponent--;
                     }
                 }
             }

@@ -49,8 +49,7 @@ public class TokenCompetition<T extends Individual> extends Filter<T> {
     public ArrayList<T> doFilter(ArrayList<T> population, GeneticAlgorithm<T> ga) {
 
         // Sorts population by the diversity measure
-        population.sort(Comparator.comparing( (T ind) -> ind.getDiversityMeasure().getValue()).reversed());
-        
+        population.sort(Comparator.comparing((T ind) -> ind.getDiversityMeasure().getValue()).reversed());
 
         ArrayList<T> rules = new ArrayList<>();
         BitSet tokens = new BitSet(ga.getEvaluator().getData().size());
@@ -59,30 +58,32 @@ public class TokenCompetition<T extends Individual> extends Filter<T> {
         boolean allCovered = false;
 
         do {
-            BitSet ruleCoverture = population.get(counter).getCubre();
-            boolean newCover = false;
-            int clas = population.get(counter).getClas();
+            if (!population.get(counter).isEmpty()) {
+                BitSet ruleCoverture = population.get(counter).getCubre();
+                boolean newCover = false;
+                int clas = population.get(counter).getClas();
 
-            for (int i = 0; i < ruleCoverture.size(); i++) {
-                // get all possible tokens of its class
-                if (!tokens.get(i) && ruleCoverture.get(i) && ((Instance) ga.getEvaluator().getData().get(i)).classValue() == clas) {
-                    tokens.set(i);
-                    newCover = true;
+                for (int i = 0; i < ruleCoverture.size(); i++) {
+                    // get all possible tokens of its class
+                    if (!tokens.get(i) && ruleCoverture.get(i) && ((Instance) ga.getEvaluator().getData().get(i)).classValue() == clas) {
+                        tokens.set(i);
+                        newCover = true;
+                    }
                 }
-            }
 
-            if (newCover) {
-                rules.add(population.get(counter));
-            }
-            if (tokens.cardinality() == tokens.size()) {
-                allCovered = true;
+                if (newCover) {
+                    rules.add(population.get(counter));
+                }
+                if (tokens.cardinality() == tokens.size()) {
+                    allCovered = true;
+                }
             }
             counter++;
 
         } while (counter < population.size() && !allCovered);
-        
+
         // When rules not cover ANY example (very weird case), returns the first rule.
-        if(rules.isEmpty()){
+        if (rules.isEmpty()) {
             rules.add(population.get(0));
         }
 

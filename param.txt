@@ -3,7 +3,7 @@
 algorithm = stream-moea
 
 # The input data, it must be a stream stored in an arff file. Others kinds of streams should be added in next versions.
-inputData = dataset.arff
+inputData = AG-c1-1.arff
 
 # The paths of the results files, separated by whitespaces, in this order: training QMs, test QMs for each rule, test QMs summary and rules.
 outputData = tra_qua10000.txt    tst_qua10000.txt     tst_quaSumm10000.txt     rules10000.txt
@@ -23,14 +23,14 @@ mutProb = 0.1
 
 # Use this to set the evaluator: "byObjectives" uses presence and objective values in previous timestamps. Other value use only presence in previous steps.
 # Use: "byDiversity" to apply the evaluator based in the application of the decay factor on the diversity measure
-Evaluator = byObjectives
+Evaluator = presence
 
 # The size of the sliding window to be used by the evaluator.
 SlidingWindowSize = 5
 
 # The objectives to be used in the genetic algorithm.
 # They must match with the name of the class that represent the quality measure
-Obj1 = GMean
+Obj1 = Confidence
 Obj2 = FPR
 Obj3 = NULL
 

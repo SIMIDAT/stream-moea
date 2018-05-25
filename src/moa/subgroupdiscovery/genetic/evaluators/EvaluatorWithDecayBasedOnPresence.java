@@ -34,13 +34,16 @@ import moa.subgroupdiscovery.genetic.Individual;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 
 /**
- *  Evaluator which only considers wheter the individual appears or not in previous timestamps.
- * 
- *  The evaluation of the individuals is the following: let X be the value of any objective measure
- * computed by the base evaluator {@code T} in the current timestamp t. Then, for each value from t-1 to t-{@code maxTime} it is calculated:
- * 
+ * Evaluator which only considers wheter the individual appears or not in
+ * previous timestamps.
+ *
+ * The evaluation of the individuals is the following: let X be the value of any
+ * objective measure computed by the base evaluator {@code T} in the current
+ * timestamp t. Then, for each value from t-1 to t-{@code maxTime} it is
+ * calculated:
+ *
  * {@code decayFactor = 1 - sumatory(2^-i) for each i whose value is false; X *= decayfactor}
- * 
+ *
  * @author Ángel Miguel García Vico (agvico@ujaen.es)
  * @param <T> The base evaluator
  * @since JDK 8.0
@@ -111,42 +114,42 @@ public class EvaluatorWithDecayBasedOnPresence<T extends Evaluator> extends Eval
         if (isTrain) {
             // Now, apply the decay factor to all individuals in the population
             for (Individual ind : sample) {
-                ArrayDeque<Boolean> aux = appearance.get(ind);
-                if (aux != null) {
-                    Iterator<Boolean> iterator = aux.iterator();
+                if (!ind.isEmpty()) {
+                    ArrayDeque<Boolean> aux = appearance.get(ind);
+                    if (aux != null) {
+                        Iterator<Boolean> iterator = aux.iterator();
 
-                    int exponent = -1;
-                    double decayFactor = 1.0;
+                        int exponent = -1;
+                        double decayFactor = 1.0;
 
-                    // Calculate the decay factor of this individual
-                    while (iterator.hasNext()) {
-                        if (!iterator.next()) {
-                            // The element was present, add to the decay factor
-                            decayFactor -= Math.pow(2, exponent);
+                        // Calculate the decay factor of this individual
+                        while (iterator.hasNext()) {
+                            if (!iterator.next()) {
+                                // The element was present, add to the decay factor
+                                decayFactor -= Math.pow(2, exponent);
+                            }
+                            exponent--;
                         }
-                        exponent--;
-                    }
 
-                    // Now, get indivual's objectives and apply the dacay factor to all of them
-                    for (QualityMeasure obj : (ArrayList<QualityMeasure>) ind.getObjs()) {
-                        if (obj.getValue() >= 0) {
-                            obj.setValue(obj.getValue() * decayFactor);
-                        } else {
-                            // if the value is negative, to make it worst we need to divide
-                            obj.setValue(obj.getValue() / decayFactor);
+                        // Now, get indivual's objectives and apply the dacay factor to all of them
+                        for (QualityMeasure obj : (ArrayList<QualityMeasure>) ind.getObjs()) {
+                            if (obj.getValue() >= 0) {
+                                obj.setValue(obj.getValue() * decayFactor);
+                            } else {
+                                // if the value is negative, to make it worst we need to divide
+                                obj.setValue(obj.getValue() / decayFactor);
+                            }
                         }
                     }
                 }
             }
-
             // Once applied the decay factor, update the time structure, adding the new individuals.
             //updateAppearance(sample, GA.getCurrentClass());
         }
     }
 
-    
     @Override
-    public void setData(ArrayList<Instance> data){
+    public void setData(ArrayList<Instance> data) {
         super.data = data;
         mainEvaluator.setData(data);
     }

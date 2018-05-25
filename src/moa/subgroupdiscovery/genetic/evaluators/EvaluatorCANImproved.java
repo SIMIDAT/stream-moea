@@ -27,10 +27,14 @@ import com.yahoo.labs.samoa.instances.Instance;
 import com.yahoo.labs.samoa.instances.InstancesHeader;
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import moa.subgroupdiscovery.StreamMOEAEFEP;
 import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 import moa.subgroupdiscovery.genetic.individual.IndCAN;
 import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
+import moa.subgroupdiscovery.qualitymeasures.NULL;
+import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
 
 /**
  * Improved version of the {@link EvaluatorCAN} class to calculate the quality
@@ -142,6 +146,20 @@ public class EvaluatorCANImproved extends Evaluator<IndCAN> {
             // Calculate the measures and set as evaluated
             super.calculateMeasures(sample, confMatrix, isTrain);
             sample.setEvaluated(true);
+        } else {
+            try {
+                sample.setDiversityMeasure((QualityMeasure) StreamMOEAEFEP.getDiversityMeasure().getClass().newInstance());
+                ArrayList<QualityMeasure> objsAux = new ArrayList<>();
+                for (QualityMeasure q : StreamMOEAEFEP.getObjectivesArray()) {
+                    if (!(q instanceof NULL)) {
+                        objsAux.add(q.getClass().newInstance());
+                    }
+                }
+                sample.setObjs(objsAux);
+                sample.setEvaluated(true);
+            } catch (InstantiationException | IllegalAccessException ex) {
+                Logger.getLogger(EvaluatorDNFImproved.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }
@@ -216,6 +234,5 @@ public class EvaluatorCANImproved extends Evaluator<IndCAN> {
             }
         }
     }
-
 
 }

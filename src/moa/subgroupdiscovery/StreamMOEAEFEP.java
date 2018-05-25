@@ -398,13 +398,13 @@ public class StreamMOEAEFEP extends AbstractClassifier implements MultiClassClas
             }
 
             // initialize the genetic algorithm and set its parameters
-            String str = "Processing Time " + getTimestamp() + "...";
-            System.out.println(str + "\r");
+            //String str = "Processing Time " + getTimestamp() + "...";
+            //System.out.println(str + "\r");
             // Initialise the genetic algorithm with the population in t-1
             long t_ini = System.currentTimeMillis();
             ga.run();
             execTime = System.currentTimeMillis() - t_ini;
-            System.out.println("Evaluation time with evaluator " + eval.getClass().getName() + " = " + execTime + " ms.");
+           // System.out.println("Evaluation time with evaluator " + eval.getClass().getName() + " = " + execTime + " ms.");
             /*System.out.println("");
             System.out.println("Number of Trials: " + ga.getTrials());
             System.exit(0);*/
