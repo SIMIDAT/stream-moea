@@ -33,6 +33,7 @@ import moa.subgroupdiscovery.StreamMOEAEFEP;
 import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 import moa.subgroupdiscovery.genetic.individual.IndCAN;
 import moa.subgroupdiscovery.genetic.individual.IndDNF;
+import moa.subgroupdiscovery.genetic.operators.initialisation.RandomInitialisationDNF;
 import moa.subgroupdiscovery.qualitymeasures.ContingencyTable;
 import moa.subgroupdiscovery.qualitymeasures.NULL;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
@@ -88,74 +89,64 @@ public class EvaluatorDNFImproved extends Evaluator<IndDNF> {
     public void doEvaluation(IndDNF sample, boolean isTrain) {
         BitSet coverage = new BitSet(this.data.size());
         boolean first = true;
-        if (!sample.isEmpty()) {
-            for (int j = 0; j < sample.getSize(); j++) {
-                if (!sample.getCromElem(j).isNonParticipant()) {
-                    BitSet coverageWithinVariable = new BitSet(this.data.size());
-                    // for each element in the gene
-                    for (int k = 0; k < sample.getCromElem(j).getGeneLenght(); k++) {
-                        if (sample.getCromGeneElem(j, k) && coverInformation.get(j).get(k) == null) {
-                            BitSet aux = initialiseBitSet(sample, j, k);
-                            coverInformation.get(j).set(k, aux);
-                        }
+        if (sample.isEmpty()) {
+            // If it is an empty rule, randomly initialise it and after that evaluate.
+            RandomInitialisationDNF rInit = new RandomInitialisationDNF(sample);
+            sample = rInit.doInitialisation();
 
-                        // active genes within the same variable: OR operation.
-                        if (sample.getCromGeneElem(j, k)) {
-                            coverageWithinVariable.or(coverInformation.get(j).get(k));
-                        }
+        }
+        for (int j = 0; j < sample.getSize(); j++) {
+            if (!sample.getCromElem(j).isNonParticipant()) {
+                BitSet coverageWithinVariable = new BitSet(this.data.size());
+                // for each element in the gene
+                for (int k = 0; k < sample.getCromElem(j).getGeneLenght(); k++) {
+                    if (sample.getCromGeneElem(j, k) && coverInformation.get(j).get(k) == null) {
+                        BitSet aux = initialiseBitSet(sample, j, k);
+                        coverInformation.get(j).set(k, aux);
                     }
 
-                    // At this point, all variables in the rules are initialised. Do the bitset computation
-                    // AND between different variables.
-                    if (first) {
-                        coverage.or(coverageWithinVariable);
-                        first = false;
-                    } else {
-                        coverage.and(coverageWithinVariable);
+                    // active genes within the same variable: OR operation.
+                    if (sample.getCromGeneElem(j, k)) {
+                        coverageWithinVariable.or(coverInformation.get(j).get(k));
                     }
                 }
-            }
 
-            sample.setCubre(coverage);
-
-            // now, all variables have been processed , perform computing of the confusion matrix.
-            BitSet noClass = (BitSet) classes.get(sample.getClas()).clone();
-            noClass.flip(0, this.data.size());
-            BitSet noCoverage = (BitSet) coverage.clone();
-            noCoverage.flip(0, this.data.size());
-
-            BitSet tp = (BitSet) coverage.clone();
-            tp.and(classes.get(sample.getClas()));
-
-            BitSet tn = (BitSet) noCoverage.clone();
-            tn.and(noClass);
-
-            BitSet fp = (BitSet) coverage.clone();
-            fp.and(noClass);
-
-            BitSet fn = (BitSet) noCoverage.clone();
-            fn.and(classes.get(sample.getClas()));
-
-            ContingencyTable confMatrix = new ContingencyTable(tp.cardinality(), fp.cardinality(), tn.cardinality(), fn.cardinality());
-
-            // Calculate the measures and set as evaluated
-            super.calculateMeasures(sample, confMatrix, isTrain);
-            sample.setEvaluated(true);
-        } else {
-            // If the rule is EMPTY. Then we should assert that ALL MEASURES are stablished at their LOWEST value.
-            try {
-                sample.setDiversityMeasure((QualityMeasure) StreamMOEAEFEP.getDiversityMeasure().getClass().newInstance());
-                ArrayList<QualityMeasure> objsAux = new ArrayList<>();
-                for(QualityMeasure q : StreamMOEAEFEP.getObjectivesArray()){
-                    if(! (q instanceof NULL))
-                        objsAux.add(q.getClass().newInstance());
+                // At this point, all variables in the rules are initialised. Do the bitset computation
+                // AND between different variables.
+                if (first) {
+                    coverage.or(coverageWithinVariable);
+                    first = false;
+                } else {
+                    coverage.and(coverageWithinVariable);
                 }
-                sample.setObjs(objsAux);
-                sample.setEvaluated(true);
-            } catch (InstantiationException | IllegalAccessException ex) {
-                Logger.getLogger(EvaluatorDNFImproved.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
+        sample.setCubre(coverage);
+
+        // now, all variables have been processed , perform computing of the confusion matrix.
+        BitSet noClass = (BitSet) classes.get(sample.getClas()).clone();
+        noClass.flip(0, this.data.size());
+        BitSet noCoverage = (BitSet) coverage.clone();
+        noCoverage.flip(0, this.data.size());
+
+        BitSet tp = (BitSet) coverage.clone();
+        tp.and(classes.get(sample.getClas()));
+
+        BitSet tn = (BitSet) noCoverage.clone();
+        tn.and(noClass);
+
+        BitSet fp = (BitSet) coverage.clone();
+        fp.and(noClass);
+
+        BitSet fn = (BitSet) noCoverage.clone();
+        fn.and(classes.get(sample.getClas()));
+
+        ContingencyTable confMatrix = new ContingencyTable(tp.cardinality(), fp.cardinality(), tn.cardinality(), fn.cardinality());
+
+        // Calculate the measures and set as evaluated
+        super.calculateMeasures(sample, confMatrix, isTrain);
+        sample.setEvaluated(true);
 
     }
 
@@ -230,6 +221,5 @@ public class EvaluatorDNFImproved extends Evaluator<IndDNF> {
             }
         }
     }
-
 
 }

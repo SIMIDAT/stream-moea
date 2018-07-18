@@ -106,6 +106,7 @@ public class CoverageBasedInitialisationCANWithTC extends InitialisationOperator
             } else {
                 // Numeric Variable
                 int position = result.NumInterv(inst.valueInputAttribute(variable), variable, inst);
+                if(position == -1) position = 0;
                 result.setCromElem(variable, position);
             }
 

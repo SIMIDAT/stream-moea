@@ -134,7 +134,7 @@ public final class ResultWriter {
         String content = "*************************************************\n";
         content += "Timestamp " + StreamMOEAEFEP.getTimestamp() + ":\n";
         for (int i = 0; i < population.size(); i++) {
-            content += "Rule " + i + ":\n";
+            content += "Rule " + i + " (ID: "+ population.get(i).hashCode() + "):\n";
             content += population.get(i).toString(inst) + "\n";
         }
         Files.addToFile(pathRules, content);
@@ -184,7 +184,7 @@ public final class ResultWriter {
         // First, write the headers
         String content = "";
         if (firstTime) {
-            content = "Timestamp\tRule\tClass\tNumRules\tNumVars";
+            content = "Timestamp\tRule\tClass\tID\tNumRules\tNumVars";
 
             // now, append each test quality measure
             for (int j = 0; j < population.get(0).getMedidas().size(); j++) {
@@ -197,8 +197,8 @@ public final class ResultWriter {
         // now write the test results for each individual
         for (int i = 0; i < population.size(); i++) {
             content += sixDecimals.format(StreamMOEAEFEP.getTimestamp()) + "\t"
-                    + i + "\t"
-                    + inst.outputAttribute(0).value(population.get(i).getClas()) + "\t"
+                    + i + "\t" 
+                    + inst.outputAttribute(0).value(population.get(i).getClas()) + "\t" + population.get(i).hashCode() + "\t"
                     + "------\t"
                     + sixDecimals.format(population.get(i).getNumVars()) + "\t";
             numVars += population.get(i).getNumVars();
@@ -226,7 +226,7 @@ public final class ResultWriter {
 
         numVars /= (double) population.size();
         // finally, write the average results
-        content += "------\t------\t------\t" + sixDecimals.format(population.size()) + "\t" + sixDecimals.format(numVars) + "\t";
+        content += "------\t------\t------\t------\t" + sixDecimals.format(population.size()) + "\t" + sixDecimals.format(numVars) + "\t";
         for (Double d : averages) {
             content += sixDecimals.format(d / (double) population.size()) + "\t";
         }

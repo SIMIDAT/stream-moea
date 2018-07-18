@@ -40,7 +40,7 @@ public abstract class QualityMeasure extends AbstractOptionHandler implements Cl
     /**
      * Threshold to check if a value is greater than or equal zero.
      */
-    protected double THRESHOLD = 1E-14;
+    protected double THRESHOLD = 1E-13;
     
     /**
      * @return the short_name

@@ -111,6 +111,7 @@ public final class CoverageBasedInitialisationDNFWithTC extends InitialisationOp
             } else {
                 // Numeric Variable
                 int position = result.NumInterv(inst.valueInputAttribute(variable), variable, inst);
+                if(position == -1) position = 0;
                 result.getCromElem(variable).NoTakeInitGene();
                 result.setCromGeneElem(variable, position, true);
             }
