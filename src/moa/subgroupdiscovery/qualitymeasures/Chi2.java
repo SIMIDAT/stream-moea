@@ -1,7 +1,7 @@
-/* 
+/*
  * The MIT License
  *
- * Copyright 2018 Ángel Miguel García Vico.
+ * Copyright 2018 agvico.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,36 +33,49 @@ import org.core.exceptions.InvalidRangeInMeasureException;
  * @author Ángel Miguel García Vico (agvico@ujaen.es)
  * @since JDK 8.0
  */
-public final class Coverage extends QualityMeasure {
+public class Chi2 extends QualityMeasure {
 
-    public Coverage() {
-        this.name = "Coverage";
-        this.short_name = "Cov";
+    public Chi2() {
+        this.name = "Chi-Squared";
+        this.short_name = "Chi2";
         this.value = 0.0;
     }
 
     @Override
     public double calculateValue(ContingencyTable t) {
+        ContingencyTable expected = new ContingencyTable(0, 0, 0, 0);
+        int Real_P = t.getTp() + t.getFn();
+        int Real_N = t.getFp() + t.getTn();
+        int Pred_P = t.getTp() + t.getFp();
+        int Pred_N = t.getFn() + t.getTn();
+        double T = t.getFn() + t.getFp() + t.getTn() + t.getTp();
 
-        if (t.getTotalExamples() == 0) {
-            setValue(0.0);
-        } else {
-            setValue((double) (t.getTp() + t.getFp()) / t.getTotalExamples());
+        double[][] observed = {{t.getTp(), t.getFn()}, {t.getFp(), t.getTn()}};
+        double[][] expt = {{(Real_P * Pred_P) / T, (Real_P * Pred_N) / T}, {(Real_N * Pred_P) / T, (Real_N * Pred_N) / T}};
+
+        double chiSquared = 0.0;
+
+        for (int i = 0; i < observed.length; i++) {
+            for (int j = 0; j < observed[i].length; j++) {
+                double num = Math.pow(observed[i][j] - expt[i][j], 2);
+                chiSquared += num / expt[i][j];
+            }
         }
 
+        this.value = chiSquared;
         return value;
     }
 
     @Override
     public void validate() throws InvalidRangeInMeasureException {
-        if (value > 1.0 || value < 0.0 - THRESHOLD || Double.isNaN(value)) {
+        if (Double.isNaN(value)) {
             throw new InvalidRangeInMeasureException(this);
         }
     }
 
     @Override
     public QualityMeasure clone() {
-        Coverage a = new Coverage();
+        Chi2 a = new Chi2();
         a.name = this.name;
         a.setValue(this.value);
 
@@ -70,17 +83,9 @@ public final class Coverage extends QualityMeasure {
     }
 
     @Override
-    protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
-    }
-
-    @Override
-    public void getDescription(StringBuilder sb, int i) {
-    }
-
-    @Override
     public int compareTo(QualityMeasure o) {
         try {
-            if (!(o instanceof Coverage)) {
+            if (!(o instanceof Strength)) {
                 throw new InvalidMeasureComparisonException(this, o);
             }
 
@@ -95,6 +100,14 @@ public final class Coverage extends QualityMeasure {
             ex.showAndExit(this);
         }
         return 0;
+    }
+
+    @Override
+    protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
+    }
+
+    @Override
+    public void getDescription(StringBuilder sb, int i) {
     }
 
 }

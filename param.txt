@@ -23,7 +23,7 @@ mutProb = 0.1
 
 # Use this to set the evaluator: "byObjectives" uses presence and objective values in previous timestamps. Other value use only presence in previous steps.
 # Use: "byDiversity" to apply the evaluator based in the application of the decay factor on the diversity measure
-Evaluator = byDiversity
+Evaluator = presence
 
 # The size of the sliding window to be used by the evaluator.
 SlidingWindowSize = 5
