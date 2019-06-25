@@ -48,9 +48,9 @@ import org.core.Pair;
  * @param <T> The base evaluator (CAN or DNF)
  * @since JDK 8.0
  */
-public class EvaluatorWithTimeByMeasure<T extends Evaluator> extends EvaluatorWithTime<T, Pair<Boolean, ArrayList<QualityMeasure>>> {
+public class EvaluatorWithDecayBasedOnPreviousObjectives<T extends Evaluator> extends EvaluatorWithDecay<T, Pair<Boolean, ArrayList<QualityMeasure>>> {
 
-    public EvaluatorWithTimeByMeasure(ArrayList<Instance> data, T evaluator, int maximumAppearance) {
+    public EvaluatorWithDecayBasedOnPreviousObjectives(ArrayList<Instance> data, T evaluator, int maximumAppearance) {
         super(data, evaluator, maximumAppearance);
     }
 
@@ -128,45 +128,53 @@ public class EvaluatorWithTimeByMeasure<T extends Evaluator> extends EvaluatorWi
         if (isTrain) {
             // Now, apply the decay factor to all individuals in the population
             for (Individual ind : sample) {
-                ArrayDeque<Pair<Boolean, ArrayList<QualityMeasure>>> aux = appearance.get(ind);
-                if (aux != null) {
-                    Iterator<Pair<Boolean, ArrayList<QualityMeasure>>> iterator = aux.iterator();
+                if (!ind.isEmpty()) {
+                    ArrayDeque<Pair<Boolean, ArrayList<QualityMeasure>>> aux = appearance.get(ind);
+                    if (aux != null) {
+                        Iterator<Pair<Boolean, ArrayList<QualityMeasure>>> iterator = aux.iterator();
 
-                    // Creates the new objectives array for the individual.
-                    // Gets the measures from "medidas" array, because the objective array does not contain the real measure value
-                    ArrayList<QualityMeasure> newObjs = new ArrayList<>();
-                    for (QualityMeasure q : (ArrayList<QualityMeasure>) ind.getMeasures()) {
-                        for (QualityMeasure p : (ArrayList<QualityMeasure>) ind.getObjs()) {
-                            if (q.getClass().equals(p.getClass())) {
-                                newObjs.add(q.clone());
+                        // Creates the new objectives array for the individual.
+                        // Gets the measures from "medidas" array, because the objective array does not contain the real measure value
+                        ArrayList<QualityMeasure> newObjs = new ArrayList<>();
+                        for (QualityMeasure q : (ArrayList<QualityMeasure>) ind.getMeasures()) {
+                            for (QualityMeasure p : (ArrayList<QualityMeasure>) ind.getObjs()) {
+                                if (q.getClass().equals(p.getClass())) {
+                                    newObjs.add(q.clone());
+                                }
                             }
                         }
-                    }
 
-                    int exponent = -1;
-                    // now, for each element in the deque, if individual appeared on previous timestamps, 
-                    // The new objective value is the value of the objectives in the current timestamp plus the previous objectives values with their decai factor
-                    while (iterator.hasNext()) {
-                        Pair<Boolean, ArrayList<QualityMeasure>> element = iterator.next();
-                        if (element.getKey()) {
-                            ArrayList<QualityMeasure> prevObjs = element.getValue();
-                            // The element was present, add to the decay factor
-                            for (int i = 0; i < prevObjs.size(); i++) {
-                                newObjs.get(i).setValue(newObjs.get(i).getValue() + prevObjs.get(i).getValue() * Math.pow(2, exponent));
+                        int exponent = -1;
+                        // now, for each element in the deque, if individual appeared on previous timestamps, 
+                        // The new objective value is the value of the objectives in the current timestamp plus the previous objectives values with their decai factor
+                        while (iterator.hasNext()) {
+                            Pair<Boolean, ArrayList<QualityMeasure>> element = iterator.next();
+                            if (element.getKey()) {
+                                ArrayList<QualityMeasure> prevObjs = element.getValue();
+                                // The element was present, add to the decay factor
+                                for (int i = 0; i < prevObjs.size(); i++) {
+                                    newObjs.get(i).setValue(newObjs.get(i).getValue() + prevObjs.get(i).getValue() * Math.pow(2, exponent));
+                                }
                             }
+                            exponent--;
                         }
-                        exponent--;
+
+                        // Now, the new objective values for this individual are stored in newObjs
+                        ind.setObjs(newObjs);
+
                     }
-
-                    // Now, the new objective values for this individual are stored in newObjs
-                    ind.setObjs(newObjs);
-
                 }
             }
 
             // Once applied the decay factor, update the time structure, adding the new individuals.
             //updateAppearance(sample, GA.getCurrentClass());
         }
+    }
+
+    @Override
+    public void setData(ArrayList<Instance> data) {
+        super.data = data;
+        mainEvaluator.setData(data);
     }
 
 }

@@ -69,8 +69,8 @@ public final class BiasedInitialisationCAN extends InitialisationOperator<IndCAN
             }
 
             // A non-initialised variable has been selected, initialise it randomly
-            if (StreamMOEAEFEP.instancia.attribute(variable).isNominal()) {
-                result.setCromElem(variable, Randomize.Randint(0, StreamMOEAEFEP.instancia.attribute(variable).numValues()));
+            if (StreamMOEAEFEP.instancia.inputAttribute(variable).isNominal()) {
+                result.setCromElem(variable, Randomize.Randint(0, StreamMOEAEFEP.instancia.inputAttribute(variable).numValues()));
             } else {
                 result.setCromElem(variable, Randomize.Randint(0, StreamMOEAEFEP.nLabel));
             }
@@ -80,8 +80,8 @@ public final class BiasedInitialisationCAN extends InitialisationOperator<IndCAN
         // Now, initialise the remaining variables as non-participants
         for (int i = 0; i < variablesInitialised.length; i++) {
             if (!variablesInitialised[i]) {
-                if (StreamMOEAEFEP.instancia.attribute(i).isNominal()) {
-                    result.setCromElem(i, StreamMOEAEFEP.instancia.attribute(i).numValues());
+                if (StreamMOEAEFEP.instancia.inputAttribute(i).isNominal()) {
+                    result.setCromElem(i, StreamMOEAEFEP.instancia.inputAttribute(i).numValues());
                 } else {
                     result.setCromElem(i, StreamMOEAEFEP.nLabel);
                 }

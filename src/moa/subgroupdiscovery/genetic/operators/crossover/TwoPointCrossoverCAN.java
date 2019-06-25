@@ -24,13 +24,14 @@
 package moa.subgroupdiscovery.genetic.operators.crossover;
 
 import java.util.ArrayList;
+import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 import moa.subgroupdiscovery.genetic.individual.IndCAN;
 import moa.subgroupdiscovery.genetic.operators.CrossoverOperator;
 import org.core.Randomize;
 
 /**
  * Class for the two-point crossover operator for the canonical representation
- * 
+ *
  * @author Angel Miguel Garcia-Vico (agvico@ujaen.es)
  */
 public final class TwoPointCrossoverCAN extends CrossoverOperator<IndCAN> {
@@ -41,36 +42,41 @@ public final class TwoPointCrossoverCAN extends CrossoverOperator<IndCAN> {
     }
 
     @Override
-    public ArrayList<IndCAN> doCrossover(ArrayList<IndCAN> parents) {
-        if (parents.size() != getNumParents()) {
-            throw new UnsupportedOperationException("Two point crossover: The number of parents is different than two.");
-        }
-
-        ArrayList<IndCAN> children = new ArrayList<>();
-        children.add((IndCAN) parents.get(0).clone());
-        children.add((IndCAN) parents.get(1).clone());
-
-        // Get the two point of crossover
-        int xpoint1 = Randomize.Randint(0, parents.get(0).getSize() - 1);
-        int xpoint2;
-        if (xpoint1 != parents.get(0).getSize() - 1) {
-            xpoint2 = Randomize.Randint(xpoint1 + 1, parents.get(0).getSize() - 1);
-        } else {
-            xpoint2 = parents.get(0).getSize() - 1;
-        }
-
-        // Perform the crossover
-        for (int i = xpoint1; i <= xpoint2; i++) {
-            children.get(0).setCromElem(i, parents.get(1).getCromElem(i));
-            children.get(1).setCromElem(i, parents.get(0).getCromElem(i));
-        }
-
-        // Set individuals as non-evaluated
-        for (int i = 0; i < children.size(); i++) {
-            children.get(i).setEvaluated(false);
-        }
+    public ArrayList<IndCAN> doCrossover(ArrayList<IndCAN> parents, GeneticAlgorithm ga) {
+        ArrayList<IndCAN> offspring = new ArrayList<>();
         
-        return children;
+        for (int j = 0; j < parents.size(); j += numParents) {
+            ArrayList<IndCAN> children = new ArrayList<>();
+            for (int k = 0; k < numParents; k++) {
+                children.add((IndCAN) parents.get((j + k) % parents.size()).clone());
+            }
+
+            if (Randomize.RanddoubleClosed(0.0, 1.0) <= ga.getProb_crossover()) {
+                // Get the two point of crossover
+                int xpoint1 = Randomize.Randint(0, parents.get(0).getSize() - 1);
+                int xpoint2;
+                if (xpoint1 != parents.get(0).getSize() - 1) {
+                    xpoint2 = Randomize.Randint(xpoint1 + 1, parents.get(0).getSize() - 1);
+                } else {
+                    xpoint2 = parents.get(0).getSize() - 1;
+                }
+
+                // Perform the crossover
+                for (int i = xpoint1; i <= xpoint2; i++) {
+                    children.get(0).setCromElem(i, parents.get(j % parents.size()).getCromElem(i));
+                    children.get(1).setCromElem(i, parents.get( (j+1) % parents.size()).getCromElem(i));
+                }
+
+                // Set individuals as non-evaluated
+                for (int i = 0; i < children.size(); i++) {
+                    children.get(i).setEvaluated(false);
+                }
+            }
+            
+            offspring.addAll(children);
+        }
+
+        return offspring;
     }
 
 }

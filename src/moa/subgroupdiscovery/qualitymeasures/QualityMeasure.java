@@ -38,6 +38,11 @@ import moa.options.AbstractOptionHandler;
 public abstract class QualityMeasure extends AbstractOptionHandler implements Cloneable, Serializable, Comparable<QualityMeasure> {
 
     /**
+     * Threshold to check if a value is greater than or equal zero.
+     */
+    protected double THRESHOLD = 1E-13;
+    
+    /**
      * @return the short_name
      */
     public String getShort_name() {
@@ -65,7 +70,7 @@ public abstract class QualityMeasure extends AbstractOptionHandler implements Cl
      * The acronim of the quality measure
      */
     protected String short_name;
-    
+
     /**
      * The contingencyTable from the values are calculated
      */
@@ -138,6 +143,24 @@ public abstract class QualityMeasure extends AbstractOptionHandler implements Cl
     public abstract int compareTo(QualityMeasure o);
 
     
+    /**
+     * Method to check whether a double is zero or not due to the error produced in the double precision.
+     * 
+     * @param value The value to check if it is 
+     * @return 
+     */
+    public boolean isZero(double value) {
+        return value >= -THRESHOLD && value <= THRESHOLD;
+    }
     
-    
+      /**
+     * Method to check whether a double is greater than or equal zero with an error threshold for values near zero
+     * 
+     * @param value The value to check if it is zero
+     * @return 
+     */
+    public boolean isGreaterTharOrEqualZero(double value) {
+        return value >= -THRESHOLD;
+    }
+
 }

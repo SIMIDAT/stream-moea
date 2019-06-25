@@ -23,6 +23,8 @@
  */
 package moa.subgroupdiscovery.genetic.operators;
 
+import java.util.ArrayList;
+import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 import moa.subgroupdiscovery.genetic.Individual;
 
 /**
@@ -39,4 +41,15 @@ public abstract class MutationOperator<T extends Individual> {
      * @return 
      */
     public abstract T doMutation(T source);
+    
+    
+    /**
+     * It applies performs the mutation phase of the genetic algorithm. Given a {@code source} population, e.g., the offspring
+     * it returns a new population with the mutation operators applied according to some probability.
+     * 
+     * @param source the population to be mutated.
+     * @param ga the genetic algorithm where this operator is applied.
+     * @return 
+     */
+    public abstract ArrayList<T> doMutation(ArrayList<T> source, GeneticAlgorithm<T> ga);
 }

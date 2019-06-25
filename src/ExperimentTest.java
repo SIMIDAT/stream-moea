@@ -67,10 +67,10 @@ public class ExperimentTest {
     public ExperimentTest() {
     }
 
-    public void run(int numInstances, boolean isTesting) {
+    public void run(int numInstances, boolean isTesting, String paramFile, int classColumn) {
         Classifier learner = new StreamMOEAEFEP();
-        String inputData = ((StreamMOEAEFEP) learner).setParametersFromFile("param.txt");
-        ArffFileStream stream = new ArffFileStream(inputData, -1);
+        String inputData = ((StreamMOEAEFEP) learner).setParametersFromFile(paramFile);
+        ArffFileStream stream = new ArffFileStream(inputData, classColumn);
         stream.prepareForUse();
 
         System.out.println("Using stream dataset named: " + stream.getHeader().getRelationName());
@@ -93,7 +93,7 @@ public class ExperimentTest {
 
     public static void main(String[] args) throws IOException {
         ExperimentTest exp = new ExperimentTest();
-        exp.run(100000000, true);
+        exp.run(100000000, true, args[0], Integer.parseInt(args[1]));
     }
 
     /**

@@ -49,8 +49,8 @@ public class IndDNF extends Individual<GeneDNF> {
             super.size = lenght;
             super.chromosome = new ArrayList<>();
             for (int i = 0; i < lenght; i++) {
-                if (inst.attribute(i).isNominal()) { 
-                    super.chromosome.add(new GeneDNF(inst.attribute(i).numValues()));
+                if (inst.inputAttribute(i).isNominal()) { 
+                    super.chromosome.add(new GeneDNF(inst.inputAttribute(i).numValues()));
                 } else {
                     super.chromosome.add(new GeneDNF(StreamMOEAEFEP.nLabel));
                 }
@@ -164,18 +164,18 @@ public class IndDNF extends Individual<GeneDNF> {
         String content = "";
         for (int i = 0; i < inst.numInputAttributes(); i++) {
             if (!this.getCromElem(i).isNonParticipant()) {
-                if (inst.attribute(i).isNominal()) {
+                if (inst.inputAttribute(i).isNominal()) {
                     // discrete variable
-                    content = "\tVariable " + inst.attribute(i).name() + " = ";
-                    for (int j = 0; j < inst.attribute(i).numValues(); j++) {
+                    content = "\tVariable " + inst.inputAttribute(i).name() + " = ";
+                    for (int j = 0; j < inst.inputAttribute(i).numValues(); j++) {
                         if (this.getCromElem(i).getGeneElem(j)) {
-                            content += inst.attribute(i).value(j) + "  ";
+                            content += inst.inputAttribute(i).value(j) + "  ";
                         }
                     }
                     content += "\n";
                 } else {
                     // continuous variable
-                    content += "\tVariable " + inst.attribute(i).name() + " = ";
+                    content += "\tVariable " + inst.inputAttribute(i).name() + " = ";
                     for (int j = 0; j < StreamMOEAEFEP.nLabel; j++) {
                         if (this.getCromElem(i).getGeneElem(j)) {
                             content += "Label " + j;
@@ -277,5 +277,7 @@ public class IndDNF extends Individual<GeneDNF> {
         
         return this.clas == other.clas;
     }
-
+    
+    
+  
 }

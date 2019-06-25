@@ -29,25 +29,20 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import moa.subgroupdiscovery.StreamMOEAEFEP;
 import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 import moa.subgroupdiscovery.genetic.Individual;
 import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
+import org.core.Pair;
 
 /**
- *  Evaluator which only considers wheter the individual appears or not in previous timestamps.
- * 
- *  The evaluation of the individuals is the following: let X be the value of any objective measure
- * computed by the base evaluator {@code T} in the current timestamp t. Then, for each value from t-1 to t-{@code maxTime} it is calculated:
- * 
- * {@code decayFactor = 1 - sumatory(2^-i) for each i whose value is false; X *= decayfactor}
- * 
+ *
  * @author Ángel Miguel García Vico (agvico@ujaen.es)
- * @param <T> The base evaluator
  * @since JDK 8.0
  */
-public class EvaluatorWithTimeBoolean<T extends Evaluator> extends EvaluatorWithTime<T, Boolean> {
+public class EvaluatorWithDecayBasedOnDiversity<T extends Evaluator> extends EvaluatorWithDecay<T, Pair<Boolean, QualityMeasure>> {
 
-    public EvaluatorWithTimeBoolean(ArrayList<Instance> data, T evaluator, int maximumAppearance) {
+    public EvaluatorWithDecayBasedOnDiversity(ArrayList<Instance> data, T evaluator, int maximumAppearance) {
         super(data, evaluator, maximumAppearance);
     }
 
@@ -61,17 +56,22 @@ public class EvaluatorWithTimeBoolean<T extends Evaluator> extends EvaluatorWith
 
         // All individuals in population are present in the previous population. The remaining, not.
         for (Individual ind : toProcess) {
-            ArrayDeque<Boolean> values = appearance.get(ind);
+            ArrayDeque<Pair<Boolean, QualityMeasure>> values = appearance.get(ind);
+
+            // This function is always called after the test phase. We stored the objective test values as
+            // the values of the QMs of the previous timestamps. This is because the objs array is modified
+            // due to the evaluation process that takes into account the previous timestamps.
             if (values != null) {
+                Pair<Boolean, QualityMeasure> pair = new Pair<>(Boolean.TRUE, ind.getDiversityMeasure());
                 // the indivual was previously added. Update the structure
-                values.addFirst(Boolean.TRUE);
+                values.addFirst(pair);
                 if (values.size() > maxTime) {
                     values.removeLast();
                 }
             } else {
                 // new Individual. Add it to the hashmap
-                ArrayDeque<Boolean> toAdd = new ArrayDeque<>(maxTime);
-                toAdd.add(Boolean.TRUE);
+                ArrayDeque<Pair<Boolean, QualityMeasure>> toAdd = new ArrayDeque<>(maxTime);
+                toAdd.add(new Pair<>(Boolean.TRUE, ind.getDiversityMeasure()));
                 appearance.put(ind, toAdd);
             }
         }
@@ -82,8 +82,8 @@ public class EvaluatorWithTimeBoolean<T extends Evaluator> extends EvaluatorWith
 
         for (Individual ind : notPresent) {
             if (!population.contains(ind)) {
-                ArrayDeque<Boolean> values = appearance.get(ind);
-                values.addFirst(Boolean.FALSE);
+                ArrayDeque<Pair<Boolean, QualityMeasure>> values = appearance.get(ind);
+                values.addFirst(new Pair<>(Boolean.FALSE, null));
                 if (values.size() > maxTime) {
                     values.removeLast();
                 }
@@ -101,7 +101,7 @@ public class EvaluatorWithTimeBoolean<T extends Evaluator> extends EvaluatorWith
     public void doEvaluation(ArrayList<Individual> sample, boolean isTrain, GeneticAlgorithm<Individual> GA) {
         // First, it evaluates all individuals
         for (Individual ind : sample) {
-            if (!ind.isEvaluated()) {
+            if (!ind.isEvaluated()) { // TODO: Check whether the evaluation of the whole population can be avoided
                 mainEvaluator.doEvaluation(ind, isTrain);
                 GA.TrialsPlusPlus();
                 ind.setNEval((int) GA.getTrials());
@@ -111,37 +111,34 @@ public class EvaluatorWithTimeBoolean<T extends Evaluator> extends EvaluatorWith
         if (isTrain) {
             // Now, apply the decay factor to all individuals in the population
             for (Individual ind : sample) {
-                ArrayDeque<Boolean> aux = appearance.get(ind);
-                if (aux != null) {
-                    Iterator<Boolean> iterator = aux.iterator();
+                if (!ind.isEmpty()) {
+                    ArrayDeque<Pair<Boolean, QualityMeasure>> aux = appearance.get(ind);
+                    if (aux != null) {
+                        Iterator<Pair<Boolean, QualityMeasure>> iterator = aux.iterator();
 
-                    int exponent = -1;
-                    double decayFactor = 1.0;
+                        int exponent = -1;
+                        // now, for each element in the deque, if individual appeared on previous timestamps, 
+                        // The new objective value is the value of the objectives in the current timestamp plus the previous objectives values with their decai factor
+                        while (iterator.hasNext()) {
+                            Pair<Boolean, QualityMeasure> element = iterator.next();
+                            if (element.getKey()) {
+                                QualityMeasure prevObjs = element.getValue();
 
-                    // Calculate the decay factor of this individual
-                    while (iterator.hasNext()) {
-                        if (!iterator.next()) {
-                            // The element was present, add to the decay factor
-                            decayFactor -= Math.pow(2, exponent);
-                        }
-                        exponent--;
-                    }
-
-                    // Now, get indivual's objectives and apply the dacay factor to all of them
-                    for (QualityMeasure obj : (ArrayList<QualityMeasure>) ind.getObjs()) {
-                        if (obj.getValue() >= 0) {
-                            obj.setValue(obj.getValue() * decayFactor);
-                        } else {
-                            // if the value is negative, to make it worst we need to divide
-                            obj.setValue(obj.getValue() / decayFactor);
+                                // Apply the decay factor on the diversity measure
+                                ind.getDiversityMeasure().setValue(ind.getDiversityMeasure().getValue() + prevObjs.getValue() * Math.pow(2, exponent));
+                            }
+                            exponent--;
                         }
                     }
                 }
             }
-
-            // Once applied the decay factor, update the time structure, adding the new individuals.
-            //updateAppearance(sample, GA.getCurrentClass());
         }
+    }
+
+    @Override
+    public void setData(ArrayList<Instance> data) {
+        super.data = data;
+        mainEvaluator.setData(data);
     }
 
 }

@@ -27,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +36,7 @@ import moa.subgroupdiscovery.genetic.criteria.ReinitialisationCriteria;
 import moa.subgroupdiscovery.genetic.criteria.StoppingCriteria;
 import moa.subgroupdiscovery.genetic.dominancecomparators.DominanceComparator;
 import moa.subgroupdiscovery.genetic.evaluators.Evaluator;
+import moa.subgroupdiscovery.genetic.filters.Filter;
 import moa.subgroupdiscovery.genetic.individual.IndCAN;
 import moa.subgroupdiscovery.genetic.individual.IndDNF;
 import moa.subgroupdiscovery.genetic.operators.CrossoverOperator;
@@ -82,6 +84,7 @@ public class GeneticAlgorithmBuilder<T extends Individual> {
     private InitialisationOperator reinitialisation;
     private StoppingCriteria stopCriteria;
     private ReinitialisationCriteria reinitCriteria;
+    private ArrayList<Filter> filters = new ArrayList<>();
 
     /**
      * @param long_poblacion the long_poblacion to set
@@ -210,6 +213,12 @@ public class GeneticAlgorithmBuilder<T extends Individual> {
         this.reinitCriteria = reinitCriteria;
         return this;
     }
+    
+    
+    public GeneticAlgorithmBuilder addFilter(Filter f){
+        filters.add(f);
+        return this;
+    }
 
     /**
      * It builds the genetic algorithm set in this builder.
@@ -308,6 +317,10 @@ public class GeneticAlgorithmBuilder<T extends Individual> {
         } else {
             System.err.println(ERR + "Stopping criterion not set. You must set one.");
             System.exit(2);
+        }
+        
+        if(!filters.isEmpty()){
+            ga.setFilters(filters);
         }
         
         return ga;

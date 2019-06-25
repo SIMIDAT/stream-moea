@@ -1,7 +1,7 @@
-/* 
+/*
  * The MIT License
  *
- * Copyright 2018 Ángel Miguel García Vico.
+ * Copyright 2018 agvico.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,32 +21,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.core.exceptions;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
-import moa.subgroupdiscovery.qualitymeasures.QualityMeasure;
+package moa.subgroupdiscovery.genetic.filters;
+
+import java.util.ArrayList;
+import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
+import moa.subgroupdiscovery.genetic.Individual;
 
 /**
- *
- * @author agvico
+ *  Class that represents a filter that will be applied at the end of the evolutionary
+ * process over the whole population.
+ * 
+ * @author Ángel Miguel García Vico (agvico@ujaen.es)
+ * @since JDK 8.0
  */
-public class InvalidRangeInMeasureException extends Exception {
-
-    public InvalidRangeInMeasureException(QualityMeasure q) {
-        super("Invalid Range in measure \"" + q.getShort_name() + "\": " + q.getValue() + " -> Contingency Table: " + q.getTable().toString());
-    }
+public abstract class Filter<T extends Individual> {
 
     /**
-     * It shows the message in the estandard error and the stack trace and exit
-     * the program with error code = 2.
-     * 
-     * @param clas The class where the error ocurred, in order to be shown in the stack trace
+     * The threshold of the filter
      */
-    public void showAndExit(Object clas) {
-        Logger.getLogger(clas.getClass().getName()).log(Level.SEVERE, null, this);
-        System.err.println(super.getMessage());
-        System.exit(2);
+    protected double threshold;
+    
+    /**
+     * Default constructor
+     */
+    public Filter(){
+        
     }
+    
+    /**
+     * Constructor that defines a threshold. Useful for threshold filters.
+     * @param threshold 
+     */
+    public Filter(double threshold){
+        this.threshold = threshold;
+    }
+    
+    /**
+     * It performs the filter of the given population
+     * @param population The population to be filtered
+     * @param ga The genetic algorithm the populations belongs to
+     * @return 
+     */
+    public abstract ArrayList<T> doFilter(ArrayList<T> population, GeneticAlgorithm<T> ga);
+    
 }

@@ -149,16 +149,16 @@ public class IndCAN extends Individual<Integer> {
     public String toString(InstancesHeader inst) {
         String content = "";
         for (int i = 0; i < inst.numInputAttributes(); i++) {
-            if (inst.attribute(i).isNominal()) {
+            if (inst.inputAttribute(i).isNominal()) {
                 // Discrete variable
-                if (this.getCromElem(i) < inst.attribute(i).numValues()) {
-                    content += "\tVariable " + inst.attribute(i).name() + " = ";
-                    content += inst.attribute(i).value(this.getCromElem(i)) + "\n";
+                if (this.getCromElem(i) < inst.inputAttribute(i).numValues()) {
+                    content += "\tVariable " + inst.inputAttribute(i).name() + " = ";
+                    content += inst.inputAttribute(i).value(this.getCromElem(i)) + "\n";
                 }
             } else {
                 // Continuous variable
                 if (this.getCromElem(i) < StreamMOEAEFEP.nLabel) {
-                    content += "\tVariable " + inst.attribute(i).name() + " = ";
+                    content += "\tVariable " + inst.inputAttribute(i).name() + " = ";
                     content += "Label " + this.getCromElem(i);
                     content += " (" + StreamMOEAEFEP.baseDatos[i][this.getCromElem(i)].getX0();
                     content += " " + StreamMOEAEFEP.baseDatos[i][this.getCromElem(i)].getX1();
@@ -174,8 +174,8 @@ public class IndCAN extends Individual<Integer> {
     public int getNumVars() {
         int nVars = 0;
         for (int i = 0; i < chromosome.size(); i++) {
-            if (StreamMOEAEFEP.instancia.attribute(i).isNominal()) {
-                if (this.getCromElem(i) < StreamMOEAEFEP.instancia.attribute(i).numValues()) {
+            if (StreamMOEAEFEP.instancia.inputAttribute(i).isNominal()) {
+                if (this.getCromElem(i) < StreamMOEAEFEP.instancia.inputAttribute(i).numValues()) {
                     nVars++;
                 }
             } else {
@@ -191,8 +191,8 @@ public class IndCAN extends Individual<Integer> {
     @Override
     public boolean isEmpty() {
         for (int i = 0; i < chromosome.size(); i++) {
-            if (StreamMOEAEFEP.instancia.attribute(i).isNominal()) {
-                if (this.getCromElem(i) < StreamMOEAEFEP.instancia.attribute(i).numValues()) {
+            if (StreamMOEAEFEP.instancia.inputAttribute(i).isNominal()) {
+                if (this.getCromElem(i) < StreamMOEAEFEP.instancia.inputAttribute(i).numValues()) {
                     return false;
                 }
             } else {

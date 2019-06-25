@@ -102,7 +102,7 @@ public final class CoverageBasedInitialisationDNF extends InitialisationOperator
                 variable = Randomize.Randint(0, baseElement.getSize());
             }
             
-            if(inst.attribute(variable).isNominal()){
+            if(inst.inputAttribute(variable).isNominal()){
                 // Discrete Variable
                 result.getCromElem(variable).NoTakeInitGene();
                 Double value = inst.valueInputAttribute(variable);

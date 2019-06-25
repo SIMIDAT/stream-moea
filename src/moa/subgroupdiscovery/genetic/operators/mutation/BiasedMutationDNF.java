@@ -23,6 +23,8 @@
  */
 package moa.subgroupdiscovery.genetic.operators.mutation;
 
+import java.util.ArrayList;
+import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 import moa.subgroupdiscovery.genetic.individual.IndDNF;
 import moa.subgroupdiscovery.genetic.operators.MutationOperator;
 import org.core.Randomize;
@@ -46,14 +48,24 @@ public final class BiasedMutationDNF extends MutationOperator<IndDNF> {
         } else {
             // Random change on the variable 
             int var = Randomize.Randint(0, mutated.getSize());
-            for(int i = 0; i < mutated.getCromElem(var).getGeneLenght(); i++){
+            for (int i = 0; i < mutated.getCromElem(var).getGeneLenght(); i++) {
                 mutated.setCromGeneElem(var, i, Randomize.RandintClosed(0, 1) == 1);
             }
         }
-        
+
         mutated.setEvaluated(false);
-        
+
         return mutated;
+    }
+
+    @Override
+    public ArrayList<IndDNF> doMutation(ArrayList<IndDNF> source, GeneticAlgorithm<IndDNF> ga) {
+        for (int i = 0; i < source.size(); i++) {
+            if (Randomize.RanddoubleClosed(0.0, 1.0) <= ga.getProb_mutation()) {
+                source.set(i, doMutation((IndDNF) source.get(i).clone()));
+            }
+        }
+        return source;
     }
 
 }

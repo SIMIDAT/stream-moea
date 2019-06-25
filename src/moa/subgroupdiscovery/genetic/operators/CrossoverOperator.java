@@ -24,6 +24,7 @@
 package moa.subgroupdiscovery.genetic.operators;
 
 import java.util.ArrayList;
+import moa.subgroupdiscovery.genetic.GeneticAlgorithm;
 import moa.subgroupdiscovery.genetic.Individual;
 
 /**
@@ -47,7 +48,7 @@ public abstract class CrossoverOperator<T extends Individual> {
      * It performs a crossover operation between the parents in order to generate the children
      * @return 
      */
-    public abstract ArrayList<T> doCrossover(ArrayList<T> parents);
+    public abstract ArrayList<T> doCrossover(ArrayList<T> parents, GeneticAlgorithm ga);
 
     /**
      * @return the numParents

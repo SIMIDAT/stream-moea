@@ -50,10 +50,10 @@ public class EvaluatorCAN extends Evaluator<IndCAN> {
             for (int i = 0; i < getData().size(); i++) {
                 disparoFuzzy = 1;
                 for (int j = 0; j < sample.getSize() && disparoFuzzy > 0; j++) {
-                    if (getData().get(i).attribute(j).isNominal()) {
+                    if (getData().get(i).inputAttribute(j).isNominal()) {
                         // Nominal Variable
                         Double val = getData().get(i).valueInputAttribute(j);
-                        if (sample.getCromElem(j) < StreamMOEAEFEP.instancia.attribute(j).numValues()) {
+                        if (sample.getCromElem(j) < StreamMOEAEFEP.instancia.inputAttribute(j).numValues()) {
                             boolean missing = getData().get(i).isMissing(j);
                             if (val.intValue() != sample.getCromElem(j) && !missing) {
                                 // Variable does not cover the example
@@ -108,5 +108,7 @@ public class EvaluatorCAN extends Evaluator<IndCAN> {
             }
         }
     }
+
+
 
 }

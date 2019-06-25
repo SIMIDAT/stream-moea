@@ -66,7 +66,7 @@ public final class IsGrowthRate extends QualityMeasure {
 
     @Override
     public void validate() throws InvalidRangeInMeasureException {
-        if (value > 1.0 || value < 0.0) {
+        if (value > 1.0 || value < 0.0 - THRESHOLD) {
             throw new InvalidRangeInMeasureException(this);
         }
     }

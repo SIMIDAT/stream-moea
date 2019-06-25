@@ -1,7 +1,7 @@
-/* 
+/*
  * The MIT License
  *
- * Copyright 2018 Ángel Miguel García Vico.
+ * Copyright 2018 agvico.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,36 +33,43 @@ import org.core.exceptions.InvalidRangeInMeasureException;
  * @author Ángel Miguel García Vico (agvico@ujaen.es)
  * @since JDK 8.0
  */
-public final class Coverage extends QualityMeasure {
+public class Strength extends QualityMeasure {
 
-    public Coverage() {
-        this.name = "Coverage";
-        this.short_name = "Cov";
+    public Strength() {
+        this.name = "Strength";
+        this.short_name = "Str";
         this.value = 0.0;
     }
 
     @Override
     public double calculateValue(ContingencyTable t) {
 
-        if (t.getTotalExamples() == 0) {
-            setValue(0.0);
-        } else {
-            setValue((double) (t.getTp() + t.getFp()) / t.getTotalExamples());
-        }
+        // Strength = TPR ^ 2 / (tpr + fpr)
+        GrowthRate gr = new GrowthRate();
+        gr.calculateValue(t);
 
-        return value;
+        TPR tpr = new TPR();
+        FPR fpr = new FPR();
+        tpr.calculateValue(t);
+        fpr.calculateValue(t);
+        if (gr.getValue() == Double.POSITIVE_INFINITY) {
+            this.value = tpr.getValue();
+        } else {
+            this.value = Math.pow(tpr.getValue(), 2) / (tpr.getValue() + fpr.getValue());
+        }
+        return this.value;
     }
 
     @Override
     public void validate() throws InvalidRangeInMeasureException {
-        if (value > 1.0 || value < 0.0 - THRESHOLD || Double.isNaN(value)) {
+        if (value < 0.0 - THRESHOLD || Double.isNaN(value)) {
             throw new InvalidRangeInMeasureException(this);
         }
     }
 
     @Override
     public QualityMeasure clone() {
-        Coverage a = new Coverage();
+        Strength a = new Strength();
         a.name = this.name;
         a.setValue(this.value);
 
@@ -70,17 +77,9 @@ public final class Coverage extends QualityMeasure {
     }
 
     @Override
-    protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
-    }
-
-    @Override
-    public void getDescription(StringBuilder sb, int i) {
-    }
-
-    @Override
     public int compareTo(QualityMeasure o) {
         try {
-            if (!(o instanceof Coverage)) {
+            if (!(o instanceof Strength)) {
                 throw new InvalidMeasureComparisonException(this, o);
             }
 
@@ -95,6 +94,14 @@ public final class Coverage extends QualityMeasure {
             ex.showAndExit(this);
         }
         return 0;
+    }
+
+    @Override
+    protected void prepareForUseImpl(TaskMonitor tm, ObjectRepository or) {
+    }
+
+    @Override
+    public void getDescription(StringBuilder sb, int i) {
     }
 
 }

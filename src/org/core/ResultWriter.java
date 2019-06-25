@@ -134,7 +134,7 @@ public final class ResultWriter {
         String content = "*************************************************\n";
         content += "Timestamp " + StreamMOEAEFEP.getTimestamp() + ":\n";
         for (int i = 0; i < population.size(); i++) {
-            content += "Rule " + i + ":\n";
+            content += "Rule " + i + " (ID: "+ population.get(i).hashCode() + "):\n";
             content += population.get(i).toString(inst) + "\n";
         }
         Files.addToFile(pathRules, content);
@@ -144,20 +144,21 @@ public final class ResultWriter {
      * It only writes the results of the objectives
      */
     public void writeTrainingMeasures() {
-        String content = "*************************************************\n";
-        content += "Timestamp " + StreamMOEAEFEP.getTimestamp() + ":\n";
+        String content = "";
+        if (firstTime) {
 
-        // Write the header (the consequent first, and next, the objective quality measures, finaly, the diversity measure)
-        content += "Rule\tID\tConsequent";
-        for (QualityMeasure q : (ArrayList<QualityMeasure>) population.get(0).getObjs()) {
-            content += "\t" + q.getShortName();
+            // Write the header (the consequent first, and next, the objective quality measures, finaly, the diversity measure)
+            content += "Timestamp\tRule\tID\tConsequent";
+            for (QualityMeasure q : (ArrayList<QualityMeasure>) population.get(0).getObjs()) {
+                content += "\t" + q.getShortName();
+            }
+            content += "\t" + population.get(0).getDiversityMeasure().getShortName() + "(Diversity)";
+            content += "\n";
         }
-        content += "\t" + population.get(0).getDiversityMeasure().getShortName() + "(Diversity)";
-        content += "\n";
-
+        
         // Now, for each individual, writes the training measures
         for (int i = 0; i < population.size(); i++) {
-            content += i + "\t" + population.get(i).hashCode() + "\t" + inst.outputAttribute(0).value(population.get(i).getClas()) + "\t";
+            content += sixDecimals.format(StreamMOEAEFEP.getTimestamp()) + "\t" + i + "\t" + population.get(i).hashCode() + "\t" + inst.outputAttribute(0).value(population.get(i).getClas()) + "\t";
             for (QualityMeasure q : (ArrayList<QualityMeasure>) population.get(i).getObjs()) {
                 content += sixDecimals.format(q.getValue()) + "\t";
             }
@@ -175,6 +176,7 @@ public final class ResultWriter {
         // this array stores the sum of the quality measures for the average
         ArrayList<Double> averages = new ArrayList<>();
         double numVars = 0.0;
+        
         for (QualityMeasure q : (ArrayList<QualityMeasure>) population.get(0).getMedidas()) {
             averages.add(0.0);
         }
@@ -182,7 +184,7 @@ public final class ResultWriter {
         // First, write the headers
         String content = "";
         if (firstTime) {
-            content = "Timestamp\tRule\tClass\tNumRules\tNumVars";
+            content = "Timestamp\tRule\tClass\tID\tNumRules\tNumVars";
 
             // now, append each test quality measure
             for (int j = 0; j < population.get(0).getMedidas().size(); j++) {
@@ -195,8 +197,8 @@ public final class ResultWriter {
         // now write the test results for each individual
         for (int i = 0; i < population.size(); i++) {
             content += sixDecimals.format(StreamMOEAEFEP.getTimestamp()) + "\t"
-                    + i + "\t"
-                    + inst.outputAttribute(0).value(population.get(i).getClas()) + "\t"
+                    + i + "\t" 
+                    + inst.outputAttribute(0).value(population.get(i).getClas()) + "\t" + population.get(i).hashCode() + "\t"
                     + "------\t"
                     + sixDecimals.format(population.get(i).getNumVars()) + "\t";
             numVars += population.get(i).getNumVars();
@@ -204,14 +206,27 @@ public final class ResultWriter {
             for (int j = 0; j < population.get(i).getMedidas().size(); j++) {
                 QualityMeasure q = (QualityMeasure) population.get(i).getMedidas().get(j);
                 content += sixDecimals.format(q.getValue()) + "\t";
+                try{
                 averages.set(j, averages.get(j) + q.getValue());
+                } catch (IndexOutOfBoundsException ex){
+                    System.err.println("PopSize: " + population.size());
+                    System.err.println("Medidas: " + population.get(0).getMeasures());
+                    for(int k = 0; k < population.size(); k++){
+                        System.err.println("Empty?: " + population.get(k).isEmpty());
+                        System.err.println("Diversity: " + population.get(k).getDiversityMeasure());
+                    }
+                    System.err.println("averages: " + averages.size());
+                    System.err.println("j: " + j);
+                    System.err.println("i: " + i);
+                    System.exit(-1);
+                }
             }
             content += "\n";
         }
 
         numVars /= (double) population.size();
         // finally, write the average results
-        content += "------\t------\t------\t" + sixDecimals.format(population.size()) + "\t" + sixDecimals.format(numVars) + "\t";
+        content += "------\t------\t------\t------\t" + sixDecimals.format(population.size()) + "\t" + sixDecimals.format(numVars) + "\t";
         for (Double d : averages) {
             content += sixDecimals.format(d / (double) population.size()) + "\t";
         }
@@ -222,6 +237,7 @@ public final class ResultWriter {
     /**
      * It writes the summary results of the test quality measures, i.e., it only
      * writes the line with the average results.
+     *
      * @param time_ms The execution time in milliseconds.
      */
     public void writeTestSummaryResults(long time_ms) {

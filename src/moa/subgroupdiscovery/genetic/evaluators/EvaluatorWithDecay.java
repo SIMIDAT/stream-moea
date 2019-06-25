@@ -41,7 +41,7 @@ import moa.subgroupdiscovery.genetic.Individual;
  *             in previous timestamps.
  * @since JDK 8.0
  */
-public abstract class EvaluatorWithTime<T extends Evaluator, E> extends Evaluator<Individual> {
+public abstract class EvaluatorWithDecay<T extends Evaluator, E> extends Evaluator<Individual> {
 
     /**
      * The main structure of this class, it stores the appearance of all
@@ -68,7 +68,7 @@ public abstract class EvaluatorWithTime<T extends Evaluator, E> extends Evaluato
      * @param maximumAppearance the number of appearances to be stores in the
      * queues of individuals
      */
-    public EvaluatorWithTime(ArrayList<Instance> data, T evaluator, int maximumAppearance) {
+    public EvaluatorWithDecay(ArrayList<Instance> data, T evaluator, int maximumAppearance) {
         super(data);
         this.mainEvaluator = evaluator;
         appearance = new HashMap<>();
